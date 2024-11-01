@@ -1,0 +1,61 @@
+body{
+    font-family: "Inter", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+.navBarBody {
+    background-color: #DC6B2C;
+    height:max-content !important;
+    min-width: 150px;
+    max-width:11% !important;
+    float:left;
+    text-align: left;
+    padding-bottom: 100%;
+}
+.navBtn {
+    justify-content: left;
+    background-color: white !important;
+    color: white !important;
+    text-align: left !important;
+    max-width: 95%;
+    width: 95%;
+    min-width: 90px !important;
+    min-height:min-content;
+    height: min-content;
+    max-height:min-content;
+    margin-top:20px;
+    cursor:pointer;
+}
+.navBtn:hover{
+    background-color: #DC6B2C;
+    color:#DC6B2C;
+}
+.topNavBtn{
+    margin-top: 30px !important;
+}
+.navBtnText{
+    color:black;
+    font-size: 16px;
+    text-align: left !important;
+}
+.message{
+    color: red;
+}
+.navBarBodySmall{
+    background-color: #DC6B2C;
+    height:100px !important;
+    width: 100%;
+    float:left;
+
+}
+.navBtnSmall{
+    text-align: start;
+    background-color: white !important;
+    width:50%
+}
+.navBtnTextSmall{
+    color:black;
+    min-width:min-content;
+    width:max-content;
+    font-size: 10px;
+}

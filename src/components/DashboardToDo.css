@@ -1,0 +1,60 @@
+body{
+    font-family: "Inter", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+.wrapper{
+    min-height: min-content;
+    float:top;
+}
+.title{
+    font:bold;
+    margin-left:40px;
+    margin-top:-60px;
+    color: black;
+}
+.searchForm{
+    margin-left:5%;
+    max-width: 20%;
+    min-width: 10%;
+}
+.table{
+    margin-top: 40px;
+    margin-left: 40px;
+}
+.tr{
+    line-height: 100px !important;
+    min-height: 100px !important; 
+    height: 100px !important;
+}
+.cell{
+    vertical-align:middle;
+}
+.hidden{
+    border: none;
+    visibility: hidden;
+}
+.taskBtn{
+    border:none;
+    background: none;
+    color:none;
+    font-size:x-large;
+    padding: 0;
+    margin: 0;
+}
+.modalSubTitle{
+    float:bottom;
+}
+.contactInfoDiv{
+    padding:10px;
+    background-color:#FDDC87 ;
+    border-radius: 10px;
+}
+.contactName{
+    margin-top: 0;
+    margin-left: 20px;
+}
+.contactBody{
+    margin-top: 0;
+    margin-left: 40px;
+}

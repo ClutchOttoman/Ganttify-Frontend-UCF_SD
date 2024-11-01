@@ -1,0 +1,175 @@
+body {
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto !important;
+}
+
+.landing-page-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  background-color: #FFFFF0;
+  height: 100vh;
+}
+
+.left-column {
+  flex: 1;
+  padding-right: 2rem;
+  margin-left: 5%;
+}
+
+.right-column {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.left-column h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.left-column p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.cta-button {
+  background-color: #135C91;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.cta-button:hover {
+  background-color: #DC6B2C;
+}
+
+.logo-image {
+  max-width: 100%;
+  width: 400px;
+  height: auto;
+}
+
+.midTitle {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.cards-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.cardContent {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+  width: 60%;
+  margin: 20px 0;
+}
+
+.cardContent img {
+  width: 100%;
+  height: 300px; 
+  object-fit: cover;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.card-contentbox {
+  padding: 20px;
+}
+
+.card-title {
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.card-subtext {
+  font-size: 1.1rem; 
+  color: #666;
+}
+
+.footer {
+  background-color: #fddc87;
+  padding-bottom: 1px;
+  text-align: center;
+  height: 40px;
+}
+
+.footer-links {
+  list-style-type: none; 
+  padding: 0; 
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-links li {
+  margin-right: 50px; 
+  margin-top: -5px;
+}
+
+.footer-links li:first-child {
+  margin-bottom: -40px;
+}
+
+.footer-links li:last-child {
+  margin-right: 0; 
+  margin-bottom: -40px;
+}
+
+.footer-link {
+  text-decoration: none; 
+  color: black; 
+  font-size: 16px; 
+  border: none; 
+  background: none; 
+  padding: 0; 
+  cursor: pointer; 
+}
+
+.footer-link:hover {
+  text-decoration: underline; 
+}
+
+@keyframes slideInFromUp {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animated-header-1{
+  animation: slideInFromUp 2s ease-out;
+}
+
+.gantt-chart-icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  margin-top: -70px;
+}
+
+.gantt-chart-icon-container svg {
+  width: 700px;
+  height: 700px; 
+}
