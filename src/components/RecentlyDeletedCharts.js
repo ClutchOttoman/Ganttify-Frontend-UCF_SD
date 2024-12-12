@@ -4,18 +4,8 @@ import GanttChartIcon from "./GanttChartIcon.js";
 import DeleteIcon from "../Images/assets/action_buttons/Delete_Task_or_Chart.png";
 import RestoreIcon from "../Images/assets/action_buttons/Restore_Chart.png";
 
-const app_name = 'ganttify-5b581a9c8167';
-function buildPath(route)
-{
-    if (process.env.NODE_ENV === 'production') 
-    {
-        return 'https://' + app_name +  '.herokuapp.com/' + route;
-    }
-    else
-    {        
-        return 'http://localhost:5000/' + route;
-    }
-}
+import {buildPath} from './buildPath';
+
 Date.prototype.addDays = function(days) {
     var date = new Date(this.valueOf());
     date.setDate(date.getDate() + days);

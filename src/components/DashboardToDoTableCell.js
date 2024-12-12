@@ -1,4 +1,6 @@
 import React from 'react';
+import {buildPath} from './buildPath';
+
 
 function DashboardToDoTableCell({dueDate,taskName,projectName,owner,isHidden}){
     if(isHidden === true){

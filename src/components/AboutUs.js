@@ -8,16 +8,8 @@ import member_kr from '../Images/assets/team_member_icons/KR.jpg';
 import member_sw from '../Images/assets/team_member_icons/SW.jpg';
 import member_oc from '../Images/assets/team_member_icons/OC.jpg';
 import member_ak from '../Images/assets/team_member_icons/AK.PNG';
-const app_name = 'ganttify-5b581a9c8167';
+import {buildPath} from './buildPath';
 
-
-function buildPath(route) {
-  if (process.env.NODE_ENV === 'production') {
-    return 'https://' + app_name + '.herokuapp.com/' + route;
-  } else {
-    return 'http://localhost:5000/' + route;
-  }
-}
 
 function AboutUs() {
 

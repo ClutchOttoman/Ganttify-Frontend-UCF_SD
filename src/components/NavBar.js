@@ -3,8 +3,8 @@ import Logo from '../Images/assets/logo/Logo.png';
 import './NavBar.css';
 import React, { useState, useEffect } from 'react';
 import ProjectTitle from './GanttChart/ProjectTitle';
+import {buildPath} from './buildPath';
 
-const app_name = 'ganttify-5b581a9c8167';
 
 
 const baseStyle = {
@@ -21,14 +21,6 @@ const dashboardNav = {
   zIndex: "100"
 };
 
-
-function buildPath(route) {
-  if (process.env.NODE_ENV === 'production') {
-    return 'https://' + app_name + '.herokuapp.com/' + route;
-  } else {
-    return 'http://localhost:5000/' + route;
-  }
-}
 
 
 

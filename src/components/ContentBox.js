@@ -6,6 +6,8 @@ import Logo from '../Images/assets/logo/Logo.png';
 import { Link } from "react-router-dom";
 import GanttChartIcon from "./GanttChartIcon.js";
 import './ContentBox.css';
+import {buildPath} from './buildPath';
+
 
 function ContentBox() {
   return (

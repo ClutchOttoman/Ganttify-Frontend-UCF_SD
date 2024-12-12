@@ -1,15 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './ProjectTitle.css';
+import {buildPath} from '../buildPath';
 
-const app_name = 'ganttify-5b581a9c8167';
-
-function buildPath(route) {
-  if (process.env.NODE_ENV === 'production') {
-    return 'https://' + app_name + '.herokuapp.com/' + route;
-  } else {
-    return 'http://localhost:5000/' + route;
-  }
-}
 
 const ProjectTitle = ({ projectId }) => {
   const [projectName, setProjectName] = useState('');

@@ -3,16 +3,7 @@ import './TaskDetails.css';
 
 import DeleteTaskButton from '../../Images/assets/action_buttons/Delete_Task_or_Chart_30x30.png';
 import EditTaskButton from '../../Images/assets/action_buttons/Edit_Task_30x30.png';
-
-const app_name = 'ganttify-5b581a9c8167';
-
-function buildPath(route) {
-  if (process.env.NODE_ENV === 'production') {
-    return 'https://' + app_name + '.herokuapp.com/' + route;
-  } else {
-    return 'http://localhost:5000/' + route;
-  }
-}
+import {buildPath} from '../buildPath';
 
 // Colors to choose from
 const colorOptions = [

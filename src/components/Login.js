@@ -1,22 +1,7 @@
 
 import React, { useState } from 'react';
 import './Login.css';
-const app_name = 'ganttify-5b581a9c8167';
-
-
-
-function buildPath(route) {
-    
-        if (process.env.NODE_ENV === 'production') 
-        {
-            return 'https://' + app_name +  '.herokuapp.com/' + route;
-        }
-        else
-        {        
-            return 'http://localhost:5000/' + route;
-        }
-    
-}
+import {buildPath} from './buildPath';
 
 function Login() {
   const [message, setMessage] = useState('');

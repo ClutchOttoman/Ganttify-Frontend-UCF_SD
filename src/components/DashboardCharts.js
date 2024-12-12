@@ -4,18 +4,8 @@ import GanttChartIcon from "./GanttChartIcon.js";
 import DeleteIcon from "../Images/assets/action_buttons/Delete_Task_or_Chart.png";
 import InvisibleProjectIcon from "../Images/assets/action_buttons/Private_Gantt_Chart.png";
 import VisibleProjectIcon from "../Images/assets/action_buttons/Public_Gantt_Chart.png";
-const app_name = 'ganttify-5b581a9c8167';
-function buildPath(route)
-{
-    if (process.env.NODE_ENV === 'production') 
-    {
-        return 'https://' + app_name +  '.herokuapp.com/' + route;
-    }
-    else
-    {        
-        return 'http://localhost:5000/' + route;
-    }
-}
+import {buildPath} from './buildPath';
+
 
 
 

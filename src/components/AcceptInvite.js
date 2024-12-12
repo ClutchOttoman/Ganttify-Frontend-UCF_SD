@@ -2,15 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import './VerifyEmail.css';
 
-const app_name = 'ganttify-5b581a9c8167';
+import {buildPath} from './buildPath';
 
-function buildPath(route) {
-  if (process.env.NODE_ENV === 'production') {
-    return 'https://' + app_name + '.herokuapp.com/' + route;
-  } else {
-    return 'http://localhost:5000/' + route;
-  }
-}
 
 function AcceptInvite() {
 

@@ -31,18 +31,8 @@ import Hollow_Single_Square_Density_1 from '../../Images/assets/accessible_patte
 import Hollow_Single_Star_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Star_Density_1.png';
 import Hollow_Single_Triangle_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Triangle_Density_1.png';
 
+import {buildPath} from '../buildPath';
 
-
-const app_name = 'ganttify-5b581a9c8167';
-
-
-function buildPath(route) {
-  if (process.env.NODE_ENV === 'production') {
-    return 'https://' + app_name + '.herokuapp.com/' + route;
-  } else {
-    return 'http://localhost:5000/' + route;
-  }
-}
 
 
 

@@ -8,16 +8,7 @@ import TimeRange from './TimeRange';
 import TimeTable from './TimeTable';
 import TaskDetails from './TaskDetails';
 import './GanttChart.css';
-
-const app_name = 'ganttify-5b581a9c8167';
-
-function buildPath(route) {
-  if (process.env.NODE_ENV === 'production') {
-    return 'https://' + app_name + '.herokuapp.com/' + route;
-  } else {
-    return 'http://localhost:5000/' + route;
-  }
-}
+import {buildPath} from '../buildPath';
 
 export default function GanttChart({ projectId, setUserRole, userRole }) {
   var _ud = localStorage.getItem('user_data');

@@ -1,18 +1,8 @@
 import React, { useLayoutEffect, useState } from 'react';
 import DashboardCharts from '../components/DashboardCharts'
 import './DashboardCharts.css';
-const app_name = 'ganttify-5b581a9c8167'
-function buildPath(route)
-{
-    if (process.env.NODE_ENV === 'production') 
-    {
-        return 'https://' + app_name +  '.herokuapp.com/' + route;
-    }
-    else
-    {        
-        return 'http://localhost:5000/' + route;
-    }
-}
+import {buildPath} from './buildPath';
+
 
 //empty array for displaying nothing
 var empty = []

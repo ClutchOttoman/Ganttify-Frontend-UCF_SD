@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Register.css';
-const app_name = 'ganttify-5b581a9c8167';
+import {buildPath} from './buildPath';
 
-function buildPath(route) {
-  if (process.env.NODE_ENV === 'production') {
-    return 'https://' + app_name + '.herokuapp.com/' + route;
-  } else {
-    return 'http://localhost:5000/' + route;
-  }
-}
 
 function Register() {
   const [regName, setRegName] = useState('');
