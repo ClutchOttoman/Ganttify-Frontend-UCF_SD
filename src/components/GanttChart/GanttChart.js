@@ -138,6 +138,16 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
         handleDelete={(taskId) => setTasks(tasks.filter(task => task._id !== taskId))}
         userId={userId}
       />
+
+      <div class="gantt-chart-time-range-selector">
+        <select class="gantt-chart-time-range-selection">
+          <option value="">Range</option>
+          <option value="1-month">1 Month</option>
+          <option value="3-months">3 Months</option>
+          <option value="6-months">6 Months</option>
+        </select>
+      </div>
+
     </div>
   );
 }

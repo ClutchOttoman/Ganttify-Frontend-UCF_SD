@@ -10,3 +10,14 @@
     --cell-height: 40px;
     padding: 1rem;
   }
+
+  .gantt-chart-time-range-selector {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 100%;
+    }
+    
+  .gantt-chart-time-range-selection {
+    border-radius: 13px;
+  }
