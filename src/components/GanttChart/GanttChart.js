@@ -108,6 +108,13 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
     document.documentElement.style.setProperty('--task-count', tasks.length);
   }, [tasks]);
 
+  const handleTimeRangeChange = (event) => {
+    const selectedRange = event.target.value;
+    console.log("Selected Time Range:", selectedRange);
+    setTimeRange(selectedRange); // Update the timeRange state to trigger TimeTable re-render
+  };
+  
+
   return (
     <div id="gantt-container">
       <Grid>
@@ -140,11 +147,12 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
       />
 
       <div class="gantt-chart-time-range-selector">
-        <select class="gantt-chart-time-range-selection">
+        <select class="gantt-chart-time-range-selection" onChange={(e) => handleTimeRangeChange(e)}>
           <option value="">Range</option>
-          <option value="1-month">1 Month</option>
           <option value="3-months">3 Months</option>
           <option value="6-months">6 Months</option>
+          <option value="1-year">1 Year</option>
+          <option value="fit">Fit All Tasks</option>
         </select>
       </div>
 

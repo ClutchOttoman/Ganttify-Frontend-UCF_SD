@@ -34,8 +34,6 @@ import Hollow_Single_Triangle_Density_1 from '../../Images/assets/accessible_pat
 import {buildPath} from '../buildPath';
 
 
-
-
 function isTaskHappeningNow(startDate,dueDate,dateToCheck){
     const timestamp = new Date(dateToCheck+"T00:00:00.000Z");
     const start = new Date(startDate);
@@ -81,6 +79,7 @@ export default function TimeTable({
 
 
   // Initializing the Gantt Chart's different states
+  const [arrayOfTasks, setArrayOfTasks] = useState([]);
   const [taskDurationElDraggedId, setTaskDurationElDraggedId] = useState(null);
   const [isEditable, setIsEditable] = useState(false);
   const [hoveredTask, setHoveredTask] = useState(null);
@@ -91,6 +90,13 @@ export default function TimeTable({
   const [hoveredRow, setHoveredRow] = useState(null);
   const [selectedTask, setSelectedTask] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
+  const [leftBoundary, setLeftBoundary] = useState(new Date(null));
+  const [rightBoundary, setRightBoundary] = useState(new Date(null));
+  const [numberOfTasks, setNumberOfTasks] = useState(0);
+
+  useEffect(() => {
+    setNumberOfTasks(arrayOfTasks.length);
+  }, [arrayOfTasks]);
 
   // Gets the project's details
   useEffect(() => {
@@ -107,6 +113,44 @@ export default function TimeTable({
         const isEditor = project.team.editors.includes(userId);
 
         setIsEditable(isFounder || isEditor);
+
+        //Get details about the current tasks listed in the chart
+        try {
+          const response = await fetch(buildPath(`api/search/tasks/project`), {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ projectId }),
+          });
+        
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+        
+          const tasks = await response.json();
+
+          setArrayOfTasks(tasks);
+
+          let lB = null;
+          let rB = null;
+        
+          for(let i in tasks){
+            if(lB == null || tasks[i].startDateTime < lB){
+              lB = tasks[i].startDateTime;
+            }
+              
+            if(rB == null || rB < tasks[i].dueDateTime){
+              rB = tasks[i].dueDateTime;
+            }
+          }
+        
+          setLeftBoundary(lB);
+          setRightBoundary(rB);
+
+          } catch (error) {
+            console.error("Error finding project:", error.stack); // Log full stack trace
+            res.status(500).json({ error: "Internal server error", details: error.message });  }
       } catch (error) {
         console.error('Error fetching project data:', error);
       }
@@ -114,8 +158,6 @@ export default function TimeTable({
 
     fetchProjectData();
   }, [projectId, userId]);
-
-
 
   // Event handlers
   const handleOutsideClick = (e) => {
@@ -358,9 +400,35 @@ export default function TimeTable({
 
   const currentDate = new Date();
 
-  // Gets the start and end dates
-  const startMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() - 6);
-  const endMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 6);
+  function ensureDate(value) {
+    if (value instanceof Date) {
+      return value;
+    }
+    const date = new Date(value);
+    if (!isNaN(date)) {
+      return date;
+    } else {
+      throw new Error("Invalid date value provided");
+    }
+  }
+
+  let startMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() - 6);
+  let endMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 6);
+  let earliestTaskStartDate = currentDate;
+  let latestTaskDueDate = currentDate;
+
+
+  if(numberOfTasks > 0){
+    earliestTaskStartDate = leftBoundary;
+    latestTaskDueDate = rightBoundary;
+
+    earliestTaskStartDate = ensureDate(earliestTaskStartDate);
+    latestTaskDueDate = ensureDate(latestTaskDueDate);
+
+    // Gets the start and end dates
+    startMonth = new Date(earliestTaskStartDate.getFullYear(), earliestTaskStartDate.getMonth() - 6);
+    endMonth = new Date(earliestTaskStartDate.getFullYear(), earliestTaskStartDate.getMonth() + 6);
+  }
 
   const numMonths = monthDiff(startMonth, endMonth) + 1;
   let month = new Date(startMonth);
@@ -374,8 +442,20 @@ export default function TimeTable({
   let taskRow = [];
   let currentDayIndex = 0;
   let dayCounter = -1;
+  let numDaysForBoundaries = 0;
 
+  if(earliestTaskStartDate <= currentDate){
+    for (let countMonths = new Date(startMonth.getFullYear(), startMonth.getMonth(), 1); countMonths < earliestTaskStartDate; countMonths.setDate(countMonths.getDate() + 1)) {
+      numDaysForBoundaries++;
+    }
+  }
+  else{
+    for (let countMonths = new Date(startMonth.getFullYear(), startMonth.getMonth(), 1); countMonths < new Date(endMonth.getFullYear(), endMonth.getMonth(), 1); countMonths.setDate(countMonths.getDate() + 1)) {
+      numDaysForBoundaries++;
+    }
+  }
 
+  // console.log("NumDaysForBoundaries: ", numDaysForBoundaries);
 
   // Get the st, th, and rd for the respective numbers
   function getOrdinal(n) {
@@ -401,7 +481,9 @@ export default function TimeTable({
       let k = getOrdinal(j);
 
       const formattedDate = createFormattedDateFromStr(currYear, currMonth, j);
-      if (new Date(formattedDate).toDateString() === currentDate.toDateString()) { currentDayIndex = dayCounter; }
+      if (new Date(formattedDate).toDateString() === currentDate.toDateString()) { 
+        currentDayIndex = dayCounter;
+      }
 
       dayRow.push(
         
@@ -747,15 +829,41 @@ export default function TimeTable({
   }
 
   useEffect(() => {
-   
     if (ganttRef.current) {
-      const cellWidth = 60; 
-      const scrollPosition = currentDayIndex * cellWidth;
+      let cellWidth = 60;
+      let scrollPosition = numDaysForBoundaries * cellWidth;
+
+      console.log("Triggered");
+
+      if(timeRange == "3-months"){
+        console.log("if statement...");
+        cellWidth *= 3;
+        scrollPosition = (numDaysForBoundaries / 3) * cellWidth;
+
+
+        
+        console.log("Scrolling to current day index:", currentDayIndex, "Scroll position:", scrollPosition);
+      }
+
+      if(numberOfTasks > 0){
   
-      ganttRef.current.scrollLeft = scrollPosition;
-      console.log("Scrolling to current day index:", currentDayIndex, "Scroll position:", scrollPosition);
+        ganttRef.current.scrollLeft = scrollPosition;
+        console.log("Scrolling to current day index:", currentDayIndex, "Scroll position:", scrollPosition);
+      }
+      else{
+        scrollPosition = currentDayIndex * cellWidth;
+  
+        ganttRef.current.scrollLeft = scrollPosition;
+        console.log("Scrolling to current day index:", currentDayIndex, "Scroll position:", scrollPosition);
+      }
     }
-  }, [currentDayIndex]);
+  }, [currentDayIndex, numberOfTasks, timeRange]);
+
+  useEffect(() => {
+    if(timeRange == "3-months"){
+      setNumberOfTasks(numberOfTasks);
+    }
+  }, [timeRange]);
 
   return (
 
