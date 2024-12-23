@@ -13,11 +13,13 @@ import ResetPasswordPage from './pages/ResetPasswordPage';
 import VerifyEmailPage from './pages/VerifyEmailPage';
 import DashboardPage from './pages/DashboardPage';
 import DashboardChartsPage from './pages/DashboardChartsPage';
+import DashboardAccountPage from './pages/DashboardAccountPage';
 import ViewChartPage from './pages/ViewChartPage';
 import AcceptInvitePage from './pages/AcceptInvitePage';
 import RecentlyDeletedPage from './pages/RecentlyDeletedPage';
 import RegisterTokenPage from './pages/RegisterTokenPage';
 import VerifyEmailTokenPage from './pages/VerifyEmailTokenPage';
+
 
 
 function App() {
@@ -33,6 +35,7 @@ function App() {
           <Route path="/reset-password/:id/:token" element={<ResetPasswordPage />} />
           <Route path="/verify-email/:email/:token" element={<VerifyEmailPage />} />
           <Route path="/dashboard/charts" element={<DashboardChartsPage/>}/>
+          <Route path="/dashboard/account" element={<DashboardAccountPage/>}/>
           <Route path="/dashboard" element={<DashboardPage/>}/>
           <Route path="/dashboard/recently-deleted" element={<RecentlyDeletedPage/>}/>
           <Route path="/viewchart/:id" element={<ViewChartPage/>}/>
