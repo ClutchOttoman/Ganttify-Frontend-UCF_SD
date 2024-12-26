@@ -8,14 +8,20 @@ import {buildPath} from './buildPath';
 
 
 
-
 function DashboardCharts({ projects }) {
     var _ud = localStorage.getItem('user_data');
     var ud = JSON.parse(_ud);
-    var userId = ud._id;
+    var userId = ud?._id;
     const [chartListPage, setChartListPage] = useState(0);
     const [projectToDelete, setProjectToDelete] = useState({});
     const [projectIsDeleted,setProjectIsDeleted] = useState(false);
+    
+    // FOR CHANGING PROJECT NAME
+    const [selectedProject, setSelectedProject] = useState(null);
+    const [newName, setNewName] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [message, setMessage] = useState('');
+
     const friendText = "Friend";
     const meText = "Me";
     const publicText = "(public)"
@@ -23,7 +29,52 @@ function DashboardCharts({ projects }) {
 
 
 
+    useEffect(() => {
+        setSelectedProject(null);
+        setChartListPage();
+    }, [projects]);
+    
+      // Handle form submission to CHANGE PROJECT NAME
+      const handleSubmit = async event  => {
+        event.preventDefault();
 
+        var obj = { founderId: userId, nameProject: newName };
+        
+        try {
+            
+            // Check for project name length
+            if (newName.length > 35) {
+                setMessage("Project names cannot be longer than 35 characters");
+                return;
+            }
+            
+            const response = await fetch(buildPath(`api/projects/updateProjectName/${selectedProject._id}`), {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ nameProject: newName }),
+            });
+      
+            // Check if the response status is OK
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to update project name');
+            }
+      
+            const updatedProject = await response.json();
+            
+            setNewName('');
+            window.location.reload()
+            setIsModalOpen(false); // Close modal after successful update
+            setMessage('');
+
+        } catch (error) {
+            setMessage(error.toString());
+        }
+    };
+      
+    
     const buttonOn = "btn chartNavButton", buttonOff = "btn chartNavButton hiddenButton";
     var chartVisibility = [true, true, true, true, true, true], buttonVisibility = [buttonOff, buttonOff]; //0->prev 1->next
     //when component is rendered, display the first page
@@ -375,10 +426,6 @@ function DashboardCharts({ projects }) {
     }
 
 
-
-
-
-
     //whenever projects is updated by the parent component, rerender charts
     useEffect(() => { setChartPage() }, [projects]);
     return (
@@ -389,7 +436,7 @@ function DashboardCharts({ projects }) {
                         <div class="card" >
                             <GanttChartIcon class="projectIcon" />
                             <div class="card-body">
-                                {userId.toString().localeCompare(chart1.project.founderId.toString()) === 0 ? 
+                                {userId.toString() === chart1.project.founderId.toString() ? 
                                 <div class="row align-items-center mb-1">
                                     <div class = "col col-1 px-0 me-3"><button name="DeleteButton1" class="projectBtn" data-bs-toggle="modal" data-bs-target="#deleteProjectModal" onClick={()=>setProjectToDelete(chart1.project)}><img alt="DeleteButtonIcon" src={DeleteIcon} class="btnIcon" /></button></div>
                                     <div class = "col col-2 px-0"><h5 class="btnLabel">Delete</h5></div>
@@ -401,10 +448,58 @@ function DashboardCharts({ projects }) {
                                 <div class = "row align-items-start justify-content-end mb-1">
                                     <div class = "col col-3 px-0 ms-0 me-1"><a class = "btn viewChartBtn mx-0" href = {`/viewchart/${chart1.project?._id}`}>View Chart</a></div>
                                 </div>}
-                                <h5 class="card-title">{chart1.project.nameProject}</h5>
+                                <h5 class="card-title">
+                                    {chart1.project.nameProject}
+                                    <button
+                                        className="btn-outline-primary"
+                                        onClick={() => {
+                                            
+                                            setSelectedProject(chart1.project); // Set the selected project
+                                            setNewName('');
+                                            setIsModalOpen(true); // Open the modal
+                                        }}
+                                    >
+                                        ✏️
+                                    </button> 
+                                </h5>
                                 <p class="card-text">Owner: {chart1.project.founderId.toString().localeCompare(userId.toString()) === 0 ? meText : friendText} {chart1.project.isVisible === 1 ? publicText : privateText}</p>
                             </div>
                         </div> : null}
+
+
+                        {/* Bootstrap Modal */}
+                        <div className={`modal fade ${isModalOpen ? 'show' : ''}`} id="changeProjectModal" tabIndex="-1" aria-labelledby="changeProjectModalLabel" aria-hidden="true" style={{ display: isModalOpen ? 'block' : 'none' }}>
+                            <div className="modal-dialog">
+                                <div className="modal-content">
+                                    <div className="modal-header">
+                                        <h5 className="modal-title" id="changeProjectModalLabel">Change Project Name</h5>
+                                        <button type="button" className="btn-close" onClick={() => setIsModalOpen(false)} aria-label="Close"></button>
+                                    </div>
+                                    <div className="modal-body">
+                                    <form onSubmit={(e) => {handleSubmit}}>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Enter new project name"
+                                            value={newName}
+                                            onChange={(e) => setNewName(e.target.value)}
+                                        />
+                                        {message && <div className="text-danger">{message}</div>} {/* Display error messages */}
+                                    </form>
+                                    </div>
+                                <div className="modal-footer">
+                                    <button 
+                                        type="button" 
+                                        className="btn btn-primary" 
+                                        onClick={handleSubmit}
+                                    >
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="col cardCol px-0">
                     {chart2.isVisible ?
@@ -423,10 +518,26 @@ function DashboardCharts({ projects }) {
                                 <div class = "row align-items-center justify-content-end mb-1">
                                     <div class = "col col-3 px-0 ms-0 me-1"><a class = "btn viewChartBtn mx-0" href = {`/viewchart/${chart2.project?._id}`}>View Chart</a></div>
                                 </div>}
-                                <h5 class="card-title">{chart2.project.nameProject}</h5>
+
+                                <h5 class="card-title">
+                                    {chart2.project.nameProject}
+                                    <button
+                                        className="btn-outline-primary"
+                                        onClick={() => {
+                                            
+                                            setSelectedProject(chart2.project); // Set the selected project
+                                            setNewName('');
+                                            setIsModalOpen(true); // Open the modal
+                                        }}
+                                    >
+                                        ✏️
+                                    </button> 
+                                </h5>
                                 <p class="card-text">Owner: {chart2.project.founderId.toString().localeCompare(userId.toString()) === 0 ? meText : friendText} {chart2.project.isVisible === 1 ? publicText : privateText}</p>
                             </div>
                         </div> : null}
+   
+
                 </div>
                 <div class="col cardCol px-0">
                 {chart3.isVisible ?
@@ -445,10 +556,26 @@ function DashboardCharts({ projects }) {
                                 <div class = "row align-items-center justify-content-end mb-1">
                                     <div class = "col col-3 px-0 ms-0 me-1"><a class = "btn viewChartBtn mx-0" href = {`/viewchart/${chart3.project?._id}`}>View Chart</a></div>
                                 </div>}
-                                <h5 class="card-title">{chart3.project.nameProject}</h5>
+                                <h5 class="card-title">
+                                    {chart3.project.nameProject}
+                                    <button
+                                        className="btn-outline-primary"
+                                        onClick={() => {
+                                            
+                                            setSelectedProject(chart3.project); // Set the selected project
+                                            setNewName('');
+                                            setIsModalOpen(true); // Open the modal
+                                        }}
+                                    >
+                                        ✏️
+                                    </button> 
+                                </h5>
+
                                 <p class="card-text">Owner: {chart3.project.founderId.toString().localeCompare(userId.toString()) === 0 ? meText : friendText} {chart3.project.isVisible === 1 ? publicText : privateText}</p>
                             </div>
                         </div> : null}
+
+                         
                 </div>
                 <div class="col cardCol px-0">
                 {chart4.isVisible ?
@@ -467,10 +594,27 @@ function DashboardCharts({ projects }) {
                                 <div class = "row align-items-center justify-content-end mb-1">
                                     <div class = "col col-3 px-0 ms-0 me-1"><a class = "btn viewChartBtn mx-0" href = {`/viewchart/${chart4.project?._id}`}>View Chart</a></div>
                                 </div>}
-                                <h5 class="card-title">{chart4.project.nameProject}</h5>
+                                <h5 class="card-title">
+                                    {chart4.project.nameProject}
+                                    <button
+                                        className="btn-outline-primary"
+                                        onClick={() => {
+                                            
+                                            setSelectedProject(chart4.project); // Set the selected project
+                                            setNewName('');
+                                            setIsModalOpen(true); // Open the modal
+                                        }}
+                                    >
+                                        ✏️
+                                    </button> 
+
+                                </h5>
+
                                 <p class="card-text">Owner: {chart4.project.founderId.toString().localeCompare(userId.toString()) === 0 ? meText : friendText} {chart4.project.isVisible === 1 ? publicText : privateText}</p>
                             </div>
                         </div> : null}
+
+                         
                 </div>
                 <div class="col cardCol px-0">
                 {chart5.isVisible ?
@@ -489,10 +633,26 @@ function DashboardCharts({ projects }) {
                                 <div class = "row align-items-center justify-content-end mb-1">
                                     <div class = "col col-3 px-0 ms-0 me-1"><a class = "btn viewChartBtn mx-0" href = {`/viewchart/${chart5.project?._id}`}>View Chart</a></div>
                                 </div>}
-                                <h5 class="card-title">{chart5.project.nameProject}</h5>
+                                <h5 class="card-title">
+                                    {chart5.project.nameProject}
+                                    <button
+                                        className="btn-outline-primary"
+                                        onClick={() => {
+                                            
+                                            setSelectedProject(chart5.project); // Set the selected project
+                                            setNewName('');
+                                            setIsModalOpen(true); // Open the modal
+                                        }}
+                                    >
+                                        ✏️
+                                    </button> 
+                                </h5>
+
                                 <p class="card-text">Owner: {chart5.project.founderId.toString().localeCompare(userId.toString()) === 0 ? meText : friendText} {chart5.project.isVisible === 1 ? publicText : privateText}</p>
                             </div>
                         </div> : null}
+
+                         
                 </div>
                 <div class="col cardCol px-0">
                     {chart6.isVisible ?
@@ -511,13 +671,28 @@ function DashboardCharts({ projects }) {
                                 <div class = "row mb-1 align-items-center justify-content-end">
                                     <div class = "col col-3 px-0 ms-0 me-1"><a class = "btn viewChartBtn mx-0" href = {`/viewchart/${chart6.project?._id}`}>View Chart</a></div>
                                 </div>}
-                                <h5 class="card-title">{chart6.project.nameProject}</h5>
+                                <h5 class="card-title">
+                                    {chart6.project.nameProject}
+                                    <button
+                                        className="btn-outline-primary"
+                                        onClick={() => {
+                                            
+                                            setSelectedProject(chart6.project); // Set the selected project
+                                            setNewName('');
+                                            setIsModalOpen(true); // Open the modal
+                                        }}
+                                    >
+                                        ✏️
+                                    </button> 
+                                </h5>
+
                                 <p class="card-text">Owner: {chart6.project.founderId.toString().localeCompare(userId.toString()) === 0 ? meText : friendText} {chart6.project.isVisible === 1 ? publicText : privateText}</p>
                             </div>
                         </div> : null}
+
+                         
                 </div>
             </div>
-
 
             <div class="row px-0 mt-3">
                 <div class="col px-0">
@@ -527,7 +702,7 @@ function DashboardCharts({ projects }) {
                     <button class={nextButton} onClick={nextChartPage}>Next</button>
                 </div>
             </div>
-            <div class="modal modal-lg fade" id="deleteProjectModal" tabindex="-1" aria-labelledby="DeleteProjectModalLabel" aria-hidden="true"  data-bs-backdrop="static" data-bs-keyboard="false" >
+            <div class="modal modal-lg fade" id="deleteProjectModal" tabIndex="-1" aria-labelledby="DeleteProjectModalLabel" aria-hidden="true"  data-bs-backdrop="static" data-bs-keyboard="false" >
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -549,6 +724,5 @@ function DashboardCharts({ projects }) {
 
 
 export default DashboardCharts;
-
 
 

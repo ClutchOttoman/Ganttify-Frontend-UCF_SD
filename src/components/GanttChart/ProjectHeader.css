@@ -1,0 +1,66 @@
+.project-title-container {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* To keep the title centered */
+  }
+  
+  .btn-outline-primary {
+    background: transparent;
+    border: none;
+    font-size: 20px; /* Adjust size as needed */
+    cursor: pointer;
+    color: #000; /* Black color for the pencil */
+    padding: 0;
+    margin-left: 10px;
+    transition: transform 0.3s ease; /* Add animation for hover effect */
+  }
+
+  .btn-outline-primary:hover {
+    transform: scale(1.2); /* Slightly enlarge the pencil on hover */
+  }
+
+  .rename-btn {
+    margin-left: 10px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    position: relative;  /* Required for z-index */
+    z-index: 1;         /* Ensures it's in front of other elements */
+    pointer-events: auto; /* Ensures pointer events are enabled */
+  }
+  
+ 
+  /* Close button for the modal */
+  .btn-close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  input {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+  }
+  
+  .submit-btn,
+  .close-btn {
+    padding: 8px 12px;
+    margin: 5px;
+    cursor: pointer;
+  }
+  
+  .project-header {
+    pointer-events: auto; /* Ensure pointer events are enabled */
+  
+  }
+  
+  .project-name {
+    font-weight: bold;
+  }
+  
