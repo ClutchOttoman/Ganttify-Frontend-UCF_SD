@@ -8,7 +8,7 @@ import {buildPath} from './buildPath';
 
 
 
-function DashboardCharts({ projects, onUpdateProjectName }) {
+function DashboardCharts({ projects }) {
     var _ud = localStorage.getItem('user_data');
     var ud = JSON.parse(_ud);
     var userId = ud?._id;
