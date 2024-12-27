@@ -18,7 +18,8 @@ const AddTaskButton = ({ projectId }) => {
     startDateTime: "",
     assignedTasksUsers: [],
     color: GanttifyOrange,
-    pattern: "No Pattern"
+    pattern: "No Pattern",
+    taskCategory: ""
   });
 
   // Initialization of the variables
@@ -132,7 +133,10 @@ const AddTaskButton = ({ projectId }) => {
     }
 
     try {
-      const newTask = {...taskData, tiedProjectId: projectId, taskCreatorId: localStorage.getItem('user_data') ? JSON.parse(localStorage.getItem('user_data'))._id : null,};
+      const newTask = {
+        ...taskData, 
+        tiedProjectId: projectId, 
+        taskCreatorId: localStorage.getItem('user_data') ? JSON.parse(localStorage.getItem('user_data'))._id : null,};
       
       
       console.log("New task being created:", newTask);
@@ -189,7 +193,8 @@ const AddTaskButton = ({ projectId }) => {
       startDateTime: "",
       assignedTasksUsers: [],
       color: GanttifyOrange,
-      pattern: "default-pattern"
+      pattern: "default-pattern",
+      taskCategory: "" // Reset the task category
     });
     setColor(GanttifyOrange);
     setErrorMessage(""); 
@@ -239,6 +244,10 @@ const AddTaskButton = ({ projectId }) => {
                     <textarea className="form-control" id="description" name="description" value={taskData.description} onChange={handleInputChange}></textarea>
                   </div>
 
+
+          
+
+
                   <div className="mb-3">
                     <label htmlFor="startDateTime" className="form-label">Start Date</label>
                     <input type="date" className="form-control" id="startDateTime" name="startDateTime" value={taskData.startDateTime} onChange={handleInputChange} required />
@@ -247,6 +256,11 @@ const AddTaskButton = ({ projectId }) => {
                   <div className="mb-3">
                     <label htmlFor="dueDateTime" className="form-label">Due Date</label>
                     <input type="date" className="form-control" id="dueDateTime" name="dueDateTime" value={taskData.dueDateTime} onChange={handleInputChange} required />
+                  </div>
+
+                  <div className="mb-3">
+                    <label htmlFor="taskCategory" className="form-label">Task Category (Optional)</label>
+                    <input type="text" className="form-control" id="taskCategory" name="taskCategory" value={taskData.taskCategory} onChange={handleInputChange} />
                   </div>
 
                   <div className="mb-3">

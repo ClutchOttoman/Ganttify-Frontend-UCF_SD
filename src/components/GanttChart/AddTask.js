@@ -1,6 +1,6 @@
 import {buildPath} from '../buildPath';
 
-async function AddTask({ taskTitle, description, dueDateTime, startDateTime, assignedTasksUsers, color, pattern, projectId, userId, setTasks }) 
+async function AddTask({ taskTitle, description, dueDateTime, startDateTime, assignedTasksUsers, color, pattern, taskCategory, projectId, userId, setTasks }) 
 {
   const newTask = {
     description,
@@ -12,7 +12,8 @@ async function AddTask({ taskTitle, description, dueDateTime, startDateTime, ass
     taskCreatorId: userId,
     startDateTime,
     color,
-    pattern
+    pattern,
+    taskCategory
   };
 
   try {

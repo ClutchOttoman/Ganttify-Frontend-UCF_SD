@@ -31,6 +31,39 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
   const [selectedTask, setSelectedTask] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
 
+  
+
+  const sortTasks = (tasks) => {
+    const groupedTasks = tasks.reduce((acc, task) => {
+      const category = task?.taskCategory || 'No Category Assigned';
+      if (!acc[category]) acc[category] = [];
+      acc[category].push(task);
+      return acc;
+    }, {});
+  
+    const sortedCategories = Object.keys(groupedTasks)
+      .filter(category => category !== 'No Category Assigned')
+      .sort();
+  
+    const noCategoryTasks = groupedTasks['No Category Assigned'] || [];
+  
+    const sortedTasks = [];
+    sortedCategories.forEach(category => {
+      const tasksInCategory = groupedTasks[category]
+        .sort((a, b) => (a?.taskTitle || '').localeCompare(b?.taskTitle || ''));
+      sortedTasks.push(...tasksInCategory);
+    });
+  
+    const sortedNoCategoryTasks = noCategoryTasks.sort((a, b) =>
+      (a?.taskTitle || '').localeCompare(b?.taskTitle || '')
+    );
+    sortedTasks.push(...sortedNoCategoryTasks);
+  
+    return sortedTasks;
+  };
+  
+
+
   useEffect(() => {
     const fetchProjectData = async () => {
       try {
@@ -77,7 +110,10 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
           throw new Error('No tasks found in the response.');
         }
 
-        const durations = fetchedTasks.map(task => {
+        const sortedTasks = sortTasks(fetchedTasks);
+
+
+        const durations = sortedTasks.map(task => { //changed
           const duration = {
             task: task._id,
             start: task.startDateTime,
@@ -89,7 +125,7 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
           return duration;
         });
 
-        setTasks(fetchedTasks);
+        setTasks(sortedTasks);
         setTaskDurations(durations);
 
       } catch (error) {
