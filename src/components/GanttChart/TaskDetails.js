@@ -93,7 +93,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
   const fetchTaskFromAPI = async (taskId) => {
     if (taskId) {
       try {
-        const response = await fetch(buildPath(`api/tasks/${taskId}`));
+        const response = await fetch(buildPath(`api/fetchTask/${taskId}`));
 
         console.log("Response: ", response);
 
@@ -145,7 +145,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
   };
 
   const handleClickOutside = (event) => {
-    if (show && !document.getElementById('task-details-sidebar').contains(event.target)) {
+    if (show && document.getElementById('task-details-sidebar') &&!document.getElementById('task-details-sidebar').contains(event.target)) {
       if (editMode) {
         resetTaskDetails();
         setEditMode(false);
