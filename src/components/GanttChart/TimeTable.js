@@ -601,7 +601,12 @@ export default function TimeTable({
                       }}
 
                       onKeyDown={isEditable ? (e) => deleteTaskDuration(e, el?.task) : null}
-                      onClick={() => { setSelectedTask(task); setShowDetails(true); }}
+                      onClick={() => {
+                        if (!isResizing) { // Prevents showing details after resizing task bar.
+                          setSelectedTask(task);
+                          setShowDetails(true);
+                        }
+                      }}
                       onMouseEnter={() => setHoveredTask(el?._id)} 
                       onMouseLeave={() => setHoveredTask(null)} 
                     >
@@ -623,7 +628,7 @@ export default function TimeTable({
                         </>
                       )}
 
-                      {hoveredTask === el?._id && (
+                      {(hoveredTask === el?._id || resizingTask === el?._id) && (
                         <div
                           style={{
                             position: 'absolute',
@@ -634,7 +639,7 @@ export default function TimeTable({
                             whiteSpace: 'nowrap', // Using this to keep text in a single line
                             padding: '2px 5px',
                             fontFamily:'Montserrat, sans-serif',
-                            fontSize: '11.5px'
+                            fontSize: '12px'
                             }}
                         >
                         {`${el.start.split('T')[0].replace(/-/g, '/')}  -  ${el.end.split('T')[0].replace(/-/g, '/')}`}
