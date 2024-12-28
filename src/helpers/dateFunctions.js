@@ -48,3 +48,26 @@ export function createFormattedDateFromDate(date) {
   }
   return `${date.getFullYear()}-${monthStr}-${dayStr}`;
 }
+
+export function getNextDateFromStr(year,month,day){
+    var newDay,newMonth,newYear;
+    day += 1;
+    if(day > getDaysInMonth(year,month)){
+        newDay = 0;
+        newMonth = month + 1
+        if(newMonth > 11){
+            newMonth = 0;
+            newYear = year+1;
+        }
+        else{
+            newYear = year;
+        }
+    }
+    else{
+        newDay = day;
+        newMonth = month;
+        newYear = year;
+    }
+
+    return createFormattedDateFromStr(year,month,day);
+}

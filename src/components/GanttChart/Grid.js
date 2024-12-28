@@ -3,7 +3,7 @@ export default function Grid({ children }) {
     return (
       <div id="gantt-grid-container">
         {children}
-        <style jsx>{`
+        <style jsx = "true">{`
           #gantt-grid-container {
             display: grid;
             grid-template-columns: 150px 1fr;

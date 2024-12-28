@@ -1,12 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import {
-  monthDiff,
-  getDaysInMonth,
-  getDayOfWeek,
-  createFormattedDateFromStr,
-  createFormattedDateFromDate,
-  dayDiff,
-} from '../../helpers/dateFunctions';
+    monthDiff,
+    getDaysInMonth,
+    getDayOfWeek,
+    createFormattedDateFromStr,
+    createFormattedDateFromDate,
+    dayDiff,
+    getNextDateFromStr,
+  } from '../../helpers/dateFunctions';
 import { months } from '../../constants';
 import TaskDetails from './TaskDetails';
 import './TimeTable.css';
@@ -91,6 +92,8 @@ export default function TimeTable({
   const [hoveredRow, setHoveredRow] = useState(null);
   const [selectedTask, setSelectedTask] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
+  const [currentDayMarkerHeight,setCurrentDayMarkerHeight] = useState(0);
+
 
   // Gets the project's details
   useEffect(() => {
@@ -105,6 +108,7 @@ export default function TimeTable({
 
         const isFounder = project.founderId === userId;
         const isEditor = project.team.editors.includes(userId);
+        setCurrentDayMarkerHeight(project.tasks.length);
 
         setIsEditable(isFounder || isEditor);
       } catch (error) {
@@ -355,6 +359,16 @@ export default function TimeTable({
     boxShadow: '3px 3px 3px rgba(0, 0, 0, 0.05)',
     cursor: isEditable && !isResizing ? 'move' : 'default', // Update cursor style
   };
+  const currentDayMarkerStyle = {
+    position: 'relative',
+    width:'2px',
+    left:'29px',
+    zIndex: '2',
+    borderRadius: 'var(--border-radius)',
+    backgroundColor: 'black'
+  }
+
+
 
   const currentDate = new Date();
 
@@ -374,6 +388,7 @@ export default function TimeTable({
   let taskRow = [];
   let currentDayIndex = 0;
   let dayCounter = -1;
+  
 
 
 
@@ -401,17 +416,39 @@ export default function TimeTable({
       let k = getOrdinal(j);
 
       const formattedDate = createFormattedDateFromStr(currYear, currMonth, j);
-      if (new Date(formattedDate).toDateString() === currentDate.toDateString()) { currentDayIndex = dayCounter; }
-
-      dayRow.push(
+      const nextDate = getNextDateFromStr(currYear,currMonth,j);
+      if (new Date(formattedDate).toDateString() === currentDate.toDateString()) { 
+        currentDayIndex = dayCounter; 
+        }
+        if(new Date(nextDate).toDateString() === currentDate.toDateString()){
+            //console.log("current day: " + new Date(nextDate).toDateString())
+            dayRow.push(
+                <div>
+                <div key={j} style={{ ...ganttTimePeriod, outline: 'none' }}>
+                  <span style={ganttTimePeriodSpanMonths}>
+                    {getDayOfWeek(currYear, currMonth - 1, j - 1)} {j}{k}
+                  </span>
+                </div>
+                <div id='currentDayMarker' style={{
+                    ...currentDayMarkerStyle,
+                    height:`calc(var(--cell-height)*${currentDayMarkerHeight})`
+                  }}
+                />
+                </div>
+              );
+              
+        }
+        else{
+            dayRow.push(
+            
+                <div key={j} style={{ ...ganttTimePeriod, outline: 'none' }}>
+                <span style={ganttTimePeriodSpanMonths}>
+                    {getDayOfWeek(currYear, currMonth - 1, j - 1)} {j}{k}
+                </span>
+                </div>
         
-        <div key={j} style={{ ...ganttTimePeriod, outline: 'none' }}>
-          <span style={ganttTimePeriodSpanMonths}>
-            {getDayOfWeek(currYear, currMonth - 1, j - 1)} {j}{k}
-          </span>
-        </div>
-
-      );
+            );
+        }
 
       weekRow.push(
         
