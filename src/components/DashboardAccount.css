@@ -1,0 +1,106 @@
+
+.dashboardAccountContainer {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: "Inter", sans-serif;
+  }
+  
+  .dashboardTitle {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+    /* display: inline-block; */
+    color: #000;
+  }
+
+  .dashboardTitle::before, .dashboardTitle::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 80px;
+    height: 2px;
+    background: #DC6B2C;
+  }
+  
+  .dashboardTitle::before {
+    left: 0px;
+  }
+  
+  .dashboardTitle::after {
+    right: 0px;
+  }
+  
+  .accountDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .detailItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+  }
+  
+  .detailLabel {
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .detailValue {
+    color: #333;
+  }
+  
+  .accountActions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .deleteBtn {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .deleteBtn:hover {
+    background-color: #b52d3a;
+  }
+  
+  .editBtn,
+  .saveBtn {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .editBtn:hover,
+  .saveBtn:hover {
+    background-color: #0056b3;
+  }
+  
+  .editInput {
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  

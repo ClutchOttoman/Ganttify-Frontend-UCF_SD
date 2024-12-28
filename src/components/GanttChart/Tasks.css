@@ -49,7 +49,6 @@
   margin-left: 10px; 
 }
 
-
 #gantt-grid-container__tasks::-webkit-scrollbar {
   width: 0px;  
   background: transparent;  
@@ -57,4 +56,44 @@
 
 #gantt-grid-container__tasks {
   padding-bottom: 5px; 
+}
+
+
+
+
+.gantt-task-row .task-title-text {
+  font-size: 14px;
+}
+
+.gantt-task-row {
+  position: relative; /* Ensures proper context for absolutely positioned elements inside */
+}
+
+.gantt-task-row {
+  position: relative; /* Ensures positioning context for absolute elements */
+}
+
+.gantt-task-row .task-category {
+  font-size: 10px; /* Larger, more readable text */
+  color: #ffffff; /* Clean, white text for contrast */
+  position: absolute; /* Absolute positioning within the task row */
+  bottom: 10px; /* Positioned towards the bottom */
+  right: 6px; /* Spacing from the right edge */
+  background: linear-gradient(135deg, #828d92, #8f969f); /* Gradient background for modern look */
+  padding: 1px 5px; /* More generous padding for readability */
+  border-radius: 50px; /* More rounded corners for a sleek look */
+  font-weight: 600; /* Bold font for importance */
+  text-transform: capitalize; /* Ensure the text is in a clean, consistent case */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Subtle shadow for a floating effect */
+  z-index: 1; /* Makes sure the tag is on top */
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Smooth transition effects */
+  border: 0.7px solid transparent; /* Invisible border initially for a clean look */
+}
+
+.gantt-task-row .task-category:hover {
+  background: linear-gradient(135deg, #848c94, #6c757d); /* Inverse gradient effect on hover */
+  transform: scale(1.05); /* Slight zoom effect for interaction */
+  cursor: pointer; /* Pointer cursor to indicate interactivity */
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25); /* Enhanced shadow on hover */
+  border-color: #ffffff; /* Subtle border color to highlight on hover */
 }

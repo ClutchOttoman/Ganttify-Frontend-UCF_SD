@@ -92,3 +92,28 @@ body{
     padding:10px;
     width:30%;
 }   
+
+
+
+.btn-outline-primary {
+    background: transparent;
+    border: none;
+    font-size: 20px; /* Adjust size as needed */
+    cursor: pointer;
+    color: #000; /* Black color for the pencil */
+    padding: 0;
+    margin-left: 10px;
+    transition: transform 0.3s ease; /* Add animation for hover effect */
+  }
+
+  .btn-outline-primary:hover {
+    transform: scale(1.2); /* Slightly enlarge the pencil on hover */
+  }
+
+  .btn-close:hover,
+  .btn-close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  

@@ -60,6 +60,7 @@ function DasboardNavBar()
                     <a id ="Charts" class = "btn navBtn" href="/dashboard/charts"><span class = "navBtnText">Charts</span></a>
                     <a id ="Recently Deleted" class ="btn navBtn" href="/dashboard/recently-deleted"><span class = "navBtnText">Recently Deleted</span></a>
                     <button id ="Create Project" class ="btn navBtn" data-bs-toggle="modal" data-bs-target="#createProjectModal"><span class = "navBtnText">Create Project</span></button> 
+                    <a id ="Account" class ="btn navBtn" href="/dashboard/account" ><span class = "navBtnText">Account</span></a> 
 
                    
             </div>

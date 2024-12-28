@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import ProjectHeader from './ProjectHeader';
 import './ProjectTitle.css';
 import {buildPath} from '../buildPath';
 
@@ -25,7 +26,12 @@ const ProjectTitle = ({ projectId }) => {
     fetchProjectName();
   }, [projectId]);
 
-  return <h1 className="project-title">{projectName}</h1>;
+  return (
+    <div>
+      {/* Pass projectName, setProjectName, and projectId to ProjectHeader */}
+      <ProjectHeader projectName={projectName} setProjectName={setProjectName} projectId={projectId} />
+    </div>
+  );
 };
 
 export default ProjectTitle;
