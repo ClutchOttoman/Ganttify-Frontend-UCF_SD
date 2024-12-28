@@ -596,12 +596,14 @@ export default function TimeTable({
                         background: task.color || 'var(--color-primary-light)',
                         backgroundImage: patterns[task.pattern] ? `url(${patterns[task.pattern]})` : 'none',
                         backgroundSize: 'contain',
-                        border: hoveredTask === el?._id && !isResizing ? '2px solid black' : 'none',
                         cursor: isEditable && !isResizing ? 'move' : 'default',
+                        
                       }}
 
                       onKeyDown={isEditable ? (e) => deleteTaskDuration(e, el?.task) : null}
                       onClick={() => { setSelectedTask(task); setShowDetails(true); }}
+                      onMouseEnter={() => setHoveredTask(el?._id)} 
+                      onMouseLeave={() => setHoveredTask(null)} 
                     >
 
                       {isEditable && (
@@ -617,13 +619,31 @@ export default function TimeTable({
                             onMouseDown={(e) => handleResizeStart(e, el?._id, 'right')}
                             style={{ cursor: 'ew-resize', position: 'absolute', right: '0', width: '10px', height: '100%', zIndex: 3 }}
                           />
-
                             
                         </>
+                      )}
+
+                      {hoveredTask === el?._id && (
+                        <div
+                          style={{
+                            position: 'absolute',
+                            top: '15%',
+                            left: '100%',
+                            transform: 'translateX(2px)', 
+                            color: 'black',
+                            whiteSpace: 'nowrap', // Using this to keep text in a single line
+                            padding: '2px 5px',
+                            fontFamily:'Montserrat, sans-serif',
+                            fontSize: '11.5px'
+                            }}
+                        >
+                        {`${el.start.split('T')[0].replace(/-/g, '/')}  -  ${el.end.split('T')[0].replace(/-/g, '/')}`}
+                        </div>
                       )}
                     </div>
                   );
                 }
+                
               })}
             </div>
           );
@@ -691,27 +711,6 @@ export default function TimeTable({
     }
   }
 
-
-  function turnOffPattern(taskDurationId){
-    const taskDuration = taskDurations.find(
-        (taskDuration) => taskDuration._id === taskDurationId
-    );
-
-    if (!taskDuration) {
-        return;
-    }
-    const startDate = new Date(taskDuration.start);
-    const endDate = new Date(taskDuration.end);
-    var day = startDate;
-    while(day <= endDate){
-        let pattern = document.getElementById(`pattern/${day.toISOString().slice(0,10)}/${taskDurationId.slice(0,24)}`)
-        pattern.setAttribute("hidden",true)
-        day = day.addDays(1);
-    }
-  }
-
-
-
   function handleDragStart(taskDurationId) {
     if (!resizingTask) {
       
@@ -719,7 +718,6 @@ export default function TimeTable({
       setHoveredTask(null);
       setIsDragging(true);
       console.log("Drag started for taskDurationId:", taskDurationId);
-      turnOffPattern(taskDurationId);
     }
   }
 
@@ -727,7 +725,7 @@ export default function TimeTable({
   function handleDragEnd(taskDurationId) {
 
     if (!resizingTask) {
-      
+
       setTaskDurationElDraggedId(null);
 
       setHoveredTask(null);
@@ -747,18 +745,18 @@ export default function TimeTable({
       (taskDuration) => taskDuration._id === taskDurationElDraggedId
     );
 
-
     if (!taskDuration) {
       return;
     }
-
 
     const dataTask = targetCell.getAttribute('data-task');
     const dataDate = targetCell.getAttribute('data-date');
     const targetTaskId = targetCell.getAttribute('data-task-id');
 
+    console.log(taskDuration)
+    console.log(targetTaskId)
+
     if (taskDuration.task !== targetTaskId) {
-      turnOnPattern(taskDuration);
       console.log("Task can only be dropped within its respective row.");
       return;
     }
@@ -780,7 +778,6 @@ export default function TimeTable({
       taskDuration.task = dataTask;
       taskDuration.start = createFormattedDateFromDate(newStartDate);
       taskDuration.end = createFormattedDateFromDate(newEndDate);
-      turnOnPattern(taskDuration);
 
       const newTaskDurations = taskDurations.filter(
         (taskDuration) => taskDuration._id !== taskDurationElDraggedId

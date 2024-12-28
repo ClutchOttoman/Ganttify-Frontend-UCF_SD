@@ -23,11 +23,7 @@
   resize: vertical;
 }
 
-.task-duration:hover {
-  border: 2px solid black;
-}
-
-.dragging {
+.task-duration:dragging {
   opacity: 0.5;
 }
 
