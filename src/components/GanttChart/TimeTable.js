@@ -186,7 +186,7 @@ export default function TimeTable({
 
   // Handles the "resizing" of a singular task
   const handleResizeStart = (e, taskDurationId, direction) => {
-    //console.log("starting resize");
+    console.log("starting resize");
     e.stopPropagation();
     e.preventDefault();
     setResizingTask(taskDurationId);
@@ -205,14 +205,6 @@ export default function TimeTable({
 
       if (!taskDuration) {
         return;
-      }
-      turnOnPattern(taskDuration);
-      const endDate = new Date(taskDuration.end)
-      const startDate = new Date(taskDuration.start)
-      const id = taskDuration._id.slice(0,24);
-      for(let i = 1;i<15;i++){
-        togglePatternDate(endDate.addDays(i).toISOString().slice(0,10),id,true);
-        togglePatternDate(startDate.addDays(-i).toISOString().slice(0,10),id,true);
       }
 
       const obj = { startDateTime: taskDuration.start, dueDateTime: taskDuration.end };
@@ -247,15 +239,7 @@ export default function TimeTable({
       handleDragEnd(taskDurationElDraggedId);
     }
   };
-  function togglePatternDate(date,id,hide){
-    const pattern = document.getElementById(`pattern/${date}/${id}`);
-    if(hide){
-        pattern.setAttribute("hidden","true");
-    }
-    else{  
-        pattern.removeAttribute("hidden");
-    }
-  }
+
 
   // Updates the task's dates based off of the user's mouse's position 
   const handleMouseMove = (e) => {
@@ -286,31 +270,14 @@ export default function TimeTable({
 
         if (resizeDirection === 'left') {
           if (new Date(newDate) <= new Date(taskDuration.end)) {
-            if(new Date(newDate) > new Date(taskDuration.start)){
-                let patternDate = new Date(newDate).addDays(-1);
-                let formattedPatternDate = patternDate.toISOString().slice(0,10);
-                togglePatternDate(formattedPatternDate,id,true)
-            }
-            else if(new Date(newDate) < new Date(taskDuration.start)){
-                togglePatternDate(newDate,id,false)
-            }
             taskDuration.start = newDate;
           }
         } else if (resizeDirection === 'right') {
           if (new Date(newDate) >= new Date(taskDuration.start)) {
-            if(new Date(newDate) < new Date(taskDuration.end)){
-                let patternDate = new Date(newDate).addDays(1);
-                let formattedPatternDate = patternDate.toISOString().slice(0,10);
-                togglePatternDate(formattedPatternDate,id,true)
-            }
-            else if(new Date(newDate) > new Date(taskDuration.end)){
-                togglePatternDate(newDate,id,false)
-            }
             taskDuration.end = newDate;
           }
         }
-
-
+        
         setTaskDurations((prevDurations) =>
           prevDurations.map((duration) =>
             duration._id === taskDuration._id ? { ...taskDuration } : duration
@@ -599,8 +566,6 @@ export default function TimeTable({
               onMouseLeave={() => setHoveredRow(null)} 
             >
 
-
-            <img id={`pattern/${formattedDate}/${task._id}`}src={patterns[task.pattern]} class = "patternImg" hidden={!taskHappening}/>
               {taskDurations.map((el, i) => {
                 const elStartDate = el?.start.split('T')[0];
 
@@ -629,8 +594,10 @@ export default function TimeTable({
                         width: `calc(${dayDiff(el?.start, el?.end)} * 100% - 1px)`,
                         opacity: taskDurationElDraggedId === el?._id ? '0.5' : '1',
                         background: task.color || 'var(--color-primary-light)',
+                        backgroundImage: patterns[task.pattern] ? `url(${patterns[task.pattern]})` : 'none',
+                        backgroundSize: 'contain',
                         border: hoveredTask === el?._id && !isResizing ? '2px solid black' : 'none',
-                        cursor: isEditable && !isResizing ? 'move' : 'default'
+                        cursor: isEditable && !isResizing ? 'move' : 'default',
                       }}
 
                       onKeyDown={isEditable ? (e) => deleteTaskDuration(e, el?.task) : null}
@@ -639,16 +606,16 @@ export default function TimeTable({
 
                       {isEditable && (
                         <>
-                        
+                      
                           <div
                             className="resize-handle left"
                             onMouseDown={(e) => handleResizeStart(e, el?._id, 'left')}
-                            style={{ cursor: 'ew-resize', position: 'absolute', left: '0', width: '10px', height: '100%', zIndex: 2 }}
+                            style={{ cursor: 'ew-resize', position: 'absolute', left: '0', width: '10px', height: '100%', zIndex: 3 }}
                           />
                           <div
                             className="resize-handle right"
                             onMouseDown={(e) => handleResizeStart(e, el?._id, 'right')}
-                            style={{ cursor: 'ew-resize', position: 'absolute', right: '0', width: '10px', height: '100%', zIndex: 2 }}
+                            style={{ cursor: 'ew-resize', position: 'absolute', right: '0', width: '10px', height: '100%', zIndex: 3 }}
                           />
 
                             
@@ -772,19 +739,6 @@ export default function TimeTable({
   }
 
 
-  function turnOnPattern(taskDuration){
-    const id = (taskDuration._id).slice(0,24);
-    console.log(id);
-    const startDate = new Date(taskDuration.start);
-    const endDate = new Date(taskDuration.end);
-    var day = startDate;
-    while(day <= endDate){
-        let pattern = document.getElementById(`pattern/${day.toISOString().slice(0,10)}/${id}`);
-        console.log(pattern.id);
-        pattern.removeAttribute("hidden")
-        day = day.addDays(1);
-    }
-  }
 
   async function onTaskDurationDrop(e) {
     const targetCell = e.target;
