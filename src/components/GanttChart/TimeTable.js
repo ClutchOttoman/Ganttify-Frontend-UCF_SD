@@ -545,7 +545,8 @@ export default function TimeTable({
           var taskHappening=false;
           if(task['pattern'] && (task['pattern'] in patterns)){
             taskHappening = isTaskHappeningNow(startDate,dueDate,formattedDate);
-          }
+          } 
+
           taskRow.push(
             <div
               key={`${task._id}-${j}`}
@@ -673,8 +674,6 @@ export default function TimeTable({
     setTasks(newTasks);
 
     setTaskDurations((prevState) => {
-
-      
       const newTaskDurations = prevState.filter(
         (taskDuration) => taskDuration.task !== taskId
       );
@@ -698,7 +697,6 @@ export default function TimeTable({
 
       const data = await response.json();
       console.log('Task deleted successfully:', data);
-      window.location.reload();
     } catch (error) {
       console.error('Error deleting task:', error);
     }
