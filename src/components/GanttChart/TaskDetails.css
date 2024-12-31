@@ -379,3 +379,38 @@ select[multiple] {
   border: none;
   border-radius: 50%;
 }
+
+
+
+
+
+.task-detail-field {
+  margin-bottom: 14px;
+}
+
+.task-detail-field label {
+  font-size: 1rem;
+}
+
+.task-detail-field input {
+  margin-right: 10px;
+  margin-left: 0px; /* Adjust this value as needed */
+  padding: 8px 12px;
+  border-radius: 2px;
+  border: 1px solid #7f7c7c;
+  width: 100%;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.task-detail-field input:focus {
+  border-color: #141414;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.task-detail-field input::placeholder {
+  color: #aaa;
+}
+
+
