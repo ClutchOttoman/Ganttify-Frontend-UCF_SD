@@ -38,6 +38,7 @@ const patternDisplayNames = {
 // Initializes variables
 const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
   const [status, setStatus] = useState('');
+  const [newCategory, setNewCategory] = useState(''); // Added  
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [color, setColor] = useState('white'); // Default color
   const [pattern,setPattern] = useState('No Pattern');
@@ -54,7 +55,11 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
   const [dueDate, setDueDate] = useState('');
   const [dateError, setDateError] = useState('');
   const [progressEditPermission, setProgressEditPermission] = useState(false);
+  const [taskCategory, setTaskCategory] = useState('');  // Added 
+  
+  const [taskCategories, setTaskCategories] = useState([]); // Added
 
+   
   const [originalTask, setOriginalTask] = useState(null);
   const [fetchedTask, setFetchedTask] = useState(null);
 
@@ -63,6 +68,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
       setProgressEditPermission(false);
       setStatus(task.progress);
       setColor(task.color);
+      setTaskCategory(task.taskCategory || 'No category'); //added
       fetchTaskCreator(task.taskCreatorId);
       fetchAssignedUsers(task.assignedTasksUsers);
       getProjectData(task.tiedProjectId);
@@ -82,7 +88,8 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
         taskCreated: task.taskCreated,
         startDateTime: task.startDateTime,
         dueDateTime: task.dueDateTime,
-        pattern: task.pattern
+        pattern: task.pattern,
+        taskCategory: task.taskCategory || 'No category' //added
       });
 
       fetchTaskFromAPI(task._id);
@@ -122,6 +129,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
     setStatus(fetchedTask.progress);
     setColor(fetchedTask.color);
     setPattern(fetchedTask.pattern);
+    setTaskCategory(fetchedTask.taskCategory || 'No category'); //added
     fetchTaskCreator(fetchedTask.taskCreatorId);
     fetchAssignedUsers(fetchedTask.assignedTasksUsers);
     getProjectData(fetchedTask.tiedProjectId);
@@ -140,7 +148,8 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
       taskCreated: fetchedTask.taskCreated,
       startDateTime: fetchedTask.startDateTime,
       dueDateTime: fetchedTask.dueDateTime,
-      pattern : fetchedTask.pattern
+      pattern : fetchedTask.pattern,
+      taskCategory: fetchedTask.taskCategory || 'No category' //added
     });
   };
 
@@ -164,6 +173,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
       setCreatedDate(originalTask.taskCreated);
       setStartDate(originalTask.startDateTime);
       setDueDate(originalTask.dueDateTime);
+      setTaskCategory(originalTask.taskCategory); //added
     }
   };
 
@@ -192,6 +202,25 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
       document.removeEventListener('mousedown', handleColorPickerClickOutside);
     };
   }, [showColorPicker]);
+
+
+    // Fetch categories when the component mounts
+    useEffect(() => { //added
+      const fetchCategories = async () => {
+        try {
+          const response = await fetch(buildPath('api/taskcategories'));
+          if (response.ok) {
+            const categories = await response.json();
+            setTaskCategories(categories);
+          }
+        } catch (error) {
+          console.error('Error fetching categories:', error);
+        }
+      };
+  
+      fetchCategories();
+    }, []);
+
 
   const getProjectData = async (projectId) => {
     try {
@@ -347,6 +376,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
     }
   };
 
+
   const handleColorChange = (newColor) => {
     setColor(newColor);
 
@@ -354,18 +384,71 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
     element.style.backgroundColor = newColor;
   };
 
+  
+  const handlePatternChange = async (newPattern,newPatternToDisplay) => {
+    console.log(newPattern);
+    setPatternToDisplay(newPatternToDisplay)
+    setPattern(newPattern);
+  }
+  
+  
+  const handleCategoryChange = (event) => {
+    // Ensure event.target is valid
+    if (event && event.target) {
+      setNewCategory(event.target.value);
+    } else {
+      console.error('Event or event.target is undefined');
+    }
+  };
+
   const handleSaveChanges = async () => {
-    if (!task) return;
-
+    if (!task || !task._id) {
+      console.error("Task is undefined or missing ID.");
+      return;
+    }
+  
     const currentDate = new Date();
-
+  
+    // Check if start date is before due date
     if (new Date(startDate) > new Date(dueDate)) {
       setDateError("Due date cannot be before start date.");
       return;
     }
- 
-    setDateError(''); // Clear the error message if dates are valid
+  
+    setDateError('');
+  
+    // Step 1: Check if the new category exists in the taskCategories
+    let categoryToSave = taskCategory;
 
+    if (newCategory && !taskCategories.includes(newCategory)) {
+  
+    try {
+      const response = await fetch(buildPath('api/taskcategories'), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ categoryTitle: newCategory }),
+
+      });
+
+      if (!response.ok) {
+        const errorDetails = await response.text();
+        console.error('Failed to create new category:', errorDetails);
+        return;
+      }
+
+       // Step 3: If creation is successful, update the local state with the new category
+       const newCategoryData = await response.json();
+       setTaskCategories([...taskCategories, newCategoryData]);  // Add the newly created category
+       categoryToSave = newCategoryData.categoryTitle;  // Use the newly created category
+      } catch (error) {
+        console.error('Error creating new category:', error);
+        return; // Don't proceed with saving changes if category creation fails
+      }
+    }
+
+    // Step 4: Update task with the category (whether existing or newly created)
     try {
       const response = await fetch(buildPath(`api/tasks/${task._id}`), {
         method: 'PUT',
@@ -375,6 +458,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
         body: JSON.stringify({
           taskTitle,
           description: taskDescription,
+          taskCategory: categoryToSave,  // Save the category, either new or existing
           color, // Include color in the update
           assignedTasksUsers: assignedUserNames.map(name => teamUsers.find(user => user.name === name)?._id).filter(id => id),
           taskCreated: createdDate,
@@ -383,29 +467,32 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
           pattern: pattern
         }),
       });
-
+  
       if (!response.ok) {
-        throw new Error('Failed to update task details');
+        throw new Error('Failed to update task');
       }
-
+  
       const updatedTask = await response.json();
       console.log('Task updated successfully:', updatedTask);
 
+      // Update the task category and other states
+      setTaskCategory(updatedTask.category);
+      setOriginalTask(updatedTask); // Sync the original task with the latest data
+  
+      // Update users' to-do list
       await updateUsersToDoList(task._id, assignedUserNames.map(name => teamUsers.find(user => user.name === name)._id).filter(id => id));
+  
+      setEditMode(false); // Exit edit mode
+      window.location.reload(); // Reload the page to reflect changes (optional)
+  
 
-      setEditMode(false);
 
-      window.location.reload();
-
+      onHide(); // Close the modal after saving
     } catch (error) {
-      console.error('Error updating task details:', error);
+      console.error('Error updating task:', error);
     }
   };
-  const handlePatternChange = async (newPattern,newPatternToDisplay) => {
-    console.log(newPattern);
-    setPatternToDisplay(newPatternToDisplay)
-    setPattern(newPattern);
-  }
+
 
   const updateUsersToDoList = async (taskId, userIds) => {
     try {
@@ -587,17 +674,27 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
                       <label htmlFor={`user-${user._id}`}>{user.name}</label>
                     </div>
                   ))}
-
-
                 </div>
 
-                <div id="placeholder-temp"></div>
-              </div>
+                {/* New Task Category Field */}
+                <div className="task-detail-field">
+                  <label><strong>Task Category:</strong></label>
+                  {/* Input field to allow category entry */}
+                    <input
+                      type="text"
+                      value={newCategory}  // Always bind to newCategory state
+                      onChange={handleCategoryChange}
+                      placeholder="Enter new task category"
+                     
+                    
+                    />
+                </div>
+            </div>
             ) : (
-
+              <>
               <p><strong>Assigned Users:</strong> {assignedUserNames.join(', ')}</p>
-
-
+              <p><strong>Task Category:</strong> {taskCategory || 'No category assigned'}</p>
+              </>
             )}
             
 
