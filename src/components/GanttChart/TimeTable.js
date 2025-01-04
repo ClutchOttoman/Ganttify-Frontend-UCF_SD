@@ -568,8 +568,14 @@ export default function TimeTable({
             >
 
               {taskDurations.map((el, i) => {
+                {/*Added this to prevent tasks from rendering past the last month of the current calender year*/}
                 const elStartDate = el?.start.split('T')[0];
-
+                let endMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 7, 0); 
+                const formattedEndMonth = endMonth.toISOString().split('T')[0];
+                const adjustedEndDate = new Date(el?.end).getTime() > new Date(formattedEndMonth).getTime()  
+                  ? formattedEndMonth 
+                  : el?.end;
+                
                 if (el?.task === task?._id && elStartDate === formattedDate) {
                   return (
                     
@@ -590,9 +596,8 @@ export default function TimeTable({
                       onMouseUp={handleResizeEnd}
 
                       style={{
-                        
                         ...taskDurationBaseStyle,
-                        width: `calc(${dayDiff(el?.start, el?.end)} * 100% - 1px)`,
+                        width: `calc(${dayDiff(el?.start, adjustedEndDate)} * 100% - 1px)`,
                         opacity: taskDurationElDraggedId === el?._id ? '0.5' : '1',
                         background: task.color || 'var(--color-primary-light)',
                         backgroundImage: patterns[task.pattern] ? `url(${patterns[task.pattern]})` : 'none',
@@ -669,34 +674,28 @@ export default function TimeTable({
     });
   }
 
-  const handleDelete = async (taskId) => {
-    const newTasks = tasks.filter((task) => task._id !== taskId);
-    setTasks(newTasks);
-
-    setTaskDurations((prevState) => {
-      const newTaskDurations = prevState.filter(
-        (taskDuration) => taskDuration.task !== taskId
-      );
-      return newTaskDurations;
-    });
-
-
-    
+  const handleDelete = async (taskId, projectId) => {
     try {
-
       const response = await fetch(buildPath(`api/tasks/${taskId}`), {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify({ projectId }),
       });
-
+  
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-
+  
       const data = await response.json();
       console.log('Task deleted successfully:', data);
+  
+      setTasks(prevTasks => prevTasks.filter(task => task._id !== taskId));
+      setTaskDurations(prevDurations => prevDurations.filter(duration => duration.task !== taskId));
+      console.log(tasks)
+  
+      window.location.reload(); 
     } catch (error) {
       console.error('Error deleting task:', error);
     }
@@ -704,13 +703,9 @@ export default function TimeTable({
 
   function deleteTaskDuration(e, id) {
     if (e.key === 'Delete' || e.key === 'Backspace') {
-      const newTaskDurations = taskDurations.filter( (taskDuration) => taskDuration.id !== id);
-      
-      setTaskDurations(newTaskDurations);
-      
-      console.log("Deleted taskDuration with id:", id);
-
-      
+      if (window.confirm('Are you sure you want to delete?')) {
+        handleDelete(id, projectId);
+      }
     }
   }
 
