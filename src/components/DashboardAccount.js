@@ -46,6 +46,11 @@ function DashboardAccount() {
     setIsEditing(!isEditing);
   };
 
+  const handleCancelEdit = () => {
+    setUpdatedUser(user);
+    setIsEditing(false); 
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUpdatedUser((prev) => ({
@@ -106,7 +111,7 @@ function DashboardAccount() {
 
   const handleResetPassword = () => {
     if (window.confirm('Are you sure you want to reset your password?')) {
-      window.location.href = '/reset-password/:id/:token'; 
+      window.location.href = `/reset-password/${user._id}/:token`; 
     }
   };
 
@@ -162,9 +167,15 @@ function DashboardAccount() {
                 Edit
               </button>
             )}
-            <button className="btn deleteBtn" onClick={handleDeleteAccount}>
-              Delete Account
-            </button>
+            {isEditing ? (
+              <button className="btn deleteBtn" onClick={handleCancelEdit}>
+                Cancel
+              </button>
+            ) : (
+              <button className="btn deleteBtn" onClick={handleDeleteAccount}>
+                Delete Account
+              </button>
+            )}
           </div>
         </>
       ) : (

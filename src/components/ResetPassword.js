@@ -135,7 +135,12 @@ function ResetPassword() {
     checkPasswordValidity();
   }, [password, verifiedPassword]);
 
-
+  useEffect(() => {
+    if (!id || id.length !== 24) {
+      setMessage("Invalid user ID. Please check your password reset link.");
+      setDisableButton(true);
+    }
+  }, [id]);
   
   return (
 
