@@ -87,27 +87,27 @@ function DashboardAccount() {
   };
 
   const handleDeleteAccount = async () => {
-    if (!window.confirm('Are you sure you want to delete your account? This action is irreversible.')) return;
-
+    if (!window.confirm('Are you sure you want to delete your account? You will receive a confirmation email to proceed.')) {
+      return;
+    }
+  
     try {
-      const response = await fetch(buildPath(`api/user/${user._id}`), {
-        method: 'DELETE',
+      const response = await fetch(buildPath(`api/user/request-delete/${user._id}`), {
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
       });
-
+  
       if (response.ok) {
-        alert('Your account has been deleted.');
-        localStorage.clear();
-        window.location.href = '/login';
+        alert('A confirmation email has been sent to your email address. Please follow the instructions to confirm account deletion.');
       } else {
         const result = await response.json();
-        alert(result.error || 'Failed to delete account.');
+        alert(result.error || 'Failed to initiate account deletion.');
       }
     } catch (err) {
-      console.error('Error deleting account:', err);
-      alert('An error occurred while deleting your account.');
+      console.error('Error sending account deletion email:', err);
+      alert('An error occurred while initiating account deletion.');
     }
-  };
+  };  
 
   const handleResetPassword = () => {
     if (window.confirm('Are you sure you want to reset your password?')) {

@@ -19,6 +19,7 @@ import AcceptInvitePage from './pages/AcceptInvitePage';
 import RecentlyDeletedPage from './pages/RecentlyDeletedPage';
 import RegisterTokenPage from './pages/RegisterTokenPage';
 import VerifyEmailTokenPage from './pages/VerifyEmailTokenPage';
+import ConfirmDeletePage from './pages/ConfirmDeletePage';
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
           <Route path="/accept-invite/:token" element={<AcceptInvitePage />} />
           <Route path="/register/:token" element={<RegisterTokenPage />} />
           <Route path="/verify-invite/:token" element={<VerifyEmailTokenPage />} />
+          <Route path="/confirm-delete/:userId/:token" element={<ConfirmDeletePage />} />
         </Routes>
     </BrowserRouter>
   );
