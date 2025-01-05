@@ -60,7 +60,7 @@ function DashboardAccount() {
         method: 'PUT',
         body: JSON.stringify({
           name: updatedUser.name,
-          email: updatedUser.email,
+          email: user.email,
           phone: updatedUser.phone,
         }),
         headers: { 'Content-Type': 'application/json' },
@@ -104,6 +104,12 @@ function DashboardAccount() {
     }
   };
 
+  const handleResetPassword = () => {
+    if (window.confirm('Are you sure you want to reset your password?')) {
+      window.location.href = '/reset-password/:id/:token'; 
+    }
+  };
+
   return (
     <div className="dashboardAccountContainer">
       <h1 className="dashboardTitle">Account Information</h1>
@@ -126,17 +132,7 @@ function DashboardAccount() {
             </div>
             <div className="detailItem">
               <label className="detailLabel">Email:</label>
-              {isEditing ? (
-                <input
-                  type="email"
-                  name="email"
-                  value={updatedUser.email || ''}
-                  onChange={handleInputChange}
-                  className="editInput"
-                />
-              ) : (
-                <span className="detailValue">{user.email}</span>
-              )}
+              <span className="detailValue">{user.email}</span>
             </div>
             <div className="detailItem">
               <label className="detailLabel">Phone Number:</label>
@@ -154,6 +150,9 @@ function DashboardAccount() {
             </div>
           </div>
           <div className="accountActions">
+            <button className="btn resetPasswordBtn" onClick={handleResetPassword}>
+              Reset Password
+            </button>
             {isEditing ? (
               <button className="btn saveBtn" onClick={handleSave}>
                 Save

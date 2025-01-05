@@ -104,3 +104,11 @@
     box-sizing: border-box;
   }
   
+  .resetPasswordBtn {
+    background-color: #ffc107;
+    color: #000;
+  }
+  
+  .resetPasswordBtn:hover {
+    background-color: #e0a800;
+  }
