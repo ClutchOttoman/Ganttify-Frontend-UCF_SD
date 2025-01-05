@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './ResetPassword.css';
-
 import {buildPath} from './buildPath';
 
 
@@ -69,8 +68,8 @@ function ResetPassword() {
       var txt = await response.text();
       var res = JSON.parse(txt);
 
-      if (res.error) {
-        setMessage("*** There was an issue with your password reset ***");
+      if (!response.ok) {
+        setMessage("***" + res.message + "***");
         setDisableButton(false);
       } else {
         setMessage("Password has been reset successfully!");
@@ -84,7 +83,6 @@ function ResetPassword() {
 
   function checkPasswordValidity() {
 
-    
     if (password.localeCompare("") === 0) {
       setMessage("");
       return;
@@ -134,21 +132,16 @@ function ResetPassword() {
   useEffect(() => {
     checkPasswordValidity();
   }, [password, verifiedPassword]);
-
-
   
   return (
 
-    
     <div className="reset-password-container">
       <div className="reset-password-form text-center">
-
     
         <div className="card-header registerFormHeader">
           <h1 className="reset-password-title">Reset Password</h1>
         </div>
 
-    
         <div className="card-body p-0">
     
           <form onSubmit={doResetPassword}>
@@ -190,6 +183,3 @@ function ResetPassword() {
 }
 
 export default ResetPassword;
-
-
-
