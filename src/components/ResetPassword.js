@@ -56,7 +56,6 @@ function ResetPassword() {
       setDisableButton(false);
       return;
     }
-
     var obj = { id: id, password: password };
     var js = JSON.stringify(obj);
     try {
@@ -68,9 +67,10 @@ function ResetPassword() {
 
       var txt = await response.text();
       var res = JSON.parse(txt);
-
-      if (res.error) {
-        setMessage("*** There was an issue with your password reset ***");
+      
+      // Allows custom messages.
+      if (!response.ok) {
+        setMessage("***" + res.message + "***");
         setDisableButton(false);
       } else {
         setMessage("Password has been reset successfully!");
@@ -80,6 +80,7 @@ function ResetPassword() {
       setMessage(e.toString());
       setDisableButton(false);
     }
+    
   };
 
   function checkPasswordValidity() {
@@ -195,6 +196,3 @@ function ResetPassword() {
 }
 
 export default ResetPassword;
-
-
-

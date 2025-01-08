@@ -10,6 +10,7 @@ import RegisterPage from './pages/RegisterPage';
 import AboutUsPage from './pages/AboutUsPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
+import EditEmailPage from './pages/EditEmailPage';
 import VerifyEmailPage from './pages/VerifyEmailPage';
 import DashboardPage from './pages/DashboardPage';
 import DashboardAccountPage from './pages/DashboardAccountPage';
@@ -34,6 +35,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/reset-password/:id/:token" element={<ResetPasswordPage />} />
           <Route path="/verify-email/:email/:token" element={<VerifyEmailPage />} />
+          <Route path="/edit-email/:email/:token" element={<EditEmailPage />} />
           <Route path="/dashboard/charts" element={<DashboardChartsPage/>}/>
           <Route path="/dashboard/account" element={<DashboardAccountPage/>}/>
           <Route path="/dashboard" element={<DashboardPage/>}/>

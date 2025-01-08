@@ -1,27 +1,21 @@
-
 import React, { useState, useEffect } from 'react';
 import './ForgotPassword.css';
-
 import {buildPath} from './buildPath';
-
 
 
 function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
-  const [timer, setTimer] = useState(120);
+  const [timer, setTimer] = useState(300);
   const [disable, setDisable] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
 
   const doForgotPassword = async (event) => {
     event.preventDefault();
-
      
     setDisableButton(true);
     const js = JSON.stringify({ email });
 
-
-     
     try {
       const response = await fetch(buildPath('api/forgot-password'), {
         method: 'POST',
@@ -34,7 +28,7 @@ function ForgotPassword() {
       if (response.ok) {
         setMessage(res.message);
         setDisable(true);
-        setTimer(120);
+        setTimer(300);
       } else {
         alert(res.error);
       }
