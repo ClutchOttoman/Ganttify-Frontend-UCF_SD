@@ -575,7 +575,7 @@ export default function TimeTable({
                 const adjustedEndDate = new Date(el?.end).getTime() > new Date(formattedEndMonth).getTime()  
                   ? formattedEndMonth 
                   : el?.end;
-                
+
                 if (el?.task === task?._id && elStartDate === formattedDate) {
                   return (
                     
@@ -683,11 +683,11 @@ export default function TimeTable({
         },
         body: JSON.stringify({ projectId }),
       });
-  
+
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-  
+
       const data = await response.json();
       console.log('Task deleted successfully:', data);
   
@@ -695,7 +695,9 @@ export default function TimeTable({
       setTaskDurations(prevDurations => prevDurations.filter(duration => duration.task !== taskId));
       console.log(tasks)
   
-      window.location.reload(); 
+      //window.location.reload(); 
+      setShowDetails(false);
+      setSelectedTask(null);
     } catch (error) {
       console.error('Error deleting task:', error);
     }
