@@ -65,7 +65,6 @@ function DashboardAccount() {
         method: 'PUT',
         body: JSON.stringify({
           name: updatedUser.name,
-          email: user.email,
           phone: updatedUser.phone,
         }),
         headers: { 'Content-Type': 'application/json' },
@@ -73,7 +72,7 @@ function DashboardAccount() {
 
       if (response.ok) {
         const result = await response.json();
-        setUser(result); 
+        setUser(result);
         setIsEditing(false);
         alert('Account details updated successfully.');
       } else {
