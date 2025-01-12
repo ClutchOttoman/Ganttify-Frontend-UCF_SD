@@ -6,7 +6,8 @@ function DashboardAccount() {
   const [user, setUser] = useState(null);
   const [error, setError] = useState('');
   const [isEditing, setIsEditing] = useState(false);
-  const [updatedUser, setUpdatedUser] = useState({});
+  const [updatedUser, setUpdatedUser] = useState({ timezone: '' });
+  const [timezones, setTimezones] = useState([]);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -40,6 +41,9 @@ function DashboardAccount() {
     };
 
     fetchUserData();
+
+    const availableTimezones = Intl.supportedValuesOf('timeZone');
+    setTimezones(availableTimezones);
   }, []);
 
   const handleEditToggle = () => {
@@ -66,6 +70,9 @@ function DashboardAccount() {
         body: JSON.stringify({
           name: updatedUser.name,
           phone: updatedUser.phone,
+          discordAccount: updatedUser.discordAccount,
+          pronouns: updatedUser.pronouns,
+          timezone: updatedUser.timezone,
         }),
         headers: { 'Content-Type': 'application/json' },
       });
@@ -150,6 +157,49 @@ function DashboardAccount() {
                 />
               ) : (
                 <span className="detailValue">{user.phone || 'N/A'}</span>
+              )}
+            </div>
+            <div className="detailItem">
+              <label className="detailLabel">Discord Account:</label>
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="discordAccount"
+                  value={updatedUser.discordAccount || ''}
+                  onChange={handleInputChange}
+                  className="editInput"
+                />
+              ) : (
+                <span className="detailValue">{user.discordAccount || 'N/A'}</span>
+              )}
+            </div>
+            <div className="detailItem">
+              <label className="detailLabel">Pronouns:</label>
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="pronouns"
+                  value={updatedUser.pronouns || ''}
+                  onChange={handleInputChange}
+                  className="editInput"
+                />
+              ) : (
+                <span className="detailValue">{user.pronouns || 'N/A'}</span>
+              )}
+            </div>
+            <div className="detailItem">
+              <label className="detailLabel">Timezone: </label>
+              {isEditing ? (
+                <select className="editSelect" name="timezone" value={updatedUser.timezone || ''} onChange={handleInputChange} >
+                  <option value="" disabled>Select your timezone</option>
+                  {timezones.map((zone, index) => (
+                    <option key={index} value={zone}>
+                      {zone}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <span className="detailValue">{user.timezone || 'N/A'}</span>
               )}
             </div>
           </div>
