@@ -496,8 +496,6 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
       setEditMode(false); // Exit edit mode
       window.location.reload(); // Reload the page to reflect changes (optional)
   
-
-
       onHide(); // Close the modal after saving
     } catch (error) {
       console.error('Error updating task:', error);
@@ -572,7 +570,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
 
   const handleDeleteClick = () => {
     if (window.confirm('Are you sure you want to delete?')) {
-      handleDelete(task._id);
+      handleDelete(task._id, task.tiedProjectId);
     }
   };
 
