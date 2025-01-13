@@ -14,7 +14,6 @@
     font-size: 1.5rem;
     margin-bottom: 1rem;
     position: relative;
-    /* display: inline-block; */
     color: #000;
   }
 
@@ -100,7 +99,7 @@
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    width: 100%;
+    width: 80%;
     box-sizing: border-box;
   }
   
@@ -111,4 +110,22 @@
   
   .resetPasswordBtn:hover {
     background-color: #e0a800;
+  }
+
+  .editSelect {
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 80%;
+    box-sizing: border-box;
+    background-color: #fff;
+    color: #333;
+    appearance: none;
+  }
+
+  .editSelect:focus {
+    border-color: #007bff; 
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
   }
