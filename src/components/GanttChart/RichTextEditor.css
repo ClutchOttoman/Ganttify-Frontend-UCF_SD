@@ -1,0 +1,56 @@
+.task-details-body {
+    flex: 1;
+    padding: 10px;
+    max-height: 200px;
+    border-top: 1px solid #ddd;
+}
+  
+.description-text{
+    margin-left: 10px;
+}
+
+#editor-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Makes it be width of parent container*/
+}
+  
+#editor-toolbar {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+    gap: 10px;
+}
+
+.toolbar-btn {
+    background: none;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+.toolbar-btn.active {
+    background-color: #1976D2;
+    color: white;
+    border-color: #1976D2;
+}
+
+.toolbar-btn:hover {
+  background-color: #f0f0f0;
+  border-radius: 5px;
+}
+
+.toolbar-btn.active:hover {
+    background-color: #1565C0;
+  }
+  
+
+#description {
+    border: 1px solid #ccc;
+    overflow-y: auto;
+    height: 150px;
+}
+
+
+  
