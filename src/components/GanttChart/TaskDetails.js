@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import './TaskDetails.css';
-
+import './RichTextEditor.js';
 import DeleteTaskButton from '../../Images/assets/action_buttons/Delete_Task_or_Chart_30x30.png';
 import EditTaskButton from '../../Images/assets/action_buttons/Edit_Task_30x30.png';
 import {buildPath} from '../buildPath';
+import RichTextEditor from './RichTextEditor.js';
 
 // Colors to choose from
 const colorOptions = [
@@ -653,15 +654,11 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
                    </button></div>}</div>
 
 
+      <RichTextEditor
+      taskDescription={taskDescription}
+        setTaskDescription={setTaskDescription}
+      editMode={editMode} />
 
-      <div className="task-details-body">
-        <div id="description-title">Description</div>
-        {editMode ? (
-          <textarea id="description-text" value={taskDescription} onChange={(e) => setTaskDescription(e.target.value)} />
-        ) : (
-          <div id="description">{task.description || 'Add a description here...'}</div>
-        )}
-      </div>
 
       <div className="task-details-footer">
         <div className="details">

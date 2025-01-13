@@ -66,6 +66,7 @@ const RichTextEditor = ({ taskDescription, setTaskDescription, editMode }) => {
     if (editor && taskDescription !== editor.getHTML()) {
       editor.commands.setContent(taskDescription || ''); // Sets to either task description if exists or blank.
     }
+
   }, [taskDescription, editor]);
 
   // Checks if button(s) are toggled:
@@ -110,10 +111,10 @@ const RichTextEditor = ({ taskDescription, setTaskDescription, editMode }) => {
               Highlight
             </button>
           </div>
-          <EditorContent id="description" editor={editor} />
+          <EditorContent id="textbox" editor={editor} />
         </div>
       ) : (
-        <div id="description" dangerouslySetInnerHTML={{ __html: taskDescription || 'Add a description here...' }} />
+        <div id="textbox" dangerouslySetInnerHTML={{ __html: taskDescription || 'Add a description here...' }} />
       )}
     </div>
   );

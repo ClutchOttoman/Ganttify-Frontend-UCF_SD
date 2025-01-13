@@ -173,7 +173,7 @@ const AddTaskButton = ({ projectId }) => {
         throw new Error('Failed to create task');
       }
 
-      window.location.reload();
+      //window.location.reload();
       return responseData;
     } 
     
