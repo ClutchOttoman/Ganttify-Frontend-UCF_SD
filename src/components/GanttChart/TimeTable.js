@@ -690,14 +690,18 @@ export default function TimeTable({
 
       const data = await response.json();
       console.log('Task deleted successfully:', data);
-  
+
+      
       setTasks(prevTasks => prevTasks.filter(task => task._id !== taskId));
       setTaskDurations(prevDurations => prevDurations.filter(duration => duration.task !== taskId));
+      setNumberOfTasks((prevCount) => prevCount - 1); 
       console.log(tasks)
   
       //window.location.reload(); 
       setShowDetails(false);
       setSelectedTask(null);
+      setCurrentDayMarkerHeight(currentDayMarkerHeight - 1);
+      console.log(projectId.tasks.length)
     } catch (error) {
       console.error('Error deleting task:', error);
     }
@@ -866,6 +870,7 @@ export default function TimeTable({
           gridColumn: '1/-1',
           display: 'grid',
           gridTemplateColumns: `repeat(${numMonths}, 1fr)`,
+          gridAutoRows: 'min-content',
           paddingLeft: '0.5px',
           paddingBottom: '-100px',
         }}
