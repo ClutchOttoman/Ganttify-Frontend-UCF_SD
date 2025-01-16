@@ -700,7 +700,8 @@ export default function TimeTable({
       setShowDetails(false);
       setSelectedTask(null);
       setCurrentDayMarkerHeight(currentDayMarkerHeight - 1);
-      console.log(projectId.tasks.length)
+      console.log(currentDayMarkerHeight);
+      //console.log(projectId.tasks.length)
     } catch (error) {
       console.error('Error deleting task:', error);
     }
