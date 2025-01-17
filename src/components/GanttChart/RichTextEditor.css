@@ -1,0 +1,134 @@
+#editor-wrapper {
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+#editor-toolbar {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+    gap: 10px;
+    background-color: #f0f0f0;
+}
+
+.toolbar-btn {
+    background: none;
+    border: none;
+    border-radius: 5px;
+    width: 30px;
+    height: 30px;
+    padding: 5px 6px;
+    margin-top: 4px;
+    margin-left: 4px;
+    margin-bottom: 4px;
+    cursor: pointer;
+}
+
+.toolbar-btn.active {
+    background-color: #3890e8;
+    color: white;
+    border-color: #3890e8;
+}
+.toolbar-btn.active:hover {
+    background-color: #3890e8;
+  }
+
+.toolbar-btn:hover {
+  background-color: #d3d3d3;
+}
+
+.toolbar-btn:disabled {
+  background-color: #f0f0f0;
+  cursor: default;
+}
+
+.highlight-picker-sidebar {
+    position: absolute;
+    background-color: white;
+    border-radius: 5px;
+    width: 250px;
+    height: 130px;
+    margin-left: 4px;
+    box-shadow: -1px 3px 8px rgba(0, 0, 0, 0.3);
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    padding-top: 5px;
+  }
+  
+.highlight-circle.clickable:hover {
+  outline: 2px solid #7AA7B7; 
+  outline-offset: 3px; 
+}
+
+.highlight-option-sidebar {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.3s;
+    align-items: center;
+    justify-content: center;
+    margin-left: 8px;
+}
+  
+.highlight-option-sidebar:hover {
+    outline: 2px solid #7AA7B7; 
+    outline-offset: 3px; 
+  }
+  
+.no-highlight{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+.no-highlight:hover {
+background-color: #d3d3d3;
+background-color: #d3d3d3;
+
+
+}
+
+.highlight-picker-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-column: 3 / span 3;
+  grid-row: 4;
+}
+  
+.highlight-picker-wrapper .fa-eye-dropper {
+    margin-right: 10px;
+    font-size: 18px;
+    cursor: default;
+}
+#color-indicator-bar {
+    width: 30px;
+    height: 5px;
+    margin-left: 3.5px;
+  }
+#textbox {
+    overflow-y: auto;
+    margin-left: 10px;
+    height: 130px;
+    transform: translate(-5px, 0px); /* Trying to shift editor to be aligned with the the wrapper */
+}
+
+/* Had to manually overwrite properties to get bullet points to work */
+#textbox ul {
+    list-style-type: disc;
+    text-align: initial;
+    list-style-position: outside;
+}
+#textbox ul li {
+    display: list-item;
+}

@@ -64,8 +64,13 @@
 
 }
 
-.description-text{
-  margin-left: 10px;
+#textbox {
+  overflow-y: auto;
+  height: 130px;
+  margin-left: 20px;
+  overflow-x: hidden;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 .task-details-footer {
@@ -379,9 +384,6 @@ select[multiple] {
   border: none;
   border-radius: 50%;
 }
-
-
-
 
 
 .task-detail-field {

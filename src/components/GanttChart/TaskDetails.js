@@ -652,13 +652,22 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
                    <button class="nav-link dropdownBtn" type="button" id="pattern" data-bs-toggle="dropdown" aria-expanded="false" disabled>
                        {patternToDisplay}
                    </button></div>}</div>
-
-
-      <RichTextEditor
-      taskDescription={taskDescription}
-        setTaskDescription={setTaskDescription}
-      editMode={editMode} />
-
+      
+      {/*Rich Text Editor */}
+        <div id="description-title">Description</div>
+      {editMode ?
+            <RichTextEditor
+            taskDescription={taskDescription}
+            setTaskDescription={setTaskDescription}
+            />
+      :
+      <div 
+      id="textbox" 
+      dangerouslySetInnerHTML={{
+        __html: taskDescription?.trim() ? taskDescription : 'Add a description here...',
+      }} 
+      />
+      }
 
       <div className="task-details-footer">
         <div className="details">
