@@ -886,6 +886,7 @@ export default function TimeTable({
         show={showDetails}
         onHide={() => setShowDetails(false)}
         task={selectedTask}
+        projectTasks={arrayOfTasks}
         handleDelete={handleDelete}
         userId={userId}
       />

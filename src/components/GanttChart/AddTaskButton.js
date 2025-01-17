@@ -371,10 +371,11 @@ const AddTaskButton = ({ projectId }) => {
                       </ul>
                     
                   </div>
-                 <div class="mb-3 form-check">
+                  
+                 {/*<div class="mb-3 form-check">
                       <label class="form-label allowEmailNotifcationsLabel">Allow Email Notifications</label>
                       <input type="checkbox" class = "form-check-input allowEmailNotifcationsCheckBox" checked = {allowEmailNotifications} onChange={(e) => handleAllowEmailNotificationsCheckboxChange(allowEmailNotifications)}/>
-                 </div>
+                 </div>*/}
                   <div className="mb-3">
                   <label className="form-label">Color</label>
 
