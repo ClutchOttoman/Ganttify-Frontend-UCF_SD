@@ -327,7 +327,7 @@ function DashboardToDo() {
                             </div>
                             <div class="modal-body">
                              {taskToDisplay ? 
-                                <div><p>{taskToDisplay['description']}</p>{taskToDisplay['progress'].localeCompare("Completed") === 0 ? null:<p>{taskToDisplay['dueDatePretty'].localeCompare("PAST DUE") === 0 ? "THIS TASK WAS DUE: "+ taskToDisplay['dueDateActual']: "Due: "+ taskToDisplay['dueDatePretty']}</p>}{taskToDisplay['userInfoText']}</div> : null}<div id = "taskContactsDiv"></div></div>
+                                <div><p dangerouslySetInnerHTML={{__html: taskToDisplay['description'].trim()}}></p>{taskToDisplay['progress'].localeCompare("Completed") === 0 ? null:<p>{taskToDisplay['dueDatePretty'].localeCompare("PAST DUE") === 0 ? "THIS TASK WAS DUE: "+ taskToDisplay['dueDateActual']: "Due: "+ taskToDisplay['dueDatePretty']}</p>}{taskToDisplay['userInfoText']}</div> : null}<div id = "taskContactsDiv"></div></div>
                             {taskToDisplay? 
                             <div class="modal-footer">
                                 {(taskToDisplay['progress'].localeCompare("Completed") === 0) ?  <button type="button" class="btn btn-primary" onClick={()=>doMarkTaskInProgress()}>Mark Task In Progress</button>:
