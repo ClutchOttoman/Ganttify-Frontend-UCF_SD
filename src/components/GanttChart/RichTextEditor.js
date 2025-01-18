@@ -3,9 +3,7 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Highlight from '@tiptap/extension-highlight';
 import Underline from '@tiptap/extension-underline';
-import Text from '@tiptap/extension-text'
 import TextStyle from '@tiptap/extension-text-style'
-
 import './RichTextEditor.css';
 
 const RichTextEditor = ({ taskDescription, setTaskDescription}) => {
@@ -14,6 +12,8 @@ const RichTextEditor = ({ taskDescription, setTaskDescription}) => {
     '#f47474', '#ffd580', '#fff77e','#b2e687', '#8fb9f9', '#9a86cc', '#b27fc6'
   ];
   const [showColorPicker, setShowColorPicker] = useState(false);
+  const [showHeader, setShowHeader] = useState(false);
+  const [currentHeading, setCurrentHeading] = useState(0);
   const [color, setColor] = useState('rgba(255, 255, 0, 0)');
   const editor = useEditor({
     extensions: [
@@ -23,7 +23,6 @@ const RichTextEditor = ({ taskDescription, setTaskDescription}) => {
         HardBreak: false,
         Horizontal: false,
         Code: false,
-
       }),
       Highlight.extend({
         addOptions() {
@@ -40,6 +39,8 @@ const RichTextEditor = ({ taskDescription, setTaskDescription}) => {
     content: taskDescription,
     onUpdate: ({ editor }) => {
       setTaskDescription(editor.getHTML());
+      const headingLevel = editor.getAttributes('heading')?.level || 0;
+      setCurrentHeading(headingLevel); 
     },
   });
 
@@ -50,34 +51,72 @@ const RichTextEditor = ({ taskDescription, setTaskDescription}) => {
 
   }, [taskDescription, editor]);
 
-  useEffect(() => {
-    if (editor) {
-      editor.chain().focus().setHighlight({ color }).run();
-    }
-  }, [editor, color]);
-
   // Listens if mouse is clicked outside of color sidebar elements.
   useEffect(() => {
-    const handleClickOutside = (event, element) => {
-      const colorPicker = document.querySelector(element);
+    const handleClickOutside = (event) => {
+      // Check if the click is outside of the color picker
+      const colorPicker = document.querySelector('.highlight-picker-sidebar');
       if (colorPicker && !colorPicker.contains(event.target)) {
+        setShowColorPicker(false); // Close the color picker if clicked outside
+      }
+      const formControl = document.querySelector('.form-control form-control-color-sidebar');
+      if(formControl && !formControl.contains(event.target)){
         setShowColorPicker(false);
       }
-    };
 
-    document.addEventListener('mousedown', (event) => {
-      handleClickOutside(event, '.highlight-picker-sidebar');
-      handleClickOutside(event, '.form-control form-control-color-sidebar');
-    });
+      const dropdownMenu = document.querySelector('#editor-toolbar .dropdown .dropdown-menu');
+      if (dropdownMenu && !dropdownMenu.contains(event.target)) {
+        setShowHeader(false); // Close the dropdown if clicked outside
+      }
+  
+    };
+  
+    document.addEventListener('mousedown', handleClickOutside);
+  
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
+  const handleHeadingChange = (number) =>{
+    setCurrentHeading(number)
+    if(number == 0){
+      editor.chain().focus().setParagraph().run()
+    }
+    else{
+      editor.chain().focus().toggleHeading({ level: number }).run()
+    }
+
+    setShowHeader(!showHeader)
+  }
+
+  // Used to get color for bar indicator
+  const getColorAtClick = (event) => {
+    const clickedElement = event.target;
+    if (clickedElement.tagName === 'MARK') {
+      const backgroundColor = getComputedStyle(clickedElement).backgroundColor; // Get the background color
+      setColor(backgroundColor)
+    }
+    else{
+      setColor(('rgba(255, 255, 0, 0)'))
+    }
+  };
+  useEffect(() => {
+    const editorContent = document.querySelector('#editor-textbox');
+    if (editorContent) {
+      editorContent.addEventListener('click', getColorAtClick);
+    }
+
+    return () => {
+      if (editorContent) {
+        editorContent.removeEventListener('click', getColorAtClick);
+      }
+    };
+  }, [editor]);
+
   // Handles color changes
   const handleColorChange = (newColor, src) => {
-    console.log(newColor)
     setColor(newColor);
     editor.chain().focus().setHighlight({ color: newColor }).run();
     if (src == 1)
@@ -91,12 +130,6 @@ const RichTextEditor = ({ taskDescription, setTaskDescription}) => {
     }
   };
 
-  // Readds flavour text if textbox is blank
-  const handleBlur = () => {
-    if (editor && editor.getText() === '') {
-      editor.commands.setContent('Add a description here...'); 
-    }
-  };
 
   // Checks if button(s) are toggled:
   const isBoldActive = editor?.isActive('bold');
@@ -117,14 +150,63 @@ const RichTextEditor = ({ taskDescription, setTaskDescription}) => {
           onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()}>
           <i className="fas fa-undo"></i>
           </button>
+
           {/* Redo Button */}
           <button 
           className={`toolbar-btn `}
           onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().redo()}>
           <i className="fas fa-redo"></i>
           </button>
-          {/* Headings Button */}
-          {/* Font Size Button */}
+
+          {/* Headings Dropdown */}
+          <div className="dropdown">
+          <button
+            className="dropdown-toggle"
+            onClick={() => setShowHeader(!showHeader)}
+          >
+            {currentHeading === 0 ? 'Normal Text' : `Heading ${currentHeading}`}
+          </button>
+          {showHeader && (
+            <div className="dropdown-menu">
+               <button
+                className="header-item"
+                onClick={() => handleHeadingChange(0)}
+              >
+                Normal Text
+              </button>
+              <button
+                className="header-item"
+                onClick={() => handleHeadingChange(1)}
+              >
+                Heading 1
+              </button>
+              <button
+                className="header-item"
+                onClick={() => handleHeadingChange(2)}
+              >
+                Heading 2
+              </button>
+              <button
+                className="header-item"
+                onClick={() => handleHeadingChange(3)}
+              >
+                Heading 3
+              </button>
+              <button
+                className="header-item"
+                onClick={() => handleHeadingChange(4)}
+              >
+                Heading 4
+              </button>
+              <button
+                className="header-item"
+                onClick={() => handleHeadingChange(5)}
+              >
+                Heading 5
+              </button>
+            </div>
+          )}
+        </div>
 
           {/* Bold Button */}
           <button
@@ -160,16 +242,15 @@ const RichTextEditor = ({ taskDescription, setTaskDescription}) => {
             onClick={() => setShowColorPicker(!showColorPicker)}
           >
           <i className="fas fa-eye-dropper"></i>
-          </button>
-
-          {/* Color Indicator */}
-          <div 
+            {/* Color Indicator */}
+            <div 
             id="color-indicator-bar" 
             style={{
               backgroundColor: color === 'rgba(255, 255, 0, 0)' ? 'transparent' : color, 
               border: color === 'rgba(255, 255, 0, 0)' ? '2px solid #ccc' : 'none'
             }}
           />
+          </button>
           
         {showColorPicker && (
          <div id="highlight-picker-sidebar" className="highlight-picker-sidebar">
@@ -209,19 +290,17 @@ const RichTextEditor = ({ taskDescription, setTaskDescription}) => {
           {/* OrderedList Button */}
           <button
             className={`toolbar-btn ${isOrderedActive ? 'active' : ''}`}
-            onClick={() => editor.chain().focus().toggleOrderedList().run()}
+            onClick={() => editor.chain().toggleOrderedList().run()}
           >
           <i className="fas fa-list-ol"></i>
           </button>
 
-          {/* Expand Button */}
-
         </div>
           
-        <EditorContent id="textbox" 
+        <EditorContent id="editor-textbox" 
         editor={editor}
         onFocus={handleFocus} 
-        onBlur = {handleBlur} />
+        />
       </div>
     </div>
   );

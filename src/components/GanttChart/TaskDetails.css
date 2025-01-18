@@ -59,15 +59,15 @@
 .task-details-body {
   flex: 1;
   padding: 10px;
-  max-height: 200px;
+  min-height: 300px;
   border-top: 1px solid #ddd;
-
 }
 
-#textbox {
+.task-details-sidebar #textbox {
+  border-top: 1px solid #ddd;
   overflow-y: auto;
-  height: 130px;
-  margin-left: 20px;
+  min-height: 150px;
+  padding-left: 10px;
   overflow-x: hidden;
   overflow-wrap: break-word;
   white-space: normal;
