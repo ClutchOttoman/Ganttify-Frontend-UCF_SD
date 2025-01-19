@@ -373,6 +373,10 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
   };
 
   const handleStatusChange = async (newStatus) => {
+    if(newStatus == "Completed" && !allPrerequisitesDone){
+        window.alert("You cannot finish a task that has incomplete prerequisites.")
+        return;
+    }
     setStatus(newStatus);
 
     try {
