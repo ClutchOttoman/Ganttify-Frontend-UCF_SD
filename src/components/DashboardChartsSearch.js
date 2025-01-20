@@ -22,7 +22,6 @@ function DashboardChartsSearch(){
             obj = {founderId:userId,title:""};
         }
         var js = JSON.stringify(obj);
-        console.log(js)
         try
         {   
             const response = await fetch(buildPath('api/search/projects'),

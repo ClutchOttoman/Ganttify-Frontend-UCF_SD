@@ -56,6 +56,7 @@ function ResetPassword() {
       setDisableButton(false);
       return;
     }
+
     var obj = { id: id, password: password };
     var js = JSON.stringify(obj);
     try {
@@ -67,10 +68,9 @@ function ResetPassword() {
 
       var txt = await response.text();
       var res = JSON.parse(txt);
-      
-      // Allows custom messages.
-      if (!response.ok) {
-        setMessage("***" + res.message + "***");
+
+      if (res.error) {
+        setMessage("*** There was an issue with your password reset ***");
         setDisableButton(false);
       } else {
         setMessage("Password has been reset successfully!");
@@ -80,7 +80,6 @@ function ResetPassword() {
       setMessage(e.toString());
       setDisableButton(false);
     }
-    
   };
 
   function checkPasswordValidity() {
@@ -136,12 +135,7 @@ function ResetPassword() {
     checkPasswordValidity();
   }, [password, verifiedPassword]);
 
-  useEffect(() => {
-    if (!id || id.length !== 24) {
-      setMessage("Invalid user ID. Please check your password reset link.");
-      setDisableButton(true);
-    }
-  }, [id]);
+
   
   return (
 
@@ -196,3 +190,6 @@ function ResetPassword() {
 }
 
 export default ResetPassword;
+
+
+

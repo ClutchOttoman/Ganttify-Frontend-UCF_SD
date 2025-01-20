@@ -103,8 +103,6 @@ function DashboardToDo() {
                 let currDueDatePretty = toDisplayDate(currDueDate);
                 let currProjectId = usersTasks[i].tiedProjectId;
                 let currTaskProgress = usersTasks[i].progress
-                let currTaskCategory = usersTasks[i].taskCategory;
-                let currTaskCategoryId = usersTasks[i].taskCategoryId;
                 let currProject = allProjects.filter(project => project._id === currProjectId);
                 var currProjectName;
                 var currProjectOwnerId;
@@ -123,13 +121,11 @@ function DashboardToDo() {
                     projectName: currProjectName,
                     progress: currTaskProgress,
                     projectOwnerId: currProjectOwnerId,
-                    taskCategory: currTaskCategory,
-                    taskCategoryId: currTaskCategoryId,
                 };
                 tasks.push(task);
             };
             //get info on all users in projects that the user has a task in
-            var userInfoRaw;
+            var userInfoRaw
             if(usersToSearch && usersToSearch.length){
                 var obj3 = {ids:usersToSearch};
                 var js3 = JSON.stringify(obj3);
@@ -183,9 +179,6 @@ function DashboardToDo() {
                 const taskNameCol = document.createElement('td');
                 taskNameCol.innerText = tasks[i]['taskTitle'];
 
-                const taskCategoryCol = document.createElement('td');
-                taskCategoryCol.innerText = tasks[i]['taskCategory'];
-
                 const projectNameCol = document.createElement('td');
                 projectNameCol.innerText = tasks[i]['projectName'];
 
@@ -204,7 +197,6 @@ function DashboardToDo() {
 
                 newRow.appendChild(dueDateCol);
                 newRow.appendChild(taskNameCol);
-                newRow.appendChild(taskCategoryCol);
                 newRow.appendChild(projectNameCol);
                 newRow.appendChild(taskProgressCol);   
                 actionCol.appendChild(actionButton); 
@@ -228,9 +220,8 @@ function DashboardToDo() {
 
         for (var i = 0; i < rows.length; i++) {
             let taskCol = rows[i].getElementsByTagName("td")[1].textContent.toLowerCase();
-            let projectCol = rows[i].getElementsByTagName("td")[3].textContent.toLowerCase();
-            let taskCategoryCol = rows[i].getElementsByTagName("td")[2].textContent.toLowerCase();
-            if (taskCol.includes(value) || projectCol.includes(value) || taskCategoryCol.includes(value)) {
+            let projectCol = rows[i].getElementsByTagName("td")[2].textContent.toLowerCase();
+            if (taskCol.includes(value) || projectCol.includes(value)) {
                 rows[i].style.display = "";
             }
             else {
@@ -298,17 +289,16 @@ function DashboardToDo() {
             <div class="container-sm px-0 mt-5 mx-0 mainContainer">
                 <h1 class="title">To Do List</h1>
                 <form>
-                    <input type="search" class="form-control searchForm" placeholder='Search tasks by name, category or project...' id="search projects" onChange={doTaskSearch} ref={(c) => search = c} />
+                    <input type="search" class="form-control searchForm" placeholder='Search tasks by name or project...' id="search projects" onChange={doTaskSearch} ref={(c) => search = c} />
                 </form>
                 <div class="table-responsive-lg">
                     <table class="table table-bordereless" id="taskTableHeader">
                         <thead>
                             <tr>
                                 <th width="15%" scope='col'>Due Date</th>
-                                <th width="25%" scope='col'>Task Name</th>
-                                <th width="15%" scope='col'>Category</th>
-                                <th width="25%" scope='col'>Project</th>
-                                <th width="20%" scope='col'>Progress</th>
+                                <th width="30%" scope='col'>Task Name</th>
+                                <th width="30%" scope='col'>Project</th>
+                                <th width="25%" scope='col'>Progress</th>
                             </tr>
                         </thead>
                         <tbody class="table-group-divider" id="taskTableBody">

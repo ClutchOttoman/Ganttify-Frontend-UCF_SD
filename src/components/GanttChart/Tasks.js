@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react';
 import './Tasks.css';
 
-export default function Tasks({ tasks, setSelectedTask, setShowDetails, sortOption }) {
+export default function Tasks({ tasks, setTasks, setTaskDurations, setSelectedTask, setShowDetails }) {
+  
   const inputRef = useRef([]);
   const indexRef = useRef(null);
 
@@ -16,29 +17,19 @@ export default function Tasks({ tasks, setSelectedTask, setShowDetails, sortOpti
     setShowDetails(true);
   }
 
-  // Group tasks by category
-  function groupTasks(tasks) {
-    return tasks.reduce((acc, task) => {
+  // Separate tasks with categories and tasks with no category assigned
+  function sortTasks(tasks) {
+    const groupedTasks = tasks.reduce((acc, task) => {
       const category = task?.taskCategory || 'No Category Assigned';
       if (!acc[category]) acc[category] = [];
       acc[category].push(task);
       return acc;
     }, {});
+    return groupedTasks;
   }
 
-  // Sort categories and tasks based on sortOption
-  const groupedTasks = groupTasks(tasks);
-  const sortedCategories = Object.keys(groupedTasks).filter(category => category !== 'No Category Assigned');
-
-  if (sortOption === "alphabetical") {
-    sortedCategories.sort();
-    Object.keys(groupedTasks).forEach(category => {
-      groupedTasks[category].sort((a, b) => (a?.taskTitle || '').localeCompare(b?.taskTitle || ''));
-    });
-  } else if (sortOption === "non_alphabetical") {
-    // No sorting applied, tasks retain their original order
-  }
-
+  const groupedTasks = sortTasks(tasks);
+  const sortedCategories = Object.keys(groupedTasks).filter(category => category !== 'No Category Assigned').sort();
   const noCategoryTasks = groupedTasks['No Category Assigned'] || [];
 
   return (
@@ -50,14 +41,17 @@ export default function Tasks({ tasks, setSelectedTask, setShowDetails, sortOpti
       {sortedCategories.map((category) => (
         <div key={category}>
           
-          {groupedTasks[category].map((tsk, i) => (
-            <div key={`${tsk?._id}-${i}`} className="gantt-task-row" onClick={() => handleTaskClick(tsk)}>
-              <p data-task-id={tsk?._id} ref={(el) => (inputRef.current[i] = el)} className="task-title-text">
-                {tsk?.taskTitle}
-              </p>
-              {tsk?.taskCategory && <span className="task-category">{tsk?.taskCategory}</span>}
-            </div>
-          ))}
+
+          {/* Render tasks within the category, sorted alphabetically by taskTitle */}
+          {groupedTasks[category].sort((a, b) => (a?.taskTitle || '').localeCompare(b?.taskTitle || '')) // Sort tasks alphabetically by taskTitle
+            .map((tsk, i) => (
+              <div key={`${tsk?._id}-${i}`} className="gantt-task-row" onClick={() => handleTaskClick(tsk)}>
+                <p data-task-id={tsk?._id} ref={(el) => (inputRef.current[i] = el)} className="task-title-text">
+                  {tsk?.taskTitle}
+                </p>
+                {tsk?.taskCategory && <span className="task-category">{tsk?.taskCategory}</span>} {/* Display taskCategory */}
+              </div>
+            ))}
         </div>
       ))}
 
@@ -65,13 +59,16 @@ export default function Tasks({ tasks, setSelectedTask, setShowDetails, sortOpti
       {noCategoryTasks.length > 0 && (
         <div>
           
-          {noCategoryTasks.map((tsk, i) => (
-            <div key={`${tsk?._id}-${i}`} className="gantt-task-row" onClick={() => handleTaskClick(tsk)}>
-              <p data-task-id={tsk?._id} ref={(el) => (inputRef.current[i] = el)} className="task-title-text">
-                {tsk?.taskTitle}
-              </p>
-            </div>
-          ))}
+          {noCategoryTasks
+            .sort((a, b) => a?.taskTitle?.localeCompare(b?.taskTitle)) // Sort tasks alphabetically by taskTitle
+            .map((tsk, i) => (
+              <div key={`${tsk?._id}-${i}`} className="gantt-task-row" onClick={() => handleTaskClick(tsk)}>
+                <p data-task-id={tsk?._id} ref={(el) => (inputRef.current[tsk._id] = el)} className="task-title-text">
+                  {tsk?.taskTitle}
+                </p>
+                {tsk?.taskCategory && <span className="task-category">{tsk?.taskCategory}</span>} {/* Display taskCategory */}
+              </div>
+            ))}
         </div>
       )}
     </div>

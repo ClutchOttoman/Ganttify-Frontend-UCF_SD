@@ -304,22 +304,22 @@ const AddTaskButton = ({ projectId }) => {
                     </button>
                     <ul class="dropdown-menu">
                         <a onClick={()=>handlePatternChange('No Pattern','No Pattern')} class = "dropdown-item patternDropdownItem">No Pattern</a>
-                        <a onClick={()=>handlePatternChange('Hollow_Single_Dot_Density_1.svg','Hollow Dots')} class = "dropdown-item patternDropdownItem patternDropdownItem">Hollow Dots</a>
-                        <a onClick={()=>handlePatternChange('Hollow_Single_Rhombus_Density_1.svg','Hollow Rhombuses')} class = "dropdown-item patternDropdownItem patternDropdownItem">Hollow Rhombuses</a>
-                        <a onClick={()=>handlePatternChange('Hollow_Single_Square_Density_1.svg','Hollow Squares')} class = "dropdown-item patternDropdownItem">Hollow Squares</a>
-                        <a onClick={()=>handlePatternChange('Hollow_Single_Star_Density_1.svg','Hollow Stars')} class = "dropdown-item patternDropdownItem">Hollow Stars</a>
-                        <a onClick={()=>handlePatternChange('Hollow_Single_Triangle_Density_1.svg','Hollow Triangles')} class = "dropdown-item patternDropdownItem">Hollow Triangles</a>
-                        <a onClick={()=>handlePatternChange('Diagonal_Left_Single_Line_Density_1.svg','Left Diagonal Lines')} class = "dropdown-item patternDropdownItem">Left Diagonal Lines</a>
-                        <a onClick={()=>handlePatternChange('Diagonal_Right_Single_Line_Density_1.svg','Right Diagonal Lines')} class = "dropdown-item patternDropdownItem">Right Diagonal Lines</a>
-                        <a onClick={()=>handlePatternChange('Diagonal_Woven_Line_Density_1.svg','Woven Diagonal Lines')} class = "dropdown-item patternDropdownItem">Woven Diagonal Lines</a>
-                        <a onClick={()=>handlePatternChange('Single_Horizontal_Line_Density_1.svg','Horizontal Line')} class = "dropdown-item patternDropdownItem">Horizontal Line</a>
-                        <a onClick={()=>handlePatternChange('Single_Vertical_Line_Density_1.svg','Vertical Line')} class = "dropdown-item patternDropdownItem">Vertical Lines</a>
-                        <a onClick={()=>handlePatternChange('Solid_Single_Circle_Density_1.svg','Solid Circles')} class = "dropdown-item patternDropdownItem">Solid Circles</a>
-                        <a onClick={()=>handlePatternChange('Solid_Single_Dot_Density_1.svg','Solid Dots')} class = "dropdown-item patternDropdownItem">Solid Dots</a>
-                        <a onClick={()=>handlePatternChange('Solid_Single_Rhombus_Density_1.svg','Solid Rhombuses')} class = "dropdown-item patternDropdownItem">Solid Rhombuses</a>
-                        <a onClick={()=>handlePatternChange('Solid_Single_Square_Density_1.svg','Solid Squares')} class = "dropdown-item patternDropdownItem">Solid Squares</a>
-                        <a onClick={()=>handlePatternChange('Solid_Single_Star_Density_1.svg','Solid Stars')} class = "dropdown-item patternDropdownItem">Solid Stars</a>
-                        <a onClick={()=>handlePatternChange('Solid_Single_Triangle_Density_1.svg','Solid Triangles')} class = "dropdown-item patternDropdownItem">Solid Triangles</a>
+                        <a onClick={()=>handlePatternChange('Hollow_Single_Dot_Density_1.png','Hollow Dots')} class = "dropdown-item patternDropdownItem patternDropdownItem">Hollow Dots</a>
+                        <a onClick={()=>handlePatternChange('Hollow_Single_Rhombus_Density_1.png','Hollow Rhombuses')} class = "dropdown-item patternDropdownItem patternDropdownItem">Hollow Rhombuses</a>
+                        <a onClick={()=>handlePatternChange('Hollow_Single_Square_Density_1.png','Hollow Squares')} class = "dropdown-item patternDropdownItem">Hollow Squares</a>
+                        <a onClick={()=>handlePatternChange('Hollow_Single_Star_Density_1.png','Hollow Stars')} class = "dropdown-item patternDropdownItem">Hollow Stars</a>
+                        <a onClick={()=>handlePatternChange('Hollow_Single_Triangle_Density_1.png','Hollow Triangles')} class = "dropdown-item patternDropdownItem">Hollow Triangles</a>
+                        <a onClick={()=>handlePatternChange('Diagonal_Left_Single_Line_Density_1.png','Left Diagonal Lines')} class = "dropdown-item patternDropdownItem">Left Diagonal Lines</a>
+                        <a onClick={()=>handlePatternChange('Diagonal_Right_Single_Line_Density_1.png','Right Diagonal Lines')} class = "dropdown-item patternDropdownItem">Right Diagonal Lines</a>
+                        <a onClick={()=>handlePatternChange('Diagonal_Woven_Line_Density_1.png','Woven Diagonal Lines')} class = "dropdown-item patternDropdownItem">Woven Diagonal Lines</a>
+                        <a onClick={()=>handlePatternChange('Single_Horizontal_Line_Density_1.png','Horizontal Line')} class = "dropdown-item patternDropdownItem">Horizontal Line</a>
+                        <a onClick={()=>handlePatternChange('Single_Vertical_Line_Density_1.png','Vertical Line')} class = "dropdown-item patternDropdownItem">Vertical Lines</a>
+                        <a onClick={()=>handlePatternChange('Solid_Single_Circle_Density_1.png','Solid Circles')} class = "dropdown-item patternDropdownItem">Solid Circles</a>
+                        <a onClick={()=>handlePatternChange('Solid_Single_Dot_Density_1.png','Solid Dots')} class = "dropdown-item patternDropdownItem">Solid Dots</a>
+                        <a onClick={()=>handlePatternChange('Solid_Single_Rhombus_Density_1.png','Solid Rhombuses')} class = "dropdown-item patternDropdownItem">Solid Rhombuses</a>
+                        <a onClick={()=>handlePatternChange('Solid_Single_Square_Density_1.png','Solid Squares')} class = "dropdown-item patternDropdownItem">Solid Squares</a>
+                        <a onClick={()=>handlePatternChange('Solid_Single_Star_Density_1.png','Solid Stars')} class = "dropdown-item patternDropdownItem">Solid Stars</a>
+                        <a onClick={()=>handlePatternChange('Solid_Single_Triangle_Density_1.png','Solid Triangles')} class = "dropdown-item patternDropdownItem">Solid Triangles</a>
                         <a onClick={()=>handlePatternChange('Halftone_Density_1.png','Halftone')} class = "dropdown-item patternDropdownItem">Halftone</a>
                         </ul>
                   </div>

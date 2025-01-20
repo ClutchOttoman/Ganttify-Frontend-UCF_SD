@@ -167,22 +167,6 @@ function Register() {
         setMessage("");
     }
   }
-
-  function formatPhoneNumber(value) {
-    const cleaned = value.replace(/\D/g, '').slice(0, 10);
-  
-    const match = cleaned.match(/^(\d{0,3})(\d{0,3})(\d{0,4})$/);
-    if (match) {
-      return !match[2]
-        ? `(${match[1]}`
-        : !match[3]
-        ? `(${match[1]}) ${match[2]}`
-        : `(${match[1]}) ${match[2]}-${match[3]}`;
-    }
-  
-    return value;
-  }
-
   useEffect(()=>{checkPhoneValidity()},[regPhone])
   useEffect(()=>{checkPasswordValidity()},[regPassword,regPasswordVerify])
   useEffect(()=>{checkEmailValidity()},[regEmail]);
@@ -208,7 +192,7 @@ function Register() {
                            
                             <div class = "row text-start"><label class = "formLabel mb-1" for="telForm">10-digit phone number</label></div>
                             
-                            <div class = "row align-items-center mb-3"><input id="telForm" type="tel" class="formItem" placeholder='(###) ###-####' value={regPhone} onChange={(e) => setRegPhone(formatPhoneNumber(e.target.value))} required></input></div>
+                            <div class = "row align-items-center mb-3"><input id="telForm" type="tel" class="formItem" placeholder='(###) ###-####' value={regPhone} onChange={(e) => setRegPhone(e.target.value)} required></input></div>
                             
                             <div class = "row text-start"><label class = "formLabel mb-1" for="passwordForm">Password</label></div>
                             

@@ -19,35 +19,5 @@
     }
     
   .gantt-chart-time-range-selection {
-    padding: 6px 10px;
-    font-size: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
-    color: #333;
-    cursor: pointer;
-    transition: border-color 0.3s ease;
-  }
-
-  .gantt-chart-sort-selector {
-    margin-top: -38px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-right: 5px;
-  }
-  
-  .gantt-chart-sort-selection {
-    padding: 6px 10px;
-    font-size: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
-    color: #333;
-    cursor: pointer;
-    transition: border-color 0.3s ease;
-  }
-  
-  .gantt-chart-sort-selection option {
-    padding: 8px;
+    border-radius: 13px;
   }

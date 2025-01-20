@@ -10,25 +10,30 @@ import {
   monthDiff,
 } from '../../helpers/dateFunctions';
 import Halftone_Density_1 from '../../Images/assets/accessible_patterns/halftone_family/Halftone_Density_1.png';
-import Diagonal_Right_Single_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Diagonal_Right_Single_Line_Density_1.png';
+import Halftone_Density_2 from '../../Images/assets/accessible_patterns/halftone_family/Halftone_Density_2.png';
+import Halftone_Density_3 from '../../Images/assets/accessible_patterns/halftone_family/Halftone_Density_3.png';
+import Hollow_Single_Circle_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Circle_Density_1.png';
+import Hollow_Single_Dot_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Dot_Density_1.png';
+import Hollow_Single_Rhombus_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Rhombus_Density_1.png';
+import Hollow_Single_Square_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Square_Density_1.png';
+import Hollow_Single_Star_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Star_Density_1.png';
+import Hollow_Single_Triangle_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Triangle_Density_1.png';
 import Diagonal_Left_Single_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Diagonal_Left_Single_Line_Density_1.png';
+import Diagonal_Right_Single_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Diagonal_Right_Single_Line_Density_1.png';
 import Diagonal_Woven_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Diagonal_Woven_Line_Density_1.png';
 import Single_Horizontal_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Single_Horizontal_Line_Density_1.png';
-import Single_Vertical_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Single_Vertical_Line_Density_1.png'
-import Solid_Single_Circle_Density_1 from  '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Circle_Density_1.png';
+import Single_Vertical_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Single_Vertical_Line_Density_1.png';
+import Solid_Single_Circle_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Circle_Density_1.png';
 import Solid_Single_Dot_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Dot_Density_1.png';
 import Solid_Single_Rhombus_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Rhombus_Density_1.png';
 import Solid_Single_Square_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Square_Density_1.png';
 import Solid_Single_Star_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Star_Density_1.png';
 import Solid_Single_Triangle_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Triangle_Density_1.png';
-import Hollow_Single_Circle_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Circle_Density_1.png';
-import Hollow_Single_Dot_Density_1 from'../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Dot_Density_1.png';
-import Hollow_Single_Rhombus_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Rhombus_Density_1.png';
-import Hollow_Single_Square_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Square_Density_1.png';
-import Hollow_Single_Star_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Star_Density_1.png';
-import Hollow_Single_Triangle_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Triangle_Density_1.png';
+import TaskDetails from './TaskDetails';
+import './TimeTable.css';
 
-import {buildPath} from '../buildPath';
+import { buildPath } from '../buildPath';
+// import Messaging from '../Messaging.js';
 
 
 function isTaskHappeningNow(startDate,dueDate,dateToCheck){
@@ -60,16 +65,16 @@ export default function TimeTable({
 
   const patterns = {
     'Halftone_Density_1.png':Halftone_Density_1 , 'Halftone_Density_2.png':Halftone_Density_2,
-    'Halftone_Density_3.png':Halftone_Density_3,  'Diagonal_Right_Single_Line_Density_1.svg':Diagonal_Right_Single_Line_Density_1,
-    'Diagonal_Left_Single_Line_Density_1.svg':Diagonal_Left_Single_Line_Density_1, 'Diagonal_Left_Single_Line_Density_1.svg':Diagonal_Left_Single_Line_Density_1,
-    'Diagonal_Woven_Line_Density_1.svg':Diagonal_Woven_Line_Density_1, 'Single_Horizontal_Line_Density_1.svg':Single_Horizontal_Line_Density_1,
-    'Single_Vertical_Line_Density_1.svg':Single_Vertical_Line_Density_1,'Solid_Single_Circle_Density_1.svg':Solid_Single_Circle_Density_1,
-    'Solid_Single_Dot_Density_1.svg':Solid_Single_Dot_Density_1,'Solid_Single_Rhombus_Density_1.svg':Solid_Single_Rhombus_Density_1,
-    'Solid_Single_Square_Density_1.svg':Solid_Single_Square_Density_1,'Solid_Single_Star_Density_1.svg':Solid_Single_Star_Density_1,
-    'Solid_Single_Triangle_Density_1.svg':Solid_Single_Triangle_Density_1,'Hollow_Single_Circle_Density_1.svg':Hollow_Single_Circle_Density_1,
-    'Hollow_Single_Dot_Density_1.svg':Hollow_Single_Dot_Density_1,'Hollow_Single_Rhombus_Density_1.svg':Hollow_Single_Rhombus_Density_1,
-    'Hollow_Single_Square_Density_1.svg':Hollow_Single_Square_Density_1,'Hollow_Single_Star_Density_1.svg':Hollow_Single_Star_Density_1,
-    'Hollow_Single_Triangle_Density_1.svg':Hollow_Single_Triangle_Density_1
+    'Halftone_Density_3.png':Halftone_Density_3,  'Diagonal_Right_Single_Line_Density_1.png':Diagonal_Right_Single_Line_Density_1,
+    'Diagonal_Left_Single_Line_Density_1.png':Diagonal_Left_Single_Line_Density_1, 'Diagonal_Left_Single_Line_Density_1.png':Diagonal_Left_Single_Line_Density_1,
+    'Diagonal_Woven_Line_Density_1.png':Diagonal_Woven_Line_Density_1, 'Single_Horizontal_Line_Density_1.png':Single_Horizontal_Line_Density_1,
+    'Single_Vertical_Line_Density_1.png':Single_Vertical_Line_Density_1,'Solid_Single_Circle_Density_1.png':Solid_Single_Circle_Density_1,
+    'Solid_Single_Dot_Density_1.png':Solid_Single_Dot_Density_1,'Solid_Single_Rhombus_Density_1.png':Solid_Single_Rhombus_Density_1,
+    'Solid_Single_Square_Density_1.png':Solid_Single_Square_Density_1,'Solid_Single_Star_Density_1.png':Solid_Single_Star_Density_1,
+    'Solid_Single_Triangle_Density_1.png':Solid_Single_Triangle_Density_1,'Hollow_Single_Circle_Density_1.png':Hollow_Single_Circle_Density_1,
+    'Hollow_Single_Dot_Density_1.png':Hollow_Single_Dot_Density_1,'Hollow_Single_Rhombus_Density_1.png':Hollow_Single_Rhombus_Density_1,
+    'Hollow_Single_Square_Density_1.png':Hollow_Single_Square_Density_1,'Hollow_Single_Star_Density_1.png':Hollow_Single_Star_Density_1,
+    'Hollow_Single_Triangle_Density_1.png':Hollow_Single_Triangle_Density_1
   }
 
   const ganttRef = useRef(null);
@@ -184,7 +189,7 @@ export default function TimeTable({
 
   // Handles the "resizing" of a singular task
   const handleResizeStart = (e, taskDurationId, direction) => {
-    console.log("starting resize");
+    //console.log("starting resize");
     e.stopPropagation();
     e.preventDefault();
     setResizingTask(taskDurationId);
@@ -203,6 +208,14 @@ export default function TimeTable({
 
       if (!taskDuration) {
         return;
+      }
+      turnOnPattern(taskDuration);
+      const endDate = new Date(taskDuration.end)
+      const startDate = new Date(taskDuration.start)
+      const id = taskDuration._id.slice(0,24);
+      for(let i = 1;i<15;i++){
+        togglePatternDate(endDate.addDays(i).toISOString().slice(0,10),id,true);
+        togglePatternDate(startDate.addDays(-i).toISOString().slice(0,10),id,true);
       }
 
       const obj = { startDateTime: taskDuration.start, dueDateTime: taskDuration.end };
@@ -237,7 +250,15 @@ export default function TimeTable({
       handleDragEnd(taskDurationElDraggedId);
     }
   };
-
+  function togglePatternDate(date,id,hide){
+    const pattern = document.getElementById(`pattern/${date}/${id}`);
+    if(hide){
+        pattern.setAttribute("hidden","true");
+    }
+    else{  
+        pattern.removeAttribute("hidden");
+    }
+  }
 
   // Updates the task's dates based off of the user's mouse's position 
   const handleMouseMove = (e) => {
@@ -268,14 +289,31 @@ export default function TimeTable({
 
         if (resizeDirection === 'left') {
           if (new Date(newDate) <= new Date(taskDuration.end)) {
+            if(new Date(newDate) > new Date(taskDuration.start)){
+                let patternDate = new Date(newDate).addDays(-1);
+                let formattedPatternDate = patternDate.toISOString().slice(0,10);
+                togglePatternDate(formattedPatternDate,id,true)
+            }
+            else if(new Date(newDate) < new Date(taskDuration.start)){
+                togglePatternDate(newDate,id,false)
+            }
             taskDuration.start = newDate;
           }
         } else if (resizeDirection === 'right') {
           if (new Date(newDate) >= new Date(taskDuration.start)) {
+            if(new Date(newDate) < new Date(taskDuration.end)){
+                let patternDate = new Date(newDate).addDays(1);
+                let formattedPatternDate = patternDate.toISOString().slice(0,10);
+                togglePatternDate(formattedPatternDate,id,true)
+            }
+            else if(new Date(newDate) > new Date(taskDuration.end)){
+                togglePatternDate(newDate,id,false)
+            }
             taskDuration.end = newDate;
           }
         }
-        
+
+
         setTaskDurations((prevDurations) =>
           prevDurations.map((duration) =>
             duration._id === taskDuration._id ? { ...taskDuration } : duration
@@ -861,162 +899,30 @@ export default function TimeTable({
       // console.log("taskRows:", taskRows);
 
       break;
-  if (tasks) {
-    tasks.forEach((task, index) => {
-      const startDate = task.startDateTime;
-      const dueDate = task.dueDateTime;
-      let mnth = new Date(startMonth);
-      for (let i = 0; i < numMonths; i++) {
-        const curYear = mnth.getFullYear();
-        const curMonth = mnth.getMonth() + 1;
-
-        const numDays = getDaysInMonth(curYear, curMonth);
-
-        for (let j = 1; j <= numDays; j++) {
-
-          
-          const dayOfTheWeek = getDayOfWeek(curYear, curMonth - 1, j - 1);
-          const formattedDate = createFormattedDateFromStr(curYear, curMonth, j);
-          var taskHappening=false;
-          if(task['pattern'] && (task['pattern'] in patterns)){
-            taskHappening = isTaskHappeningNow(startDate,dueDate,formattedDate);
-          } 
-
-          taskRow.push(
-            <div
-              key={`${task._id}-${j}`}
-              style={{
-                ...ganttTimePeriodCell,
-                backgroundColor:
-                  dayOfTheWeek === 'S' ? 'var(--color-tertiary)' : index % 2 === 0 ? '#f9f9f9' : '#ffffff',
-                ...(hoveredRow === task._id && { backgroundColor: '#f0f0f0' }),
-              }}
-
-              data-task={task?._id}
-              data-date={formattedDate}
-              data-task-id={task._id}
-              onDrop={onTaskDurationDrop}
-              onDragOver={(e) => e.preventDefault()}
-              onDragEnter={(e) => e.preventDefault()}
-              onMouseEnter={() => setHoveredRow(task._id)} 
-              onMouseLeave={() => setHoveredRow(null)} 
-            >
-
-              {taskDurations.map((el, i) => {
-                {/*Added this to prevent tasks from rendering past the last month of the current calender year*/}
-                const elStartDate = el?.start.split('T')[0];
-                let endMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 7, 0); 
-                const formattedEndMonth = endMonth.toISOString().split('T')[0];
-                const adjustedEndDate = new Date(el?.end).getTime() > new Date(formattedEndMonth).getTime()  
-                  ? formattedEndMonth 
-                  : el?.end;
-
-                if (el?.task === task?._id && elStartDate === formattedDate) {
-                  return (
-                    
-                    <div
-                      key={`${i}-${el?.task}`}
-
-                
-                      className={`task-duration ${taskDurationElDraggedId === el?._id ? 'dragging' : ''}`}
-                                 
-                      draggable={isEditable && !isResizing ? "true" : "false"}
-
-                      tabIndex="0"
-                      onDragStart={isEditable && !isResizing ? () => handleDragStart(el?._id) : null}
-                      onDragEnd={isEditable && !isResizing ? () => handleDragEnd(el?._id) : null}
-                      onMouseMove={(e) => handleMouseMove(e)}
-
-
-                      onMouseUp={handleResizeEnd}
-
-                      style={{
-                        ...taskDurationBaseStyle,
-                        width: `calc(${dayDiff(el?.start, adjustedEndDate)} * 100% - 1px)`,
-                        opacity: taskDurationElDraggedId === el?._id ? '0.5' : '1',
-                        background: task.color || 'var(--color-primary-light)',
-                        backgroundImage: patterns[task.pattern] ? `url(${patterns[task.pattern]})` : 'none',
-                        backgroundSize: 'contain',
-                        cursor: isEditable && !isResizing ? 'move' : 'default',
-                        
-                      }}
-
-                      onKeyDown={isEditable ? (e) => deleteTaskDuration(e, el?.task) : null}
-                      onClick={() => {
-                        if (!isResizing) { // Prevents showing details after resizing task bar.
-                          setSelectedTask(task);
-                          setShowDetails(true);
-                        }
-                      }}
-                      onMouseEnter={() => setHoveredTask(el?._id)} 
-                      onMouseLeave={() => setHoveredTask(null)} 
-                    >
-
-                      {isEditable && (
-                        <>
-                      
-                          <div
-                            className="resize-handle left"
-                            onMouseDown={(e) => handleResizeStart(e, el?._id, 'left')}
-                            style={{ cursor: 'ew-resize', position: 'absolute', left: '0', width: '10px', height: '100%', zIndex: 3 }}
-                          />
-                          <div
-                            className="resize-handle right"
-                            onMouseDown={(e) => handleResizeStart(e, el?._id, 'right')}
-                            style={{ cursor: 'ew-resize', position: 'absolute', right: '0', width: '10px', height: '100%', zIndex: 3 }}
-                          />
-                            
-                        </>
-                      )}
-
-                      {(hoveredTask === el?._id || resizingTask === el?._id) && (
-                        <div
-                          style={{
-                            position: 'absolute',
-                            top: '15%',
-                            left: '100%',
-                            transform: 'translateX(2px)', 
-                            color: 'black',
-                            whiteSpace: 'nowrap', // Using this to keep text in a single line
-                            padding: '2px 5px',
-                            fontFamily:'Montserrat, sans-serif',
-                            fontSize: '12px'
-                            }}
-                        >
-                        {`${el.start.split('T')[0].replace(/-/g, '/')}  -  ${el.end.split('T')[0].replace(/-/g, '/')}`}
-                        </div>
-                      )}
-                    </div>
-                  );
-                }
-                
-              })}
-            </div>
-          );
-        }
-
-        taskRows.push(
-          
-          <div key={`${i}-${task?._id}`} style={ganttTimePeriod}>
-            {taskRow}
-          </div>
-
-        );
-
-        taskRow = [];
-        mnth.setMonth(mnth.getMonth() + 1);
-      }
-    });
   }
 
-  const handleDelete = async (taskId, projectId) => {
+  const handleDelete = async (taskId) => {
+    const newTasks = tasks.filter((task) => task._id !== taskId);
+    setTasks(newTasks);
+
+    setTaskDurations((prevState) => {
+
+      
+      const newTaskDurations = prevState.filter(
+        (taskDuration) => taskDuration.task !== taskId
+      );
+      return newTaskDurations;
+    });
+
+
+    
     try {
+
       const response = await fetch(buildPath(`api/tasks/${taskId}`), {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ projectId }),
       });
 
       if (!response.ok) {
@@ -1025,17 +931,7 @@ export default function TimeTable({
 
       const data = await response.json();
       console.log('Task deleted successfully:', data);
-
-      
-      setTasks(prevTasks => prevTasks.filter(task => task._id !== taskId));
-      setTaskDurations(prevDurations => prevDurations.filter(duration => duration.task !== taskId));
-      console.log(tasks)
-  
-      //window.location.reload(); 
-      setShowDetails(false);
-      setSelectedTask(null);
-      setCurrentDayMarkerHeight(currentDayMarkerHeight - 1);
-      console.log(projectId.tasks.length)
+      window.location.reload();
     } catch (error) {
       console.error('Error deleting task:', error);
     }
@@ -1043,11 +939,36 @@ export default function TimeTable({
 
   function deleteTaskDuration(e, id) {
     if (e.key === 'Delete' || e.key === 'Backspace') {
-      if (window.confirm('Are you sure you want to delete?')) {
-        handleDelete(id, projectId);
-      }
+      const newTaskDurations = taskDurations.filter( (taskDuration) => taskDuration.id !== id);
+      
+      setTaskDurations(newTaskDurations);
+      
+      console.log("Deleted taskDuration with id:", id);
+
+      
     }
   }
+
+
+  function turnOffPattern(taskDurationId){
+    const taskDuration = taskDurations.find(
+        (taskDuration) => taskDuration._id === taskDurationId
+    );
+
+    if (!taskDuration) {
+        return;
+    }
+    const startDate = new Date(taskDuration.start);
+    const endDate = new Date(taskDuration.end);
+    var day = startDate;
+    while(day <= endDate){
+        let pattern = document.getElementById(`pattern/${day.toISOString().slice(0,10)}/${taskDurationId.slice(0,24)}`)
+        pattern.setAttribute("hidden",true)
+        day = day.addDays(1);
+    }
+  }
+
+
 
   function handleDragStart(taskDurationId) {
     if (!resizingTask) {
@@ -1056,6 +977,7 @@ export default function TimeTable({
       setHoveredTask(null);
       setIsDragging(true);
       console.log("Drag started for taskDurationId:", taskDurationId);
+      turnOffPattern(taskDurationId);
     }
   }
 
@@ -1063,7 +985,7 @@ export default function TimeTable({
   function handleDragEnd(taskDurationId) {
 
     if (!resizingTask) {
-
+      
       setTaskDurationElDraggedId(null);
 
       setHoveredTask(null);
@@ -1075,6 +997,19 @@ export default function TimeTable({
   }
 
 
+  function turnOnPattern(taskDuration){
+    const id = (taskDuration._id).slice(0,24);
+    console.log(id);
+    const startDate = new Date(taskDuration.start);
+    const endDate = new Date(taskDuration.end);
+    var day = startDate;
+    while(day <= endDate){
+        let pattern = document.getElementById(`pattern/${day.toISOString().slice(0,10)}/${id}`);
+        console.log(pattern.id);
+        pattern.removeAttribute("hidden")
+        day = day.addDays(1);
+    }
+  }
 
   async function onTaskDurationDrop(e) {
     const targetCell = e.target;
@@ -1083,18 +1018,18 @@ export default function TimeTable({
       (taskDuration) => taskDuration._id === taskDurationElDraggedId
     );
 
+
     if (!taskDuration) {
       return;
     }
+
 
     const dataTask = targetCell.getAttribute('data-task');
     const dataDate = targetCell.getAttribute('data-date');
     const targetTaskId = targetCell.getAttribute('data-task-id');
 
-    console.log(taskDuration)
-    console.log(targetTaskId)
-
     if (taskDuration.task !== targetTaskId) {
+      turnOnPattern(taskDuration);
       console.log("Task can only be dropped within its respective row.");
       return;
     }
@@ -1116,6 +1051,7 @@ export default function TimeTable({
       taskDuration.task = dataTask;
       taskDuration.start = createFormattedDateFromDate(newStartDate);
       taskDuration.end = createFormattedDateFromDate(newEndDate);
+      turnOnPattern(taskDuration);
 
       const newTaskDurations = taskDurations.filter(
         (taskDuration) => taskDuration._id !== taskDurationElDraggedId

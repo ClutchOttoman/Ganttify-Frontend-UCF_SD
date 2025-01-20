@@ -11,23 +11,23 @@ const colorOptions = [
   '#f47474', '#ffd580', '#fff77e','#b2e687', '#8fb9f9', '#9a86cc', '#b27fc6'
 ];
 const patternDisplayNames = {
-	'Hollow_Single_Circle_Density_1.svg':'Hollow Circles',
-	'Hollow_Single_Dot_Density_1.svg':'Hollow Dots',
-	'Hollow_Single_Rhombus_Density_1.svg':'Hollow Rhombuses',
-	'Hollow_Single_Square_Density_1.svg':'Hollow Squares',
-	'Hollow_Single_Star_Density_1.svg':'Hollow Stars',
-	'Hollow_Single_Triangle_Density_1.svg':'Hollow Triangles',
-	'Diagonal_Left_Single_Line_Density_1.svg':'Left Diagonal Lines',
-	'Diagonal_Right_Single_Line_Density_1.svg':'Right Diagonal Lines',
-	'Diagonal_Woven_Line_Density_1.svg':'Woven Diagonal Lines',
-	'Single_Horizontal_Line_Density_1.svg':'Horizontal Line',
-	'Single_Vertical_Line_Density_1.svg':'Vertical Line',
-	'Solid_Single_Circle_Density_1.svg':'Solid Circles',
-	'Solid_Single_Dot_Density_1.svg':'Solid Dots',
-	'Solid_Single_Rhombus_Density_1.svg':'Solid Rhombuses',
-	'Solid_Single_Square_Density_1.svg':'Solid Squares',
-	'Solid_Single_Star_Density_1.svg':'Solid Stars',
-	'Solid_Single_Triangle_Density_1.svg':'Solid Triangles',
+	'Hollow_Single_Circle_Density_1.png':'Hollow Circles',
+	'Hollow_Single_Dot_Density_1.png':'Hollow Dots',
+	'Hollow_Single_Rhombus_Density_1.png':'Hollow Rhombuses',
+	'Hollow_Single_Square_Density_1.png':'Hollow Squares',
+	'Hollow_Single_Star_Density_1.png':'Hollow Stars',
+	'Hollow_Single_Triangle_Density_1.png':'Hollow Triangles',
+	'Diagonal_Left_Single_Line_Density_1.png':'Left Diagonal Lines',
+	'Diagonal_Right_Single_Line_Density_1.png':'Right Diagonal Lines',
+	'Diagonal_Woven_Line_Density_1.png':'Woven Diagonal Lines',
+	'Single_Horizontal_Line_Density_1.png':'Horizontal Line',
+	'Single_Vertical_Line_Density_1.png':'Vertical Line',
+	'Solid_Single_Circle_Density_1.png':'Solid Circles',
+	'Solid_Single_Dot_Density_1.png':'Solid Dots',
+	'Solid_Single_Rhombus_Density_1.png':'Solid Rhombuses',
+	'Solid_Single_Square_Density_1.png':'Solid Squares',
+	'Solid_Single_Star_Density_1.png':'Solid Stars',
+	'Solid_Single_Triangle_Density_1.png':'Solid Triangles',
 	'Halftone_Density_1.png':'Halftone',
 	'Halftone_Density_2.png':'Light Halftone',
 	'Halftone_Density_3.png':'Dense Halftone',
@@ -58,7 +58,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
   const [taskCategory, setTaskCategory] = useState('');  // Added 
   
   const [taskCategories, setTaskCategories] = useState([]); // Added
-  const [removeCategory, setRemoveCategory] = useState(false); // Added (New state for the checkbox)
+
    
   const [originalTask, setOriginalTask] = useState(null);
   const [fetchedTask, setFetchedTask] = useState(null);
@@ -396,7 +396,6 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
     // Ensure event.target is valid
     if (event && event.target) {
       setNewCategory(event.target.value);
-      setRemoveCategory(false); //added // Ensure checkbox is unchecked when a category is entered
     } else {
       console.error('Event or event.target is undefined');
     }
@@ -419,10 +418,10 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
     setDateError('');
   
     // Step 1: Check if the new category exists in the taskCategories
-    let categoryToSave = null; // Default to null for removal case
+    let categoryToSave = taskCategory;
 
-    if (!removeCategory) {
-      if (newCategory && !taskCategories.includes(newCategory)) {
+    if (newCategory && !taskCategories.includes(newCategory)) {
+  
     try {
       const response = await fetch(buildPath('api/taskcategories'), {
         method: 'POST',
@@ -442,22 +441,12 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
        // Step 3: If creation is successful, update the local state with the new category
        const newCategoryData = await response.json();
        setTaskCategories([...taskCategories, newCategoryData]);  // Add the newly created category
-      //  categoryToSave = newCategoryData._id;  // Save the new category's ID
-        categoryToSave = newCategoryData.categoryTitle;  // Use the newly created category
+       categoryToSave = newCategoryData.categoryTitle;  // Use the newly created category
       } catch (error) {
         console.error('Error creating new category:', error);
         return; // Don't proceed with saving changes if category creation fails
       }
-    } else {
-      // If removeCategory is false, set the current category ID
-      categoryToSave = taskCategory ? taskCategory._id : null;
     }
-  }
-
-  if (categoryToSave === null) {
-  // If category is being removed, ensure task category is updated to null
-    categoryToSave = null;
-  }
 
     // Step 4: Update task with the category (whether existing or newly created)
     try {
@@ -486,8 +475,8 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
       const updatedTask = await response.json();
       console.log('Task updated successfully:', updatedTask);
 
-
-      setTaskCategory(updatedTask.category || null ); // Handle removed category
+      // Update the task category and other states
+      setTaskCategory(updatedTask.category);
       setOriginalTask(updatedTask); // Sync the original task with the latest data
   
       // Update users' to-do list
@@ -496,6 +485,8 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
       setEditMode(false); // Exit edit mode
       window.location.reload(); // Reload the page to reflect changes (optional)
   
+
+
       onHide(); // Close the modal after saving
     } catch (error) {
       console.error('Error updating task:', error);
@@ -537,11 +528,6 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
     });
   };
 
-  const handleCheckboxChange2 = () => {
-    setRemoveCategory(!removeCategory);
-    if (!removeCategory) setNewCategory(''); // Clear the category text field when checkbox is checked
-  };
-
   const updateSingleUserToDoList = async (taskId, userId, isChecked) => {
     try {
       const response = await fetch(buildPath('api/updateSingleUserToDoList'), {
@@ -570,7 +556,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
 
   const handleDeleteClick = () => {
     if (window.confirm('Are you sure you want to delete?')) {
-      handleDelete(task._id, task.tiedProjectId);
+      handleDelete(task._id);
     }
   };
 
@@ -626,23 +612,23 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
                         {patternToDisplay}
                     </button>
                     <ul class="dropdown-menu">
-                     <a onClick={()=>handlePatternChange('Hollow_Single_Circle_Density_1.svg','Hollow Circles')} class = "dropdown-item patternDropdownItem patternDropdownItem">Hollow Circles</a>
-                        <a onClick={()=>handlePatternChange('Hollow_Single_Dot_Density_1.svg','Hollow Dots')} class = "dropdown-item patternDropdownItem patternDropdownItem">Hollow Dots</a>
-                        <a onClick={()=>handlePatternChange('Hollow_Single_Rhombus_Density_1.svg','Hollow Rhombuses')} class = "dropdown-item patternDropdownItem patternDropdownItem">Hollow Rhombuses</a>
-                        <a onClick={()=>handlePatternChange('Hollow_Single_Square_Density_1.svg','Hollow Squares')} class = "dropdown-item patternDropdownItem">Hollow Squares</a>
-                        <a onClick={()=>handlePatternChange('Hollow_Single_Star_Density_1.svg','Hollow Stars')} class = "dropdown-item patternDropdownItem">Hollow Stars</a>
-                        <a onClick={()=>handlePatternChange('Hollow_Single_Triangle_Density_1.svg','Hollow Triangles')} class = "dropdown-item patternDropdownItem">Hollow Triangles</a>
-                        <a onClick={()=>handlePatternChange('Diagonal_Left_Single_Line_Density_1.svg','Left Diagonal Lines')} class = "dropdown-item patternDropdownItem">Left Diagonal Lines</a>
-                        <a onClick={()=>handlePatternChange('Diagonal_Right_Single_Line_Density_1.svg','Right Diagonal Lines')} class = "dropdown-item patternDropdownItem">Right Diagonal Lines</a>
-                        <a onClick={()=>handlePatternChange('Diagonal_Woven_Line_Density_1.svg','Woven Diagonal Lines')} class = "dropdown-item patternDropdownItem">Woven Diagonal Lines</a>
-                        <a onClick={()=>handlePatternChange('Single_Horizontal_Line_Density_1.svg','Horizontal Line')} class = "dropdown-item patternDropdownItem">Horizontal Line</a>
-                        <a onClick={()=>handlePatternChange('Single_Vertical_Line_Density_1.svg','Vertical Line')} class = "dropdown-item patternDropdownItem">Vertical Lines</a>
-                        <a onClick={()=>handlePatternChange('Solid_Single_Circle_Density_1.svg','Solid Circles')} class = "dropdown-item patternDropdownItem">Solid Circles</a>
-                        <a onClick={()=>handlePatternChange('Solid_Single_Dot_Density_1.svg','Solid Dots')} class = "dropdown-item patternDropdownItem">Solid Dots</a>
-                        <a onClick={()=>handlePatternChange('Solid_Single_Rhombus_Density_1.svg','Solid Rhombuses')} class = "dropdown-item patternDropdownItem">Solid Rhombuses</a>
-                        <a onClick={()=>handlePatternChange('Solid_Single_Square_Density_1.svg','Solid Squares')} class = "dropdown-item patternDropdownItem">Solid Squares</a>
-                        <a onClick={()=>handlePatternChange('Solid_Single_Star_Density_1.svg','Solid Stars')} class = "dropdown-item patternDropdownItem">Solid Stars</a>
-                        <a onClick={()=>handlePatternChange('Solid_Single_Triangle_Density_1.svg','Solid Triangles')} class = "dropdown-item patternDropdownItem">Solid Triangles</a>
+                        <a onClick={()=>handlePatternChange('Hollow_Single_Circle_Density_1.png','Hollow Circles')} class = "dropdown-item patternDropdownItem patternDropdownItem">Hollow Circles</a>
+                        <a onClick={()=>handlePatternChange('Hollow_Single_Dot_Density_1.png','Hollow Dots')} class = "dropdown-item patternDropdownItem patternDropdownItem">Hollow Dots</a>
+                        <a onClick={()=>handlePatternChange('Hollow_Single_Rhombus_Density_1.png','Hollow Rhombuses')} class = "dropdown-item patternDropdownItem patternDropdownItem">Hollow Rhombuses</a>
+                        <a onClick={()=>handlePatternChange('Hollow_Single_Square_Density_1.png','Hollow Squares')} class = "dropdown-item patternDropdownItem">Hollow Squares</a>
+                        <a onClick={()=>handlePatternChange('Hollow_Single_Star_Density_1.png','Hollow Stars')} class = "dropdown-item patternDropdownItem">Hollow Stars</a>
+                        <a onClick={()=>handlePatternChange('Hollow_Single_Triangle_Density_1.png','Hollow Triangles')} class = "dropdown-item patternDropdownItem">Hollow Triangles</a>
+                        <a onClick={()=>handlePatternChange('Diagonal_Left_Single_Line_Density_1.png','Left Diagonal Lines')} class = "dropdown-item patternDropdownItem">Left Diagonal Lines</a>
+                        <a onClick={()=>handlePatternChange('Diagonal_Right_Single_Line_Density_1.png','Right Diagonal Lines')} class = "dropdown-item patternDropdownItem">Right Diagonal Lines</a>
+                        <a onClick={()=>handlePatternChange('Diagonal_Woven_Line_Density_1.png','Woven Diagonal Lines')} class = "dropdown-item patternDropdownItem">Woven Diagonal Lines</a>
+                        <a onClick={()=>handlePatternChange('Single_Horizontal_Line_Density_1.png','Horizontal Line')} class = "dropdown-item patternDropdownItem">Horizontal Line</a>
+                        <a onClick={()=>handlePatternChange('Single_Vertical_Line_Density_1.png','Vertical Line')} class = "dropdown-item patternDropdownItem">Vertical Lines</a>
+                        <a onClick={()=>handlePatternChange('Solid_Single_Circle_Density_1.png','Solid Circles')} class = "dropdown-item patternDropdownItem">Solid Circles</a>
+                        <a onClick={()=>handlePatternChange('Solid_Single_Dot_Density_1.png','Solid Dots')} class = "dropdown-item patternDropdownItem">Solid Dots</a>
+                        <a onClick={()=>handlePatternChange('Solid_Single_Rhombus_Density_1.png','Solid Rhombuses')} class = "dropdown-item patternDropdownItem">Solid Rhombuses</a>
+                        <a onClick={()=>handlePatternChange('Solid_Single_Square_Density_1.png','Solid Squares')} class = "dropdown-item patternDropdownItem">Solid Squares</a>
+                        <a onClick={()=>handlePatternChange('Solid_Single_Star_Density_1.png','Solid Stars')} class = "dropdown-item patternDropdownItem">Solid Stars</a>
+                        <a onClick={()=>handlePatternChange('Solid_Single_Triangle_Density_1.png','Solid Triangles')} class = "dropdown-item patternDropdownItem">Solid Triangles</a>
                         <a onClick={()=>handlePatternChange('Halftone_Density_1.png','Halftone')} class = "dropdown-item patternDropdownItem">Halftone</a>
                         <a onClick={()=>handlePatternChange('No Pattern','No Pattern')} class = "dropdown-item patternDropdownItem">No Pattern</a>
                         </ul>
@@ -688,9 +674,8 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
                       <label htmlFor={`user-${user._id}`}>{user.name}</label>
                     </div>
                   ))}
-                </div> 
-                <div id="placeholder-temp"></div>
-    
+                </div>
+
                 {/* New Task Category Field */}
                 <div className="task-detail-field">
                   <label><strong>Task Category:</strong></label>
@@ -700,22 +685,10 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
                       value={newCategory}  // Always bind to newCategory state
                       onChange={handleCategoryChange}
                       placeholder="Enter new task category"
-                      disabled={removeCategory} // Disable the text field when checkbox is checked
                      
                     
                     />
                 </div>
-                <div>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', whiteSpace: 'nowrap', position: 'relative', top: '-4px' }}>
-                  <input
-                    type="checkbox"
-                    id="noCategoryCheckbox"
-                    checked={removeCategory}
-                    onChange={handleCheckboxChange2}
-                  />
-                  <label htmlFor="noCategoryCheckbox">No category</label>
-                </div>
-              </div>
             </div>
             ) : (
               <>
