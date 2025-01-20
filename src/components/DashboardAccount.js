@@ -6,7 +6,8 @@ function DashboardAccount() {
   const [user, setUser] = useState(null);
   const [error, setError] = useState('');
   const [isEditing, setIsEditing] = useState(false);
-  const [updatedUser, setUpdatedUser] = useState({});
+  const [updatedUser, setUpdatedUser] = useState({ timezone: '' });
+  const [timezones, setTimezones] = useState([]);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -40,10 +41,18 @@ function DashboardAccount() {
     };
 
     fetchUserData();
+
+    const availableTimezones = Intl.supportedValuesOf('timeZone');
+    setTimezones(availableTimezones);
   }, []);
 
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
+  };
+
+  const handleCancelEdit = () => {
+    setUpdatedUser(user);
+    setIsEditing(false); 
   };
 
   const handleInputChange = (e) => {
@@ -60,15 +69,17 @@ function DashboardAccount() {
         method: 'PUT',
         body: JSON.stringify({
           name: updatedUser.name,
-          email: updatedUser.email,
           phone: updatedUser.phone,
+          discordAccount: updatedUser.discordAccount,
+          pronouns: updatedUser.pronouns,
+          timezone: updatedUser.timezone,
         }),
         headers: { 'Content-Type': 'application/json' },
       });
 
       if (response.ok) {
         const result = await response.json();
-        setUser(result); 
+        setUser(result);
         setIsEditing(false);
         alert('Account details updated successfully.');
       } else {
@@ -82,25 +93,38 @@ function DashboardAccount() {
   };
 
   const handleDeleteAccount = async () => {
-    if (!window.confirm('Are you sure you want to delete your account? This action is irreversible.')) return;
+    if (!window.confirm('Are you sure you want to delete your account? You will receive a confirmation email to proceed.')) {
+      return;
+    }
 
+    const password = prompt('Please re-enter your password for confirmation:');
+    if (!password) {
+      alert('Password is required to delete your account.');
+      return;
+    }
+  
     try {
-      const response = await fetch(buildPath(`api/user/${user._id}`), {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-      });
-
-      if (response.ok) {
-        alert('Your account has been deleted.');
-        localStorage.clear();
-        window.location.href = '/login';
-      } else {
-        const result = await response.json();
-        alert(result.error || 'Failed to delete account.');
-      }
+        const response = await fetch(buildPath(`api/user/request-delete/${user._id}`), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password }),
+        });
+  
+        if (response.ok) {
+          alert('A confirmation email has been sent to your email address. Please follow the instructions to confirm account deletion.');
+        } else {
+          const result = await response.json();
+          alert(result.error || 'Failed to initiate account deletion.');
+        }
     } catch (err) {
-      console.error('Error deleting account:', err);
-      alert('An error occurred while deleting your account.');
+        console.error('Error sending account deletion email:', err);
+        alert('An error occurred while initiating account deletion.');
+    }
+  };  
+
+  const handleResetPassword = () => {
+    if (window.confirm('Are you sure you want to reset your password?')) {
+      window.location.href = `/reset-password/${user._id}/:token`; 
     }
   };
 
@@ -126,17 +150,7 @@ function DashboardAccount() {
             </div>
             <div className="detailItem">
               <label className="detailLabel">Email:</label>
-              {isEditing ? (
-                <input
-                  type="email"
-                  name="email"
-                  value={updatedUser.email || ''}
-                  onChange={handleInputChange}
-                  className="editInput"
-                />
-              ) : (
-                <span className="detailValue">{user.email}</span>
-              )}
+              <span className="detailValue">{user.email}</span>
             </div>
             <div className="detailItem">
               <label className="detailLabel">Phone Number:</label>
@@ -152,8 +166,54 @@ function DashboardAccount() {
                 <span className="detailValue">{user.phone || 'N/A'}</span>
               )}
             </div>
+            <div className="detailItem">
+              <label className="detailLabel">Discord Account:</label>
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="discordAccount"
+                  value={updatedUser.discordAccount || ''}
+                  onChange={handleInputChange}
+                  className="editInput"
+                />
+              ) : (
+                <span className="detailValue">{user.discordAccount || 'N/A'}</span>
+              )}
+            </div>
+            <div className="detailItem">
+              <label className="detailLabel">Pronouns:</label>
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="pronouns"
+                  value={updatedUser.pronouns || ''}
+                  onChange={handleInputChange}
+                  className="editInput"
+                />
+              ) : (
+                <span className="detailValue">{user.pronouns || 'N/A'}</span>
+              )}
+            </div>
+            <div className="detailItem">
+              <label className="detailLabel">Timezone: </label>
+              {isEditing ? (
+                <select className="editSelect" name="timezone" value={updatedUser.timezone || ''} onChange={handleInputChange} >
+                  <option value="" disabled>Select your timezone</option>
+                  {timezones.map((zone, index) => (
+                    <option key={index} value={zone}>
+                      {zone}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <span className="detailValue">{user.timezone || 'N/A'}</span>
+              )}
+            </div>
           </div>
           <div className="accountActions">
+            <button className="btn resetPasswordBtn" onClick={handleResetPassword}>
+              Reset Password
+            </button>
             {isEditing ? (
               <button className="btn saveBtn" onClick={handleSave}>
                 Save
@@ -163,9 +223,15 @@ function DashboardAccount() {
                 Edit
               </button>
             )}
-            <button className="btn deleteBtn" onClick={handleDeleteAccount}>
-              Delete Account
-            </button>
+            {isEditing ? (
+              <button className="btn deleteBtn" onClick={handleCancelEdit}>
+                Cancel
+              </button>
+            ) : (
+              <button className="btn deleteBtn" onClick={handleDeleteAccount}>
+                Delete Account
+              </button>
+            )}
           </div>
         </>
       ) : (

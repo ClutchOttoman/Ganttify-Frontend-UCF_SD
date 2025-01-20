@@ -15,10 +15,9 @@ function DasboardNavBar()
 
     const doCreateProject = async event => {
         event.preventDefault();
-
         var obj = {founderId:userId,nameProject:newProjectName.value};
+        console.log(obj)
         var js = JSON.stringify(obj);
-        //console.log(js);
         try
         {
             if (newProjectName.value.length > 35){
