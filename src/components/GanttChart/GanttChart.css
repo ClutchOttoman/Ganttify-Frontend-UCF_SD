@@ -16,6 +16,7 @@
     flex-direction: row;
     justify-content: flex-end;
     width: 100%;
+    margin-top: -130px;
     }
     
   .gantt-chart-time-range-selection {
@@ -30,11 +31,12 @@
   }
 
   .gantt-chart-sort-selector {
-    margin-top: -38px;
+   
     display: flex;
     justify-content: flex-start;
     align-items: center;
     margin-right: 5px;
+    margin-top: -40px;
   }
   
   .gantt-chart-sort-selection {
@@ -51,3 +53,41 @@
   .gantt-chart-sort-selection option {
     padding: 8px;
   }
+
+
+
+/* General button styles */
+.export-pdf-button,
+.export-csv-button {
+  margin: 0px;
+  font-size: 11px;
+  background-color: #e08554;
+  color: #ffffff;
+  border: black;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 3px 7px;
+  font-weight: bold;
+  margin-right: 98px;
+  margin-top: 11px;
+  margin-left: 345px;
+
+ 
+}
+
+.export-pdf-button:hover,
+.export-csv-button:hover {
+  background-color: #dc5e1a;
+}
+
+/* This class will hide export buttons during export */
+.exclude-from-pdf {
+  display: none !important;
+}
+
+
+
+/* To explicitly adjust the vertical position of the buttons */
+.export-buttons-container {
+  margin-bottom: 100px; /* Add vertical spacing above */
+}
