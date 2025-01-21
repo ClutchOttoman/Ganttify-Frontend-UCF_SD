@@ -31,13 +31,6 @@ import Hollow_Single_Triangle_Density_1 from '../../Images/assets/accessible_pat
 
 import {buildPath} from '../buildPath';
 
-const debounce = (func, delay) => {
-  let timeout;
-  return (...args) => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func(...args), delay);
-  };
-};
 
 function isTaskHappeningNow(startDate,dueDate,dateToCheck){
     const timestamp = new Date(dateToCheck+"T00:00:00.000Z");
@@ -63,7 +56,6 @@ export default function TimeTable({
   setTaskDurations,
   userId,
   projectId,
-  userRole,
 }) {
 
 
@@ -106,33 +98,66 @@ export default function TimeTable({
   }, [arrayOfTasks]);
 
   // Gets the project's details
-  useEffect(() => { 
-      setCurrentDayMarkerHeight(tasks.length)
-      console.log(tasks)
-      if(userRole === 'founder' || 'editor'){
-        setIsEditable(true);
-      }
+  useEffect(() => {
+    const fetchProjectData = async () => {
+      try {
+        const response = await fetch(buildPath(`api/getProjectDetails/${projectId}`));
+        const project = await response.json();
 
-      setArrayOfTasks(tasks);
-
-      let lB = null;
-      let rB = null;
-    
-      for(let i in tasks){
-        if(lB == null || tasks[i].startDateTime < lB){
-          lB = tasks[i].startDateTime;
+        if (!project || !project.team) {
+          return;
         }
-          
-        if(rB == null || rB < tasks[i].dueDateTime){
-          rB = tasks[i].dueDateTime;
-        }
+
+        const isFounder = project.founderId === userId;
+        const isEditor = project.team.editors.includes(userId);
+        setCurrentDayMarkerHeight(project.tasks.length);
+
+        setIsEditable(isFounder || isEditor);
+
+        //Get details about the current tasks listed in the chart
+        try {
+          const response = await fetch(buildPath(`api/search/tasks/project`), {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ projectId }),
+          });
+        
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+        
+          const tasks = await response.json();
+
+          setArrayOfTasks(tasks);
+
+          let lB = null;
+          let rB = null;
+        
+          for(let i in tasks){
+            if(lB == null || tasks[i].startDateTime < lB){
+              lB = tasks[i].startDateTime;
+            }
+              
+            if(rB == null || rB < tasks[i].dueDateTime){
+              rB = tasks[i].dueDateTime;
+            }
+          }
+        
+          setLeftBoundary(lB);
+          setRightBoundary(rB);
+
+          } catch (error) {
+            console.error("Error finding project:", error.stack); // Log full stack trace
+            res.status(500).json({ error: "Internal server error", details: error.message });  }
+      } catch (error) {
+        console.error('Error fetching project data:', error);
       }
-    
-      setLeftBoundary(lB);
-      setRightBoundary(rB);
+    };
 
-
-  }, [projectId, userId, tasks]);
+    fetchProjectData();
+  }, [projectId, userId]);
 
   // Event handlers
   const handleOutsideClick = (e) => {
@@ -157,7 +182,7 @@ export default function TimeTable({
 
   // Handles the "resizing" of a singular task
   const handleResizeStart = (e, taskDurationId, direction) => {
-    //console.log("starting resize");
+    console.log("starting resize");
     e.stopPropagation();
     e.preventDefault();
     setResizingTask(taskDurationId);
@@ -177,32 +202,40 @@ export default function TimeTable({
       if (!taskDuration) {
         return;
       }
-      turnOnPattern(taskDuration);
-      const endDate = new Date(taskDuration.end)
-      const startDate = new Date(taskDuration.start)
-      const id = taskDuration._id.slice(0,24);
-      for(let i = 1;i<15;i++){
-        togglePatternDate(endDate.addDays(i).toISOString().slice(0,10),id,true);
-        togglePatternDate(startDate.addDays(-i).toISOString().slice(0,10),id,true);
+
+      const obj = { startDateTime: taskDuration.start, dueDateTime: taskDuration.end };
+      const js = JSON.stringify(obj);
+
+      try {
+        const response = await fetch(buildPath(`api/tasks/${taskDuration.task}/dates`), {
+          method: 'PUT',
+          body: js,
+          headers: { 'Content-Type': 'application/json' }
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error, status: ${response.status}`);
+        }
+
+        setTaskDurations((prevDurations) =>
+          prevDurations.map((duration) =>
+            duration._id === taskDuration._id ? taskDuration : duration
+          )
+        );
+      } catch (error) {
+        console.error('Error updating task dates: ', error);
       }
 
-      updateTaskAPI(taskDuration);
-
+      setResizingTask(null);
+      setResizeDirection(null);
+      setIsResizing(false);
     }
     if (isDragging) {
       setIsDragging(false);
       handleDragEnd(taskDurationElDraggedId);
     }
   };
-  function togglePatternDate(date,id,hide){
-    const pattern = document.getElementById(`pattern/${date}/${id}`);
-    if(hide){
-        pattern.setAttribute("hidden","true");
-    }
-    else{  
-        pattern.removeAttribute("hidden");
-    }
-  }
+
 
   // Updates the task's dates based off of the user's mouse's position 
   const handleMouseMove = (e) => {
@@ -233,31 +266,14 @@ export default function TimeTable({
 
         if (resizeDirection === 'left') {
           if (new Date(newDate) <= new Date(taskDuration.end)) {
-            if(new Date(newDate) > new Date(taskDuration.start)){
-                let patternDate = new Date(newDate).addDays(-1);
-                let formattedPatternDate = patternDate.toISOString().slice(0,10);
-                togglePatternDate(formattedPatternDate,id,true)
-            }
-            else if(new Date(newDate) < new Date(taskDuration.start)){
-                togglePatternDate(newDate,id,false)
-            }
             taskDuration.start = newDate;
           }
         } else if (resizeDirection === 'right') {
           if (new Date(newDate) >= new Date(taskDuration.start)) {
-            if(new Date(newDate) < new Date(taskDuration.end)){
-                let patternDate = new Date(newDate).addDays(1);
-                let formattedPatternDate = patternDate.toISOString().slice(0,10);
-                togglePatternDate(formattedPatternDate,id,true)
-            }
-            else if(new Date(newDate) > new Date(taskDuration.end)){
-                togglePatternDate(newDate,id,false)
-            }
             taskDuration.end = newDate;
           }
         }
-
-
+        
         setTaskDurations((prevDurations) =>
           prevDurations.map((duration) =>
             duration._id === taskDuration._id ? { ...taskDuration } : duration
@@ -265,6 +281,8 @@ export default function TimeTable({
         );
       }
     }
+
+
 
     if (isDragging) {
       const taskDuration = taskDurations.find(
@@ -276,6 +294,8 @@ export default function TimeTable({
       }
 
       const dateCells = Array.from(document.querySelectorAll('[data-date]'));
+
+
 
       // Gets the cell date that is closest to the user's mouse
       const closestDateCell = dateCells.reduce((closest, cell) => {
@@ -350,8 +370,7 @@ export default function TimeTable({
     left:'29px',
     zIndex: '2',
     borderRadius: 'var(--border-radius)',
-    backgroundColor: 'black',
-    pointerEvents: 'none',
+    backgroundColor: 'black'
   }
 
 
@@ -522,7 +541,8 @@ export default function TimeTable({
           var taskHappening=false;
           if(task['pattern'] && (task['pattern'] in patterns)){
             taskHappening = isTaskHappeningNow(startDate,dueDate,formattedDate);
-          }
+          } 
+
           taskRow.push(
             <div
               key={`${task._id}-${j}`}
@@ -543,10 +563,14 @@ export default function TimeTable({
               onMouseLeave={() => setHoveredRow(null)} 
             >
 
-
-            <img id={`pattern/${formattedDate}/${task._id}`}src={patterns[task.pattern]} class = "patternImg" hidden={!taskHappening}/>
               {taskDurations.map((el, i) => {
+                {/*Added this to prevent tasks from rendering past the last month of the current calender year*/}
                 const elStartDate = el?.start.split('T')[0];
+                let endMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 7, 0); 
+                const formattedEndMonth = endMonth.toISOString().split('T')[0];
+                const adjustedEndDate = new Date(el?.end).getTime() > new Date(formattedEndMonth).getTime()  
+                  ? formattedEndMonth 
+                  : el?.end;
 
                 if (el?.task === task?._id && elStartDate === formattedDate) {
                   return (
@@ -568,39 +592,65 @@ export default function TimeTable({
                       onMouseUp={handleResizeEnd}
 
                       style={{
-                        
                         ...taskDurationBaseStyle,
-                        width: `calc(${dayDiff(el?.start, el?.end)} * 100% - 1px)`,
+                        width: `calc(${dayDiff(el?.start, adjustedEndDate)} * 100% - 1px)`,
                         opacity: taskDurationElDraggedId === el?._id ? '0.5' : '1',
                         background: task.color || 'var(--color-primary-light)',
-                        border: hoveredTask === el?._id && !isResizing ? '2px solid black' : 'none',
-                        cursor: isEditable && !isResizing ? 'move' : 'default'
+                        backgroundImage: patterns[task.pattern] ? `url(${patterns[task.pattern]})` : 'none',
+                        backgroundSize: 'contain',
+                        cursor: isEditable && !isResizing ? 'move' : 'default',
+                        
                       }}
 
                       onKeyDown={isEditable ? (e) => deleteTaskDuration(e, el?.task) : null}
-                      onClick={() => { setSelectedTask(task); setShowDetails(true); }}
+                      onClick={() => {
+                        if (!isResizing) { // Prevents showing details after resizing task bar.
+                          setSelectedTask(task);
+                          setShowDetails(true);
+                        }
+                      }}
+                      onMouseEnter={() => setHoveredTask(el?._id)} 
+                      onMouseLeave={() => setHoveredTask(null)} 
                     >
 
                       {isEditable && (
                         <>
-                        
+                      
                           <div
                             className="resize-handle left"
                             onMouseDown={(e) => handleResizeStart(e, el?._id, 'left')}
-                            style={{ cursor: 'ew-resize', position: 'absolute', left: '0', width: '10px', height: '100%', zIndex: 2 }}
+                            style={{ cursor: 'ew-resize', position: 'absolute', left: '0', width: '10px', height: '100%', zIndex: 3 }}
                           />
                           <div
                             className="resize-handle right"
                             onMouseDown={(e) => handleResizeStart(e, el?._id, 'right')}
-                            style={{ cursor: 'ew-resize', position: 'absolute', right: '0', width: '10px', height: '100%', zIndex: 2 }}
+                            style={{ cursor: 'ew-resize', position: 'absolute', right: '0', width: '10px', height: '100%', zIndex: 3 }}
                           />
-
                             
                         </>
+                      )}
+
+                      {(hoveredTask === el?._id || resizingTask === el?._id) && (
+                        <div
+                          style={{
+                            position: 'absolute',
+                            top: '15%',
+                            left: '100%',
+                            transform: 'translateX(2px)', 
+                            color: 'black',
+                            whiteSpace: 'nowrap', // Using this to keep text in a single line
+                            padding: '2px 5px',
+                            fontFamily:'Montserrat, sans-serif',
+                            fontSize: '12px'
+                            }}
+                        >
+                        {`${el.start.split('T')[0].replace(/-/g, '/')}  -  ${el.end.split('T')[0].replace(/-/g, '/')}`}
+                        </div>
                       )}
                     </div>
                   );
                 }
+                
               })}
             </div>
           );
@@ -620,28 +670,14 @@ export default function TimeTable({
     });
   }
 
-  const handleDelete = async (taskId) => {
-    const newTasks = tasks.filter((task) => task._id !== taskId);
-    setTasks(newTasks);
-
-    setTaskDurations((prevState) => {
-
-      
-      const newTaskDurations = prevState.filter(
-        (taskDuration) => taskDuration.task !== taskId
-      );
-      return newTaskDurations;
-    });
-
-
-    
+  const handleDelete = async (taskId, projectId) => {
     try {
-
       const response = await fetch(buildPath(`api/tasks/${taskId}`), {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify({ projectId }),
       });
 
       if (!response.ok) {
@@ -656,11 +692,11 @@ export default function TimeTable({
       setTaskDurations(prevDurations => prevDurations.filter(duration => duration.task !== taskId));
       console.log(tasks)
   
+      //window.location.reload(); 
       setShowDetails(false);
       setSelectedTask(null);
       setCurrentDayMarkerHeight(currentDayMarkerHeight - 1);
       console.log(projectId.tasks.length)
-      
     } catch (error) {
       console.error('Error deleting task:', error);
     }
@@ -668,36 +704,11 @@ export default function TimeTable({
 
   function deleteTaskDuration(e, id) {
     if (e.key === 'Delete' || e.key === 'Backspace') {
-      const newTaskDurations = taskDurations.filter( (taskDuration) => taskDuration.id !== id);
-      
-      setTaskDurations(newTaskDurations);
-      
-      console.log("Deleted taskDuration with id:", id);
-
-      
+      if (window.confirm('Are you sure you want to delete?')) {
+        handleDelete(id, projectId);
+      }
     }
   }
-
-
-  function turnOffPattern(taskDurationId){
-    const taskDuration = taskDurations.find(
-        (taskDuration) => taskDuration._id === taskDurationId
-    );
-
-    if (!taskDuration) {
-        return;
-    }
-    const startDate = new Date(taskDuration.start);
-    const endDate = new Date(taskDuration.end);
-    var day = startDate;
-    while(day <= endDate){
-        let pattern = document.getElementById(`pattern/${day.toISOString().slice(0,10)}/${taskDurationId.slice(0,24)}`)
-        pattern.setAttribute("hidden",true)
-        day = day.addDays(1);
-    }
-  }
-
-
 
   function handleDragStart(taskDurationId) {
     if (!resizingTask) {
@@ -706,7 +717,6 @@ export default function TimeTable({
       setHoveredTask(null);
       setIsDragging(true);
       console.log("Drag started for taskDurationId:", taskDurationId);
-      turnOffPattern(taskDurationId);
     }
   }
 
@@ -714,75 +724,38 @@ export default function TimeTable({
   function handleDragEnd(taskDurationId) {
 
     if (!resizingTask) {
-      
+
       setTaskDurationElDraggedId(null);
+
       setHoveredTask(null);
+      
       setIsDragging(false);
       
       console.log("Drag ended for taskDurationId:", taskDurationId);
     }
   }
 
-  // Seperating update task api to add a debounce.
-  const updateTaskAPI = debounce(async (taskDuration) => {
-    const obj = { startDateTime: taskDuration.start, dueDateTime: taskDuration.end };
-    const js = JSON.stringify(obj);
-  
-    try {
-      const response = await fetch(buildPath(`api/tasks/${taskDuration.task}/dates`), {
-        method: 'PUT',
-        body: js,
-        headers: { 'Content-Type': 'application/json' }
-      });
-  
-      if (!response.ok) {
-        throw new Error(`HTTP error, status: ${response.status}`);
-      }
-  
-      console.log('Task dates updated successfully on the server.');
-      setResizingTask(null);
-      setResizeDirection(null);
-      setIsResizing(false);
 
-    } catch (error) {
-      console.error('Error updating task dates: ', error);
-    }
-  }, 500);
-  
-  function turnOnPattern(taskDuration){
-    const id = (taskDuration._id).slice(0,24);
-    console.log(id);
-    const startDate = new Date(taskDuration.start);
-    const endDate = new Date(taskDuration.end);
-    var day = startDate;
-    while(day <= endDate){
-        let pattern = document.getElementById(`pattern/${day.toISOString().slice(0,10)}/${id}`);
-        console.log(pattern.id);
-        pattern.removeAttribute("hidden")
-        day = day.addDays(1);
-    }
-  }
 
-  //Handler for task drag and drop
   async function onTaskDurationDrop(e) {
     const targetCell = e.target;
-    
+
     const taskDuration = taskDurations.find(
       (taskDuration) => taskDuration._id === taskDurationElDraggedId
     );
-
 
     if (!taskDuration) {
       return;
     }
 
-
     const dataTask = targetCell.getAttribute('data-task');
     const dataDate = targetCell.getAttribute('data-date');
     const targetTaskId = targetCell.getAttribute('data-task-id');
 
+    console.log(taskDuration)
+    console.log(targetTaskId)
+
     if (taskDuration.task !== targetTaskId) {
-      turnOnPattern(taskDuration);
       console.log("Task can only be dropped within its respective row.");
       return;
     }
@@ -804,14 +777,32 @@ export default function TimeTable({
       taskDuration.task = dataTask;
       taskDuration.start = createFormattedDateFromDate(newStartDate);
       taskDuration.end = createFormattedDateFromDate(newEndDate);
-      turnOnPattern(taskDuration);
 
       const newTaskDurations = taskDurations.filter(
         (taskDuration) => taskDuration._id !== taskDurationElDraggedId
       );
       newTaskDurations.push(taskDuration);
 
-      updateTaskAPI(taskDuration);
+      try {
+        const obj = { startDateTime: taskDuration.start, dueDateTime: taskDuration.end };
+        const js = JSON.stringify(obj);
+
+        const response = await fetch(buildPath(`api/tasks/${taskDuration.task}/dates`), {
+          method: 'PUT',
+          body: js,
+          headers: { 'Content-Type': 'application/json' }
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error, status: ${response.status}`);
+        }
+
+        setTaskDurations(newTaskDurations);
+        console.log("Dropped taskDuration:", taskDuration);
+
+      } catch (error) {
+        console.error('Error editing tasks: ', error);
+      }
     } 
     
     else {
