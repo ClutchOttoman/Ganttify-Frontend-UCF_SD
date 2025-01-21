@@ -29,9 +29,6 @@ const patternDisplayNames = {
 	'Solid_Single_Square_Density_1.svg':'Solid Squares',
 	'Solid_Single_Star_Density_1.svg':'Solid Stars',
 	'Solid_Single_Triangle_Density_1.svg':'Solid Triangles',
-	'Halftone_Density_1.png':'Halftone',
-	'Halftone_Density_2.png':'Light Halftone',
-	'Halftone_Density_3.png':'Dense Halftone',
     'No Pattern':'No Pattern'
 }
 
@@ -665,7 +662,6 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
                         <a onClick={()=>handlePatternChange('Solid_Single_Square_Density_1.svg','Solid Squares')} class = "dropdown-item patternDropdownItem">Solid Squares</a>
                         <a onClick={()=>handlePatternChange('Solid_Single_Star_Density_1.svg','Solid Stars')} class = "dropdown-item patternDropdownItem">Solid Stars</a>
                         <a onClick={()=>handlePatternChange('Solid_Single_Triangle_Density_1.svg','Solid Triangles')} class = "dropdown-item patternDropdownItem">Solid Triangles</a>
-                        <a onClick={()=>handlePatternChange('Halftone_Density_1.png','Halftone')} class = "dropdown-item patternDropdownItem">Halftone</a>
                         <a onClick={()=>handlePatternChange('No Pattern','No Pattern')} class = "dropdown-item patternDropdownItem">No Pattern</a>
                         </ul>
                   </div>:
