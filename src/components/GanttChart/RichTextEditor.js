@@ -123,14 +123,6 @@ const RichTextEditor = ({ taskDescription, setTaskDescription}) => {
       setShowColorPicker(!showColorPicker)
   };
 
-  // Clears textbox
-  const handleFocus = () => {
-    if (editor && editor.getText() === 'Add a description here...') {
-      editor.commands.setContent(''); 
-    }
-  };
-
-
   // Checks if button(s) are toggled:
   const isBoldActive = editor?.isActive('bold');
   const isItalicActive = editor?.isActive('italic');
@@ -138,6 +130,12 @@ const RichTextEditor = ({ taskDescription, setTaskDescription}) => {
   const isBulletActive = editor?.isActive('bulletList');
   const isOrderedActive = editor?.isActive('orderedList');
   const isStrikeActive = editor?.isActive('strike');
+    // Clears textbox
+    const handleFocus = () => {
+      if (editor && editor.getText() === 'Add a description here...') {
+        editor.commands.setContent(''); 
+      }
+    };
 
   return (
     <div className="task-details-body">
