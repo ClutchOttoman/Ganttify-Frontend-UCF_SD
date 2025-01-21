@@ -102,11 +102,17 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
         } else {
           setUserRole('member');
         }
+
       } catch (error) {
         console.error('Error fetching project data:', error);
       }
     };
 
+    fetchProjectData();
+  }, [projectId, userId, setUserRole]);
+
+  //Fetch Tasks 
+  useEffect(() => {
     const fetchTasks = async () => {
       try {
         const obj = { projectId };
@@ -147,29 +153,25 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
         setTaskDurations(durations);
 
 
-        localStorage.setItem("tasks", JSON.stringify(sortedTasks));
+        sessionStorage.setItem("tasks", JSON.stringify(sortedTasks));
 
       } catch (error) {
         console.error('Error fetching tasks: ', error);
       }
     };
 
-    fetchProjectData();
     fetchTasks();
   }, [projectId, userId, setUserRole, sortBy]);
 
-
   useEffect(() => {
-    const savedSortOption = localStorage.getItem("sortBy");
+    const savedSortOption = sessionStorage.getItem("sortBy");
     if (savedSortOption) {
       setSortBy(savedSortOption); // Set the sort option to the saved value
     }
   }, []);
-  
-
 
   useEffect(() => {}, [taskDurations]);
-  
+
   useEffect(() => {
     const sortedTasks = sortTasks(tasks); // Sort the current tasks based on the selected sorting method
     setTasks(sortedTasks); // Update the state with sorted tasks
@@ -189,7 +191,7 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
   const handleSortChange = (event) => {
     const newSortBy = event.target.value;
     setSortBy(newSortBy); // Update the sorting preference
-    localStorage.setItem("sortBy", newSortBy); // Save the sort option in localStorage
+    sessionStorage.setItem("sortBy", newSortBy); // Save the sort option in sessionStorage
   };
   
 
