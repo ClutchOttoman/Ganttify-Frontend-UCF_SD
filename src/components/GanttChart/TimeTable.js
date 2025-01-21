@@ -664,6 +664,7 @@ export default function TimeTable({
       setSelectedTask(null);
       setCurrentDayMarkerHeight(currentDayMarkerHeight - 1);
       console.log(projectId.tasks.length)
+      
     } catch (error) {
       console.error('Error deleting task:', error);
     }
@@ -751,8 +752,8 @@ export default function TimeTable({
       console.error('Error updating task dates: ', error);
     }
   }, 500);
-
-  //Handler for task drag and drop  function turnOnPattern(taskDuration){
+  
+  function turnOnPattern(taskDuration){
     const id = (taskDuration._id).slice(0,24);
     console.log(id);
     const startDate = new Date(taskDuration.start);
@@ -766,6 +767,7 @@ export default function TimeTable({
     }
   }
 
+  //Handler for task drag and drop
   async function onTaskDurationDrop(e) {
     const targetCell = e.target;
     
