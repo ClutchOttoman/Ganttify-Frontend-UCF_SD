@@ -1,0 +1,40 @@
+name: CI/CD Pipeline
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with: 
+        node-version: 20.16.0
+    - name: Install dependencies
+      run: npm install
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Install sshpass
+        run: sudo apt-get install -y sshpass
+      - name: Deploy to DigitalOcean Droplet
+        env:
+          DROPLET_IP: ${{ secrets.DROPLET_IP }}
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+        run: |
+          sshpass -p "${SSH_PASSWORD}" ssh -o StrictHostKeyChecking=no root@${DROPLET_IP} << 'EOF'
+          cd /var/www/Ganttify.xyz/html
+          git pull origin main
+          npm install
+          npm run build
+          systemctl restart nginx
+          EOF
