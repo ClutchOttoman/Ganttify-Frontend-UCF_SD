@@ -35,6 +35,8 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
   const [selectedTask, setSelectedTask] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
 
+  const [isExporting, setIsExporting] = useState(false); //added
+
 
   const [sortBy, setSortBy] = useState('alphabetical'); // Default sort by alphabetical
 
@@ -191,6 +193,103 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
   };
   
 
+
+  const exportToPDF = async () => {
+    const ganttContainer = document.getElementById('gantt-container');
+    const exportButtons = document.querySelectorAll('.export-pdf-button, .export-csv-button');
+    const rangeMenu = document.querySelector('.gantt-chart-time-range-selector');
+    const sortMenu = document.querySelector('.gantt-chart-sort-selector');
+  
+    if (!ganttContainer) return;
+  
+    // Temporarily hide the elements we don't want in the export
+    const hideElements = () => {
+      exportButtons.forEach(button => button.style.display = 'none');
+      if (rangeMenu) rangeMenu.style.display = 'none';
+      if (sortMenu) sortMenu.style.display = 'none';
+    };
+  
+    // Restore the hidden elements
+    const restoreElements = () => {
+      exportButtons.forEach(button => button.style.display = '');
+      if (rangeMenu) rangeMenu.style.display = '';
+      if (sortMenu) sortMenu.style.display = '';
+    };
+  
+    try {
+      // Hide the elements temporarily
+      hideElements();
+  
+      // Use html2canvas to capture the gantt container
+      const canvas = await html2canvas(ganttContainer, { scale: 2 });
+      const imgData = canvas.toDataURL('image/png');
+  
+      // Create a new jsPDF instance
+      const pdf = new jsPDF({
+        orientation: 'landscape',
+        unit: 'px',
+        format: [canvas.width, canvas.height],
+      });
+  
+      // Add the image to the PDF
+      pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+  
+      // Save the PDF
+      pdf.save('gantt-chart.pdf');
+    } catch (error) {
+      console.error('Error exporting Gantt chart to PDF:', error);
+    } finally {
+      // Restore the elements after the export
+      restoreElements();
+    }
+  };
+  
+
+  const exportToCSV = () => {
+    // Set exporting state to true
+    setIsExporting(true);
+
+    const tasksData = tasks.map((task) => ({
+        Task: task.taskTitle,
+        Description: task.description || "",  // Description
+        Start: task.startDateTime ? new Date(task.startDateTime).toISOString() : '',
+        End: task.dueDateTime ? new Date(task.dueDateTime).toISOString() : '',
+        Category: task.taskCategory || "",
+        Color: task.color,  // Color (Optional)
+        Pattern: task.pattern || 'No Pattern', // Pattern (Optional)
+        Status: task.status || 'Not Started',
+    }));
+
+     // Convert tasksData to CSV format
+     const header = ['Task', 'Description', 'Start', 'End', 'Category', 'Color', 'Pattern', 'Status'];
+     const rows = tasksData.map((task) => [
+         task.Task,
+         task.Description,
+         task.Start,
+         task.End,
+         task.Category,
+         task.Color,
+         task.Pattern,
+         task.Status,
+     ]);
+
+    // Combine header and rows into CSV content
+    const csvContent = [header, ...rows]
+        .map((row) => row.join(','))
+        .join('\n');
+
+    // Create a Blob from the CSV content
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'gantt-chart-data.csv'; // Name of the CSV file
+    link.click();
+
+    // Reset exporting state after download
+    setIsExporting(false);
+};
+
+
   return (
     <div id="gantt-container">
       <Grid>
@@ -222,6 +321,20 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
         userId={userId}
       />
 
+
+<div className="export-buttons-container">
+  {!isExporting && (
+    <>
+      <button onClick={exportToPDF} className="export-pdf-button">
+        Export PDF
+      </button>
+      <button onClick={exportToCSV} className="export-csv-button">
+        Export CSV
+      </button>
+    </>
+  )}
+</div>
+
       <div class="gantt-chart-time-range-selector">
         <select class="gantt-chart-time-range-selection" onChange={(e) => handleTimeRangeChange(e)}>
           <option value="">Range</option>
@@ -239,7 +352,6 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
         </select>
       </div>
       
-
     </div>
   );
 }
