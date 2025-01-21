@@ -170,7 +170,7 @@ const AddTaskButton = ({ projectId }) => {
         //console.log("adding prereq: " + taskId + " into: " + prerequisiteTasks);
     }
     setTaskData((prevData) => {
-        const prerequisiteTasks = prevData.prerequisiteTasks.includes(taskId) ? prevData.prerequisiteTasks.filter((id) => id !== userId) : [...prevData.prerequisiteTasks, taskId];
+        const prerequisiteTasks = prevData.prerequisiteTasks.includes(taskId) ? prevData.prerequisiteTasks.filter((id) => id !== taskId) : [...prevData.prerequisiteTasks, taskId];
         return { ...prevData, prerequisiteTasks: prerequisiteTasks };
       });
   }

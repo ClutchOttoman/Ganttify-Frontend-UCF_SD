@@ -372,9 +372,19 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
     return date.toLocaleDateString('en-US', { ...options, timeZone: 'UTC' });
   };
 
+  const generatePrereqAlert = () =>{
+    var prereqAlert = "You cannot finish this task while its prerequisite tasks are incomplete:"
+    var unfinishedTasks = projectTasks.filter(projectTask => (task.prerequisiteTasks.includes(projectTask._id) && projectTask.progress != "Completed"))
+    unfinishedTasks.forEach(unfinishedTask => {
+        prereqAlert += `\n${unfinishedTask.taskTitle}`
+    });
+    return prereqAlert;
+  }
   const handleStatusChange = async (newStatus) => {
     if(newStatus == "Completed" && !allPrerequisitesDone){
-        window.alert("You cannot finish a task that has incomplete prerequisites.")
+        // List the tasks that need to be completed Here
+        let prequisiteTaskAlert = generatePrereqAlert();
+        window.alert(prequisiteTaskAlert);
         return;
     }
     setStatus(newStatus);
@@ -402,7 +412,6 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
 
   const handleColorChange = (newColor) => {
     setColor(newColor);
-
     var element = document.getElementById('color-circle');
     element.style.backgroundColor = newColor;
   };
