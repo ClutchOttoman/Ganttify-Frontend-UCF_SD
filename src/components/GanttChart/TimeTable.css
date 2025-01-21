@@ -23,11 +23,7 @@
   resize: vertical;
 }
 
-.task-duration:hover {
-  border: 2px solid black;
-}
-
-.dragging {
+.task-duration:dragging {
   opacity: 0.5;
 }
 
@@ -76,18 +72,4 @@
 
 .non-editable {
   cursor: default;
-}
-
-
-.patternImg{
-    position: absolute;
-    max-height: calc((var(--cell-height) / 1.5));
-    width: 60px;
-    top: calc(var(--cell-height) / 7);
-    right:1px;
-    z-index: 2;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
-    pointer-events: none;
 }

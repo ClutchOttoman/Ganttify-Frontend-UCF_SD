@@ -10,7 +10,7 @@ const ResetPasswordPage = () =>{
 
     return(
         <div>
-            <NavBar layout = {1} />
+            {/* <NavBar layout = {1} /> */}
             <ResetPassword/>
         </div>
     );

@@ -13,14 +13,15 @@ import ResetPasswordPage from './pages/ResetPasswordPage';
 import EditEmailPage from './pages/EditEmailPage';
 import VerifyEmailPage from './pages/VerifyEmailPage';
 import DashboardPage from './pages/DashboardPage';
-import DashboardAccountPage from './pages/DashboardAccountPage';
 import DashboardChartsPage from './pages/DashboardChartsPage';
+import DashboardAccountPage from './pages/DashboardAccountPage';
 import ViewChartPage from './pages/ViewChartPage';
 import AcceptInvitePage from './pages/AcceptInvitePage';
 import RecentlyDeletedPage from './pages/RecentlyDeletedPage';
 import RegisterTokenPage from './pages/RegisterTokenPage';
 import VerifyEmailTokenPage from './pages/VerifyEmailTokenPage';
 import ConfirmDeletePage from './pages/ConfirmDeletePage';
+import ConfirmRestorePage from './pages/ConfirmRestorePage';
 
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
           <Route path="/register/:token" element={<RegisterTokenPage />} />
           <Route path="/verify-invite/:token" element={<VerifyEmailTokenPage />} />
           <Route path="/confirm-delete/:userId/:token" element={<ConfirmDeletePage />} />
+          <Route path="/restore-account/:userId/:token" element={<ConfirmRestorePage />} />
         </Routes>
     </BrowserRouter>
   );
