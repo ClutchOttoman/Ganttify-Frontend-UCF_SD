@@ -357,11 +357,21 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
     return users.filter(user => user !== null);
   };
 
+  const formatDateForInput = (dateString) => {
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0];  // Convert to YYYY-MM-DD format
+  };
+  
   const formatDate = (dateString) => {
+    console.log('Date string:', dateString);  // Add this line
     const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { ...options, timeZone: 'UTC' });
+    console.log('Parsed date:', date);  // Add this line
+    return date.toLocaleDateString('en-US', options);
   };
+
+ 
+  
 
   const handleStatusChange = async (newStatus) => {
     setStatus(newStatus);
@@ -587,6 +597,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
 
   if (!show || !task || !fetchedTask) return null;
 
+
   return (
 
     <div id="task-details-sidebar" className="task-details-sidebar">
@@ -742,24 +753,18 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
             
 
             <p><strong>Created Date:</strong> {formatDate(fetchedTask.taskCreated)}</p>
-            <p><strong>Start Date:</strong> {editMode ? (
+<p><strong>Start Date:</strong> {editMode ? (
+  <input type="date" value={formatDateForInput(startDate)} onChange={(e) => setStartDate(e.target.value)} />
+) : (
+  formatDate(fetchedTask.startDateTime)
+)}</p>
 
+<p><strong>Due Date:</strong> {editMode ? (
+  <input type="date" value={formatDateForInput(dueDate)} onChange={(e) => setDueDate(e.target.value)} />
+) : (
+  formatDate(fetchedTask.dueDateTime)
+)}</p>
 
-              <input type="date" value={startDate.split('T')[0]} onChange={(e) => setStartDate(e.target.value)} />
-            ) : (
-
-
-              formatDate(fetchedTask.startDateTime)
-            )}</p>
-
-
-            <p><strong>Due Date:</strong> {editMode ? (
-              <input type="date" value={dueDate.split('T')[0]} onChange={(e) => setDueDate(e.target.value)} />
-            ) : (
-
-              formatDate(fetchedTask.dueDateTime)
-
-            )}</p>
           </div>
 
           {dateError && <p className="error">{dateError}</p>}
