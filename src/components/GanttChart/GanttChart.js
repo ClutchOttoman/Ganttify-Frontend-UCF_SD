@@ -26,7 +26,6 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
     fromSelectYear: currentYear.toString(),
     toSelectMonth: currentMonth + 1, 
     toSelectYear: currentYear.toString(),
-    selectedRange: "",
   });
 
   const [selectedTask, setSelectedTask] = useState(null);
@@ -146,23 +145,9 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
   }, [tasks]);
 
   const handleTimeRangeChange = (event) => {
-    let curMonth = new Date().getMonth();
-    let curYear = new Date().getFullYear();
-    let selectedRange = event.target.value;
-
-    let updatedTimeRange = {
-      fromSelectMonth: curMonth,
-      fromSelectYear: curYear.toString(),
-      toSelectMonth: (curMonth + 1) % 12,
-      toSelectYear:
-      curMonth === 11
-          ? (curYear + 1).toString()
-          : curYear.toString(),
-      selectedRange: selectedRange,
-    };
-
+    const selectedRange = event.target.value;
     console.log("Selected Time Range:", selectedRange);
-    setTimeRange(updatedTimeRange); // Update the timeRange state to trigger TimeTable re-render
+    setTimeRange(selectedRange); // Update the timeRange state to trigger TimeTable re-render
   };
   
 
