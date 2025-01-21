@@ -25,9 +25,7 @@
 }
 
 .task-duration:dragging {
-  opacity: 2;
-  background-color: navy;
-  border-radius: 50%;
+  opacity: 0.5;
 }
 
 .task-buttons {
