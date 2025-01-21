@@ -28,10 +28,11 @@ jobs:
         run: sudo apt-get install -y sshpass
       - name: Deploy to DigitalOcean Droplet
         env:
-          DROPLET_IP: ${{ secrets.DROPLET_IP }}
-          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          SSH_USERNAME : ${{secrets.SSH_USERNAME}}
         run: |
-          sshpass -p "${SSH_PASSWORD}" ssh -o StrictHostKeyChecking=no root@${DROPLET_IP} << 'EOF'
+          sshpass -p "${SSH_KEY}" ssh -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} << 'EOF'
           cd /var/www/Ganttify.xyz/html
           git pull origin main
           npm install
