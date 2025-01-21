@@ -64,6 +64,15 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
   const [originalTask, setOriginalTask] = useState(null);
   const [fetchedTask, setFetchedTask] = useState(null);
 
+  const debounce = (func, delay) => {
+    let timeout;
+    return (...args) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func(...args), delay);
+    };
+  };
+
+  
   useEffect(() => {
     if (task && show) {
       setProgressEditPermission(false);
@@ -98,7 +107,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
   }, [task, show]);
 
   // Makes sure that task gets updated live
-  const fetchTaskFromAPI = async (taskId) => {
+  const fetchTaskFromAPI = debounce(async (taskId) => {
     if (taskId) {
       try {
         const response = await fetch(buildPath(`api/fetchTask/${taskId}`));
@@ -122,7 +131,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
         console.error('Error fetching task from API:', error);
       }
     }
-  };
+  }, 200);
 
   // Re-sets the variables with the updated tasks
   const setTaskDetails = (fetchedTask) => {
@@ -235,6 +244,8 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
       const isFounder = project.founderId === userId;
       const isEditor = project.team.editors.includes(userId);
 
+      console.log(project)
+
       // If a user is the founder or editor they can change the progress of a task
       if (isFounder || isEditor) {
         setProgressEditPermission(true);
@@ -307,8 +318,6 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
   };
 
   const fetchAssignedUsers = async (userIds) => {
-
-
     try {
       const response = await fetch(buildPath('api/read/users'), {
         method: 'POST',
@@ -403,6 +412,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
     }
   };
 
+  //Updates Task
   const handleSaveChanges = async () => {
     if (!task || !task._id) {
       console.error("Task is undefined or missing ID.");

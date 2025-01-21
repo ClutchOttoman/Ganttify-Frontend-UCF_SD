@@ -37,7 +37,7 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
 
 
   const [sortBy, setSortBy] = useState('alphabetical'); // Default sort by alphabetical
-
+  const [teamId, setTeamId] = useState('')
 
   const sortTasks = (tasks) => {
     const groupedTasks = tasks.reduce((acc, task) => {
@@ -85,7 +85,6 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
       try {
         const response = await fetch(buildPath(`api/getProjectDetails/${projectId}`));
         const project = await response.json();
-
         if (!project || !project.team) {
           return;
         }
@@ -101,12 +100,16 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
           setUserRole('member');
         }
 
+        setTeamId(project.team._id)
+        console.log(teamId)
+
       } catch (error) {
         console.error('Error fetching project data:', error);
       }
     };
 
     fetchProjectData();
+
   }, [projectId, userId, setUserRole]);
 
   //Fetch Tasks 
@@ -149,10 +152,7 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
 
         setTasks(sortedTasks);
         setTaskDurations(durations);
-
-
         sessionStorage.setItem("tasks", JSON.stringify(sortedTasks));
-
       } catch (error) {
         console.error('Error fetching tasks: ', error);
       }
@@ -222,6 +222,8 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
         task={selectedTask}
         handleDelete={(taskId) => setTasks(tasks.filter(task => task._id !== taskId))}
         userId={userId}
+        userRole={userRole}
+        teamId={teamId}
       />
 
       <div class="gantt-chart-time-range-selector">
