@@ -8,6 +8,9 @@ function DashboardAccount() {
   const [isEditing, setIsEditing] = useState(false);
   const [updatedUser, setUpdatedUser] = useState({ timezone: '' });
   const [timezones, setTimezones] = useState([]);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -93,36 +96,69 @@ function DashboardAccount() {
     }
   };
 
-  const handleDeleteAccount = async () => {
+  const handleDeleteAccount = () => {
     if (!window.confirm('Are you sure you want to delete your account? You will receive a confirmation email to proceed.')) {
       return;
     }
+    setShowPasswordModal(true);
+  };
 
-    const password = prompt('Please re-enter your password for confirmation:');
+  const handlePasswordSubmit = async () => {
     if (!password) {
-      alert('Password is required to delete your account.');
+      setPasswordError('Password is required to delete your account.');
       return;
     }
-  
+
     try {
-        const response = await fetch(buildPath(`api/user/request-delete/${user._id}`), {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ password }),
-        });
-  
-        if (response.ok) {
-          alert('A confirmation email has been sent to your email address. Please follow the instructions to confirm account deletion.');
-          window.location.href = '/';
-        } else {
-          const result = await response.json();
-          alert(result.error || 'Failed to initiate account deletion.');
-        }
+      const response = await fetch(buildPath(`api/user/request-delete/${user._id}`), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password }),
+      });
+
+      if (response.ok) {
+        alert('A confirmation email has been sent to your email address. Please follow the instructions to confirm account deletion.');
+        window.location.href = '/';
+      } else {
+        const result = await response.json();
+        setPasswordError(result.error || 'Failed to initiate account deletion.');
+      }
     } catch (err) {
-        console.error('Error sending account deletion email:', err);
-        alert('An error occurred while initiating account deletion.');
+      console.error('Error sending account deletion email:', err);
+      setPasswordError('An error occurred while initiating account deletion.');
     }
-  };  
+  };
+
+  // const handleDeleteAccount = async () => {
+  //   if (!window.confirm('Are you sure you want to delete your account? You will receive a confirmation email to proceed.')) {
+  //     return;
+  //   }
+
+  //   const password = prompt('Please re-enter your password for confirmation:');
+  //   if (!password) {
+  //     alert('Password is required to delete your account.');
+  //     return;
+  //   }
+  
+  //   try {
+  //       const response = await fetch(buildPath(`api/user/request-delete/${user._id}`), {
+  //         method: 'POST',
+  //         headers: { 'Content-Type': 'application/json' },
+  //         body: JSON.stringify({ password }),
+  //       });
+  
+  //       if (response.ok) {
+  //         alert('A confirmation email has been sent to your email address. Please follow the instructions to confirm account deletion.');
+  //         window.location.href = '/';
+  //       } else {
+  //         const result = await response.json();
+  //         alert(result.error || 'Failed to initiate account deletion.');
+  //       }
+  //   } catch (err) {
+  //       console.error('Error sending account deletion email:', err);
+  //       alert('An error occurred while initiating account deletion.');
+  //   }
+  // };  
 
   const handleResetPassword = () => {
     if (window.confirm('Are you sure you want to reset your password?')) {
@@ -238,6 +274,22 @@ function DashboardAccount() {
         </>
       ) : (
         <p>{error || 'Loading your account details...'}</p>
+      )}
+      {showPasswordModal && (
+        <div className="password-modal">
+          <div className="modal-content">
+            <h2>Confirm Account Deletion</h2>
+            <input
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {passwordError && <p className="error">{passwordError}</p>}
+            <button onClick={handlePasswordSubmit}>Confirm</button>
+            <button onClick={() => setShowPasswordModal(false)}>Cancel</button>
+          </div>
+        </div>
       )}
     </div>
   );
