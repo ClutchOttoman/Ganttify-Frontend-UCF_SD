@@ -57,23 +57,24 @@ function DashboardAccount() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setUpdatedUser((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    if (value !== null && value !== undefined && value !== '') {
+      setUpdatedUser((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSave = async () => {
     try {
+      const updatedData = {
+        ...user, 
+        ...updatedUser, 
+      };
+
       const response = await fetch(buildPath(`api/user/${user._id}`), {
         method: 'PUT',
-        body: JSON.stringify({
-          name: updatedUser.name,
-          phone: updatedUser.phone,
-          discordAccount: updatedUser.discordAccount,
-          pronouns: updatedUser.pronouns,
-          timezone: updatedUser.timezone,
-        }),
+        body: JSON.stringify(updatedData),
         headers: { 'Content-Type': 'application/json' },
       });
 
@@ -112,6 +113,7 @@ function DashboardAccount() {
   
         if (response.ok) {
           alert('A confirmation email has been sent to your email address. Please follow the instructions to confirm account deletion.');
+          window.location.href = '/';
         } else {
           const result = await response.json();
           alert(result.error || 'Failed to initiate account deletion.');
