@@ -1,18 +1,13 @@
-import { useState, useEffect } from 'react';
-import AddTaskDuration from './AddTaskDuration';
-import AddTask from './AddTask';
-import Grid from './Grid';
-import Settings from './Settings';
-import Tasks from './Tasks';
-import TimeRange from './TimeRange';
-import TimeTable from './TimeTable';
-import TaskDetails from './TaskDetails';
-import './GanttChart.css';
+import { useEffect, useState } from 'react';
 import { buildPath } from '../buildPath';
+import './GanttChart.css';
+import Grid from './Grid';
+import TaskDetails from './TaskDetails';
+import Tasks from './Tasks';
+import TimeTable from './TimeTable';
 
-import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import Papa from 'papaparse';
+import jsPDF from 'jspdf';
 
 export default function GanttChart({ projectId, setUserRole, userRole }) {
   var _ud = localStorage.getItem('user_data');
@@ -30,6 +25,7 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
     fromSelectYear: currentYear.toString(),
     toSelectMonth: currentMonth + 1, 
     toSelectYear: currentYear.toString(),
+    selectedRange: "",
   });
 
   const [selectedTask, setSelectedTask] = useState(null);
@@ -183,9 +179,22 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
   }, [tasks]);
 
   const handleTimeRangeChange = (event) => {
-    const selectedRange = event.target.value;
-    console.log("Selected Time Range:", selectedRange);
-    setTimeRange(selectedRange); // Update the timeRange state to trigger TimeTable re-render
+    let curMonth = new Date().getMonth();
+    let curYear = new Date().getFullYear();
+    let selectedRange = event.target.value;
+
+    let updatedTimeRange = {
+      fromSelectMonth: curMonth,
+      fromSelectYear: curYear.toString(),
+      toSelectMonth: (curMonth + 1) % 12,
+      toSelectYear:
+      curMonth === 11
+          ? (curYear + 1).toString()
+          : curYear.toString(),
+      selectedRange: selectedRange,
+    };
+
+    setTimeRange(updatedTimeRange); // Update the timeRange state to trigger TimeTable re-render
   };
 
   const handleSortChange = (event) => {
@@ -340,12 +349,10 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
 </div>
 
       <div class="gantt-chart-time-range-selector">
-        <select class="gantt-chart-time-range-selection" onChange={(e) => handleTimeRangeChange(e)}>
+        <select id = "timeRangeDropdown" class="gantt-chart-time-range-selection" onChange={(e) => handleTimeRangeChange(e)}>
           <option value="">Range</option>
-          <option value="3-months">3 Months</option>
-          <option value="6-months">6 Months</option>
-          <option value="1-year">1 Year</option>
-          <option value="fit">Fit All Tasks</option>
+          <option value="weeks"><p>Weeks</p></option>
+          <option value="months"><p>Months</p></option>
         </select>
       </div>
 

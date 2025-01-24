@@ -1,35 +1,35 @@
-import { useState, useEffect, useRef } from 'react';
-import {
-    monthDiff,
-    getDaysInMonth,
-    getDayOfWeek,
-    createFormattedDateFromStr,
-    createFormattedDateFromDate,
-    dayDiff,
-    getNextDateFromStr,
-  } from '../../helpers/dateFunctions';
+import { React, useEffect, useRef, useState } from 'react';
 import { months } from '../../constants';
-import TaskDetails from './TaskDetails';
-import './TimeTable.css';
-import Diagonal_Right_Single_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Diagonal_Right_Single_Line_Density_1.svg';
+import {
+  createFormattedDateFromDate,
+  createFormattedDateFromStr,
+  dayDiff,
+  getDayOfWeek,
+  getDaysInMonth,
+  getNextDateFromStr,
+  monthDiff,
+} from '../../helpers/dateFunctions';
+import Hollow_Single_Circle_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Circle_Density_1.svg';
+import Hollow_Single_Dot_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Dot_Density_1.svg';
+import Hollow_Single_Rhombus_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Rhombus_Density_1.svg';
+import Hollow_Single_Square_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Square_Density_1.svg';
+import Hollow_Single_Star_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Star_Density_1.svg';
+import Hollow_Single_Triangle_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Triangle_Density_1.svg';
 import Diagonal_Left_Single_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Diagonal_Left_Single_Line_Density_1.svg';
+import Diagonal_Right_Single_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Diagonal_Right_Single_Line_Density_1.svg';
 import Diagonal_Woven_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Diagonal_Woven_Line_Density_1.svg';
 import Single_Horizontal_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Single_Horizontal_Line_Density_1.svg';
-import Single_Vertical_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Single_Vertical_Line_Density_1.svg'
-import Solid_Single_Circle_Density_1 from  '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Circle_Density_1.svg';
+import Single_Vertical_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Single_Vertical_Line_Density_1.svg';
+import Solid_Single_Circle_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Circle_Density_1.svg';
 import Solid_Single_Dot_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Dot_Density_1.svg';
 import Solid_Single_Rhombus_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Rhombus_Density_1.svg';
 import Solid_Single_Square_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Square_Density_1.svg';
 import Solid_Single_Star_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Star_Density_1.svg';
 import Solid_Single_Triangle_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Triangle_Density_1.svg';
-import Hollow_Single_Circle_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Circle_Density_1.svg';
-import Hollow_Single_Dot_Density_1 from'../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Dot_Density_1.svg';
-import Hollow_Single_Rhombus_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Rhombus_Density_1.svg';
-import Hollow_Single_Square_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Square_Density_1.svg';
-import Hollow_Single_Star_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Star_Density_1.svg';
-import Hollow_Single_Triangle_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Triangle_Density_1.svg';
+import TaskDetails from './TaskDetails';
+import './TimeTable.css';
 
-import {buildPath} from '../buildPath';
+import { buildPath } from '../buildPath';
 
 const debounce = (func, delay) => {
   let timeout;
@@ -101,6 +101,18 @@ export default function TimeTable({
   const [rightBoundary, setRightBoundary] = useState(new Date(null));
   const [numberOfTasks, setNumberOfTasks] = useState(0);
 
+  const [numWeeks, setNumWeeks] = useState(0);
+  const [selectedRange, setSelectedRange] = useState("Days");
+
+  const rangeSelector = document.getElementById('timeRangeDropdown');
+
+  if (rangeSelector) {
+    rangeSelector.addEventListener('change', (event) => {
+      const selectedValue = event.target.value;
+      setSelectedRange(selectedValue);
+    });
+  }
+
   useEffect(() => {
     setNumberOfTasks(arrayOfTasks.length);
   }, [arrayOfTasks]);
@@ -108,7 +120,6 @@ export default function TimeTable({
   // Gets the project's details
   useEffect(() => { 
       setCurrentDayMarkerHeight(tasks.length)
-      console.log(tasks)
       if(userRole === 'founder' || 'editor'){
         setIsEditable(true);
       }
@@ -286,6 +297,24 @@ export default function TimeTable({
     height: 'var(--cell-height)',
   };
 
+  const ganttTimePeriodWeeks = {
+    display: 'grid',
+    gridAutoFlow: 'column',
+    gridAutoColumns: 'minmax(90px, 1fr)',
+    outline: '0.5px solid var(--color-outline)',
+    textAlign: 'center',
+    height: 'var(--cell-height)',
+  }
+
+  const ganttTimePeriodMonths = {
+    display: 'grid',
+    gridAutoFlow: 'column',
+    gridAutoColumns: 'minmax(180px, 1fr)',
+    outline: '0.5px solid var(--color-outline)',
+    textAlign: 'center',
+    height: 'var(--cell-height)',
+  }
+
   const ganttTimePeriodSpan = {
     margin: 'auto',
     fontSize: '20px',
@@ -311,6 +340,7 @@ export default function TimeTable({
     boxShadow: '3px 3px 3px rgba(0, 0, 0, 0.05)',
     cursor: isEditable && !isResizing ? 'move' : 'default', // Update cursor style
   };
+
   const currentDayMarkerStyle = {
     position: 'relative',
     width:'2px',
@@ -321,7 +351,25 @@ export default function TimeTable({
     pointerEvents: 'none',
   }
 
+  const currentDayMarkerStyleForMonths = {
+    position: 'relative',
+    width:'2px',
+    left:'89px',
+    zIndex: '2',
+    borderRadius: 'var(--border-radius)',
+    backgroundColor: 'black',
+    pointerEvents: 'none',
+  }
 
+  const currentDayMarkerStyleForWeeks = {
+    position: 'relative',
+    width:'2px',
+    left:'44px',
+    zIndex: '2',
+    borderRadius: 'var(--border-radius)',
+    backgroundColor: 'black',
+    pointerEvents: 'none',
+  }
 
   const currentDate = new Date();
 
@@ -341,9 +389,13 @@ export default function TimeTable({
   let endMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 6);
   let earliestTaskStartDate = currentDate;
   let latestTaskDueDate = currentDate;
+  let earliestTaskStartWeek = null;
+  let earliestTaskStartWeekIndex = 0;
+  let earliestTaskStartMonth = null;
+  let earliestTaskStartMonthIndex = 0;
 
 
-  if(numberOfTasks > 0){
+  if(arrayOfTasks.length > 0){
     earliestTaskStartDate = leftBoundary;
     latestTaskDueDate = rightBoundary;
 
@@ -369,253 +421,609 @@ export default function TimeTable({
   let dayCounter = -1;
   let numDaysForBoundaries = 0;
 
-  if(earliestTaskStartDate <= currentDate){
-    for (let countMonths = new Date(startMonth.getFullYear(), startMonth.getMonth(), 1); countMonths < earliestTaskStartDate; countMonths.setDate(countMonths.getDate() + 1)) {
-      numDaysForBoundaries++;
-    }
-  }
-  else{
-    for (let countMonths = new Date(startMonth.getFullYear(), startMonth.getMonth(), 1); countMonths < new Date(endMonth.getFullYear(), endMonth.getMonth(), 1); countMonths.setDate(countMonths.getDate() + 1)) {
-      numDaysForBoundaries++;
-    }
-  }
-
-  // console.log("NumDaysForBoundaries: ", numDaysForBoundaries);
-
   // Get the st, th, and rd for the respective numbers
   function getOrdinal(n) {
     return ["st", "nd", "rd"][((n + 90) % 100 - 10) % 10 - 1] || "th";
   }
 
-  // Begins the loops for adding elements, with styling, to their respective arrays
-  for (let i = 0; i < numMonths; i++) {
-    monthRows.push(
-      <div key={i} style={{ ...ganttTimePeriod, outline: 'none' }}>
-        <span style={ganttTimePeriodSpan}>
-          {months[month.getMonth()] + ' ' + month.getFullYear()}
-        </span>
-      </div>
-    );
+  switch(selectedRange){
+    case "weeks":
+      let tempDateHolder = new Date(startMonth.getFullYear(), startMonth.getMonth(), 1);
+      let numWeeks = 0;
 
+      function isTaskHappeningInWeek(taskStart, taskEnd, weekStart, weekEnd) {
+        let ret = (taskStart >= weekStart && taskStart <= weekEnd) ||
+        (taskEnd >= weekStart && taskEnd <= weekEnd) ||
+        (taskStart < weekStart && taskEnd > weekEnd);
 
-    const numDays = getDaysInMonth(month.getFullYear(), month.getMonth() + 1);
-    const currYear = month.getFullYear();
-    const currMonth = month.getMonth() + 1;
+        return (
+          (taskStart >= weekStart && taskStart <= weekEnd) ||
+          (taskEnd >= weekStart && taskEnd <= weekEnd) ||
+          (taskStart < weekStart && taskEnd > weekEnd)
+        );
+      }
 
-    for (let j = 1; j <= numDays; j++) {
-      let k = getOrdinal(j);
+      for (let i = 0; i < numMonths; i++) {
 
-      const formattedDate = createFormattedDateFromStr(currYear, currMonth, j);
-      const nextDate = getNextDateFromStr(currYear,currMonth,j);
-      if (new Date(formattedDate).toDateString() === currentDate.toDateString()) { 
-        currentDayIndex = dayCounter; 
-        }
-        if(new Date(nextDate).toDateString() === currentDate.toDateString()){
-            //console.log("current day: " + new Date(nextDate).toDateString())
+        monthRows.push(
+          <div key={i} style={{ ...ganttTimePeriod, outline: 'none' }}>
+            <span style={ganttTimePeriodSpan}>
+              {months[month.getMonth()] + ' ' + month.getFullYear()}
+            </span>
+          </div>
+        );
+
+        let currentWorkingDate = new Date(tempDateHolder);
+
+        let lastDate = new Date(currentWorkingDate.getFullYear(), currentWorkingDate.getMonth() + 1, 0);
+
+        while(currentWorkingDate <= lastDate){
+          let nextWorkingDate = new Date(currentWorkingDate);
+          nextWorkingDate.setDate(currentWorkingDate.getDate() + 6);
+          
+          const startDay = currentWorkingDate.getDate();
+          const endDay = nextWorkingDate.getDate();
+
+          const startOrdinal = getOrdinal(startDay);
+          const endOrdinal = getOrdinal(endDay);
+
+          const startMonthName = months[currentWorkingDate.getMonth()];
+          const endMonthName = months[nextWorkingDate.getMonth()];
+
+          let currentDateInWeek = isTaskHappeningInWeek(currentDate, currentDate, currentWorkingDate, nextWorkingDate);
+
+          currentDateInWeek ?  
             dayRow.push(
-                <div>
-                <div key={j} style={{ ...ganttTimePeriod, outline: 'none' }}>
-                  <span style={ganttTimePeriodSpanMonths}>
-                    {getDayOfWeek(currYear, currMonth - 1, j - 1)} {j}{k}
+              <div>
+                <div key={currentWorkingDate.toISOString()} style={{ ...ganttTimePeriod, outline: 'none' }}>
+                  <span style={{ ...ganttTimePeriodSpanMonths, color: '#3E455B' }}>
+                    {`${startMonthName} ${startDay}${startOrdinal} - ${endMonthName} ${endDay}${endOrdinal}`}
                   </span>
                 </div>
                 <div id='currentDayMarker' style={{
-                    ...currentDayMarkerStyle,
-                    height:`calc(var(--cell-height)*${currentDayMarkerHeight})`
-                  }}
-                />
-                </div>
-              );
-              
-        }
-        else{
+                  ...currentDayMarkerStyleForWeeks,
+                  height:`calc(var(--cell-height)*${currentDayMarkerHeight})`
+                }}
+              />
+              </div>
+            )
+            :
             dayRow.push(
-            
-                <div key={j} style={{ ...ganttTimePeriod, outline: 'none' }}>
-                <span style={ganttTimePeriodSpanMonths}>
-                    {getDayOfWeek(currYear, currMonth - 1, j - 1)} {j}{k}
+              <div key={currentWorkingDate.toISOString()} style={{ ...ganttTimePeriod, outline: 'none' }}>
+                <span style={{ ...ganttTimePeriodSpanMonths, color: '#3E455B' }}>
+                  {`${startMonthName} ${startDay}${startOrdinal} - ${endMonthName} ${endDay}${endOrdinal}`}
                 </span>
-                </div>
-        
-            );
+              </div>
+            );;
+
+          currentWorkingDate.setDate(currentWorkingDate.getDate() + 7);
+
+          numWeeks++;
+
+          if(currentWorkingDate == lastDate){
+            tempDateHolder = new Date(currentWorkingDate.getFullYear(), currentWorkingDate.getMonth() + 1, 1);
+          }
+          else if(currentWorkingDate > lastDate){
+            tempDateHolder = new Date(currentWorkingDate);
+          }
         }
 
-      weekRow.push(
-        
-        <div key={j} style={{ ...ganttTimePeriod, outline: 'none' }}>
-          <span style={{ ...ganttTimePeriodSpanMonths, color: '#3E455B' }}>
-            {getDayOfWeek(currYear, currMonth - 1, j - 1)}
-          </span>
-        </div>
-
-      );
-
-      dayCounter++;
-    }
-
-    dayRows.push(
-      <div key={i} style={{ ...ganttTimePeriod, outline: 'none' }}>
-        {dayRow}
-      </div>
-    );
-
-    weekRows.push(
-      <div key={i} style={{ ...ganttTimePeriod, outline: 'none' }}>
-        {weekRow}
-      </div>
-    );
-
-    dayRow = [];
-    weekRow = [];
-    month.setMonth(month.getMonth() + 1);
-  }
-
-  if (tasks) {
-    tasks.forEach((task, index) => {
-      const startDate = task.startDateTime;
-      const dueDate = task.dueDateTime;
-      let mnth = new Date(startMonth);
-      for (let i = 0; i < numMonths; i++) {
-        const curYear = mnth.getFullYear();
-        const curMonth = mnth.getMonth() + 1;
-
-        const numDays = getDaysInMonth(curYear, curMonth);
-
-        for (let j = 1; j <= numDays; j++) {
-
-          
-          const dayOfTheWeek = getDayOfWeek(curYear, curMonth - 1, j - 1);
-          const formattedDate = createFormattedDateFromStr(curYear, curMonth, j);
-          var taskHappening=false;
-          if(task['pattern'] && (task['pattern'] in patterns)){
-            taskHappening = isTaskHappeningNow(startDate,dueDate,formattedDate);
-          } 
-
-          taskRow.push(
-            <div
-              key={`${task._id}-${j}`}
-              style={{
-                ...ganttTimePeriodCell,
-                backgroundColor:
-                  dayOfTheWeek === 'S' ? 'var(--color-tertiary)' : index % 2 === 0 ? '#f9f9f9' : '#ffffff',
-                ...(hoveredRow === task._id && { backgroundColor: '#f0f0f0' }),
-              }}
-
-              data-task={task?._id}
-              data-date={formattedDate}
-              data-task-id={task._id}
-              onDrop={onTaskDurationDrop}
-              onDragOver={(e) => e.preventDefault()}
-              onDragEnter={(e) => e.preventDefault()}
-              onMouseEnter={() => setHoveredRow(task._id)} 
-              onMouseLeave={() => setHoveredRow(null)} 
-            >
-
-              {taskDurations.map((el, i) => {
-                {/*Added this to prevent tasks from rendering past the last month of the current calender year*/}
-                const elStartDate = el?.start.split('T')[0];
-                let endMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 7, 0); 
-                const formattedEndMonth = endMonth.toISOString().split('T')[0];
-                const adjustedEndDate = new Date(el?.end).getTime() > new Date(formattedEndMonth).getTime()  
-                  ? formattedEndMonth 
-                  : el?.end;
-
-                if (el?.task === task?._id && elStartDate === formattedDate) {
-                  return (
-                    
-                    <div
-                      key={`${i}-${el?.task}`}
-
-                
-                      className={`task-duration ${taskDurationElDraggedId === el?._id ? 'dragging' : ''}`}
-                                 
-                      draggable={isEditable && !isResizing ? "true" : "false"}
-
-                      tabIndex="0"
-                      onDragStart={isEditable && !isResizing ? () => handleDragStart(el?._id) : null}
-                      onDragEnd={isEditable && !isResizing ? () => handleDragEnd(el?._id) : null}
-                      onMouseMove={(e) => handleMouseMove(e)}
-
-
-                      onMouseUp={handleResizeEnd}
-
-                      style={{
-                        ...taskDurationBaseStyle,
-                        width: `calc(${dayDiff(el?.start, adjustedEndDate)} * 100% - 1px)`,
-                        opacity: taskDurationElDraggedId === el?._id ? '0.5' : '1',
-                        background: task.color || 'var(--color-primary-light)',
-                        backgroundImage: patterns[task.pattern] ? `url(${patterns[task.pattern]})` : 'none',
-                        backgroundSize: 'contain',
-                        cursor: isEditable && !isResizing ? 'move' : 'default',
-                        //zIndex: taskDurationElDraggedId === el?._id ? 0 : 1, // Lower z-index
-                      }}
-
-                      onKeyDown={isEditable ? (e) => deleteTaskDuration(e, el?.task) : null}
-                      onClick={() => {
-                        if (!isResizing) { // Prevents showing details after resizing task bar.
-                          setSelectedTask(task);
-                          setShowDetails(true);
-                        }
-                      }}
-                      onMouseEnter={() => setHoveredTask(el?._id)} 
-                      onMouseLeave={() => setHoveredTask(null)} 
-                    >
-
-                      {isEditable && (
-                        <>
-                      
-                          <div
-                            className="resize-handle left"
-                            onMouseDown={(e) => handleResizeStart(e, el?._id, 'left')}
-                            style={{ cursor: 'ew-resize', position: 'absolute', left: '0', width: '10px', height: '100%', zIndex: 3 }}
-                          />
-                          <div
-                            className="resize-handle right"
-                            onMouseDown={(e) => handleResizeStart(e, el?._id, 'right')}
-                            style={{ cursor: 'ew-resize', position: 'absolute', right: '0', width: '10px', height: '100%', zIndex: 3 }}
-                          />
-                            
-                        </>
-                      )}
-
-                      {(hoveredTask === el?._id || resizingTask === el?._id) && (
-                        <div
-                          style={{
-                            position: 'absolute',
-                            top: '15%',
-                            left: '100%',
-                            transform: 'translateX(2px)', 
-                            color: 'black',
-                            whiteSpace: 'nowrap', // Using this to keep text in a single line
-                            padding: '2px 5px',
-                            fontFamily:'Montserrat, sans-serif',
-                            fontSize: '12px'
-                            }}
-                        >
-                        {`${el.start.split('T')[0].replace(/-/g, '/')}  -  ${el.end.split('T')[0].replace(/-/g, '/')}`}
-                        </div>
-                      )}
-                    </div>
-                  );
-                }
-                
-              })}
-            </div>
-          );
-        }
-
-        taskRows.push(
-          
-          <div key={`${i}-${task?._id}`} style={ganttTimePeriod}>
-            {taskRow}
+        dayRows.push(
+          <div key={i} style={{ ...ganttTimePeriodWeeks, outline: 'none' }}>
+            {dayRow}
           </div>
-
         );
 
-        taskRow = [];
-        mnth.setMonth(mnth.getMonth() + 1);
+        dayRow = [];
+        weekRow = [];
+
+        month.setMonth(month.getMonth() + 1);
       }
-    });
+
+      function findTaskDuration(currentWeekStart, endDate){
+        const currentWeekEnd = new Date(currentWeekStart);
+        currentWeekEnd.setDate(currentWeekStart.getDate() + 6);
+        let weekDif = 0;
+
+        do{
+          weekDif++;
+          currentWeekStart.setDate(currentWeekEnd.getDate() + 1);
+          currentWeekEnd.setDate(currentWeekStart.getDate() + 6);
+        }while(endDate > currentWeekEnd)
+
+        if(endDate > currentWeekStart){
+          weekDif++;
+        }
+
+        return weekDif;
+      }
+
+      if (tasks) {
+        tasks.forEach((task, index) => {
+          const startDate = new Date(task.startDateTime);
+          const dueDate = new Date(task.dueDateTime);
+          
+          for (let weekIndex = 0; weekIndex < numWeeks; weekIndex++) {
+            const currentWeekStart = new Date(startMonth);
+            currentWeekStart.setDate(currentWeekStart.getDate() + weekIndex * 7);
+      
+            const currentWeekEnd = new Date(currentWeekStart);
+            currentWeekEnd.setDate(currentWeekStart.getDate() + 6);
+      
+            const isTaskInWeek = isTaskHappeningInWeek(
+              startDate,
+              dueDate,
+              currentWeekStart,
+              currentWeekEnd
+            );
+            
+            if(isTaskInWeek && (earliestTaskStartWeek == null || currentWeekStart < earliestTaskStartWeek)){
+              earliestTaskStartWeek = currentWeekStart;
+              earliestTaskStartWeekIndex = weekIndex;
+            }
+      
+            taskRow.push(
+              <div
+                key={`${task._id}-${currentWeekStart.toISOString()}-${index}`}
+                style={{
+                  ...ganttTimePeriodCell,
+                  backgroundColor: index % 2 === 0 ? '#f9f9f9' : '#ffffff',
+                  ...(hoveredRow === task._id && { backgroundColor: '#f0f0f0' }),
+                }}
+                data-task={task._id}
+                onMouseEnter={() => setHoveredRow(task._id)}
+                onMouseLeave={() => setHoveredRow(null)}
+              >
+                {isTaskInWeek && (
+                  <img
+                    id={`pattern/${currentWeekStart.toISOString()}/${task._id}`}
+                    src={patterns[task.pattern]}
+                    className="patternImg"
+                    hidden={!isTaskInWeek}
+                  />
+                )}
+      
+                {taskDurations.map((el, i) => {
+                  const elStartDate = new Date(el?.start.split('T')[0]);
+                  const elEndDate = new Date(el?.end.split('T')[0]);
+      
+                  if (el?.task === task._id &&
+                    elStartDate >= currentWeekStart &&
+                    elStartDate <= currentWeekEnd
+                  ) {
+                    return (
+                      <div
+                        key={`${i}-${el?.task}`}
+                        className="task-duration"
+                        draggable="false"
+                        style={{
+                          ...taskDurationBaseStyle,
+                          width: `calc(${findTaskDuration(currentWeekStart, dueDate)} * 100% - 1px)`,
+                          background: task.color || 'var(--color-primary-light)',
+                        }}
+                        onClick={() => {
+                          setSelectedTask(task);
+                          setShowDetails(true);
+                        }}
+                      ></div>
+                    );
+                  }
+                })}
+              </div>
+            );
+          }
+      
+          taskRows.push(
+            <div key={`${task._id}-month-${index}`} style={ganttTimePeriodWeeks}>
+              {taskRow}
+            </div>
+          );
+
+          taskRow = [];
+        });
+      }
+
+      break;
+
+      case "months":
+
+        function isTaskHappeningInMonth(taskStart, taskEnd, monthStart, monthEnd, index) {
+          taskStart = new Date(taskStart);
+          taskEnd = new Date(taskEnd);
+          monthStart = new Date(monthStart);
+          monthEnd = new Date(monthEnd);
+
+          return ((taskStart >= monthStart && taskStart <= monthEnd) ||
+          (taskEnd >= monthStart && taskEnd <= monthEnd) ||
+          (taskStart < monthStart && taskEnd > monthEnd));
+        }
+      
+
+        let numYears = endMonth.getFullYear() - startMonth.getFullYear();
+        let i = 0;
+        let startYear = startMonth.getFullYear();
+  
+        do{
+        dayRow = [];
+
+          monthRows.push(
+            <div key={i} style={{ ...ganttTimePeriod, outline: 'none' }}>
+              <span style={ganttTimePeriodSpan}>
+                {startYear}
+              </span>
+            </div>
+          );
+        
+        let currentWorkingMonth = new Date();
+        let lastMonthOfCurrentYear = new Date();
+
+        if(i == 0){
+          currentWorkingMonth = new Date(startMonth);
+          lastMonthOfCurrentYear = new Date(startMonth.getFullYear(), 11, 31);
+        }
+        else{
+          currentWorkingMonth = new Date(startMonth.getFullYear() + 1, 0, 1);
+          lastMonthOfCurrentYear = new Date(endMonth);
+        }
+
+        while(currentWorkingMonth <= lastMonthOfCurrentYear){
+
+          let lastDayOfMonth = new Date(currentWorkingMonth.getFullYear(), currentWorkingMonth.getMonth() + 1, 0);
+          let currentDateInMonth = isTaskHappeningInMonth(currentDate, currentDate, currentWorkingMonth, lastDayOfMonth);
+          
+          currentDateInMonth ? 
+          dayRow.push(
+            <div>
+              <div key={currentWorkingMonth.toISOString()} style={{ ...ganttTimePeriod, outline: 'none' }}>
+                <span style={{ ...ganttTimePeriodSpanMonths, color: '#3E455B' }}>
+                  {`${months[currentWorkingMonth.getMonth()]}`}
+                </span>
+              </div>
+                <div id='currentDayMarker' style={{
+                  ...currentDayMarkerStyleForMonths,
+                  height:`calc(var(--cell-height)*${currentDayMarkerHeight})`
+                }}
+              />
+            </div>
+          )
+          : dayRow.push(
+            <div key={currentWorkingMonth.toISOString()} style={{ ...ganttTimePeriod, outline: 'none' }}>
+              <span style={{ ...ganttTimePeriodSpanMonths, color: '#3E455B' }}>
+                {`${months[currentWorkingMonth.getMonth()]}`}
+              </span>
+            </div>
+          );;
+          
+
+          currentWorkingMonth.setMonth(currentWorkingMonth.getMonth() + 1);
+        }
+
+        dayRows.push(
+          <div key={i} style={{ ...ganttTimePeriodMonths, outline: 'none' }}>
+            {dayRow}
+          </div>
+        );
+
+          dayRow = [];
+  
+          i++;
+          startYear++;
+        }while(i < numYears + 1);
+  
+        function findTaskDurationMonths(currentMonthStart, endDate) {
+          let currentMonthEnd = new Date(currentMonthStart.getFullYear(), currentMonthStart.getMonth() + 1, 0); // End of the current month
+          let monthDif = 0;
+        
+          do {
+            monthDif++;
+            currentMonthStart = new Date(currentMonthStart.getFullYear(), currentMonthStart.getMonth() + 1, 1); // Start of the next month
+            currentMonthEnd = new Date(currentMonthStart.getFullYear(), currentMonthStart.getMonth() + 1, 0);
+          } while (endDate > currentMonthEnd);
+        
+          return monthDif;
+        }
+        
+  
+        if (tasks) {
+          tasks.forEach((task, index) => {
+            // taskRows = [];
+            taskRow = [];
+
+            const startDate = new Date(task.startDateTime);
+            const dueDate = new Date(task.dueDateTime);
+                  
+            for (let monthIndex = 0; monthIndex < numMonths; monthIndex++) {
+              let currentMonth = new Date(startMonth.getFullYear(), startMonth.getMonth() + monthIndex, 1);
+              let currentMonthEnd = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
+        
+              const isTaskInMonth = isTaskHappeningInMonth(
+                startDate,
+                dueDate,
+                currentMonth,
+                currentMonthEnd,
+                index
+              );
+
+              if(isTaskInMonth && (earliestTaskStartMonth == null || currentMonth.getMonth() < earliestTaskStartMonth)){
+                earliestTaskStartMonth = currentMonth;
+                earliestTaskStartMonthIndex = monthIndex;
+              }
+
+              taskRow.push(
+                <div
+                  key={`${task._id}-${currentMonth.toISOString()}-${index}`}
+                  style={{
+                    ...ganttTimePeriodCell,
+                    backgroundColor: index % 2 === 0 ? '#f9f9f9' : '#ffffff',
+                    ...(hoveredRow === task._id && { backgroundColor: '#f0f0f0' }),
+                  }}
+                  data-task={task._id}
+                  onMouseEnter={() => setHoveredRow(task._id)}
+                  onMouseLeave={() => setHoveredRow(null)}
+                >
+                  {isTaskInMonth && (
+                    <img
+                      id={`pattern/${currentMonth.toISOString()}/${task._id}`}
+                      src={patterns[task.pattern]}
+                      className="patternImg"
+                      hidden={!isTaskInMonth}
+                    />
+                  )}
+        
+                  {taskDurations.map((el, i) => {
+                    const elStartDate = new Date(el?.start.split('T')[0]);
+                    const elEndDate = new Date(el?.end.split('T')[0]);
+        
+                    if (el?.task === task._id &&
+                      elStartDate >= currentMonth &&
+                      elStartDate <= currentMonthEnd
+                    ) {
+
+                      return (
+                        <div
+                          key={`${i}-${el?.task}`}
+                          className="task-duration"
+                          draggable="false"
+                          style={{
+                            ...taskDurationBaseStyle,
+                            width: `calc(${findTaskDurationMonths(currentMonth, dueDate)} * 100% - 1px)`,
+                            background: task.color || 'var(--color-primary-light)',
+                          }}
+                          onClick={() => {
+                            setSelectedTask(task);
+                            setShowDetails(true);
+                          }}
+                        ></div>
+                      );
+                    }
+                  })}
+                </div>
+              );
+            }
+        
+            taskRows.push(
+              <div key={`${task._id}-month-index-${index}`} style={ganttTimePeriodMonths}>
+                {taskRow}
+              </div>
+            );
+    
+            taskRow = [];
+          });
+        }
+  
+      break;
+
+    default:
+      if(earliestTaskStartDate <= currentDate){
+        for (let countMonths = new Date(startMonth.getFullYear(), startMonth.getMonth(), 1); countMonths < earliestTaskStartDate; countMonths.setDate(countMonths.getDate() + 1)) {
+          numDaysForBoundaries++;
+        }
+      }
+      else{
+        for (let countMonths = new Date(startMonth.getFullYear(), startMonth.getMonth(), 1); countMonths < new Date(endMonth.getFullYear(), endMonth.getMonth(), 1); countMonths.setDate(countMonths.getDate() + 1)) {
+          numDaysForBoundaries++;
+        }
+      }
+
+      for (let i = 0; i < numMonths; i++) {
+        monthRows.push(
+          <div key={i} style={{ ...ganttTimePeriod, outline: 'none' }}>
+            <span style={ganttTimePeriodSpan}>
+              {months[month.getMonth()] + ' ' + month.getFullYear()}
+            </span>
+          </div>
+        );
+
+
+        const numDays = getDaysInMonth(month.getFullYear(), month.getMonth() + 1);
+        const currYear = month.getFullYear();
+        const currMonth = month.getMonth() + 1;
+
+        for (let j = 1; j <= numDays; j++) {
+          let k = getOrdinal(j);
+
+          const formattedDate = createFormattedDateFromStr(currYear, currMonth, j);
+          const nextDate = getNextDateFromStr(currYear,currMonth,j);
+          if (new Date(formattedDate).toDateString() === currentDate.toDateString()) {
+            currentDayIndex = dayCounter;
+            }
+            if(new Date(nextDate).toDateString() === currentDate.toDateString()){
+                dayRow.push(
+                    <div>
+                    <div key={j} style={{ ...ganttTimePeriod, outline: 'none' }}>
+                      <span style={ganttTimePeriodSpanMonths}>
+                        {getDayOfWeek(currYear, currMonth - 1, j - 1)} {j}{k}
+                      </span>
+                    </div>
+                    <div id='currentDayMarker' style={{
+                        ...currentDayMarkerStyle,
+                        height:`calc(var(--cell-height)*${currentDayMarkerHeight})`
+                      }}
+                    />
+                    </div>
+                  );
+                  
+            }
+            else{
+                dayRow.push(
+                
+                    <div key={j} style={{ ...ganttTimePeriod, outline: 'none' }}>
+                      <span style={ganttTimePeriodSpanMonths}>
+                          {getDayOfWeek(currYear, currMonth - 1, j - 1)} {j}{k}
+                      </span>
+                    </div>
+            
+                );
+            }
+
+          weekRow.push(
+            
+            <div key={j} style={{ ...ganttTimePeriod, outline: 'none' }}>
+              <span style={{ ...ganttTimePeriodSpanMonths, color: '#3E455B' }}>
+                {getDayOfWeek(currYear, currMonth - 1, j - 1)}
+              </span>
+            </div>
+
+          );
+
+          dayCounter++;
+        }
+
+        dayRows.push(
+          <div key={i} style={{ ...ganttTimePeriod, outline: 'none' }}>
+            {dayRow}
+          </div>
+        );
+
+        weekRows.push(
+          <div key={i} style={{ ...ganttTimePeriod, outline: 'none' }}>
+            {weekRow}
+          </div>
+        );
+
+        dayRow = [];
+        weekRow = [];
+        month.setMonth(month.getMonth() + 1);
+      }
+
+      if (tasks) {
+        tasks.forEach((task, index) => {
+          const startDate = task.startDateTime;
+          const dueDate = task.dueDateTime;
+          let mnth = new Date(startMonth);
+          for (let i = 0; i < numMonths; i++) {
+            const curYear = mnth.getFullYear();
+            const curMonth = mnth.getMonth() + 1;
+    
+            const numDays = getDaysInMonth(curYear, curMonth);
+    
+            for (let j = 1; j <= numDays; j++) {
+    
+              
+              const dayOfTheWeek = getDayOfWeek(curYear, curMonth - 1, j - 1);
+              const formattedDate = createFormattedDateFromStr(curYear, curMonth, j);
+              var taskHappening=false;
+              if(task['pattern'] && (task['pattern'] in patterns)){
+                taskHappening = isTaskHappeningNow(startDate,dueDate,formattedDate);
+              }
+              taskRow.push(
+                <div
+                  key={`${task._id}-${j}`}
+                  style={{
+                    ...ganttTimePeriodCell,
+                    backgroundColor:
+                      dayOfTheWeek === 'S' ? 'var(--color-tertiary)' : index % 2 === 0 ? '#f9f9f9' : '#ffffff',
+                    ...(hoveredRow === task._id && { backgroundColor: '#f0f0f0' }),
+                  }}
+    
+                  data-task={task?._id}
+                  data-date={formattedDate}
+                  data-task-id={task._id}
+                  onDrop={onTaskDurationDrop}
+                  onDragOver={(e) => e.preventDefault()}
+                  onDragEnter={(e) => e.preventDefault()}
+                  onMouseEnter={() => setHoveredRow(task._id)}
+                  onMouseLeave={() => setHoveredRow(null)}
+                >
+    
+    
+                <img id={`pattern/${formattedDate}/${task._id}`}src={patterns[task.pattern]} class = "patternImg" hidden={!taskHappening}/>
+                  {taskDurations.map((el, i) => {
+                    const elStartDate = el?.start.split('T')[0];
+    
+                    if (el?.task === task?._id && elStartDate === formattedDate) {
+                      return (
+                        
+                        <div
+                          key={`${i}-${el?.task}`}
+    
+                    
+                          className={`task-duration ${taskDurationElDraggedId === el?._id ? 'dragging' : ''}`}
+    
+                          draggable={isEditable && !isResizing ? "true" : "false"}
+    
+                          tabIndex="0"
+                          onDragStart={isEditable && !isResizing ? () => handleDragStart(el?._id) : null}
+                          onDragEnd={isEditable && !isResizing ? () => handleDragEnd(el?._id) : null}
+                          onMouseMove={(e) => handleMouseMove(e)}
+    
+    
+                          onMouseUp={handleResizeEnd}
+    
+                          style={{
+                            
+                            ...taskDurationBaseStyle,
+                            width: `calc(${dayDiff(el?.start, el?.end)} * 100% - 1px)`,
+                            opacity: taskDurationElDraggedId === el?._id ? '0.5' : '1',
+                            background: task.color || 'var(--color-primary-light)',
+                            border: hoveredTask === el?._id && !isResizing ? '2px solid black' : 'none',
+                            cursor: isEditable && !isResizing ? 'move' : 'default'
+                          }}
+    
+                          onKeyDown={isEditable ? (e) => deleteTaskDuration(e, el?.task) : null}
+                          onClick={() => { setSelectedTask(task); setShowDetails(true); }}
+                        >
+    
+                          {isEditable && (
+                            <>
+                            
+                              <div
+                                className="resize-handle left"
+                                onMouseDown={(e) => handleResizeStart(e, el?._id, 'left')}
+                                style={{ cursor: 'ew-resize', position: 'absolute', left: '0', width: '10px', height: '100%', zIndex: 2 }}
+                              />
+                              <div
+                                className="resize-handle right"
+                                onMouseDown={(e) => handleResizeStart(e, el?._id, 'right')}
+                                style={{ cursor: 'ew-resize', position: 'absolute', right: '0', width: '10px', height: '100%', zIndex: 2 }}
+                              />
+    
+                                
+                            </>
+                          )}
+                        </div>
+                      );
+                    }
+                  })}
+                </div>
+              );
+            }
+    
+            taskRows.push(
+              
+              <div key={`${i}-${task?._id}`} style={ganttTimePeriod}>
+                {taskRow}
+              </div>
+    
+            );
+    
+            taskRow = [];
+            mnth.setMonth(mnth.getMonth() + 1);
+          }
+        });
+      }
+
+      break;
   }
 
   const handleDelete = async (taskId, projectId) => {
@@ -764,77 +1172,189 @@ export default function TimeTable({
   }
 
   useEffect(() => {
+    monthRows = [];
+    dayRows = [];
+    dayRow = [];
+    weekRows = [];
+    weekRow = [];
+    taskRow = [];
+    tasksHolder = null;
+    gridColumns = "";
+    gridRows = null;
+
     if (ganttRef.current) {
       let cellWidth = 60;
       let scrollPosition = numDaysForBoundaries * cellWidth;
 
-      console.log("Triggered");
+      if(selectedRange == "weeks"){
+        const timeDifference = endMonth.getTime() - startMonth.getTime();
+        let daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+        daysDifference = Math.round(daysDifference);
+        setNumWeeks(Math.floor(daysDifference / 7));
 
-      if(timeRange == "3-months"){
-        console.log("if statement...");
-        cellWidth *= 3;
-        scrollPosition = (numDaysForBoundaries / 3) * cellWidth;
-
-
-        
-        console.log("Scrolling to current day index:", currentDayIndex, "Scroll position:", scrollPosition);
+        if(arrayOfTasks.length > 0){
+          cellWidth = 90;
+          scrollPosition = earliestTaskStartWeekIndex * cellWidth;
+    
+          ganttRef.current.scrollLeft = scrollPosition;
+        }
+        else{
+          scrollPosition = currentDayIndex * cellWidth;
+          
+          ganttRef.current.scrollLeft = scrollPosition;
+        }
       }
+      else if(selectedRange == "months"){
+        if(arrayOfTasks.length > 0){
+          cellWidth = 180;
+          scrollPosition = earliestTaskStartMonthIndex * cellWidth;
+    
+          ganttRef.current.scrollLeft = scrollPosition;
+        }
+        else{
+          scrollPosition = currentDayIndex * cellWidth;
 
-      if(numberOfTasks > 0){
-  
-        ganttRef.current.scrollLeft = scrollPosition;
-        console.log("Scrolling to current day index:", currentDayIndex, "Scroll position:", scrollPosition);
+          ganttRef.current.scrollLeft = scrollPosition;
+        }
       }
       else{
-        scrollPosition = currentDayIndex * cellWidth;
-  
-        ganttRef.current.scrollLeft = scrollPosition;
-        console.log("Scrolling to current day index:", currentDayIndex, "Scroll position:", scrollPosition);
+        if(arrayOfTasks.length > 0){
+    
+          ganttRef.current.scrollLeft = scrollPosition;
+        }
+        else{
+          scrollPosition = currentDayIndex * cellWidth;
+    
+          ganttRef.current.scrollLeft = scrollPosition;
+        }
       }
     }
-  }, [currentDayIndex, numberOfTasks, timeRange]);
+  }, [currentDayIndex, numberOfTasks, selectedRange]);
 
-  useEffect(() => {
-    if(timeRange == "3-months"){
-      setNumberOfTasks(numberOfTasks);
-    }
-  }, [timeRange]);
+  let gridColumns = "";
+  let tasksHolder = null;
+  let gridRows = null;
 
-  return (
+  switch(selectedRange){
+    case "weeks":
+      gridColumns = `repeat(${numWeeks}, 1fr)`;
 
-    <div
-      id="gantt-grid-container__time"
-      style={{ gridTemplateColumns: `repeat(${numMonths}, 1fr)` }}
-      ref={ganttRef}
-    >
-      {monthRows}
-      {dayRows}
+      tasksHolder = (
+        <div>
+          {taskRows.map((taskRow, index) => (
+            <div key={index}>{taskRow}</div>
+          ))}
+        </div>
+      );
+
+      gridRows = (
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: gridColumns,
+            gridTemplateRows: 'auto auto',
+          }}
+        >
+          {monthRows.map((monthRow, index) => (
+            <div key={index}>
+              <div style={{ gridColumn: index + 1 }}>{monthRow}</div>
+              <div style={{ gridColumn: index + 1 }}>{dayRows[index]}</div>
+            </div>
+          ))}
+        </div>
+      );
+
+      break;
+
+    case "months":
+      gridColumns = `repeat(${numMonths}, 1fr)`;
+
+      gridRows = (
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: gridColumns,
+            gridTemplateRows: 'auto auto',
+          }}
+        >
+          {monthRows.map((monthRow, index) => (
+            <div key={index}>
+              <div style={{ gridColumn: index + 1 }}>{monthRow}</div>
+              <div style={{ gridColumn: index + 1 }}>{dayRows[index]}</div>
+            </div>
+          ))}
+        </div>
+      );
+
+      tasksHolder = (
+        <div>
+          {taskRows.map((taskRow, index) => (
+            <div key={index}>{taskRow}</div>
+          ))}
+        </div>
+      );    
+
+      break;
+    
+    default:
+      gridColumns = `repeat(${numMonths}, 1fr)`;
+
+      tasksHolder = taskRows;
+
+      gridRows = (
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: gridColumns,
+            gridTemplateRows: 'auto auto',
+          }}
+        >
+          {monthRows.map((monthRow, index) => (
+            <div key={index}>
+              <div style={{ gridColumn: index + 1 }}>{monthRow}</div>
+              <div style={{ gridColumn: index + 1 }}>{dayRows[index]}</div>
+            </div>
+          ))}
+        </div>
+      );
+      break;
+  }
+
+    return (
 
       <div
-        id="gantt-time-period-cell-container"
-        style={{
-          gridColumn: '1/-1',
-          display: 'grid',
-          gridTemplateColumns: `repeat(${numMonths}, 1fr)`,
-          paddingLeft: '0.5px',
-          paddingBottom: '-100px',
-        }}
-
-        
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleResizeEnd}
-        onDragOver={(e) => e.preventDefault()}
+        id="gantt-grid-container__time"
+        style={{ gridTemplateColumns: gridColumns }}
+        ref={ganttRef}
       >
-        {taskRows}
+        {gridRows}
+  
+        <div
+          id="gantt-time-period-cell-container"
+          style={{
+            gridColumn: '1/-1',
+            display: 'grid',
+            gridTemplateColumns: gridColumns,
+            paddingLeft: '0.5px',
+            paddingBottom: '-100px',
+          }}
+  
+          
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleResizeEnd}
+          onDragOver={(e) => e.preventDefault()}
+        >
+          
+          {tasksHolder}
+        </div>
+  
+        <TaskDetails
+          show={showDetails}
+          onHide={() => setShowDetails(false)}
+          task={selectedTask}
+          handleDelete={handleDelete}
+          userId={userId}
+        />
       </div>
-
-      <TaskDetails
-        show={showDetails}
-        onHide={() => setShowDetails(false)}
-        task={selectedTask}
-        handleDelete={handleDelete}
-        userId={userId}
-      />
-    </div>
-  );
-}
+    );
+  }
