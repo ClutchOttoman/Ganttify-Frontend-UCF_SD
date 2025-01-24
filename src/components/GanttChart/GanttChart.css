@@ -36,7 +36,7 @@
     justify-content: flex-start;
     align-items: center;
     margin-right: 5px;
-    margin-top: -40px;
+    margin-top: -30px;
   }
   
   .gantt-chart-sort-selection {
@@ -68,10 +68,10 @@
   cursor: pointer;
   padding: 3px 7px;
   font-weight: bold;
-  margin-right: 98px;
+  /* margin-right: 98px;
   margin-top: 11px;
-  margin-left: 345px;
-
+  margin-left: 345px; */
+  text-wrap: wrap;
  
 }
 
@@ -90,4 +90,10 @@
 /* To explicitly adjust the vertical position of the buttons */
 .export-buttons-container {
   margin-bottom: 100px; /* Add vertical spacing above */
+  margin-top: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  overflow: visible;
 }
