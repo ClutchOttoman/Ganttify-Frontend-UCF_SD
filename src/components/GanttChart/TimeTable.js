@@ -432,9 +432,11 @@ export default function TimeTable({
       let numWeeks = 0;
 
       function isTaskHappeningInWeek(taskStart, taskEnd, weekStart, weekEnd) {
-        let ret = (taskStart >= weekStart && taskStart <= weekEnd) ||
-        (taskEnd >= weekStart && taskEnd <= weekEnd) ||
-        (taskStart < weekStart && taskEnd > weekEnd);
+        taskStart = new Date(taskStart);
+        taskEnd = new Date(taskEnd);
+        weekStart = new Date(weekStart);
+        weekEnd = new Date(weekEnd);
+        weekEnd.setHours(23, 59, 59, 999);
 
         return (
           (taskStart >= weekStart && taskStart <= weekEnd) ||
@@ -549,6 +551,7 @@ export default function TimeTable({
       
             const currentWeekEnd = new Date(currentWeekStart);
             currentWeekEnd.setDate(currentWeekStart.getDate() + 6);
+            currentWeekEnd.setHours(23, 59, 59, 999);
       
             const isTaskInWeek = isTaskHappeningInWeek(
               startDate,
@@ -583,14 +586,18 @@ export default function TimeTable({
                   />
                 )}
       
-                {taskDurations.map((el, i) => {
+                {taskDurations.map((el, i) => {                  
                   const elStartDate = new Date(el?.start.split('T')[0]);
                   const elEndDate = new Date(el?.end.split('T')[0]);
-      
+
+                  const adjustedWeekEnd = new Date(currentWeekEnd);
+                  adjustedWeekEnd.setHours(23, 59, 59, 999);
+
                   if (el?.task === task._id &&
                     elStartDate >= currentWeekStart &&
-                    elStartDate <= currentWeekEnd
+                    elStartDate <= adjustedWeekEnd
                   ) {
+
                     return (
                       <div
                         key={`${i}-${el?.task}`}
@@ -632,6 +639,7 @@ export default function TimeTable({
           taskEnd = new Date(taskEnd);
           monthStart = new Date(monthStart);
           monthEnd = new Date(monthEnd);
+          monthEnd.setHours(23, 59, 59, 999);
 
           return ((taskStart >= monthStart && taskStart <= monthEnd) ||
           (taskEnd >= monthStart && taskEnd <= monthEnd) ||
@@ -671,7 +679,7 @@ export default function TimeTable({
           let lastDayOfMonth = new Date(currentWorkingMonth.getFullYear(), currentWorkingMonth.getMonth() + 1, 0);
           let currentDateInMonth = isTaskHappeningInMonth(currentDate, currentDate, currentWorkingMonth, lastDayOfMonth);
           
-          currentDateInMonth ? 
+          currentDateInMonth ?
           dayRow.push(
             <div>
               <div key={currentWorkingMonth.toISOString()} style={{ ...ganttTimePeriod, outline: 'none' }}>
@@ -711,17 +719,24 @@ export default function TimeTable({
         }while(i < numYears + 1);
   
         function findTaskDurationMonths(currentMonthStart, endDate) {
-          let currentMonthEnd = new Date(currentMonthStart.getFullYear(), currentMonthStart.getMonth() + 1, 0); // End of the current month
           let monthDif = 0;
         
-          do {
+          if (!(currentMonthStart instanceof Date)) {
+            currentMonthStart = new Date(currentMonthStart);
+          }
+          if (!(endDate instanceof Date)) {
+            endDate = new Date(endDate);
+          }
+        
+          let tempDate = new Date(currentMonthStart);
+          while (tempDate <= endDate) {
             monthDif++;
-            currentMonthStart = new Date(currentMonthStart.getFullYear(), currentMonthStart.getMonth() + 1, 1); // Start of the next month
-            currentMonthEnd = new Date(currentMonthStart.getFullYear(), currentMonthStart.getMonth() + 1, 0);
-          } while (endDate > currentMonthEnd);
+            tempDate = new Date(tempDate.getFullYear(), tempDate.getMonth() + 1, 1);
+          }
         
           return monthDif;
         }
+        
         
   
         if (tasks) {
@@ -735,7 +750,8 @@ export default function TimeTable({
             for (let monthIndex = 0; monthIndex < numMonths; monthIndex++) {
               let currentMonth = new Date(startMonth.getFullYear(), startMonth.getMonth() + monthIndex, 1);
               let currentMonthEnd = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
-        
+              currentMonthEnd.setHours(23, 59, 59, 999);
+
               const isTaskInMonth = isTaskHappeningInMonth(
                 startDate,
                 dueDate,
@@ -744,7 +760,7 @@ export default function TimeTable({
                 index
               );
 
-              if(isTaskInMonth && (earliestTaskStartMonth == null || currentMonth.getMonth() < earliestTaskStartMonth)){
+              if(isTaskInMonth && (earliestTaskStartMonth == null || currentMonth < earliestTaskStartMonth)){
                 earliestTaskStartMonth = currentMonth;
                 earliestTaskStartMonthIndex = monthIndex;
               }
@@ -773,10 +789,13 @@ export default function TimeTable({
                   {taskDurations.map((el, i) => {
                     const elStartDate = new Date(el?.start.split('T')[0]);
                     const elEndDate = new Date(el?.end.split('T')[0]);
-        
+
+                    const adjustedMonthEnd = new Date(currentMonthEnd);
+                    adjustedMonthEnd.setHours(23, 59, 59, 999);
+                          
                     if (el?.task === task._id &&
                       elStartDate >= currentMonth &&
-                      elStartDate <= currentMonthEnd
+                      elStartDate <= adjustedMonthEnd
                     ) {
 
                       return (
@@ -1208,6 +1227,8 @@ export default function TimeTable({
         if(arrayOfTasks.length > 0){
           cellWidth = 180;
           scrollPosition = earliestTaskStartMonthIndex * cellWidth;
+
+          console.log("earliestTaskStartMonthIndex: ", earliestTaskStartMonthIndex);
     
           ganttRef.current.scrollLeft = scrollPosition;
         }
