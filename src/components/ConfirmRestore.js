@@ -52,4 +52,4 @@ function ConfirmRestore() {
   );
 }
 
-export default ConfirmDelete;
+export default ConfirmRestore;
