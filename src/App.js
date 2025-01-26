@@ -21,7 +21,7 @@ import RecentlyDeletedPage from './pages/RecentlyDeletedPage';
 import RegisterTokenPage from './pages/RegisterTokenPage';
 import VerifyEmailTokenPage from './pages/VerifyEmailTokenPage';
 import ConfirmDeletePage from './pages/ConfirmDeletePage';
-
+import ConfirmRestorePage from './pages/ConfirmRestorePage';
 
 function App() {
   return (
@@ -45,6 +45,7 @@ function App() {
           <Route path="/register/:token" element={<RegisterTokenPage />} />
           <Route path="/verify-invite/:token" element={<VerifyEmailTokenPage />} />
           <Route path="/confirm-delete/:userId/:token" element={<ConfirmDeletePage />} />
+          <Route path="/restore-account/:userId/:token" element={<ConfirmRestorePage />} />
         </Routes>
     </BrowserRouter>
   );
