@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { buildPath } from './buildPath';
-import './ConfirmDelete.css';
+import './ConfirmRestore.css';
 
 function ConfirmRestore() {
   const { userId, token } = useParams();
@@ -36,10 +36,10 @@ function ConfirmRestore() {
   }, [userId, token]);
 
   return (
-    <div className="confirm-delete-container">
-      <div className="confirm-delete-form text-center">
+    <div className="confirmRestoreContainer">
+      <div className="confirmRestoreForm text-center">
         <div className="card-header registerFormHeader">
-          <h1 className="confirm-delete-title">Account Restoration</h1>
+          <h1 className="confirmRestoreTitle">Account Restoration</h1>
         </div>
         <div className="card-body p-0">
           <p id="floatingMessage">{message}</p>
