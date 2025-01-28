@@ -59,6 +59,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
   const [prerequisiteTasks,setPrerequisiteTasks] = useState([]);
   const [dependentTasks, setDependentTasks] = useState([]);
   const [allPrerequisitesDone, setAllPrerequisitesDone] = useState(false);
+  const [prerequisiteDropdown,setPrerequisiteDropdown] = useState(null);
 
   
   const [taskCategories, setTaskCategories] = useState([]); // Added
@@ -371,7 +372,44 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', { ...options, timeZone: 'UTC' });
   };
-
+  const isPrerequisiteDropdownDisabled = () =>{
+    var prequisiteTaskSelection = projectTasks.filter(preReqTask =>( (preReqTask._id != task._id && !preReqTask.prerequisiteTasks.includes(task._id))));
+    if(prequisiteTaskSelection[0] == null){return true}
+    else{return false}
+  }
+  /*
+  const createPrerequisiteDropdown = () =>{
+    var prequisiteTaskSelection = projectTasks.filter(preReqTask =>( (preReqTask._id == task._id || preReqTask.prerequisiteTasks.includes(task._id))));
+    if(prequisiteTaskSelection.length == 0){setPrerequisiteDropdown(null)}
+    var dropdownHead = document.createElement("ul");
+    for(var i = 0 ; i< prequisiteTaskSelection.length; i++){
+        const dropdownItem = document.createElement('a');
+        dropdownItem.href = "#" + `${task._id}`
+        dropdownItem.setAttribute("key",`${prequisiteTaskSelection[i]._id}`);
+        dropdownItem.setAttribute("class","dropdown-item");
+        const dropdownItemDiv = document.createElement('div');
+        dropdownItemDiv.setAttribute("class","form-check")
+        const dropdownItemLabel = document.createElement('label');
+        dropdownItemLabel.setAttribute("htmlfor",`${prequisiteTaskSelection[i]._id}`);
+        dropdownItemLabel.setAttribute("class","form-check-label prerequisiteTaskDropdownItem");
+        dropdownItemLabel.innerText = prequisiteTaskSelection[i].taskTitle;
+        const dropdownItemCheckBox = document.createElement('input');
+        dropdownItemCheckBox.setAttribute("type","checkbox");
+        dropdownItemCheckBox.setAttribute("class","form-check-input");
+        dropdownItemCheckBox.value = prequisiteTaskSelection[i]._id
+        dropdownItemCheckBox.setAttribute("onChange",`{(e) => handlePrerequisiteChange(e.target.value)}`);
+        dropdownItemCheckBox.checked = prerequisiteTasks.includes(prequisiteTaskSelection[i]._id);
+        dropdownItemDiv.appendChild(dropdownItemCheckBox);
+        dropdownItemDiv.appendChild(dropdownItemLabel);
+        dropdownItem.appendChild(dropdownItemDiv);
+        dropdownHead.appendChild(dropdownItem);
+    }
+    setPrerequisiteDropdown(dropdownHead);
+  }
+  const resetPrerequisiteDropdown = () =>{
+    var dropdownHead = document.getElementById("editPrerequisiteSelectionDropdown");
+    if(dropdownHead != null){}
+  }*/
   const generatePrereqAlert = () =>{
     var prereqAlert = "You cannot finish this task while its prerequisite tasks are incomplete:"
     var unfinishedTasks = projectTasks.filter(projectTask => (task.prerequisiteTasks.includes(projectTask._id) && projectTask.progress != "Completed"))
@@ -587,11 +625,6 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
         setPrerequisiteTasks([...prerequisiteTasks,taskId]);
         //console.log("adding prereq: " + taskId + " into: " + prerequisiteTasks);
     }
-    /*
-    setTaskData((prevData) => {
-        const prerequisiteTasks = prevData.prerequisiteTasks.includes(taskId) ? prevData.prerequisiteTasks.filter((id) => id !== userId) : [...prevData.prerequisiteTasks, taskId];
-        return { ...prevData, prerequisiteTasks: prerequisiteTasks };
-      });*/
   }
 
   const updateSingleUserToDoList = async (taskId, userId, isChecked) => {
@@ -773,9 +806,9 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
               </div>
                     <div className="mb-4 dropup dropup-center d-grid gap-2">
                         <label htmlFor='prerequisiteTaskSelection' className="form-label text-align-start">Prerequisite Tasks</label>
-                        <button class="dropdownBtnAdd dropdown-toggle" type="button" id="prerequisiteTasks" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Select Prerequisite Tasks</button>
+                        <button class="dropdownBtnAdd dropdown-toggle" type="button" id="prerequisiteTasks" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" disabled = {isPrerequisiteDropdownDisabled()}>Select Prerequisite Tasks</button>
                         <ul class="dropdown-menu" id = "prerequisiteTaskDropdownMenu">
-                            {projectTasks.map(preReqTask =>( preReqTask._id == task._id ? null : 
+                            {projectTasks.map(preReqTask =>( (preReqTask._id == task._id || preReqTask.prerequisiteTasks.includes(task._id)) ? null : 
                                     <a href={"#" + `${task._id}`} key={preReqTask._id} class ="dropdown-item">
                                         <div class="form-check">
                                             <input type ="checkbox" id={preReqTask._id} class ="form-check-input" value={preReqTask._id} onChange={(e) => handlePrerequisiteChange(e.target.value)} checked={prerequisiteTasks.includes(preReqTask._id) ? true : false}/>
@@ -787,7 +820,6 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
                            <>
                            </>
                         </ul>
-
                     </div>
             </div>
             ) : (
@@ -808,17 +840,14 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
               <p><strong>Task Category:</strong> {taskCategory || 'No category assigned'}</p>
               <div className="mb-4 dropup dropup-center d-grid gap-2">
                         <label htmlFor='prerequisiteTaskSelection' className="form-label text-align-start">Prerequisite Tasks</label>
-                        <button class="dropdownBtnAdd dropdown-toggle" type="button" id="prerequisiteTasks" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Show Prerequisite Tasks</button>
+                        <button class="dropdownBtnAdd dropdown-toggle" type="button" id="prerequisiteTasks" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" disabled = {task.prerequisiteTasks[0] ? false : true}>Show Prerequisite Tasks</button>
                         <ul class="dropdown-menu" id = "prerequisiteTaskDropdownMenu">
-                            {projectTasks.map(preReqTask =>( prerequisiteTasks.includes(preReqTask._id) ? 
-                                    
+                            {projectTasks.map(preReqTask =>( prerequisiteTasks.includes(preReqTask._id) ?
                                         <div key={preReqTask._id} class ="dropdown-item">
                                             <label htmlFor = {preReqTask._id} class = "prerequisiteTaskDropdownItem">{preReqTask.taskTitle}</label>
                                         </div> : null
-                                        
                             ))}
                         </ul>
-
                     </div>
               </>
                 

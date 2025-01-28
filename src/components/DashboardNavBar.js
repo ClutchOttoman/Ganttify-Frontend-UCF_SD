@@ -53,8 +53,8 @@ function DasboardNavBar()
         }
     }
     return(
-        <div>
-            <div class = "d-none d-md-block container-lg navBarBody mb-5">
+        <>
+            <div class = "d-none d-md-block container-lg navBarBody me-5 pb-5">
                     <a id ="ToDo List" class = "btn navBtn topNavBtn" href="/dashboard"><span class = "navBtnText">To Do List</span></a>
                     <a id ="Charts" class = "btn navBtn" href="/dashboard/charts"><span class = "navBtnText">Charts</span></a>
                     <a id ="Recently Deleted" class ="btn navBtn" href="/dashboard/recently-deleted"><span class = "navBtnText">Recently Deleted</span></a>
@@ -63,7 +63,7 @@ function DasboardNavBar()
 
                    
             </div>
-            <div class = "d-md-none navBarBodySmall mb-5">
+            <div class = "d-md-none navBarBodySmall mb-5 pb-5">
                 <div class = "row align-items-center mt-3">
                     <div class = "col-3"><a id ="ToDo List" class = "btn navBtnSmall" href="/dashboard"><span class = "navBtnTextSmall">To Do</span></a></div>
                     <div class = "col-3"><a id ="Charts" class = "btn navBtnSmall" href="/dashboard/charts"><span class = "navBtnTextSmall">Charts</span></a></div>
@@ -72,6 +72,7 @@ function DasboardNavBar()
                  </div>
             </div>
 
+            {/*create project modal */}
             <div class="modal fade px-0" id="createProjectModal" tabindex="-1" aria-labelledby="createProjectModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -94,7 +95,7 @@ function DasboardNavBar()
                         </div>
                 </div>
             </div>
-        </div>
+        </>
     );
     
 }

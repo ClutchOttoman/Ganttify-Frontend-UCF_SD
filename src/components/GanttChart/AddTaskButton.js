@@ -159,7 +159,11 @@ const AddTaskButton = ({ projectId }) => {
     setPattern(newPatternToDisplay);
     setTaskData(oldData => ({...oldData, pattern: newPattern}));
   }
-
+  const isPrerequisiteDropdownDisabled = () =>{
+    if(projectTasks[0] == null){return true}
+    else{return false}
+  }
+  
   const handlePrerequisiteChange = async (taskId) =>{
     if(prerequisiteTasks && prerequisiteTasks.includes(taskId)){
         setPrerequisiteTasks(prerequisiteTasks.filter(prereq => prereq !== taskId));
@@ -334,7 +338,7 @@ const AddTaskButton = ({ projectId }) => {
                   </div>
                     <div className="mb-4 dropup dropup-center d-grid gap-2">
                         <label htmlFor='prerequisiteTaskSelection' className="form-label text-align-start">Prerequisite Tasks</label>
-                        <button class="dropdownBtnAdd dropdown-toggle" type="button" id="prerequisiteTasks" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Select Prerequisite Tasks</button>
+                        <button class="dropdownBtnAdd dropdown-toggle" type="button" id="prerequisiteTasks" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" disabled={isPrerequisiteDropdownDisabled()}>Select Prerequisite Tasks</button>
                         <ul class="dropdown-menu" id = "prerequisiteTaskDropdownMenu">
                             {projectTasks.map(task =>(
                                     <a href={"#" + `${task._id}`} key={task._id} class ="dropdown-item">
