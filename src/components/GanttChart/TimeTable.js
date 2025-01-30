@@ -577,15 +577,7 @@ export default function TimeTable({
                 onMouseEnter={() => setHoveredRow(task._id)}
                 onMouseLeave={() => setHoveredRow(null)}
               >
-                {isTaskInWeek && (
-                  <img
-                    id={`pattern/${currentWeekStart.toISOString()}/${task._id}`}
-                    src={patterns[task.pattern]}
-                    className="patternImg"
-                    hidden={!isTaskInWeek}
-                  />
-                )}
-      
+
                 {taskDurations.map((el, i) => {                  
                   const elStartDate = new Date(el?.start.split('T')[0]);
                   const elEndDate = new Date(el?.end.split('T')[0]);
@@ -607,6 +599,8 @@ export default function TimeTable({
                           ...taskDurationBaseStyle,
                           width: `calc(${findTaskDuration(currentWeekStart, dueDate)} * 100% - 1px)`,
                           background: task.color || 'var(--color-primary-light)',
+                          backgroundImage: patterns[task.pattern] ? `url(${patterns[task.pattern]})` : 'none',
+                          backgroundSize: 'contain',
                         }}
                         onClick={() => {
                           setSelectedTask(task);
@@ -777,14 +771,6 @@ export default function TimeTable({
                   onMouseEnter={() => setHoveredRow(task._id)}
                   onMouseLeave={() => setHoveredRow(null)}
                 >
-                  {isTaskInMonth && (
-                    <img
-                      id={`pattern/${currentMonth.toISOString()}/${task._id}`}
-                      src={patterns[task.pattern]}
-                      className="patternImg"
-                      hidden={!isTaskInMonth}
-                    />
-                  )}
         
                   {taskDurations.map((el, i) => {
                     const elStartDate = new Date(el?.start.split('T')[0]);
@@ -807,6 +793,8 @@ export default function TimeTable({
                             ...taskDurationBaseStyle,
                             width: `calc(${findTaskDurationMonths(currentMonth, dueDate)} * 100% - 1px)`,
                             background: task.color || 'var(--color-primary-light)',
+                            backgroundImage: patterns[task.pattern] ? `url(${patterns[task.pattern]})` : 'none',
+                            backgroundSize: 'contain',
                           }}
                           onClick={() => {
                             setSelectedTask(task);
@@ -964,9 +952,7 @@ export default function TimeTable({
                   onMouseEnter={() => setHoveredRow(task._id)}
                   onMouseLeave={() => setHoveredRow(null)}
                 >
-    
-    
-                <img id={`pattern/${formattedDate}/${task._id}`}src={patterns[task.pattern]} class = "patternImg" hidden={!taskHappening}/>
+                  
                   {taskDurations.map((el, i) => {
                     const elStartDate = el?.start.split('T')[0];
     
@@ -995,6 +981,8 @@ export default function TimeTable({
                             width: `calc(${dayDiff(el?.start, el?.end)} * 100% - 1px)`,
                             opacity: taskDurationElDraggedId === el?._id ? '0.5' : '1',
                             background: task.color || 'var(--color-primary-light)',
+                            backgroundImage: patterns[task.pattern] ? `url(${patterns[task.pattern]})` : 'none',
+                            backgroundSize: 'contain',
                             border: hoveredTask === el?._id && !isResizing ? '2px solid black' : 'none',
                             cursor: isEditable && !isResizing ? 'move' : 'default'
                           }}
