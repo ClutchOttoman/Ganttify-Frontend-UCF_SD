@@ -6,6 +6,9 @@ import TaskDetails from './TaskDetails';
 import Tasks from './Tasks';
 import TimeTable from './TimeTable';
 
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+
 export default function GanttChart({ projectId, setUserRole, userRole }) {
   var _ud = localStorage.getItem('user_data');
   var ud = JSON.parse(_ud);
@@ -28,7 +31,11 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
   const [selectedTask, setSelectedTask] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
 
-  
+  const [isExporting, setIsExporting] = useState(false); //added
+
+
+  const [sortBy, setSortBy] = useState('alphabetical'); // Default sort by alphabetical
+  const [teamId, setTeamId] = useState('')
 
   const sortTasks = (tasks) => {
     const groupedTasks = tasks.reduce((acc, task) => {
@@ -37,28 +44,38 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
       acc[category].push(task);
       return acc;
     }, {});
-  
+
     const sortedCategories = Object.keys(groupedTasks)
       .filter(category => category !== 'No Category Assigned')
       .sort();
-  
+
     const noCategoryTasks = groupedTasks['No Category Assigned'] || [];
-  
+
     const sortedTasks = [];
+
     sortedCategories.forEach(category => {
       const tasksInCategory = groupedTasks[category]
-        .sort((a, b) => (a?.taskTitle || '').localeCompare(b?.taskTitle || ''));
+        .sort((a, b) => {
+          if (sortBy === 'alphabetical') {
+            return (a?.taskTitle || '').localeCompare(b?.taskTitle || '');
+          } else if (sortBy === 'created') {
+            return new Date(a?.createdAt || 0) - new Date(b?.createdAt || 0);
+          }
+          return 0;
+        });
       sortedTasks.push(...tasksInCategory);
     });
-  
+
     const sortedNoCategoryTasks = noCategoryTasks.sort((a, b) =>
-      (a?.taskTitle || '').localeCompare(b?.taskTitle || '')
+      sortBy === 'alphabetical' 
+        ? (a?.taskTitle || '').localeCompare(b?.taskTitle || '')
+        : new Date(a?.createdAt || 0) - new Date(b?.createdAt || 0)
     );
+
     sortedTasks.push(...sortedNoCategoryTasks);
-  
+
     return sortedTasks;
   };
-  
 
 
   useEffect(() => {
@@ -66,11 +83,10 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
       try {
         const response = await fetch(buildPath(`api/getProjectDetails/${projectId}`));
         const project = await response.json();
-        
         if (!project || !project.team) {
           return;
         }
-        
+
         const isFounder = project.founderId === userId;
         const isEditor = project.team.editors.includes(userId);
 
@@ -81,19 +97,23 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
         } else {
           setUserRole('member');
         }
+
+        setTeamId(project.team._id)
+        console.log(teamId)
+
       } catch (error) {
         console.error('Error fetching project data:', error);
       }
     };
 
+    fetchProjectData();
+
+  }, [projectId, userId, setUserRole]);
+
+  //Fetch Tasks 
+  useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const res = await fetch(buildPath(`api/get-invite-link${projectId}`), {
-          method: 'GET',
-        });
-
-        console.log("Invitation Link: ", res.inviteLink);
-
         const obj = { projectId };
         const js = JSON.stringify(obj);
 
@@ -102,6 +122,7 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
           body: js,
           headers: { 'Content-Type': 'application/json' }
         });
+
 
         if (!response.ok) {
           throw new Error(`HTTP error, status: ${response.status}`);
@@ -115,7 +136,6 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
 
         const sortedTasks = sortTasks(fetchedTasks);
 
-
         const durations = sortedTasks.map(task => { //changed
           const duration = {
             task: task._id,
@@ -123,25 +143,36 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
             end: task.dueDateTime
           };
           if (!duration._id) {
-            duration._id = `${task._id}-${Date.now()}`; 
+            duration._id = `${task._id}-${Date.now()}`;
           }
           return duration;
         });
 
         setTasks(sortedTasks);
         setTaskDurations(durations);
-
+        sessionStorage.setItem("tasks", JSON.stringify(sortedTasks));
       } catch (error) {
         console.error('Error fetching tasks: ', error);
       }
     };
 
-    fetchProjectData();
     fetchTasks();
-  }, [projectId, userId, setUserRole]);
+  }, [projectId, userId, setUserRole, sortBy]);
 
   useEffect(() => {
-  }, [taskDurations]);
+    const savedSortOption = sessionStorage.getItem("sortBy");
+    if (savedSortOption) {
+      setSortBy(savedSortOption); // Set the sort option to the saved value
+    }
+  }, []);
+
+  useEffect(() => {}, [taskDurations]);
+
+  useEffect(() => {
+    const sortedTasks = sortTasks(tasks); // Sort the current tasks based on the selected sorting method
+    setTasks(sortedTasks); // Update the state with sorted tasks
+  }, [sortBy]); // Trigger re-sorting whenever sortBy changes
+  
 
   useEffect(() => {
     document.documentElement.style.setProperty('--task-count', tasks.length);
@@ -163,7 +194,6 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
       selectedRange: selectedRange,
     };
 
-    console.log("Selected Time Range:", selectedRange);
     setTimeRange(updatedTimeRange); // Update the timeRange state to trigger TimeTable re-render
   };
 
@@ -300,6 +330,8 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
         task={selectedTask}
         handleDelete={(taskId) => setTasks(tasks.filter(task => task._id !== taskId))}
         userId={userId}
+        userRole={userRole}
+        teamId={teamId}
       />
 
       <div className="export-buttons-container">
@@ -323,13 +355,13 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
 
         {/* <div class="gantt-chart-time-range-selector"> */}
           <select id = "timeRangeDropdown" class="gantt-chart-time-range-selection" onChange={(e) => handleTimeRangeChange(e)}>
-            <option value="">Days</option>
+            <option value="">Range</option>
             <option value="weeks"><p>Weeks</p></option>
             <option value="months"><p>Months</p></option>
           </select>
         {/* </div> */}
       </div>
-
+      
     </div>
   );
 }
