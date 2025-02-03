@@ -585,7 +585,21 @@ function NavBar(props) {
         )}
       </div>
     );
+  } else if (props.layout == 4) {
+    return (
+      <div id="navBarDiv">
+        <div className="navbar" >
+          <a href="/" aria-label="Go back to home page">
+            <img src={Logo} alt="GanttifyHomePage" className="logo" />
+          </a>
+          <h1 className="navbarHeader" > Ganttify </h1>
+          <ul className="navbarOptions">
+          </ul>
+        </div>
+      </div>
+    );
   }
+  
 }
 
 export default NavBar;

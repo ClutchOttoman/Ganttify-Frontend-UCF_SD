@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Login.css';
+import './login.css';
 import {buildPath} from './buildPath';
 
 function Login() {
@@ -65,7 +65,7 @@ function Login() {
                   
                   <div className = "row text-start"><label className = "formLabel mb-1" htmlFor="passwordForm">Password</label></div>
                   
-                  <div className = "row text-center  mb-3"><input id="passwordForm" type="password" className="formItem" placeholder='Password1!' value ={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} required></input></div>
+                  <div className = "row text-center  mb-3"><input id="passwordForm" type="password" className="formItem" placeholder='Password' value ={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} required></input></div>
                   
                   <div className = "row text-center mb-1"><span>{message}</span></div>
 

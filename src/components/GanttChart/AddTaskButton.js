@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import './AddTaskButton.css';
 import {buildPath} from '../buildPath';
-
+import RichTextEditor from './RichTextEditor.js';
 
 //Default color
 const GanttifyOrange = "#DC6B2C";
@@ -24,6 +24,7 @@ const AddTaskButton = ({ projectId }) => {
     allowEmailNotifications: false,
     dependentTasks: [],
   });
+
 
   // Initialization of the variables
   const [teamUsers, setTeamUsers] = useState([]);
@@ -313,14 +314,15 @@ const AddTaskButton = ({ projectId }) => {
                     <input type="text" className="form-control" id="taskTitle" name="taskTitle" value={taskData.taskTitle} onChange={handleInputChange} required />
                   </div>
 
+                  {/*Rich Text Editor */}
                   <div className="mb-3">
                     <label htmlFor="description" className="form-label">Description</label>
-                    <textarea className="form-control" id="description" name="description" value={taskData.description} onChange={handleInputChange}></textarea>
+                    <RichTextEditor
+                    taskDescription={taskData.description}
+                    setTaskDescription={(newDescription) => 
+                      setTaskData((prev) => ({ ...prev, description: newDescription }))}
+                    />
                   </div>
-
-
-          
-
 
                   <div className="mb-3">
                     <label htmlFor="startDateTime" className="form-label">Start Date</label>
@@ -352,12 +354,13 @@ const AddTaskButton = ({ projectId }) => {
                            <>
                            </>
                         </ul>
-
-                    </div>
+                  
                   <div className="mb-4 dropup dropup-center d-grid gap-2">
+                  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"></link>
                     <label htmlFor="assignedTasksUsers" className="form-label text-align-start">Assigned Users</label>
                     <button class="dropdownBtnAdd dropdown-toggle" type="button" id="assignedUsers" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Select Users</button>
                     <ul class ="dropdown-menu" id="assignedUsersDropdownMenu" >
+
                       {teamUsers.map(user => (
                         <a href={"#"+`${user.id}`}key={user._id} class="dropdown-item">
                           <div class="form-check">
@@ -420,7 +423,6 @@ const AddTaskButton = ({ projectId }) => {
                         <a onClick={()=>handlePatternChange('Solid_Single_Square_Density_1.svg','Solid Squares')} class = "dropdown-item patternDropdownItem">Solid Squares</a>
                         <a onClick={()=>handlePatternChange('Solid_Single_Star_Density_1.svg','Solid Stars')} class = "dropdown-item patternDropdownItem">Solid Stars</a>
                         <a onClick={()=>handlePatternChange('Solid_Single_Triangle_Density_1.svg','Solid Triangles')} class = "dropdown-item patternDropdownItem">Solid Triangles</a>
-                        <a onClick={()=>handlePatternChange('Halftone_Density_1.png','Halftone')} class = "dropdown-item patternDropdownItem">Halftone</a>
                         </ul>
                   </div>
 

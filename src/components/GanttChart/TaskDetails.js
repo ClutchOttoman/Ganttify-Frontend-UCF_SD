@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import './TaskDetails.css';
-
+import './RichTextEditor.js';
 import DeleteTaskButton from '../../Images/assets/action_buttons/Delete_Task_or_Chart_30x30.png';
 import EditTaskButton from '../../Images/assets/action_buttons/Edit_Task_30x30.png';
 import {buildPath} from '../buildPath';
+import RichTextEditor from './RichTextEditor.js';
 
 // Colors to choose from
 const colorOptions = [
@@ -28,9 +29,6 @@ const patternDisplayNames = {
 	'Solid_Single_Square_Density_1.svg':'Solid Squares',
 	'Solid_Single_Star_Density_1.svg':'Solid Stars',
 	'Solid_Single_Triangle_Density_1.svg':'Solid Triangles',
-	'Halftone_Density_1.png':'Halftone',
-	'Halftone_Density_2.png':'Light Halftone',
-	'Halftone_Density_3.png':'Dense Halftone',
     'No Pattern':'No Pattern'
 }
 
@@ -68,6 +66,15 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
   const [originalTask, setOriginalTask] = useState(null);
   const [fetchedTask, setFetchedTask] = useState(null);
 
+  const debounce = (func, delay) => {
+    let timeout;
+    return (...args) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func(...args), delay);
+    };
+  };
+
+  
   useEffect(() => {
     if (task && show) {
       setProgressEditPermission(false);
@@ -108,7 +115,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
   }, [task, show]);
 
   // Makes sure that task gets updated live
-  const fetchTaskFromAPI = async (taskId) => {
+  const fetchTaskFromAPI = debounce(async (taskId) => {
     if (taskId) {
       try {
         const response = await fetch(buildPath(`api/fetchTask/${taskId}`));
@@ -132,7 +139,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
         console.error('Error fetching task from API:', error);
       }
     }
-  };
+  }, 200);
 
   // Re-sets the variables with the updated tasks
   const setTaskDetails = (fetchedTask) => {
@@ -254,6 +261,8 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
       const isFounder = project.founderId === userId;
       const isEditor = project.team.editors.includes(userId);
 
+      console.log(project)
+
       // If a user is the founder or editor they can change the progress of a task
       if (isFounder || isEditor) {
         setProgressEditPermission(true);
@@ -326,8 +335,6 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
   };
 
   const fetchAssignedUsers = async (userIds) => {
-
-
     try {
       const response = await fetch(buildPath('api/read/users'), {
         method: 'POST',
@@ -367,49 +374,23 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
     return users.filter(user => user !== null);
   };
 
+  const formatDateForInput = (dateString) => {
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0];  // Convert to YYYY-MM-DD format
+  };
+  
   const formatDate = (dateString) => {
+    console.log('Date string:', dateString);  // Add this line
     const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { ...options, timeZone: 'UTC' });
+    console.log('Parsed date:', date);  // Add this line
+    return date.toLocaleDateString('en-US', options);
   };
   const isPrerequisiteDropdownDisabled = () =>{
     var prequisiteTaskSelection = projectTasks.filter(preReqTask =>( (preReqTask._id != task._id && !preReqTask.prerequisiteTasks.includes(task._id))));
     if(prequisiteTaskSelection[0] == null){return true}
     else{return false}
   }
-  /*
-  const createPrerequisiteDropdown = () =>{
-    var prequisiteTaskSelection = projectTasks.filter(preReqTask =>( (preReqTask._id == task._id || preReqTask.prerequisiteTasks.includes(task._id))));
-    if(prequisiteTaskSelection.length == 0){setPrerequisiteDropdown(null)}
-    var dropdownHead = document.createElement("ul");
-    for(var i = 0 ; i< prequisiteTaskSelection.length; i++){
-        const dropdownItem = document.createElement('a');
-        dropdownItem.href = "#" + `${task._id}`
-        dropdownItem.setAttribute("key",`${prequisiteTaskSelection[i]._id}`);
-        dropdownItem.setAttribute("class","dropdown-item");
-        const dropdownItemDiv = document.createElement('div');
-        dropdownItemDiv.setAttribute("class","form-check")
-        const dropdownItemLabel = document.createElement('label');
-        dropdownItemLabel.setAttribute("htmlfor",`${prequisiteTaskSelection[i]._id}`);
-        dropdownItemLabel.setAttribute("class","form-check-label prerequisiteTaskDropdownItem");
-        dropdownItemLabel.innerText = prequisiteTaskSelection[i].taskTitle;
-        const dropdownItemCheckBox = document.createElement('input');
-        dropdownItemCheckBox.setAttribute("type","checkbox");
-        dropdownItemCheckBox.setAttribute("class","form-check-input");
-        dropdownItemCheckBox.value = prequisiteTaskSelection[i]._id
-        dropdownItemCheckBox.setAttribute("onChange",`{(e) => handlePrerequisiteChange(e.target.value)}`);
-        dropdownItemCheckBox.checked = prerequisiteTasks.includes(prequisiteTaskSelection[i]._id);
-        dropdownItemDiv.appendChild(dropdownItemCheckBox);
-        dropdownItemDiv.appendChild(dropdownItemLabel);
-        dropdownItem.appendChild(dropdownItemDiv);
-        dropdownHead.appendChild(dropdownItem);
-    }
-    setPrerequisiteDropdown(dropdownHead);
-  }
-  const resetPrerequisiteDropdown = () =>{
-    var dropdownHead = document.getElementById("editPrerequisiteSelectionDropdown");
-    if(dropdownHead != null){}
-  }*/
   const generatePrereqAlert = () =>{
     var prereqAlert = "You cannot finish this task while its prerequisite tasks are incomplete:"
     var unfinishedTasks = projectTasks.filter(projectTask => (task.prerequisiteTasks.includes(projectTask._id) && projectTask.progress != "Completed"))
@@ -418,6 +399,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
     });
     return prereqAlert;
   }
+
   const handleStatusChange = async (newStatus) => {
     if(newStatus == "Completed" && !allPrerequisitesDone){
         // List the tasks that need to be completed Here
@@ -472,6 +454,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
     }
   };
 
+  //Updates Task
   const handleSaveChanges = async () => {
     if (!task || !task._id) {
       console.error("Task is undefined or missing ID.");
@@ -661,6 +644,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
 
   if (!show || !task || !fetchedTask) return null;
 
+
   return (
 
     <div id="task-details-sidebar" className="task-details-sidebar">
@@ -728,7 +712,6 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
                         <a onClick={()=>handlePatternChange('Solid_Single_Square_Density_1.svg','Solid Squares')} class = "dropdown-item patternDropdownItem">Solid Squares</a>
                         <a onClick={()=>handlePatternChange('Solid_Single_Star_Density_1.svg','Solid Stars')} class = "dropdown-item patternDropdownItem">Solid Stars</a>
                         <a onClick={()=>handlePatternChange('Solid_Single_Triangle_Density_1.svg','Solid Triangles')} class = "dropdown-item patternDropdownItem">Solid Triangles</a>
-                        <a onClick={()=>handlePatternChange('Halftone_Density_1.png','Halftone')} class = "dropdown-item patternDropdownItem">Halftone</a>
                         <a onClick={()=>handlePatternChange('No Pattern','No Pattern')} class = "dropdown-item patternDropdownItem">No Pattern</a>
                         </ul>
                   </div>:
@@ -736,15 +719,22 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
                    <button class="nav-link dropdownBtn" type="button" id="pattern" data-bs-toggle="dropdown" aria-expanded="false" disabled>
                        {patternToDisplay}
                    </button></div>}</div>
-
-      <div className="task-details-body">
+      
+      {/*Rich Text Editor */}
         <div id="description-title">Description</div>
-        {editMode ? (
-          <textarea id="description-text" value={taskDescription} onChange={(e) => setTaskDescription(e.target.value)} />
-        ) : (
-          <div id="description">{task.description || 'Add a description here...'}</div>
-        )}
-      </div>
+      {editMode ?
+            <RichTextEditor
+            taskDescription={taskDescription}
+            setTaskDescription={setTaskDescription}
+            />
+      :
+      <div 
+      id="textbox" 
+      dangerouslySetInnerHTML={{
+        __html: taskDescription?.trim() ? taskDescription : 'Add a description here...',
+      }} 
+      />
+      }
 
       <div className="task-details-footer">
         <div className="details">
@@ -856,24 +846,18 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
             
 
             <p><strong>Created Date:</strong> {formatDate(fetchedTask.taskCreated)}</p>
-            <p><strong>Start Date:</strong> {editMode ? (
+<p><strong>Start Date:</strong> {editMode ? (
+  <input type="date" value={formatDateForInput(startDate)} onChange={(e) => setStartDate(e.target.value)} />
+) : (
+  formatDate(fetchedTask.startDateTime)
+)}</p>
 
+<p><strong>Due Date:</strong> {editMode ? (
+  <input type="date" value={formatDateForInput(dueDate)} onChange={(e) => setDueDate(e.target.value)} />
+) : (
+  formatDate(fetchedTask.dueDateTime)
+)}</p>
 
-              <input type="date" value={startDate.split('T')[0]} onChange={(e) => setStartDate(e.target.value)} />
-            ) : (
-
-
-              formatDate(fetchedTask.startDateTime)
-            )}</p>
-
-
-            <p><strong>Due Date:</strong> {editMode ? (
-              <input type="date" value={dueDate.split('T')[0]} onChange={(e) => setDueDate(e.target.value)} />
-            ) : (
-
-              formatDate(fetchedTask.dueDateTime)
-
-            )}</p>
           </div>
 
           {dateError && <p className="error">{dateError}</p>}

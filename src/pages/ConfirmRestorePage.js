@@ -1,17 +1,17 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import ConfirmDelete from '../components/ConfirmDelete';
+import ConfirmRestore from '../components/ConfirmRestore';
 import NavBar from '../components/NavBar';
 
-const ConfirmDeletePage = () => {
+const ConfirmRestorePage = () => {
   const { userId, token } = useParams();
 
   return (
     <div>
       <NavBar layout={4}/>
-      <ConfirmDelete userId={userId} token={token} />
+      <ConfirmRestore userId={userId} token={token} />
     </div>
   );
 };
 
-export default ConfirmDeletePage;
+export default ConfirmRestorePage;
