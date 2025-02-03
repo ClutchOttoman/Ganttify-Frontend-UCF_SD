@@ -40,13 +40,13 @@ function DashboardChartsSearch(){
                     return false;
                 });
                 if(modifiedRes !== chartsAreDisplayed){
-                    setChartsToDisplay(<DashboardCharts projects={modifiedRes}/>);
+                    setChartsToDisplay(<DashboardCharts projects={modifiedRes} triggerReSearch={triggerReSearch}/>);
                     setChartsAreDisplayed(modifiedRes);
                 }
                 
             }
             else{
-                setChartsToDisplay(<DashboardCharts projects={empty}/>);
+                setChartsToDisplay(<DashboardCharts projects={empty} triggerReSearch={triggerReSearch}/>);
                 setChartsAreDisplayed(empty);
             }
         }
@@ -56,6 +56,7 @@ function DashboardChartsSearch(){
         }
     }
     const triggerReSearch = () =>{
+        search="";
         doProjectSearch()
     }
     const [chartsToDisplay, setChartsToDisplay] = useState(<DashboardCharts projects={empty} triggerReSearch={triggerReSearch}/>);
@@ -68,13 +69,12 @@ function DashboardChartsSearch(){
 
     return(
             <div>
-                <div class="container-fluid mx-0 mb-2">
-                <h1 class="title">Charts</h1>
+                <div class="px-0 mx-0 mt-5 mb-4">
                     <form>
-                        <div><input type="search" class="form-control searchForm" placeholder='Search charts by name...' id="search projects" onChange={doProjectSearch} ref={(c) => search = c}/></div>
+                        <h1 class="title">Charts</h1>
+                        <input type="search" class="form-control searchForm" placeholder='Search charts by name...' id="search projects" onChange={doProjectSearch} ref={(c) => search = c}/>
                     </form>
                 </div>
-                
                 {chartsToDisplay}
             </div>
         

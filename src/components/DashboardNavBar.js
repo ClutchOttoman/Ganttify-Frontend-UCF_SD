@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import "./DashboardNavBar.css"
+import '../components/DashboardCharts.css';
+
+
+
+
+
 
 import {buildPath} from './buildPath';
 
 
-function DasboardNavBar()
+function DasboardNavBar({page})
 {   const [message,setMessage] = useState('');
     const [projectCreated,setProjectCreated] = useState(false);
 
@@ -53,24 +59,27 @@ function DasboardNavBar()
         }
     }
     return(
-        <>
-            <div class = "d-none d-md-block container-lg navBarBody me-5 pb-5">
+        <div class = "d-md-flex d-block">
+            <div class = "d-none d-md-table-cell container-lg navBarBody me-5 pb-5">
                     <a id ="ToDo List" class = "btn navBtn topNavBtn" href="/dashboard"><span class = "navBtnText">To Do List</span></a>
                     <a id ="Charts" class = "btn navBtn" href="/dashboard/charts"><span class = "navBtnText">Charts</span></a>
                     <a id ="Recently Deleted" class ="btn navBtn" href="/dashboard/recently-deleted"><span class = "navBtnText">Recently Deleted</span></a>
                     <button id ="Create Project" class ="btn navBtn" data-bs-toggle="modal" data-bs-target="#createProjectModal"><span class = "navBtnText">Create Project</span></button> 
                     <a id ="Account" class ="btn navBtn" href="/dashboard/account" ><span class = "navBtnText">Account</span></a> 
-
-                   
             </div>
             <div class = "d-md-none navBarBodySmall mb-5 pb-5">
                 <div class = "row align-items-center mt-3">
-                    <div class = "col-3"><a id ="ToDo List" class = "btn navBtnSmall" href="/dashboard"><span class = "navBtnTextSmall">To Do</span></a></div>
+                    <div class = "col-3"><a id ="ToDo List" class= "btn navBtnSmall" href="/dashboard"><span class = "navBtnTextSmall">To Do</span></a></div>
                     <div class = "col-3"><a id ="Charts" class = "btn navBtnSmall" href="/dashboard/charts"><span class = "navBtnTextSmall">Charts</span></a></div>
                     <div class = "col-3"><a id ="Recently Deleted" class ="btn navBtnSmall" href="/dashboard/recently-deleted"><span class = "navBtnTextSmall">R.D.</span></a></div>
                     <div class = "col-3"><button id ="Create Project" class ="btn navBtnSmall" data-bs-toggle="modal" data-bs-target="#createProjectModal"><span class = "navBtnTextSmall">Create</span></button> </div>
                  </div>
             </div>
+            <div class = "d-md-inline-flex d-block container mainContainer ms-5 me-0 px-0 mt-5 py-0">
+               {page}
+            </div>
+            
+            
 
             {/*create project modal */}
             <div class="modal fade px-0" id="createProjectModal" tabindex="-1" aria-labelledby="createProjectModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
@@ -95,7 +104,7 @@ function DasboardNavBar()
                         </div>
                 </div>
             </div>
-        </>
+        </div>
     );
     
 }

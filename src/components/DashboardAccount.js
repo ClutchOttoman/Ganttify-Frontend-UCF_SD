@@ -122,6 +122,7 @@ function DashboardAccount() {
   };
 
   return (
+    <div class= "container position-absolute start-50 translate-middle-x">
     <div className="dashboardAccountContainer">
       <h1 className="dashboardTitle">Account Information</h1>
       {user ? (
@@ -230,6 +231,7 @@ function DashboardAccount() {
       ) : (
         <p>{error || 'Loading your account details...'}</p>
       )}
+    </div>
     </div>
   );
 }

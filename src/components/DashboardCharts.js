@@ -7,11 +7,10 @@ import InvisibleProjectIcon from "../Images/assets/action_buttons/Private_Gantt_
 import VisibleProjectIcon from "../Images/assets/action_buttons/Public_Gantt_Chart.png";
 import {buildPath} from './buildPath';
 import DashboardProjectCard from './DashboardProjectCard.js';
-function DashboardCharts({ projects  }) {
+function DashboardCharts({ projects, triggerReSearch  }) {
     var _ud = localStorage.getItem('user_data');
     var ud = JSON.parse(_ud);
     var userId = ud?._id;
-    const [chartListPage, setChartListPage] = useState(0);
     const [projectToDelete, setProjectToDelete] = useState({});
     const [projectIsDeleted,setProjectIsDeleted] = useState(false);
     
@@ -129,11 +128,15 @@ function DashboardCharts({ projects  }) {
                 setNewName={setNewName}
                 setSelectedProject={setSelectedProject}
                 setIsModalOpen={setIsModalOpen}
+                mode = {"chart"}
                 key={chart._id.toString()}
             />
             )));
             setChartsToDisplay(new Array(projects.slice(pageStartIndex,pageStartIndex + pageSize)));
-            if(projects.length < (pageStartIndex + pageSize)){
+
+            //buttons to show in right situations
+
+            if(projects.length <= (pageStartIndex + pageSize)){
                 setNextButton(buttonVisibility[0])
             }
             else{
@@ -180,14 +183,14 @@ function DashboardCharts({ projects  }) {
     const handleProjectDeleted = () =>{
         if(projectIsDeleted){
             setProjectIsDeleted(false);
-            window.location.assign(window.location.pathname);
+            triggerReSearch();
         }
         
     }
     
     //whenever projects is updated by the parent component, rerender charts
     return (
-        <div class= "container p-0">
+        <div class= "container p-0 chartsContainer" >
             <div id="chart-row" class="row row-cols-xs-1 row-cols-lg-2 row-cols-xl-3 row-cols-xxl-4 gx-0 gy-3">
                 {cardsToDisplay}
             </div>

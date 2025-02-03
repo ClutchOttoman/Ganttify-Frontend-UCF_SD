@@ -301,13 +301,12 @@ function DashboardToDo() {
     }
     useLayoutEffect(() => { getTasks() }, []);
     return (
-        <div class="wrapper mt-3">
-            <div class="container-sm px-0 mt-5 mx-0 mainContainer">
+        <div class="container px-0 mt-5 mx-0">
                 <h1 class="title">To Do List</h1>
                 <form>
                     <input type="search" class="form-control searchForm" placeholder='Search tasks by name, category or project...' id="search projects" onChange={doTaskSearch} ref={(c) => search = c} />
                 </form>
-                <div class="table-responsive-lg">
+                <div class="table-responsive-xxl">
                     <table class="table table-bordereless" id="taskTableHeader">
                         <thead>
                             <tr>
@@ -343,7 +342,6 @@ function DashboardToDo() {
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
     );
 };
