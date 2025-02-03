@@ -99,10 +99,26 @@
     font-weight: bold;
   }
 .patternDropdownItem{
-    font-size: larger;;
+    font-size: larger;
 }
 .dropdownBtnAdd{
     background-color:white !important;
     border-color: lightgrey;
     border-style: groove;
 }
+.prerequisiteTaskDropdownItem{
+    font-size: larger;
+    color: black;
+}
+.assignedUserDropdownItem{
+    font-size: larger;
+    color: black;
+}
+.allowEmailNotifcationsCheckBox{
+    font-size: larger;
+    color: #000;
+}
+.allowEmailNotifcationsLabel{
+    margin-left: 10px;
+}
+

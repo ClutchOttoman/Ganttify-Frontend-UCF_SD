@@ -34,7 +34,7 @@ const patternDisplayNames = {
 
 
 // Initializes variables
-const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
+const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks }) => {
   const [status, setStatus] = useState('');
   const [newCategory, setNewCategory] = useState(''); // Added  
   const [showColorPicker, setShowColorPicker] = useState(false);
@@ -54,6 +54,10 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
   const [dateError, setDateError] = useState('');
   const [progressEditPermission, setProgressEditPermission] = useState(false);
   const [taskCategory, setTaskCategory] = useState('');  // Added 
+  const [prerequisiteTasks,setPrerequisiteTasks] = useState([]);
+  const [dependentTasks, setDependentTasks] = useState([]);
+  const [allPrerequisitesDone, setAllPrerequisitesDone] = useState(false);
+
   
   const [taskCategories, setTaskCategories] = useState([]); // Added
   const [removeCategory, setRemoveCategory] = useState(false); // Added (New state for the checkbox)
@@ -85,7 +89,10 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
       setStartDate(task.startDateTime);
       setDueDate(task.dueDateTime);
       setPattern(task.pattern);
-      setPatternToDisplay(patternDisplayNames[task.pattern])
+      setPatternToDisplay(patternDisplayNames[task.pattern]);
+      setDependentTasks(task.dependentTasks);
+      setPrerequisiteTasks(task.prerequisiteTasks);
+      setAllPrerequisitesDone(task.allPrerequisitesDone);
 
       setOriginalTask({
         progress: task.progress,
@@ -96,7 +103,10 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
         startDateTime: task.startDateTime,
         dueDateTime: task.dueDateTime,
         pattern: task.pattern,
-        taskCategory: task.taskCategory || 'No category' //added
+        taskCategory: task.taskCategory || 'No category', //added
+        prerequisiteTasks: task.prerequisiteTasks,
+        dependentTasks: task.dependentTasks,
+        allPrerequisitesDone : task.allPrerequisitesDone,
       });
 
       fetchTaskFromAPI(task._id);
@@ -146,6 +156,9 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
     setStartDate(fetchedTask.startDateTime);
     setDueDate(fetchedTask.dueDateTime);
     setPatternToDisplay(patternDisplayNames[fetchedTask.pattern])
+    setDependentTasks(fetchedTask.dependentTasks);
+    setPrerequisiteTasks(fetchedTask.prerequisiteTasks);
+    setAllPrerequisitesDone(fetchedTask.allPrerequisitesDone);
 
     setOriginalTask({
       progress: fetchedTask.progress,
@@ -156,7 +169,10 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
       startDateTime: fetchedTask.startDateTime,
       dueDateTime: fetchedTask.dueDateTime,
       pattern : fetchedTask.pattern,
-      taskCategory: fetchedTask.taskCategory || 'No category' //added
+      taskCategory: fetchedTask.taskCategory || 'No category', //added
+      prerequisiteTasks: fetchedTask.prerequisiteTasks,
+      dependentTasks: fetchedTask.dependentTasks,
+      allPrerequisitesDone : fetchedTask.allPrerequisitesDone,
     });
   };
 
@@ -181,6 +197,9 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
       setStartDate(originalTask.startDateTime);
       setDueDate(originalTask.dueDateTime);
       setTaskCategory(originalTask.taskCategory); //added
+      setDependentTasks(originalTask.dependentTasks);
+      setPrerequisiteTasks(originalTask.prerequisiteTasks);
+      setAllPrerequisitesDone(originalTask.allPrerequisitesDone);
     }
   };
 
@@ -367,10 +386,23 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
     return date.toLocaleDateString('en-US', options);
   };
 
- 
-  
+
+  const generatePrereqAlert = () =>{
+    var prereqAlert = "You cannot finish this task while its prerequisite tasks are incomplete:"
+    var unfinishedTasks = projectTasks.filter(projectTask => (task.prerequisiteTasks.includes(projectTask._id) && projectTask.progress != "Completed"))
+    unfinishedTasks.forEach(unfinishedTask => {
+        prereqAlert += `\n${unfinishedTask.taskTitle}`
+    });
+    return prereqAlert;
+  }
 
   const handleStatusChange = async (newStatus) => {
+    if(newStatus == "Completed" && !allPrerequisitesDone){
+        // List the tasks that need to be completed Here
+        let prequisiteTaskAlert = generatePrereqAlert();
+        window.alert(prequisiteTaskAlert);
+        return;
+    }
     setStatus(newStatus);
 
     try {
@@ -396,7 +428,6 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
 
   const handleColorChange = (newColor) => {
     setColor(newColor);
-
     var element = document.getElementById('color-circle');
     element.style.backgroundColor = newColor;
   };
@@ -493,7 +524,11 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
           taskCreated: createdDate,
           startDateTime: startDate,
           dueDateTime: dueDate,
-          pattern: pattern
+          pattern: pattern,
+          prerequisiteTasks: prerequisiteTasks,
+          dependentTasks: dependentTasks,
+          allPrerequisitesDone : allPrerequisitesDone,
+
         }),
       });
   
@@ -545,7 +580,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
     setAssignedUserNames((prevAssignedUserNames) => {
       const updatedAssignedUsers = prevAssignedUserNames.includes(userName) ? prevAssignedUserNames.filter((name) => name !== userName) : [...prevAssignedUserNames, userName];
 
-      const isChecked = !prevAssignedUserNames.includes(userName);
+      const isChecked = prevAssignedUserNames.includes(userName);
     
       const userId = teamUsers.find(user => user.name === userName)._id;
     
@@ -559,6 +594,22 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
     setRemoveCategory(!removeCategory);
     if (!removeCategory) setNewCategory(''); // Clear the category text field when checkbox is checked
   };
+
+  const handlePrerequisiteChange = async (taskId) =>{
+    if(prerequisiteTasks && prerequisiteTasks.includes(taskId)){
+        setPrerequisiteTasks(prerequisiteTasks.filter(prereq => prereq !== taskId));
+        //console.log("removing prereq: " + taskId + " from: " + prerequisiteTasks);
+    }
+    else{
+        setPrerequisiteTasks([...prerequisiteTasks,taskId]);
+        //console.log("adding prereq: " + taskId + " into: " + prerequisiteTasks);
+    }
+    /*
+    setTaskData((prevData) => {
+        const prerequisiteTasks = prevData.prerequisiteTasks.includes(taskId) ? prevData.prerequisiteTasks.filter((id) => id !== userId) : [...prevData.prerequisiteTasks, taskId];
+        return { ...prevData, prerequisiteTasks: prerequisiteTasks };
+      });*/
+  }
 
   const updateSingleUserToDoList = async (taskId, userId, isChecked) => {
     try {
@@ -696,23 +747,28 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
             <p><strong>Task Creator:</strong> {taskCreatorName}</p>
 
             {editMode ? (
-              <div>
-
-                <p><strong>Assigned Users:</strong></p>
-                <div className="checkbox-list">
+              
+                <div className="mb-4 dropup dropup-center d-grid gap-2">
+                    <label htmlFor="assignedTasksUsers" className="text-align-start"><p><strong>Assigned Users:</strong></p></label>
+                    <button class="dropdownBtnAdd dropdown-toggle" type="button" id="assignedUsers" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Select Users</button>
+                    <ul class ="dropdown-menu" id="assignedUsersDropdownMenu" >
                   {teamUsers.map(user => (
-                    <div key={user._id}>
+                   
+                    <a href={"#"+`${user.id}`}key={user._id} class="dropdown-item">
+                    <div class="form-check">
                       <input
-                        type="checkbox"
-                        id={`user-${user._id}`}
-                        checked={assignedUserNames.includes(user.name)}
-                        onChange={() => handleCheckboxChange(user.name)}
+                          type="checkbox"
+                          class ="form-check-input"
+                          id={`user-${user._id}`}
+                          checked={assignedUserNames.includes(user.name)}
+                          onChange={() => handleCheckboxChange(user.name)}
                       />
-                      <label htmlFor={`user-${user._id}`}>{user.name}</label>
+                      <label htmlFor={`user-${user._id}`} class="form-check-label assignedUserDropdownItem">{user.name}</label>
                     </div>
+                  </a>
                   ))}
-                </div> 
-                <div id="placeholder-temp"></div>
+                  </ul>
+                
     
                 {/* New Task Category Field */}
                 <div className="task-detail-field">
@@ -739,13 +795,59 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId }) => {
                   <label htmlFor="noCategoryCheckbox">No category</label>
                 </div>
               </div>
+                    <div className="mb-4 dropup dropup-center d-grid gap-2">
+                        <label htmlFor='prerequisiteTaskSelection' className="form-label text-align-start">Prerequisite Tasks</label>
+                        <button class="dropdownBtnAdd dropdown-toggle" type="button" id="prerequisiteTasks" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Select Prerequisite Tasks</button>
+                        <ul class="dropdown-menu" id = "prerequisiteTaskDropdownMenu">
+                            {projectTasks.map(preReqTask =>( preReqTask._id == task._id ? null : 
+                                    <a href={"#" + `${task._id}`} key={preReqTask._id} class ="dropdown-item">
+                                        <div class="form-check">
+                                            <input type ="checkbox" id={preReqTask._id} class ="form-check-input" value={preReqTask._id} onChange={(e) => handlePrerequisiteChange(e.target.value)} checked={prerequisiteTasks.includes(preReqTask._id) ? true : false}/>
+                                            <label htmlFor = {preReqTask._id} class = "form-check-label prerequisiteTaskDropdownItem">{preReqTask.taskTitle}</label>
+                                        </div>
+                                    </a>
+                               
+                            ))}
+                           <>
+                           </>
+                        </ul>
+
+                    </div>
             </div>
             ) : (
               <>
-              <p><strong>Assigned Users:</strong> {assignedUserNames.join(', ')}</p>
+              <div className="mb-4 dropup dropup-center d-grid gap-2">
+                    <label htmlFor="assignedTasksUsers" className="text-align-start"><p><strong>Assigned Users:</strong></p></label>
+                    <button class="dropdownBtnAdd dropdown-toggle" type="button" id="assignedUsers" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" disabled = {assignedUserNames[0] ? false: true} >Show Users</button>
+                    <ul class ="dropdown-menu" id="assignedUsersDropdownMenu" >
+                  {teamUsers.map(user => ( assignedUserNames.includes(user.name) ?
+                    
+                        <div key={user._id} class="dropdown-item">
+                        <label htmlFor={`user-${user._id}`} class="form-check-label assignedUserDropdownItem">{user.name}</label>
+                        </div>
+                   : null
+                  ))}
+                  </ul>
+                  </div>
               <p><strong>Task Category:</strong> {taskCategory || 'No category assigned'}</p>
+              <div className="mb-4 dropup dropup-center d-grid gap-2">
+                        <label htmlFor='prerequisiteTaskSelection' className="form-label text-align-start">Prerequisite Tasks</label>
+                        <button class="dropdownBtnAdd dropdown-toggle" type="button" id="prerequisiteTasks" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Show Prerequisite Tasks</button>
+                        <ul class="dropdown-menu" id = "prerequisiteTaskDropdownMenu">
+                            {projectTasks.map(preReqTask =>( prerequisiteTasks.includes(preReqTask._id) ? 
+                                    
+                                        <div key={preReqTask._id} class ="dropdown-item">
+                                            <label htmlFor = {preReqTask._id} class = "prerequisiteTaskDropdownItem">{preReqTask.taskTitle}</label>
+                                        </div> : null
+                                        
+                            ))}
+                        </ul>
+
+                    </div>
               </>
+                
             )}
+            
             
 
             <p><strong>Created Date:</strong> {formatDate(fetchedTask.taskCreated)}</p>
