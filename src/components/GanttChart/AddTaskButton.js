@@ -19,7 +19,10 @@ const AddTaskButton = ({ projectId }) => {
     assignedTasksUsers: [],
     color: GanttifyOrange,
     pattern: "No Pattern",
-    taskCategory: ""
+    taskCategory: "",
+    prerequisiteTasks: [],
+    allowEmailNotifications: false,
+    dependentTasks: [],
   });
 
 
@@ -28,6 +31,9 @@ const AddTaskButton = ({ projectId }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [color, setColor] = useState('#DC6B2C'); 
   const [pattern,setPattern] = useState('No Pattern');
+  const [projectTasks, setProjectTasks] = useState([]);
+  const [prerequisiteTasks, setPrerequisiteTasks] = useState([]);
+  const [allowEmailNotifications, setAllowEmailNotifcations] = useState(false);
 
   //All of the pre-choosen colors
   const colorOptions = [
@@ -36,14 +42,15 @@ const AddTaskButton = ({ projectId }) => {
   ];
 
 
-  // Gets the members of the team
+  // Gets the information about the project for use in task creation
   useEffect(() => {
-    getTeamUsers(projectId);
-  }, [projectId]);
+    getProjectInfo(projectId);
+  }, [projectId, showModal]);
 
+  
 
-  //Gets team users
-  const getTeamUsers = async (projectId) => {
+  //Gets information about project -> team info, project tasks
+  const getProjectInfo = async (projectId) => {
 
     try {
       const response = await fetch(buildPath(`api/getProjectDetails/${projectId}`));
@@ -53,8 +60,39 @@ const AddTaskButton = ({ projectId }) => {
         return;
       }
 
-      const teamId = project.team._id;
+      //get information about tasks
+      try{
+        const obj = { projectId };
+        const js = JSON.stringify(obj);
 
+        const response = await fetch(buildPath('api/search/tasks/project'), {
+          method: 'POST',
+          body: js,
+          headers: { 'Content-Type': 'application/json' }
+        });
+
+
+        if (!response.ok) {
+          throw new Error(`HTTP error, status: ${response.status}`);
+        }
+
+        const fetchedTasks = await response.json();
+
+        if (!fetchedTasks) {
+          setProjectTasks([]);
+        }
+
+        //console.log(fetchedTasks);
+        const tasks = Array.isArray(fetchedTasks) ? fetchedTasks : [];
+        console.log(tasks);
+        setProjectTasks(tasks);
+      }
+      catch(error){
+        console.error('Error fetching task information:', error);
+      }
+
+      const teamId = project.team._id;
+      //get information about project's team
       try {
         const response = await fetch(buildPath(`api/teams/${teamId}`));
         const team = await response.json();
@@ -86,10 +124,12 @@ const AddTaskButton = ({ projectId }) => {
       } catch (error) {
         console.error('Error fetching team users:', error);
       }
+
     } catch (error) {
       console.error('Error fetching project details:', error);
     }
   };
+
 
 
   //Updates the colors 
@@ -120,7 +160,35 @@ const AddTaskButton = ({ projectId }) => {
     setPattern(newPatternToDisplay);
     setTaskData(oldData => ({...oldData, pattern: newPattern}));
   }
-
+  const isPrerequisiteDropdownDisabled = () =>{
+    if(projectTasks[0] == null){return true}
+    else{return false}
+  }
+  
+  const handlePrerequisiteChange = async (taskId) =>{
+    if(prerequisiteTasks && prerequisiteTasks.includes(taskId)){
+        setPrerequisiteTasks(prerequisiteTasks.filter(prereq => prereq !== taskId));
+        //console.log("removing prereq: " + taskId + " from: " + prerequisiteTasks);
+    }
+    else{
+        setPrerequisiteTasks([...prerequisiteTasks,taskId]);
+        //console.log("adding prereq: " + taskId + " into: " + prerequisiteTasks);
+    }
+    setTaskData((prevData) => {
+        const prerequisiteTasks = prevData.prerequisiteTasks.includes(taskId) ? prevData.prerequisiteTasks.filter((id) => id !== taskId) : [...prevData.prerequisiteTasks, taskId];
+        return { ...prevData, prerequisiteTasks: prerequisiteTasks };
+      });
+  }
+  //toggle allowing email notifications
+  const handleAllowEmailNotificationsCheckboxChange = async (allowEmailNotifs) =>{
+    //console.log(allowEmailNotifs);
+    setAllowEmailNotifcations(!allowEmailNotifs);
+    setTaskData((prevData)=>{
+        return{...prevData, allowEmailNotifications: !allowEmailNotifs}
+    });
+    
+    
+  }
 
   //Validates the date 
   const handleAddTask = async (e) => {
@@ -143,8 +211,7 @@ const AddTaskButton = ({ projectId }) => {
       console.log("New task being created:", newTask);
       await createTask(newTask);
       closeModal();
-
-
+      setProjectTasks(...projectTasks,newTask);
     } 
     
     catch (error) {
@@ -175,6 +242,7 @@ const AddTaskButton = ({ projectId }) => {
       }
 
       window.location.reload();
+      //console.log(prerequisiteTasks);
       return responseData;
     } 
     
@@ -186,6 +254,7 @@ const AddTaskButton = ({ projectId }) => {
 
   const closeModal = () => {
     
+    setPrerequisiteTasks([]);
     setShowModal(false);
     setTaskData({
       taskTitle: "",
@@ -195,11 +264,16 @@ const AddTaskButton = ({ projectId }) => {
       assignedTasksUsers: [],
       color: GanttifyOrange,
       pattern: "default-pattern",
-      taskCategory: "" // Reset the task category
+      taskCategory: "", // Reset the task category
+      prerequisiteTasks: [],
+      dependentTasks:[],
+      allowEmailNotifications: false,
     });
     setColor(GanttifyOrange);
+    setAllowEmailNotifcations(false);
     setErrorMessage(""); 
   };
+
 
   return (
     <>
@@ -264,25 +338,52 @@ const AddTaskButton = ({ projectId }) => {
                     <label htmlFor="taskCategory" className="form-label">Task Category (Optional)</label>
                     <input type="text" className="form-control" id="taskCategory" name="taskCategory" value={taskData.taskCategory} onChange={handleInputChange} />
                   </div>
-
-                  <div className="mb-3">
-                  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"></link>
-                    <label htmlFor="assignedTasksUsers" className="form-label">Assigned Users</label>
-                    <div className="checkbox-list">
-                      {teamUsers.map(user => (
-                        <div key={user._id}>
-                          <input
-                            type="checkbox"
-                            id={`user-${user._id}`}
-                            checked={taskData.assignedTasksUsers.includes(user._id)}
-                            onChange={() => handleCheckboxChange(user._id)}
-                          />
-                          <label htmlFor={`user-${user._id}`}>{user.name}</label>
+                    <div className="mb-4 dropup dropup-center d-grid gap-2">
+                        <label htmlFor='prerequisiteTaskSelection' className="form-label text-align-start">Prerequisite Tasks</label>
+                        <button class="dropdownBtnAdd dropdown-toggle" type="button" id="prerequisiteTasks" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" disabled={isPrerequisiteDropdownDisabled()}>Select Prerequisite Tasks</button>
+                        <ul class="dropdown-menu" id = "prerequisiteTaskDropdownMenu">
+                            {projectTasks.map(task =>(
+                                    <a href={"#" + `${task._id}`} key={task._id} class ="dropdown-item">
+                                        <div class="form-check">
+                                            <input type ="checkbox" id={task._id} class ="form-check-input" value={task._id} onChange={(e) => handlePrerequisiteChange(e.target.value)}/>
+                                            <label htmlFor = {task._id} class = "form-check-label prerequisiteTaskDropdownItem">{task.taskTitle}</label>
+                                        </div>
+                                    </a>
+                               
+                            ))}
+                           <>
+                           </>
+                        </ul>
                         </div>
-                      ))}
-                    </div>
-                  </div>
+                  
+                  <div className="mb-4 dropup dropup-center d-grid gap-2">
+                  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"></link>
+                    <label htmlFor="assignedTasksUsers" className="form-label text-align-start">Assigned Users</label>
+                    <button class="dropdownBtnAdd dropdown-toggle" type="button" id="assignedUsers" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Select Users</button>
+                    <ul class ="dropdown-menu" id="assignedUsersDropdownMenu" >
 
+                      {teamUsers.map(user => (
+                        <a href={"#"+`${user.id}`}key={user._id} class="dropdown-item">
+                          <div class="form-check">
+                            <input
+                                type="checkbox"
+                                class ="form-check-input"
+                                id={`user-${user._id}`}
+                                checked={taskData.assignedTasksUsers.includes(user._id)}
+                                onChange={() => handleCheckboxChange(user._id)}
+                            />
+                            <label htmlFor={`user-${user._id}`} class="form-check-label assignedUserDropdownItem">{user.name}</label>
+                          </div>
+                        </a>
+                      ))}
+                      </ul>
+                    
+                  </div>
+                  
+                 {/*<div class="mb-3 form-check">
+                      <label class="form-label allowEmailNotifcationsLabel">Allow Email Notifications</label>
+                      <input type="checkbox" class = "form-check-input allowEmailNotifcationsCheckBox" checked = {allowEmailNotifications} onChange={(e) => handleAllowEmailNotificationsCheckboxChange(allowEmailNotifications)}/>
+                 </div>*/}
                   <div className="mb-3">
                   <label className="form-label">Color</label>
 
@@ -307,8 +408,8 @@ const AddTaskButton = ({ projectId }) => {
                     </button>
                     <ul class="dropdown-menu">
                         <a onClick={()=>handlePatternChange('No Pattern','No Pattern')} class = "dropdown-item patternDropdownItem">No Pattern</a>
-                        <a onClick={()=>handlePatternChange('Hollow_Single_Dot_Density_1.svg','Hollow Dots')} class = "dropdown-item patternDropdownItem patternDropdownItem">Hollow Dots</a>
-                        <a onClick={()=>handlePatternChange('Hollow_Single_Rhombus_Density_1.svg','Hollow Rhombuses')} class = "dropdown-item patternDropdownItem patternDropdownItem">Hollow Rhombuses</a>
+                        <a onClick={()=>handlePatternChange('Hollow_Single_Dot_Density_1.svg','Hollow Dots')} class = "dropdown-item patternDropdownItem">Hollow Dots</a>
+                        <a onClick={()=>handlePatternChange('Hollow_Single_Rhombus_Density_1.svg','Hollow Rhombuses')} class = "dropdown-item patternDropdownItem">Hollow Rhombuses</a>
                         <a onClick={()=>handlePatternChange('Hollow_Single_Square_Density_1.svg','Hollow Squares')} class = "dropdown-item patternDropdownItem">Hollow Squares</a>
                         <a onClick={()=>handlePatternChange('Hollow_Single_Star_Density_1.svg','Hollow Stars')} class = "dropdown-item patternDropdownItem">Hollow Stars</a>
                         <a onClick={()=>handlePatternChange('Hollow_Single_Triangle_Density_1.svg','Hollow Triangles')} class = "dropdown-item patternDropdownItem">Hollow Triangles</a>

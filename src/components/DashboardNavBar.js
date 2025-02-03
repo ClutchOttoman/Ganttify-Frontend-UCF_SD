@@ -3,7 +3,7 @@ import "./DashboardNavBar.css";
 import { buildPath } from './buildPath';
 import Papa from 'papaparse';  // CSV parsing
 
-function DasboardNavBar() {   
+function DasboardNavBar({page}) {   
     const [message, setMessage] = useState('');
     const [projectCreated, setProjectCreated] = useState(false);
     const [fetchedProject, setFetchedProject] = useState(null);
@@ -207,15 +207,28 @@ function DasboardNavBar() {
           };
     
 
-    return (
-        <div>
-            <div className="d-none d-md-block container-lg navBarBody mb-5">
-                <a id="ToDo List" className="btn navBtn topNavBtn" href="/dashboard"><span className="navBtnText">To Do List</span></a>
-                <a id="Charts" className="btn navBtn" href="/dashboard/charts"><span className="navBtnText">Charts</span></a>
-                <a id="Recently Deleted" className="btn navBtn" href="/dashboard/recently-deleted"><span className="navBtnText">Recently Deleted</span></a>
-                <button id="Create Project" className="btn navBtn" data-bs-toggle="modal" data-bs-target="#createProjectModal"><span className="navBtnText">Create Project</span></button> 
-                <a id="Account" className="btn navBtn" href="/dashboard/account"><span className="navBtnText">Account</span></a>
+          return(
+            <div class = "d-md-flex d-block">
+                <div class = "d-none d-md-table-cell container-lg navBarBody me-5 pb-5">
+                        <a id ="ToDo List" class = "btn navBtn topNavBtn" href="/dashboard"><span class = "navBtnText">To Do List</span></a>
+                        <a id ="Charts" class = "btn navBtn" href="/dashboard/charts"><span class = "navBtnText">Charts</span></a>
+                        <a id ="Recently Deleted" class ="btn navBtn" href="/dashboard/recently-deleted"><span class = "navBtnText">Recently Deleted</span></a>
+                        <button id ="Create Project" class ="btn navBtn" data-bs-toggle="modal" data-bs-target="#createProjectModal"><span class = "navBtnText">Create Project</span></button> 
+                        <a id ="Account" class ="btn navBtn" href="/dashboard/account" ><span class = "navBtnText">Account</span></a> 
+                </div>
+                <div class = "d-md-none navBarBodySmall mb-5 pb-5">
+                    <div class = "row align-items-center mt-3">
+                        <div class = "col-3"><a id ="ToDo List" class= "btn navBtnSmall" href="/dashboard"><span class = "navBtnTextSmall">To Do</span></a></div>
+                        <div class = "col-3"><a id ="Charts" class = "btn navBtnSmall" href="/dashboard/charts"><span class = "navBtnTextSmall">Charts</span></a></div>
+                        <div class = "col-3"><a id ="Recently Deleted" class ="btn navBtnSmall" href="/dashboard/recently-deleted"><span class = "navBtnTextSmall">R.D.</span></a></div>
+                        <div class = "col-3"><button id ="Create Project" class ="btn navBtnSmall" data-bs-toggle="modal" data-bs-target="#createProjectModal"><span class = "navBtnTextSmall">Create</span></button> </div>
+                     </div>
             </div>
+            <div class = "d-md-inline-flex d-block container mainContainer ms-5 me-0 px-0 mt-5 py-0">
+               {page}
+            </div>
+            
+            
 
             <div className="modal fade px-0" id="createProjectModal" tabindex="-1" aria-labelledby="createProjectModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
                 <div className="modal-dialog">
@@ -260,5 +273,4 @@ function DasboardNavBar() {
         </div>
     );
 }
-
 export default DasboardNavBar;

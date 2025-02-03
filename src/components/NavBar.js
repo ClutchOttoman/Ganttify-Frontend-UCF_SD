@@ -436,7 +436,7 @@ function NavBar(props) {
   } else if (props.layout == 2) {
     return (
       <div id="navBarDiv" style={dashboardNav}>
-        <div className="navbarDash">
+        <div class="container-fluid navbarDash">
           <a href="/" aria-label="Go back to home page">
             <img src={Logo} alt="GanttifyHomePage" className="logoDash" />
           </a>

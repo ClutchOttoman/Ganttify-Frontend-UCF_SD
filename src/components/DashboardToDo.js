@@ -144,6 +144,7 @@ function DashboardToDo() {
             const taskContactsHeader = document.createElement("h5");
             taskContactsHeader.textContent = "Teammate Information:"
             taskContactsDiv.appendChild(taskContactsHeader);
+            //turn user info into readable info for table
             if(userInfoRaw){
                 userInfoRaw.forEach(userRaw =>{
                     //console.log(userRaw);
@@ -179,20 +180,26 @@ function DashboardToDo() {
 
                 const dueDateCol = document.createElement('td');
                 dueDateCol.innerText =  tasks[i]['dueDatePretty'];
+                dueDateCol.setAttribute("class","todoTableBody");
 
                 const taskNameCol = document.createElement('td');
                 taskNameCol.innerText = tasks[i]['taskTitle'];
+                taskNameCol.setAttribute("class","todoTableBody");
 
                 const taskCategoryCol = document.createElement('td');
                 taskCategoryCol.innerText = tasks[i]['taskCategory'];
+                taskCategoryCol.setAttribute("class","todoTableBody");
 
                 const projectNameCol = document.createElement('td');
                 projectNameCol.innerText = tasks[i]['projectName'];
+                projectNameCol.setAttribute("class","todoTableBody");
 
                 const taskProgressCol = document.createElement('td');
                 taskProgressCol.innerText = tasks[i]['progress'];
+                taskProgressCol.setAttribute("class","todoTableBody");
 
                 const actionCol = document.createElement('td');
+                actionCol.setAttribute("class","todoTableBody");
 
                 const actionButton = document.createElement('button');
                 actionButton.id = 'task-action-button' + i
@@ -294,21 +301,20 @@ function DashboardToDo() {
     }
     useLayoutEffect(() => { getTasks() }, []);
     return (
-        <div class="wrapper mt-3">
-            <div class="container-sm px-0 mt-5 mx-0 mainContainer">
+        <div class="container px-0 mt-5 mx-0">
                 <h1 class="title">To Do List</h1>
                 <form>
                     <input type="search" class="form-control searchForm" placeholder='Search tasks by name, category or project...' id="search projects" onChange={doTaskSearch} ref={(c) => search = c} />
                 </form>
-                <div class="table-responsive-lg">
+                <div class="table-responsive-xxl">
                     <table class="table table-bordereless" id="taskTableHeader">
                         <thead>
                             <tr>
-                                <th width="15%" scope='col'>Due Date</th>
-                                <th width="25%" scope='col'>Task Name</th>
-                                <th width="15%" scope='col'>Category</th>
-                                <th width="25%" scope='col'>Project</th>
-                                <th width="20%" scope='col'>Progress</th>
+                                <th width="15%" scope='col' class="todoTableBody">Due Date</th>
+                                <th width="25%" scope='col' class="todoTableBody">Task Name</th>
+                                <th width="15%" scope='col' class="todoTableBody">Category</th>
+                                <th width="25%" scope='col' class="todoTableBody" >Project</th>
+                                <th width="20%" scope='col' class="todoTableBody" >Progress</th>
                             </tr>
                         </thead>
                         <tbody class="table-group-divider" id="taskTableBody">
@@ -336,7 +342,6 @@ function DashboardToDo() {
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
     );
 };
