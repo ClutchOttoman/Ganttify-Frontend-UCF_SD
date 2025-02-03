@@ -125,6 +125,19 @@ ul li{
     margin-bottom: 150px;
 }
 
+/* .modal-body{
+    text-overflow: ellipsis;
+} */
+
+.modal-body a {
+    display: inline-block;
+    max-width: 100%; /* Prevents link from exceeding the modal's width */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Adds "..." if truncated */
+    white-space: nowrap; /* Prevents wrapping for ellipsis */
+}
+
+
 
 .modal-header {
     display: flex;

@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import "./DashboardNavBar.css"
-
-import {buildPath} from './buildPath';
-
+import "./DashboardNavBar.css";
+import { buildPath } from './buildPath';
 
 function DasboardNavBar()
 {   const [message,setMessage] = useState('');
@@ -23,32 +21,55 @@ function DasboardNavBar()
         {
             if (newProjectName.value.length > 35){
                 setMessage("Project names cannot be longer then 35 characters");
-                return;
-            }
-            const response = await fetch(buildPath('api/createproject'),
-            {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+                return;}
+        }catch(e) {
+        setMessage(e.toString());
+        }
 
-            var txt = await response.text();
-            var res = JSON.parse(txt);
 
-            if( res.error != null )
-            {
-                setMessage( "API Error:" + res.error );
-            }
-            else
-            {
+        const obj = { founderId: userId, nameProject: newProjectName.current.value };
+        console.log(obj);
+        const js = JSON.stringify(obj);
+        console.log("Step 1: Starting Create Project API Call");
+        try {
+            const response = await fetch(buildPath('api/createproject'), {
+                method: 'POST',
+                body: js,
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            const txt = await response.text();
+            const res = JSON.parse(txt);
+            console.log("Step 2: Create Project Response: ", res);
+
+            console.log("Step 3: Starting Generate Invite Link API Call");
+            const linkResponse = await fetch(buildPath('api/generate-invite-link'), {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ projectId: res.project._id })
+            });
+
+            console.log("Step 4: Finished Generate Invite Link API Call");
+
+            if (response.error != null) {
+                setMessage("API Error:" + response.error);
+            } else {
                 setMessage('Project has been created');
                 setProjectCreated(true);
+                // Fetch project and its tasks after creation
+                fetchProject(response.project._id);                
+                
+                window.location.reload(); // Reload the page
+               
             }
-        }
-        catch(e)
-        {
+        }  catch (e) {
             setMessage(e.toString());
         }
     };
-    //when project is created, page is refreshed
-    const hanldeProjectCreated = () =>{
-        if(projectCreated){
+
+    // Handle project creation page refresh
+    const handleProjectCreated = async() => {
+        if (projectCreated) {
             setProjectCreated(false);
             window.location.assign(window.location.pathname);
         }
@@ -78,10 +99,10 @@ function DasboardNavBar()
                     <div class="modal-content">
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="createProjectModalLabel">{projectCreated? "Project has been Created":"Create a Project"}</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={hanldeProjectCreated}></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={handleProjectCreated}></button>
                             </div>
                             <div class="modal-body">
-                                {projectCreated ? <button class = "btn btn-primary" data-bs-dismiss="modal" aria-label="Close" onClick={hanldeProjectCreated}>Got It</button>:
+                                {projectCreated ? <button class = "btn btn-primary" data-bs-dismiss="modal" aria-label="Close" onClick={handleProjectCreated}>Got It</button>:
                                 <form onSubmit={doCreateProject}>
                                     <label for="newProjectNameInput">Enter a name your new project:</label>
                                     <input id="newProjectNameInput" class = "form-control mt-2" placeholder='35 characters maximum' ref={(c) => newProjectName = c}/>

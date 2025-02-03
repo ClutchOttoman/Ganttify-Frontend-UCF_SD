@@ -1,10 +1,10 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
-import './DashboardCharts.css';
-import GanttChartIcon from "./GanttChartIcon.js";
+import React, { useEffect, useState } from 'react';
 import DeleteIcon from "../Images/assets/action_buttons/Delete_Task_or_Chart.png";
 import InvisibleProjectIcon from "../Images/assets/action_buttons/Private_Gantt_Chart.png";
 import VisibleProjectIcon from "../Images/assets/action_buttons/Public_Gantt_Chart.png";
-import {buildPath} from './buildPath';
+import { buildPath } from './buildPath';
+import './DashboardCharts.css';
+import GanttChartIcon from "./GanttChartIcon.js";
 
 
 

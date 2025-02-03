@@ -1,14 +1,10 @@
-import { useState, useEffect } from 'react';
-import AddTaskDuration from './AddTaskDuration';
-import AddTask from './AddTask';
-import Grid from './Grid';
-import Settings from './Settings';
-import Tasks from './Tasks';
-import TimeRange from './TimeRange';
-import TimeTable from './TimeTable';
-import TaskDetails from './TaskDetails';
+import { useEffect, useState } from 'react';
+import { buildPath } from '../buildPath';
 import './GanttChart.css';
-import {buildPath} from '../buildPath';
+import Grid from './Grid';
+import TaskDetails from './TaskDetails';
+import Tasks from './Tasks';
+import TimeTable from './TimeTable';
 
 export default function GanttChart({ projectId, setUserRole, userRole }) {
   var _ud = localStorage.getItem('user_data');
@@ -92,6 +88,12 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
 
     const fetchTasks = async () => {
       try {
+        const res = await fetch(buildPath(`api/get-invite-link${projectId}`), {
+          method: 'GET',
+        });
+
+        console.log("Invitation Link: ", res.inviteLink);
+
         const obj = { projectId };
         const js = JSON.stringify(obj);
 
@@ -164,7 +166,110 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
     console.log("Selected Time Range:", selectedRange);
     setTimeRange(updatedTimeRange); // Update the timeRange state to trigger TimeTable re-render
   };
+
+  const handleSortChange = (event) => {
+    const newSortBy = event.target.value;
+    setSortBy(newSortBy); // Update the sorting preference
+    sessionStorage.setItem("sortBy", newSortBy); // Save the sort option in sessionStorage
+  };
   
+
+
+  const exportToPDF = async () => {
+    const ganttContainer = document.getElementById('gantt-container');
+    const exportButtons = document.querySelectorAll('.export-pdf-button, .export-csv-button');
+    const rangeMenu = document.querySelector('.gantt-chart-time-range-selector');
+    const sortMenu = document.querySelector('.gantt-chart-sort-selector');
+  
+    if (!ganttContainer) return;
+  
+    // Temporarily hide the elements we don't want in the export
+    const hideElements = () => {
+      exportButtons.forEach(button => button.style.display = 'none');
+      if (rangeMenu) rangeMenu.style.display = 'none';
+      if (sortMenu) sortMenu.style.display = 'none';
+    };
+  
+    // Restore the hidden elements
+    const restoreElements = () => {
+      exportButtons.forEach(button => button.style.display = '');
+      if (rangeMenu) rangeMenu.style.display = '';
+      if (sortMenu) sortMenu.style.display = '';
+    };
+  
+    try {
+      // Hide the elements temporarily
+      hideElements();
+  
+      // Use html2canvas to capture the gantt container
+      const canvas = await html2canvas(ganttContainer, { scale: 2 });
+      const imgData = canvas.toDataURL('image/png');
+  
+      // Create a new jsPDF instance
+      const pdf = new jsPDF({
+        orientation: 'landscape',
+        unit: 'px',
+        format: [canvas.width, canvas.height],
+      });
+  
+      // Add the image to the PDF
+      pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+  
+      // Save the PDF
+      pdf.save('gantt-chart.pdf');
+    } catch (error) {
+      console.error('Error exporting Gantt chart to PDF:', error);
+    } finally {
+      // Restore the elements after the export
+      restoreElements();
+    }
+  };
+  
+
+  const exportToCSV = () => {
+    // Set exporting state to true
+    setIsExporting(true);
+
+    const tasksData = tasks.map((task) => ({
+        Task: task.taskTitle,
+        Description: task.description || "",  // Description
+        Start: task.startDateTime ? new Date(task.startDateTime).toISOString() : '',
+        End: task.dueDateTime ? new Date(task.dueDateTime).toISOString() : '',
+        Category: task.taskCategory || "",
+        Color: task.color,  // Color (Optional)
+        Pattern: task.pattern || 'No Pattern', // Pattern (Optional)
+        Status: task.status || 'Not Started',
+    }));
+
+     // Convert tasksData to CSV format
+     const header = ['Task', 'Description', 'Start', 'End', 'Category', 'Color', 'Pattern', 'Status'];
+     const rows = tasksData.map((task) => [
+         task.Task,
+         task.Description,
+         task.Start,
+         task.End,
+         task.Category,
+         task.Color,
+         task.Pattern,
+         task.Status,
+     ]);
+
+    // Combine header and rows into CSV content
+    const csvContent = [header, ...rows]
+        .map((row) => row.join(','))
+        .join('\n');
+
+    // Create a Blob from the CSV content
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'gantt-chart-data.csv'; // Name of the CSV file
+    link.click();
+
+    // Reset exporting state after download
+    setIsExporting(false);
+};
+
 
   return (
     <div id="gantt-container">
@@ -197,14 +302,32 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
         userId={userId}
       />
 
-      <div class="gantt-chart-time-range-selector">
-        <select class="gantt-chart-time-range-selection" onChange={(e) => handleTimeRangeChange(e)}>
-          <option value="">Range</option>
-          <option value="3-months">3 Months</option>
-          <option value="6-months">6 Months</option>
-          <option value="1-year">1 Year</option>
-          <option value="fit">Fit All Tasks</option>
-        </select>
+      <div className="export-buttons-container">
+        {/* <div className="gantt-chart-sort-selector"> */}
+          <select className="gantt-chart-sort-selection" onChange={handleSortChange} value={sortBy}>
+            <option value="alphabetical">Alphabetical</option>
+            <option value="created">By Creation Date</option>
+          </select>
+        {/* </div> */}
+
+        {!isExporting && (
+          <>
+            <button onClick={exportToPDF} className="export-pdf-button">
+              Export PDF
+            </button>
+            <button onClick={exportToCSV} className="export-csv-button">
+              Export CSV
+            </button>
+          </>
+        )}
+
+        {/* <div class="gantt-chart-time-range-selector"> */}
+          <select id = "timeRangeDropdown" class="gantt-chart-time-range-selection" onChange={(e) => handleTimeRangeChange(e)}>
+            <option value="">Days</option>
+            <option value="weeks"><p>Weeks</p></option>
+            <option value="months"><p>Months</p></option>
+          </select>
+        {/* </div> */}
       </div>
 
     </div>
