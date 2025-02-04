@@ -58,17 +58,18 @@ function ProjectHeader({ projectName, setProjectName, projectId }) {
     }
   };
   
+  
+
   return (
     <div className="project-header">
       <h1>
-      <span style={{fontSize: "0.75em"}} className="project-name">{projectName}</span>
-        <button
-          style={{fontSize: "0.3em"}}
+      <span style= {{fontSize: "0.6em"}} className="project-name">{projectName}</span>
+        <button style= {{fontSize: "0.3em"}}
           className="btn-outline-primary"
           onClick={() => setIsModalOpen(true)} // Open modal on button click
         >
-          ✏️
-         Edit Project Name </button>
+          ✏️ Edit Project Name
+        </button>
       </h1>
 
       {/* Bootstrap Modal */}
