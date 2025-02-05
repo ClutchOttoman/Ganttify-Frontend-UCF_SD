@@ -514,6 +514,11 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
 
     // Step 4: Update task with the category (whether existing or newly created)
     try {
+
+      var timeZone =  " " + new Date().toString().match(/([A-Z]+[\+-][0-9]+)/)[1];
+      startDate += timeZone;
+      dueDate += timeZone;
+
       const response = await fetch(buildPath(`api/tasks/${task._id}`), {
         method: 'PUT',
         headers: {

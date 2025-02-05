@@ -332,6 +332,7 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
         userId={userId}
         userRole={userRole}
         teamId={teamId}
+        projectTasks={tasks}
       />
 
       <div className="export-buttons-container">

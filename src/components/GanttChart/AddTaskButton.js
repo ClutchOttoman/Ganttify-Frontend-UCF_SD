@@ -225,7 +225,9 @@ const AddTaskButton = ({ projectId }) => {
     
     
     try {
-
+      var timeZone =  " " + new Date().toString().match(/([A-Z]+[\+-][0-9]+)/)[1];
+      newTask.dueDateTime += timeZone; 
+      newTask.startDateTime += timeZone;
       const response = await fetch(buildPath('api/createtask'), {
         method: 'POST',
         headers: {
@@ -353,9 +355,8 @@ const AddTaskButton = ({ projectId }) => {
                             ))}
                            <>
                            </>
-                        </ul>
-                        </div>
-                  
+                        </ul> 
+                        </div>                 
                   <div className="mb-4 dropup dropup-center d-grid gap-2">
                   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"></link>
                     <label htmlFor="assignedTasksUsers" className="form-label text-align-start">Assigned Users</label>
