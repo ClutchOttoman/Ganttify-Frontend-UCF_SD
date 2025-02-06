@@ -74,3 +74,25 @@
 .non-editable {
   cursor: default;
 }
+
+
+
+
+/* Default Light Mode Styles */
+.task-tooltip {
+  position: absolute;
+  top: 15%;
+  left: 100%;
+  transform: translateX(2px);
+  color: black;
+  background-color: transparent;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+/* Dark Mode Styles */
+body.dark .task-tooltip {
+  color: white !important;
+  background-color: #444 !important; /* Dark background for contrast */
+}

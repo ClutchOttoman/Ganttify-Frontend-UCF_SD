@@ -5,6 +5,10 @@ import React, { useState, useEffect } from 'react';
 import ProjectTitle from './GanttChart/ProjectTitle';
 import {buildPath} from './buildPath';
 
+import DarkModeSwitch from './DarkModeSwitch';
+import useDarkMode from './useDarkMode';
+import useHighContrastMode from './useHighContrastMode';
+import HighContrastSwitch from './HighContrastSwitch';
 
 
 const baseStyle = {
@@ -66,6 +70,32 @@ function NavBar(props) {
   const [editMessage, setEditMessage] = useState("");
   const [selectedMember, setSelectedMember] = useState(null);
   const [selectedRole, setSelectedRole] = useState("");
+
+
+
+
+  const [isDarkMode, setIsDarkMode] = useDarkMode();
+  const [isHighContrastMode, setIsHightContrastMode] = useHighContrastMode();
+
+const toggleDarkMode = () => {
+  setIsDarkMode((prevMode) => {
+    if (!prevMode) {
+      setIsHightContrastMode(false); // Turn off High Contrast Mode if it's on
+    }
+    return !prevMode;
+  });
+};
+
+const toggleHighContrastMode = () => {
+  setIsHightContrastMode((prevMode) => {
+    if (!prevMode) {
+      setIsDarkMode(false); // Turn off Dark Mode if it's on
+    }
+    return !prevMode;
+  });
+};
+  
+
 
 
   const [taskData, setTaskData] = useState({
@@ -430,6 +460,28 @@ function NavBar(props) {
             <li><Link to="/register"><button id="button">Create Account</button></Link></li>
             <li><Link to="/login"><button id="button">Login</button></Link></li>
           </ul>
+
+          {/* Dark mode toggle button */}
+          
+    <div className={`${isDarkMode ? "dark-mode" : ""} ${isHighContrastMode ? "high-contrast-mode" : ""}`}>
+      <button
+        onClick={toggleDarkMode}
+        className={`dark-mode-toggle ${isDarkMode ? "dark" : ""}`}
+        aria-label="Toggle dark mode"
+      >
+        {isDarkMode ? "Light Mode" : "Dark Mode"}
+      </button>
+
+      <button
+        onClick={toggleHighContrastMode}
+        className={`high-contrast-mode-toggle ${isHighContrastMode ? "high-contrast" : ""}`}
+        aria-label="Toggle high-contrast mode"
+      >
+        {isHighContrastMode ? "Default Contrast" : "High Contrast"}
+      </button>
+    </div>
+
+
         </div>
       </div>
     );
@@ -444,6 +496,28 @@ function NavBar(props) {
           <ul className="navbarOptionsDash">
             <li><Link to="/"><button id="button">Sign Out</button></Link></li>
           </ul>
+
+          {/* Dark mode toggle button */}
+          
+    <div className={`${isDarkMode ? "dark-mode" : ""} ${isHighContrastMode ? "high-contrast-mode" : ""}`}>
+      <button
+        onClick={toggleDarkMode}
+        className={`dark-mode-toggle ${isDarkMode ? "dark" : ""}`}
+        aria-label="Toggle dark mode"
+      >
+        {isDarkMode ? "Light Mode" : "Dark Mode"}
+      </button>
+
+      <button
+        onClick={toggleHighContrastMode}
+        className={`high-contrast-mode-toggle ${isHighContrastMode ? "high-contrast" : ""}`}
+        aria-label="Toggle high-contrast mode"
+      >
+        {isHighContrastMode ? "Default Contrast" : "High Contrast"}
+      </button>
+    </div>
+
+    
         </div>
       </div>
     );

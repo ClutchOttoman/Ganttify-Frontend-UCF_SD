@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { DarkModeProvider } from "./components/DarkModeContext"; // Ensure correct path
+import { HighContrastModeProvider} from "./components/HighContrastModeContext"; // Ensure correct path
+import NavBar from "./components/NavBar";
 import './App.css';
 import './index.css';
 
@@ -24,8 +27,47 @@ import ConfirmDeletePage from './pages/ConfirmDeletePage';
 import ConfirmRestorePage from './pages/ConfirmRestorePage';
 
 function App() {
+
+  
+  //Dark Mode
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const savedMode = localStorage.getItem('isDarkMode');
+    return savedMode ? JSON.parse(savedMode) : false; // default to light mode if no saved value
+  });
+
+  useEffect(() => {
+    // Apply dark mode class immediately when the app loads
+    if (isDarkMode) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  }, [isDarkMode]); // This will run once on mount
+
+
+
+//High Contrast
+  const [isHighContrastMode, setIsHighContrastMode] = useState(() => {
+    const savedMode = localStorage.getItem('isHighContrastMode');
+    return savedMode ? JSON.parse(savedMode) : false; // default to light mode if no saved value
+  });
+
+  useEffect(() => {
+    // Apply dark mode class immediately when the app loads
+    if (isHighContrastMode) {
+      document.body.classList.add('high-contrast');
+    } else {
+      document.body.classList.remove('high-contrast');
+    }
+  }, [isHighContrastMode]); // This will run once on mount
+
+
+
   return (
-    <BrowserRouter>
+    <HighContrastModeProvider>
+    <DarkModeProvider>
+      <BrowserRouter>
+        <NavBar />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/Login" element={<LoginPage />} />
@@ -48,6 +90,8 @@ function App() {
           <Route path="/restore-account/:userId/:token" element={<ConfirmRestorePage />} />
         </Routes>
     </BrowserRouter>
+    </DarkModeProvider>
+    </HighContrastModeProvider>
   );
 }
 
