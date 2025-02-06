@@ -1008,6 +1008,13 @@ export default function TimeTable({
                                 
                             </>
                           )}
+
+                          {(hoveredTask === el?._id || resizingTask === el?._id) && (
+                            <div className="task-tooltip">
+                              {`${el.start.split('T')[0].replace(/-/g, '/')}  -  ${el.end.split('T')[0].replace(/-/g, '/')}`}
+                            </div>
+                          )}
+
                         </div>
                       );
                     }
