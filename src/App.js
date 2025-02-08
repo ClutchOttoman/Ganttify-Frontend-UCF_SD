@@ -25,6 +25,7 @@ import RegisterTokenPage from './pages/RegisterTokenPage';
 import VerifyEmailTokenPage from './pages/VerifyEmailTokenPage';
 import ConfirmDeletePage from './pages/ConfirmDeletePage';
 import ConfirmRestorePage from './pages/ConfirmRestorePage';
+import UISettingsPage from "./pages/UISettingsPage";
 
 function App() {
 
@@ -88,6 +89,7 @@ function App() {
           <Route path="/verify-invite/:token" element={<VerifyEmailTokenPage />} />
           <Route path="/confirm-delete/:userId/:token" element={<ConfirmDeletePage />} />
           <Route path="/restore-account/:userId/:token" element={<ConfirmRestorePage />} />
+          <Route path="/ui-settings" element={<UISettingsPage />} />
         </Routes>
     </BrowserRouter>
     </DarkModeProvider>

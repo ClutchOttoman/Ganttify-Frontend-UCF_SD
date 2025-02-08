@@ -315,14 +315,12 @@ const AddTaskButton = ({ projectId }) => {
                   </div>
 
                   {/*Rich Text Editor */}
-                  <div className="mb-3">
                     <label htmlFor="description" className="form-label">Description</label>
                     <RichTextEditor
                     taskDescription={taskData.description}
                     setTaskDescription={(newDescription) => 
                       setTaskData((prev) => ({ ...prev, description: newDescription }))}
-                    />
-                  </div>
+                    /> 
 
                   <div className="mb-3">
                     <label htmlFor="startDateTime" className="form-label">Start Date</label>
