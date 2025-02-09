@@ -1,31 +1,61 @@
 <svg width="347" height="208" viewBox="0 0 347 208" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g clip-path="url(#clip0_383_223)">
-<rect width="347" height="208" rx="4" fill="white"/>
-<rect x="347" width="27" height="347" transform="rotate(90 347 0)" fill="#FDDC87"/>
+<rect id="background" width="347" height="208" rx="4" fill="var(--background-color)"/>
+<rect id="navbar" x="347" width="27" height="347" transform="rotate(90 347 0)" fill="var(--navbar-color)"/>
 <rect x="6" y="2" width="23" height="23" fill="url(#pattern0_383_223)"/>
-<g filter="url(#filter0_d_383_223)">
-<rect x="12" y="42" width="321" height="101" rx="4" fill="white"/>
-<rect x="12.5" y="42.5" width="320" height="100" rx="3.5" stroke="black"/>
-</g>
+<rect id = "timetable-outer" x="12.5" y="42.5" width="320" height="100" rx="3.5" fill="var(--timetable-color)" stroke="var(--border-color)"/>
 <circle cx="328" cy="192" r="10" fill="#DC6B2C"/>
 <line x1="323" y1="192" x2="333" y2="192" stroke="white" stroke-width="2"/>
 <line x1="328" y1="187" x2="328" y2="197" stroke="white" stroke-width="2"/>
+<rect width="294" height="80" transform="translate(39 63)" fill="white"/>
+<rect id="timetable-inner" x="39.5" y="63.5" width="293" height="79" fill="var(--timetable-inner-color)" stroke="var(--grid-color)"/>
+<line id="grid" x1="49.5" y1="64" x2="49.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="59.5" y1="64" x2="59.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="68.5" y1="64" x2="68.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="78.5" y1="64" x2="78.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="88.5" y1="64" x2="88.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="99.5" y1="64" x2="99.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="109.5" y1="64" x2="109.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="118.5" y1="64" x2="118.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="128.5" y1="64" x2="128.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="138.5" y1="64" x2="138.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="149.5" y1="64" x2="149.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="159.5" y1="64" x2="159.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="168.5" y1="64" x2="168.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="178.5" y1="64" x2="178.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="188.5" y1="64" x2="188.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="199.5" y1="64" x2="199.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="209.5" y1="64" x2="209.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="218.5" y1="64" x2="218.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="228.5" y1="64" x2="228.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="238.5" y1="64" x2="238.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="249.5" y1="64" x2="249.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="259.5" y1="64" x2="259.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="268.5" y1="64" x2="268.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="278.5" y1="64" x2="278.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="99.5" y1="64" x2="99.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="109.5" y1="64" x2="109.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="118.5" y1="64" x2="118.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="128.5" y1="64" x2="128.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="138.5" y1="64" x2="138.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="288.5" y1="64" x2="288.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="299.5" y1="64" x2="299.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="308.5" y1="64" x2="308.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="318.5" y1="64" x2="318.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="328.5" y1="64" x2="328.5" y2="142" stroke="var(--grid-color)"/>
+<line id="grid" x1="40" y1="72.5" x2="333" y2="72.5" stroke="var(--grid-color)"/>
+<line id="grid" x1="40" y1="82.5" x2="333" y2="82.5" stroke="var(--grid-color)"/>
+<line id="grid" x1="40" y1="92.5" x2="333" y2="92.5" stroke="var(--grid-color)"/>
+<line id="grid" x1="40" y1="103.5" x2="333" y2="103.5" stroke="var(--grid-color)"/>
+<line id="grid" x1="40" y1="113.5" x2="333" y2="114.5" stroke="var(--grid-color)"/>
+<line id="grid" x1="40" y1="123.5" x2="333" y2="123.5" stroke="var(--grid-color)"/>
+<line x1="40" y1="132.5" x2="333" y2="132.5" stroke="var(--grid-color)"/>
 </g>
-<rect x="0.5" y="0.5" width="346" height="207" rx="3.5" stroke="black"/>
+<rect id="border" x="0.5" y="0.5" width="346" height="207" rx="3.5" stroke="var(--border-color)"/>
 <defs>
 <pattern id="pattern0_383_223" patternContentUnits="objectBoundingBox" width="1" height="1">
 <use xlink:href="#image0_383_223" transform="scale(0.0133333)"/>
 </pattern>
-<filter id="filter0_d_383_223" x="8" y="42" width="329" height="109" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="4"/>
-<feGaussianBlur stdDeviation="2"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_383_223"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_383_223" result="shape"/>
-</filter>
 <clipPath id="clip0_383_223">
 <rect width="347" height="208" rx="4" fill="white"/>
 </clipPath>

@@ -1,13 +1,32 @@
 import React from "react";
+import { useState } from "react";
 import useDarkMode from './useDarkMode';
 import useHighContrastMode from './useHighContrastMode';
 import './UIsettings.css'
-import dashboard_preview from '../Images/assets/setting_previews/dashboard_preview.svg';
-import timetable_preview from '../Images/assets/setting_previews/timetable_preview.svg';
+import DashboardPreview  from '../Images/assets/setting_previews/dashboard_preview.svg?react';
+import TimetablePreview  from '../Images/assets/setting_previews/timetable_preview.svg?react';
 
 const UISettings = () => {
     const [isDarkMode, setIsDarkMode] = useDarkMode();
     const [isHighContrastMode, setIsHightContrastMode] = useHighContrastMode();
+    const [fontStyle, setFontStyle] = useState('Inter');
+
+    //Dynamically changes the image preview svgs
+    const backgroundColor = isDarkMode ? "#121212" : isHighContrastMode ? "white" : "white";
+    const borderColor = isDarkMode ? "#FFF" : isHighContrastMode ? "#000000 " : "#000000 ";
+    const navbarColor = isDarkMode ? "#333" : isHighContrastMode ? "#6B2B00" : "#FDDC87";
+    //Dashboard related svgs
+    const sideBarColor = isDarkMode ? "#2f2f2f" : isHighContrastMode ? "#f3b35b" : "#DC6B2C";
+    const sideBarButtonColor = isDarkMode ? "#424242" : isHighContrastMode ? "#402C12" : "#FFF";
+    const viewButtonColor = isDarkMode ? "#2f2f2f"  : isHighContrastMode ? "#002238 " : "#135C91";
+    const projectCardColor = isDarkMode ? "#424242" : isHighContrastMode ? "#f3b35b" : "#FDDC87";
+    const projectCardBorderColor =  isDarkMode ? "#2f2f2f" : isHighContrastMode ? "#402C12" : "#DC6B2C";
+    //Timetable related svgs
+    const timetableColor = isDarkMode ? "#222" : isHighContrastMode ? "white" : "white";
+    const timetableInnerColor = isDarkMode ? "#333" : isHighContrastMode ?  "#FFF" : "#FFF";
+    const timetableBorderColor = isDarkMode ? "#FFF" : isHighContrastMode ? "#000000 " : "#000000 ";
+    const gridColor = isDarkMode? "white" : isHighContrastMode ? "black" : "black"
+
     const toggleDarkMode = () => {
         setIsDarkMode((prevMode) => {
           if (!prevMode) {
@@ -25,6 +44,14 @@ const UISettings = () => {
           return !prevMode;
         });
       };
+
+      //Handles Font Changes
+      const handleFontChange = (event) => {
+        setFontStyle(event.target.value)
+        const selectedFont = event.target.value;
+        document.body.style.fontFamily = selectedFont;
+        localStorage.setItem("fontStyle", selectedFont);
+    };
       
     return(
         <div class="settings-container">
@@ -51,7 +78,7 @@ const UISettings = () => {
                 </div>
             </div>
 
-            {/* Color UI Preview Container */}
+            {/* Color UI/CVD Filter Preview Container */}
             <div class="ui-preview-container">
             <h1>
             Color UI Preview: 
@@ -63,16 +90,48 @@ const UISettings = () => {
             </h1>
 
               {/* This is the container for the preview images */}
-              <div className="imgs-container">
-                  <img src={dashboard_preview} className="dashboardimg"/>
-                  <img src={timetable_preview}  className="timetableimg"/>
+              <div className="img-container">
+                <DashboardPreview className="dashboard-preview" style={{
+                      '--background-color': backgroundColor,
+                      '--navbar-color': navbarColor,
+                      '--border-color': borderColor,
+                      '--sidebar-color': sideBarColor,
+                      '--sidebar-btn-color': sideBarButtonColor,
+                      '--card-color': projectCardColor,
+                      '--view-btn-color': viewButtonColor,
+                      '--project-color': projectCardColor,
+                      '--project-border-color': projectCardBorderColor,
+                  }} />
+                  <TimetablePreview className="timetable-preview" style={{
+                      '--background-color': backgroundColor,
+                      '--navbar-color': navbarColor,
+                      '--border-color': borderColor,
+                      '--timetable-color': timetableColor,
+                      '--timetable-inner-color': timetableInnerColor,
+                      '--timetable-border-color': timetableBorderColor,
+                      '--grid-color': gridColor,
+                  }} />
               </div>
             </div>
 
-            {/* CVD Filter Preview Container */}
-            <div class="font-container">
-            <h1>Font Options:</h1>
-            </div>
+            {/* Font Editing Container */}
+            <div className="font-container">
+              <h1>Change Font:</h1>
+              <select 
+                  className="font-selector" 
+                  onChange={handleFontChange}
+                  value={fontStyle}
+
+              >
+                <option value="Inter"> Default </option>
+                <option value="Merriweather">Merriweather </option>
+                <option value="Arial">Arial </option>
+                <option value="Verdana">Verdana </option>
+                <option value="Open Sans">Open Sans </option>
+                <option value="Courier New">Courier New </option>
+              </select>
+              </div>
+
         </div>
     )
 }

@@ -1,29 +1,29 @@
 <svg width="347" height="208" viewBox="0 0 347 208" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g clip-path="url(#clip0_382_202)">
-<rect width="347" height="208" rx="4" fill="white"/>
-<rect y="27" width="57" height="181" fill="#DC6B2C"/>
-<rect x="347" width="27" height="347" transform="rotate(90 347 0)" fill="#FDDC87"/>
-<rect x="53" y="34" width="12" height="49" rx="2" transform="rotate(90 53 34)" fill="white"/>
-<rect x="53" y="50" width="12" height="49" rx="2" transform="rotate(90 53 50)" fill="white"/>
-<rect x="53" y="66" width="12" height="49" rx="2" transform="rotate(90 53 66)" fill="white"/>
-<rect x="53" y="82" width="12" height="49" rx="2" transform="rotate(90 53 82)" fill="white"/>
-<rect x="53" y="98" width="12" height="49" rx="2" transform="rotate(90 53 98)" fill="white"/>
-<rect x="53" y="114" width="12" height="49" rx="2" transform="rotate(90 53 114)" fill="white"/>
+<rect id="background" width="347" height="208" rx="4" fill="var(--background-color)"/>
+<rect id="sidebar" y="27" width="57" height="181" fill="var(--sidebar-color)"/>
+<rect id="navbar" x="347" width="27" height="347" transform="rotate(90 347 0)" fill="var(--navbar-color)" />
+<rect id="sidebar-btn" x="53" y="34" width="12" height="49" rx="2" transform="rotate(90 53 34)" fill="var(--sidebar-btn-color)"/>
+<rect id="sidebar-btn" x="53" y="50" width="12" height="49" rx="2" transform="rotate(90 53 50)" fill="var(--sidebar-btn-color)"/>
+<rect id="sidebar-btn" x="53" y="66" width="12" height="49" rx="2" transform="rotate(90 53 66)" fill="var(--sidebar-btn-color)"/>
+<rect id="sidebar-btn" x="53" y="82" width="12" height="49" rx="2" transform="rotate(90 53 82)" fill="var(--sidebar-btn-color)"/>
+<rect id="sidebar-btn" x="53" y="98" width="12" height="49" rx="2" transform="rotate(90 53 98)" fill="var(--sidebar-btn-color)"/>
+<rect id="sidebar-btn" x="53" y="114" width="12" height="49" rx="2" transform="rotate(90 53 114)" fill="var(--sidebar-btn-color)"/>
 <rect x="6" y="3" width="23" height="23" fill="url(#pattern0_382_202)"/>
-<rect x="137.282" y="37.7139" width="50.5362" height="52.5322" rx="1.25" transform="rotate(90 137.282 37.7139)" fill="#FDDC87" stroke="#DC6B2C" stroke-width="1.5"/>
-<rect x="129.648" y="70.9873" width="10.007" height="18.6318" rx="2" transform="rotate(90 129.648 70.9873)" fill="#135C91"/>
-<rect x="92.6777" y="36" width="36.677" height="36.677" fill="url(#pattern1_382_202)"/>
-<rect x="215.282" y="37.7139" width="50.5362" height="52.5322" rx="1.25" transform="rotate(90 215.282 37.7139)" fill="#FDDC87" stroke="#DC6B2C" stroke-width="1.5"/>
-<rect x="207.648" y="70.9873" width="10.007" height="18.6318" rx="2" transform="rotate(90 207.648 70.9873)" fill="#135C91"/>
+<rect id="project_card" x="137.282" y="37.7139" width="50.5362" height="52.5322" rx="1.25" transform="rotate(90 137.282 37.7139)" fill="var(--project-color)" stroke="var(--project-border-color)" stroke-width="1.5"/>
+<rect id="view-btn" x="129.648" y="70.9873" width="10.007" height="18.6318" rx="2" transform="rotate(90 129.648 70.9873)" fill="var(--view-btn-color)"/>
+<rect id="view-btn" x="92.6777" y="36" width="36.677" height="36.677" fill="url(#pattern1_382_202)"/>
+<rect id="project_card" x="215.282" y="37.7139" width="50.5362" height="52.5322" rx="1.25" transform="rotate(90 215.282 37.7139)" fill="var(--project-color)" stroke="var(--project-border-color)" stroke-width="1.5"/>
+<rect id="view-btn" x="207.648" y="70.9873" width="10.007" height="18.6318" rx="2" transform="rotate(90 207.648 70.9873)" fill="var(--view-btn-color)"/>
 <rect x="170.678" y="36" width="36.677" height="36.677" fill="url(#pattern2_382_202)"/>
-<rect x="137.282" y="105.714" width="50.5362" height="52.5322" rx="1.25" transform="rotate(90 137.282 105.714)" fill="#FDDC87" stroke="#DC6B2C" stroke-width="1.5"/>
-<rect x="129.648" y="138.987" width="10.007" height="18.6318" rx="2" transform="rotate(90 129.648 138.987)" fill="#135C91"/>
+<rect id="project_card" x="137.282" y="105.714" width="50.5362" height="52.5322" rx="1.25" transform="rotate(90 137.282 105.714)" fill="var(--project-color)" stroke="var(--project-border-color)" stroke-width="1.5"/>
+<rect id="view-btn" x="129.648" y="138.987" width="10.007" height="18.6318" rx="2" transform="rotate(90 129.648 138.987)" fill="var(--view-btn-color)"/>
 <rect x="92.6777" y="104" width="36.677" height="36.677" fill="url(#pattern3_382_202)"/>
-<rect x="215.282" y="105.714" width="50.5362" height="52.5322" rx="1.25" transform="rotate(90 215.282 105.714)" fill="#FDDC87" stroke="#DC6B2C" stroke-width="1.5"/>
-<rect x="207.648" y="138.987" width="10.007" height="18.6318" rx="2" transform="rotate(90 207.648 138.987)" fill="#135C91"/>
+<rect id="project_card" x="215.282" y="105.714" width="50.5362" height="52.5322" rx="1.25" transform="rotate(90 215.282 105.714)" fill="var(--project-color)" stroke="var(--project-border-color)" stroke-width="1.5"/>
+<rect id="view-btn" x="207.648" y="138.987" width="10.007" height="18.6318" rx="2" transform="rotate(90 207.648 138.987)" fill="var(--view-btn-color)"/>
 <rect x="170.678" y="104" width="36.677" height="36.677" fill="url(#pattern4_382_202)"/>
 </g>
-<rect x="0.5" y="0.5" width="346" height="207" rx="3.5" stroke="black"/>
+<rect id="border" x="0.5" y="0.5" width="346" height="207" rx="3.5" stroke="var(--border-color)"/>
 <defs>
 <pattern id="pattern0_382_202" patternContentUnits="objectBoundingBox" width="1" height="1">
 <use xlink:href="#image0_382_202" transform="scale(0.0133333)"/>

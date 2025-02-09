@@ -3,7 +3,7 @@
 
 body {
   margin: 0;
-  font-family: "Inter", sans-serif !important; 
+  font-family: "Inter", sans-serif; 
   font-optical-sizing: auto !important;
   font-weight: 400 !important;
   font-style: normal !important;
@@ -465,7 +465,6 @@ body.high-contrast .task-tooltip {
   transform: translateX(2px);
   color: rgb(0, 0, 0);
   background-color: transparent;
-  font-family: 'Montserrat', sans-serif;
   font-size: 12px;
 }
 
@@ -1623,7 +1622,6 @@ body.dark .task-tooltip {
   transform: translateX(2px);
   color: rgb(255, 255, 255);
   background-color: transparent;
-  font-family: 'Montserrat', sans-serif;
   font-size: 12px;
 
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.css';
 import './index.css';
@@ -25,6 +26,15 @@ import ConfirmRestorePage from './pages/ConfirmRestorePage';
 import UISettingsPage from './pages/UISettingsPage';
 
 function App() {
+    const [fontStyle, setFontStyle] = useState(() => {
+        return localStorage.getItem("fontStyle") || "Inter";
+    });
+
+    useEffect(() => {
+        document.body.style.fontFamily = fontStyle;
+    }, [fontStyle]);
+
+
   return (
     <BrowserRouter>
         <Routes>

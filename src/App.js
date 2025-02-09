@@ -28,8 +28,6 @@ import ConfirmRestorePage from './pages/ConfirmRestorePage';
 import UISettingsPage from "./pages/UISettingsPage";
 
 function App() {
-
-  
   //Dark Mode
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const savedMode = localStorage.getItem('isDarkMode');

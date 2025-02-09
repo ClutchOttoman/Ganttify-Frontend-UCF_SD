@@ -34,16 +34,41 @@
     color: rgb(13,110,253) !important;
 }
 
-.imgs-container {
+.img-container {
     display: flex;
-    flex-wrap: wrap; /* Allows wrapping of images to the next line */
-    gap: 20px; /* Adds space between the images */
-    justify-content: center; /* Centers the images horizontally */
-    margin: 20px auto; /* Centers the container itself */
+    flex-wrap: wrap;
+    gap: 100px;
+    justify-content: center;
+    margin: 20px auto;
+    height: auto;
   }
   
-  .imgs-container img {
-    width: 48%; /* Each image takes 48% of the container's width */
-    height: auto; /* Maintains aspect ratio */
-    border-radius: 8px; /* Optional: Adds border radius for rounded corners */
-  }
+.dashboard-preview,
+.timetable-preview {
+    width: 500px;   /* Adjust the width */
+    height: 400px;  /* Adjust the height */
+}
+
+.font-container{
+    gap: 100px;
+}
+.font-selector{
+    width: 300px;
+    height: 50px;
+    gap: 100px;
+    font-size: 24px;
+    align-items: center;
+    justify-content: center;
+    text-align: left;
+    transition: background-color 0.3s ease;
+}
+.font-selector:hover{
+    background-color: #f0f0f0;
+}
+
+.font-selector option {
+    background-color: white; /* Default background for options */
+}
+.font-selector option:hover {
+    background-color: #ea6e2b; /* Default background for options */
+}
