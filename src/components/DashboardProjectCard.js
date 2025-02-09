@@ -100,7 +100,7 @@ function DashboardProjectCard({project,userId,setSelectedProject,setNewName,setI
                             <GanttChartIcon class="projectIcon" />
                             <div class="card-body">
                                 <div class="row align-items-center mb-1">
-                                    <div class = "col col-1 px-0 me-3"><button name="DeleteButton1" class="projectBtn" data-bs-toggle="modal" data-bs-target="#deleteProjectModal" onClick={()=>setProjectToDelete(chart1.project)}><img alt="DeleteButtonIcon" src={DeleteIcon} class="btnIcon" /></button></div>
+                                    <div class = "col col-1 px-0 me-3"><button name="DeleteButton1" class="projectBtn" data-bs-toggle="modal" data-bs-target="#deleteProjectModal" onClick={()=>setProjectToDelete(project)}><img alt="DeleteButtonIcon" src={DeleteIcon} class="btnIcon" /></button></div>
                                     <div class = "col col-2 px-0 me-4"><h5 class="btnLabel">Delete</h5></div>
                                     <div class="col col-1 ps-0 ms-5 me-3"><button class="projectBtn"><img alt="RestoreButtonIcon" src={RestoreIcon} class="btnIcon"  onClick={()=>setProjectToRestoreChart(project)}/></button></div>
                                     <div class = "col col-3 px-0"><h5 class = "btnLabel">Restore</h5></div>
