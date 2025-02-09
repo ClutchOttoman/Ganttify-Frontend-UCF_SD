@@ -9,7 +9,9 @@ import TimetablePreview  from '../Images/assets/setting_previews/timetable_previ
 const UISettings = () => {
     const [isDarkMode, setIsDarkMode] = useDarkMode();
     const [isHighContrastMode, setIsHightContrastMode] = useHighContrastMode();
-    const [fontStyle, setFontStyle] = useState('Inter');
+    const [fontStyle, setFontStyle] = useState(() => {
+        return localStorage.getItem("fontStyle") || "Inter";
+    });
 
     //Dynamically changes the image preview svgs
     const backgroundColor = isDarkMode ? "#121212" : isHighContrastMode ? "white" : "white";
