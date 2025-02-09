@@ -3,7 +3,7 @@
 
 body {
   margin: 0;
-  font-family: "Inter", sans-serif !important; 
+  font-family: "Inter", sans-serif; 
   font-optical-sizing: auto !important;
   font-weight: 400 !important;
   font-style: normal !important;
@@ -80,105 +80,64 @@ body.preload {
 
 
 
-/* DEFAULT MODE Toggles */
-
-/* High Contrast Toggle */
-button.high-contrast-mode-toggle {
+/* DEFAULT MODE */
+/* Toggle Buttons */
+button.dark-mode-toggle, button.high-contrast-mode-toggle {
   background-color: #DC6B2C ;  /* Darker background for toggle button */
   color: #fff !important;  /* Light text for button */
   border: 1px solid #000000 !important;
+  border-radius: 99px;
+  width: 50px;
+  height: 28px;
+  transition: background-color 0.1s ease, border-color 0.2s ease;
+  margin-top: -20px !important;
+  margin-left: 3px !important;
+  margin-right: 10px !important;
+  padding: 3px 6px !important;
+  position: relative;
+
+}
+
+/* Slider CSS */
+button.dark-mode-toggle .thumb, button.high-contrast-mode-toggle .thumb {
+  height: 20px;
+  width: 20px;
+  background-color: #fff;
+  border-radius: 99px;
+  transform: translateX(0);
+  transition: left 0.3s ease;
+  position: absolute;
+  left: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Button Hover CSS */
+button.dark-mode-toggle:hover, button.high-contrast-mode-toggle:hover {
+  background-color: #b3704c; /* Brighter background for hover */
+  color: #fff !important; /* White text */
+  border: 1px solid #262626 !important;
   margin-top: -20px !important;
   margin-left: 3px !important;
   margin-right: 10px !important;
   padding: 3px 6px !important;
 }
 
-/* High Contrast Toggle Button Hover */
-button.high-contrast-mode-toggle:hover {
-  background-color: #b3704c !important; /* Brighter background for hover */
-  color: #fff !important; /* White text */
-  border: 1.5px solid #262626 !important;
-  margin-top: -20px !important;
-  margin-left: 3px !important;
-  margin-right: 10px !important;
-  padding: 3px 6px !important;
-}
-
-/* Dark Mode Toggle */
-
-button.dark-mode-toggle {
-  background-color: #DC6B2C ;  /* Darker background for toggle button */
-  color: #fff;  /* Light text for button */
-  border: 1px solid #000000 !important;
-  margin-top: -10px !important;
-  margin-left: 5px !important;
-  padding: 3px 6px !important;
-
-}
-
-button.dark-mode-toggle:hover {
-  background-color: #b3704c !important; /* Brighter background for hover */
-  color: #fff !important; /* White text */
-  border: 1.5px solid #262626 !important;
-  margin-top: -10px !important;
-  margin-left: 5px !important;
-  padding: 3px 6px !important;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-/* High Contrast Toggle */
-body.high-contrast button.high-contrast-mode-toggle {
+/*HIGH CONTRAST MODE */
+/* Toggle Buttons */
+body.high-contrast button.dark-mode-toggle, body.high-contrast button.high-contrast-mode-toggle {
   background-color: #8a3700;  /* Darker background for toggle button */
-  color: #fff;  /* Light text for button */
-  border: 1px solid #000000;
-  margin-top: -20px;
-  margin-left: 3px;
-  margin-right: 10px;
-  padding: 3px 6px;
 }
 
-/* High Contrast Toggle Button Hover */
-body.high-contrast button.high-contrast-mode-toggle:hover {
-  background-color: #8a3700; /* Brighter background for hover */
-  color: #fff; /* White text */
-  border: 1.5px solid #262626;
-  margin-top: -20px;
-  margin-left: 3px;
-  margin-right: 10px;
-  padding: 3px 6px;
+/* Button Hover CSS */
+body.high-contrast button.dark-mode-toggle:hover, body.high-contrast button.high-contrast-mode-toggle:hover {
+  background-color: #b75927; /* Brighter background for hover */
 }
 
-/* Dark Mode Toggle */
-
-body.high-contrast button.dark-mode-toggle {
-  background-color: #8a3700;  /* Darker background for toggle button */
-  color: #fff;  /* Light text for button */
-  border: 1px solid #000000;
-  margin-top: -10px;
-  margin-left: 5px;
-  padding: 3px 6px;
-
+/* Slider Animation to show that high contrast mode is on */
+body.high-contrast button.high-contrast-mode-toggle.active .thumb{
+  left: calc(50px - 25px);
 }
-
-body.high-contrast button.dark-mode-toggle:hover {
-  background-color: #8a3700; /* Brighter background for hover */
-  color: #fff; /* White text */
-  border: 1.5px solid #262626;
-  margin-top: -10px;
-  margin-left: 5px;
-  padding: 3px 6px;
-}
-
 
 /*About Us*/
 
@@ -259,6 +218,12 @@ body.high-contrast button.btn.deleteBtn{
 
 body.high-contrast button.btn.saveBtn{
   background-color: #004A99;
+}
+
+/* UI Settings */
+
+body.high-contrast .color-preset-container, body.high-contrast .ui-preview-container, body.high-contrast .font-container {
+  background-color: #f3b35b !important;
 }
 
 /* Add Task */
@@ -500,7 +465,6 @@ body.high-contrast .task-tooltip {
   transform: translateX(2px);
   color: rgb(0, 0, 0);
   background-color: transparent;
-  font-family: 'Montserrat', sans-serif;
   font-size: 12px;
 }
 
@@ -1151,17 +1115,21 @@ body.high-contrast button.btn-outline-primary{ /* Edit Project Name */
 
 
 
-
-/* Dark Mode Toggle Button */
-body.dark button.dark-mode-toggle {
-  background-color: #1a1a1a;  /* Darker background for toggle button */
-  color: #fff;  /* Light text for button */
+/* DARK MODE */
+/* Toggle Buttons */
+body.dark button.dark-mode-toggle, body.dark button.high-contrast-mode-toggle {
+  background-color: #414141;  /* Darker background for toggle button */
 }
 
-/* Dark Mode Toggle Button Hover */
-body.dark button.dark-mode-toggle:hover {
-  background-color: #ff6600; /* Brighter background for hover */
-  color: #fff; /* White text */
+/* Toggle Hover CSS */
+body.dark button.dark-mode-toggle:hover, body.dark button.high-contrast-mode-toggle:hover {
+  background-color: #6d6d6d; /* Brighter background for hover */
+
+}
+
+/* Slider Animation to show that dark mode is on */
+body.dark button.dark-mode-toggle.active .thumb{
+  left: calc(50px - 25px);
 }
 
 body.dark h1, body.dark h2, body.dark h3, body.dark h4, body.dark h5, body.dark h6 {
@@ -1380,53 +1348,10 @@ body.dark #button:hover {
 
 
 
-/* High Contrast Toggle */
 
-body.dark button.high-contrast-mode-toggle {
-  background-color: #414141;  /* Darker background for toggle button */
-  color: #fff;  /* Light text for button */
-  border: 1px solid #000000;
-  margin-top: -20px;
-  margin-left: 3px;
-  margin-right: 10px;
-  padding: 3px 6px;
-}
-
-body.dark button.high-contrast-mode-toggle:hover {
-  background-color: #b3704c; /* Brighter background for hover */
-  color: #fff; /* White text */
-  border: 1.5px solid #262626;
-  margin-top: -20px;
-  margin-left: 3px;
-  margin-right: 10px;
-  padding: 3px 6px;
-}
-
-
-
-/* Dark Mode Toggle */
-
-body.dark button.dark-mode-toggle {
-  background-color: #414141;  /* Darker background for toggle button */
-  color: #fff;  /* Light text for button */
-  border: 1px solid #000000;
-  margin-top: -10px;
-  margin-left: 5px;
-  padding: 3px 6px;
-
-}
-
-body.dark button.dark-mode-toggle:hover {
-  background-color: #b3704c; /* Brighter background for hover */
-  color: #fff; /* White text */
-  border: 1.5px solid #262626;
-  margin-top: -10px;
-  margin-left: 5px;
-  padding: 3px 6px;
-}
 
 body.dark .dark-mode{
-  background-color: #282828;
+  background-color: #313132;
 }
 
 body.dark h1, body.dark h2, body.dark h3, body.dark h4, body.dark h5, body.dark h6 {
@@ -1697,7 +1622,6 @@ body.dark .task-tooltip {
   transform: translateX(2px);
   color: rgb(255, 255, 255);
   background-color: transparent;
-  font-family: 'Montserrat', sans-serif;
   font-size: 12px;
 
 }
@@ -1808,9 +1732,13 @@ body.dark label.detailLabel{
   color: #ffffff !important; /* WORK (left side account info) Dark background */
 }
 
+/* UI Settings */
+body.dark .color-preset-container, body.dark .ui-preview-container, body.dark .font-container {
+  background-color: #313131 !important; 
+}
+
 
 /* Dashboard */
-
 
 body.dark {
   background-color: #121212;  /* Dark background */

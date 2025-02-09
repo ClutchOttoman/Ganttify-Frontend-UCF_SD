@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.css';
 import './index.css';
@@ -22,9 +23,18 @@ import RegisterTokenPage from './pages/RegisterTokenPage';
 import VerifyEmailTokenPage from './pages/VerifyEmailTokenPage';
 import ConfirmDeletePage from './pages/ConfirmDeletePage';
 import ConfirmRestorePage from './pages/ConfirmRestorePage';
-
+import UISettingsPage from './pages/UISettingsPage';
 
 function App() {
+    const [fontStyle, setFontStyle] = useState(() => {
+        return localStorage.getItem("fontStyle") || "Inter";
+    });
+
+    useEffect(() => {
+        document.body.style.fontFamily = fontStyle;
+    }, [fontStyle]);
+
+
   return (
     <BrowserRouter>
         <Routes>
@@ -47,6 +57,7 @@ function App() {
           <Route path="/verify-invite/:token" element={<VerifyEmailTokenPage />} />
           <Route path="/confirm-delete/:userId/:token" element={<ConfirmDeletePage />} />
           <Route path="/restore-account/:userId/:token" element={<ConfirmRestorePage />} />
+          <Route path="/dashboard/ui-settings" element={<UISettingsPage />} />
         </Routes>
     </BrowserRouter>
   );

@@ -460,28 +460,6 @@ const toggleHighContrastMode = () => {
             <li><Link to="/register"><button id="button">Create Account</button></Link></li>
             <li><Link to="/login"><button id="button">Login</button></Link></li>
           </ul>
-
-          {/* Dark mode toggle button */}
-          
-    <div className={`${isDarkMode ? "dark-mode" : ""} ${isHighContrastMode ? "high-contrast-mode" : ""}`}>
-      <button
-        onClick={toggleDarkMode}
-        className={`dark-mode-toggle ${isDarkMode ? "dark" : ""}`}
-        aria-label="Toggle dark mode"
-      >
-        {isDarkMode ? "Light Mode" : "Dark Mode"}
-      </button>
-
-      <button
-        onClick={toggleHighContrastMode}
-        className={`high-contrast-mode-toggle ${isHighContrastMode ? "high-contrast" : ""}`}
-        aria-label="Toggle high-contrast mode"
-      >
-        {isHighContrastMode ? "Default Contrast" : "High Contrast"}
-      </button>
-    </div>
-
-
         </div>
       </div>
     );
@@ -496,28 +474,6 @@ const toggleHighContrastMode = () => {
           <ul className="navbarOptionsDash">
             <li><Link to="/"><button id="button">Sign Out</button></Link></li>
           </ul>
-
-          {/* Dark mode toggle button */}
-          
-    <div className={`${isDarkMode ? "dark-mode" : ""} ${isHighContrastMode ? "high-contrast-mode" : ""}`}>
-      <button
-        onClick={toggleDarkMode}
-        className={`dark-mode-toggle ${isDarkMode ? "dark" : ""}`}
-        aria-label="Toggle dark mode"
-      >
-        {isDarkMode ? "Light Mode" : "Dark Mode"}
-      </button>
-
-      <button
-        onClick={toggleHighContrastMode}
-        className={`high-contrast-mode-toggle ${isHighContrastMode ? "high-contrast" : ""}`}
-        aria-label="Toggle high-contrast mode"
-      >
-        {isHighContrastMode ? "Default Contrast" : "High Contrast"}
-      </button>
-    </div>
-
-    
         </div>
       </div>
     );

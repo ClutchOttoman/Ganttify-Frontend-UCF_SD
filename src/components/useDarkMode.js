@@ -10,6 +10,9 @@ const useDarkMode = () => {
     // Apply dark mode or light mode class based on the state
     if (isDarkMode) {
       document.body.classList.add('dark');
+      if(window.location.pathname === '/dashboard/ui-settings'){
+        document.querySelector(".dark-mode-toggle").classList.toggle("active"); //Adding active class for sliders
+      }
     } else {
       document.body.classList.remove('dark');
     }
