@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './TaskDetails.css';
 import './RichTextEditor.js';
-import DeleteTaskButton from '../../Images/assets/action_buttons/Delete_Task_or_Chart_30x30.png';
-import EditTaskButton from '../../Images/assets/action_buttons/Edit_Task_30x30.png';
+import DeleteTaskButton from '../../Images/assets/action_buttons/Delete_Task_or_Chart.svg';
+import EditTaskButton from '../../Images/assets/action_buttons/Edit_Task.svg';
 import {buildPath} from '../buildPath';
 import RichTextEditor from './RichTextEditor.js';
 import Hollow_Single_Circle_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Circle_Density_1.svg';
@@ -674,8 +674,8 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"></link>
       <div className="task-details-header">
         <div className="icon-button-container">
-          {isEditable && <button type="button" className="edit-button" onClick={() => setEditMode(!editMode)}><img alt="EditTaskIcon" src={EditTaskButton}/></button>}
-          {isEditable && <button type="button" className="delete-button" onClick={handleDeleteClick}><img alt="DeleteTaskIcon" src={DeleteTaskButton}/></button>}
+          {isEditable && <button type="button" className="edit-button" onClick={() => setEditMode(!editMode)}><img alt="EditTaskIcon" src={EditTaskButton}/> Edit Task</button>}
+          {isEditable && <button type="button" className="delete-button" onClick={handleDeleteClick}><img alt="DeleteTaskIcon" src={DeleteTaskButton}/> Delete Task</button>}
           <button type="button" className="close" onClick={handleCloseClick}>&times;</button>
         </div>
         <div className="task-title-container">

@@ -172,3 +172,52 @@ ul li{
     margin-right:15px;
     margin-left:-10px;
 }
+
+
+
+
+
+
+/* Dark Mode Toggle Button */
+button.dark-mode-toggle {
+    background-color: #DC6B2C; /* Make the background transparent */
+    color: #ffffff; /* Default text color (for light mode) */
+    padding: 3px 9px;
+    margin-top: -1%;
+    font-size: 17px;
+    cursor: pointer;
+    transition: all 0.3s ease; /* Smooth transition for color changes */
+    border-radius: 5px; /* Rounded corners */
+    outline: none; /* Remove the outline on focus */
+  }
+  
+ /* Dark Mode Toggle Button */
+button.dark-mode-toggle:hover {
+    background-color: #b3704c; /* Make the background transparent */
+    color: #ffffff; /* Default text color (for light mode) */
+    
+  }
+  
+
+/* High Contrast Mode Toggle Button */
+button.high-contrast-mode-toggle {
+    background-color: #ea6e2b; /* Make the background transparent */
+    color: #ffffff; /* Default text color (for light mode) */
+    padding: 3px 9px;
+    margin-top: -1%;
+    font-size: 17px;
+    cursor: pointer;
+    transition: all 0.3s ease; /* Smooth transition for color changes */
+    border-radius: 5px; /* Rounded corners */
+    outline: none; /* Remove the outline on focus */
+  }
+  
+ /* High Contrast Mode Toggle Button */
+button.high-contrast-mode-toggle:hover {
+    background-color: #cf7c4f; /* Make the background transparent */
+    color: #ffffff; /* Default text color (for light mode) */
+    
+  }
+
+
+

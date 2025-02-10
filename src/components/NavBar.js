@@ -5,6 +5,10 @@ import React, { useState, useEffect } from 'react';
 import ProjectTitle from './GanttChart/ProjectTitle';
 import {buildPath} from './buildPath';
 
+import DarkModeSwitch from './DarkModeSwitch';
+import useDarkMode from './useDarkMode';
+import useHighContrastMode from './useHighContrastMode';
+import HighContrastSwitch from './HighContrastSwitch';
 
 
 const baseStyle = {
@@ -66,6 +70,32 @@ function NavBar(props) {
   const [editMessage, setEditMessage] = useState("");
   const [selectedMember, setSelectedMember] = useState(null);
   const [selectedRole, setSelectedRole] = useState("");
+
+
+
+
+  const [isDarkMode, setIsDarkMode] = useDarkMode();
+  const [isHighContrastMode, setIsHightContrastMode] = useHighContrastMode();
+
+const toggleDarkMode = () => {
+  setIsDarkMode((prevMode) => {
+    if (!prevMode) {
+      setIsHightContrastMode(false); // Turn off High Contrast Mode if it's on
+    }
+    return !prevMode;
+  });
+};
+
+const toggleHighContrastMode = () => {
+  setIsHightContrastMode((prevMode) => {
+    if (!prevMode) {
+      setIsDarkMode(false); // Turn off Dark Mode if it's on
+    }
+    return !prevMode;
+  });
+};
+  
+
 
 
   const [taskData, setTaskData] = useState({

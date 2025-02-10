@@ -215,6 +215,7 @@ function DasboardNavBar({page}) {
                         <a id ="Recently Deleted" class ="btn navBtn" href="/dashboard/recently-deleted"><span class = "navBtnText">Recently Deleted</span></a>
                         <button id ="Create Project" class ="btn navBtn" data-bs-toggle="modal" data-bs-target="#createProjectModal"><span class = "navBtnText">Create Project</span></button> 
                         <a id ="Account" class ="btn navBtn" href="/dashboard/account" ><span class = "navBtnText">Account</span></a> 
+                        <a id ="UI Settings" class="btn navBtn" href="/dashboard/ui-settings"><span class = "navBtnText">UI Settings</span></a> 
                 </div>
                 <div class = "d-md-none navBarBodySmall mb-5 pb-5">
                     <div class = "row align-items-center mt-3">
