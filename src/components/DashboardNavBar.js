@@ -219,10 +219,12 @@ function DasboardNavBar({page}) {
                 </div>
                 <div class = "d-md-none navBarBodySmall mb-5 pb-5">
                     <div class = "row align-items-center mt-3">
-                        <div class = "col-3"><a id ="ToDo List" class= "btn navBtnSmall" href="/dashboard"><span class = "navBtnTextSmall">To Do</span></a></div>
-                        <div class = "col-3"><a id ="Charts" class = "btn navBtnSmall" href="/dashboard/charts"><span class = "navBtnTextSmall">Charts</span></a></div>
-                        <div class = "col-3"><a id ="Recently Deleted" class ="btn navBtnSmall" href="/dashboard/recently-deleted"><span class = "navBtnTextSmall">R.D.</span></a></div>
-                        <div class = "col-3"><button id ="Create Project" class ="btn navBtnSmall" data-bs-toggle="modal" data-bs-target="#createProjectModal"><span class = "navBtnTextSmall">Create</span></button> </div>
+                        <div class = "col-2"><a id ="ToDo List" class= "btn navBtnSmall" href="/dashboard"><span class = "navBtnTextSmall">To Do</span></a></div>
+                        <div class = "col-2"><a id ="Charts" class = "btn navBtnSmall" href="/dashboard/charts"><span class = "navBtnTextSmall">Charts</span></a></div>
+                        <div class = "col-2"><a id ="Recently Deleted" class ="btn navBtnSmall" href="/dashboard/recently-deleted"><span class = "navBtnTextSmall">R.D.</span></a></div>
+                        <div class = "col-2"><a id ="Create Project" class ="btn navBtnSmall" data-bs-toggle="modal" data-bs-target="#createProjectModal"><span class = "navBtnTextSmall">Create</span></a> </div>
+                        <div class = "col-2"><a id ="Account" class ="btn navBtnSmall" href="/dashboard/account"><span class = "navBtnTextSmall">Account</span></a></div>
+                        <div class = "col-2"><a id ="Settings" class ="btn navBtnSmall" href="/dashboard/ui-settings"><span class = "navBtnTextSmall">UI Settings</span></a></div>
                      </div>
             </div>
             <div class = "d-md-inline-flex d-block container mainContainer ms-5 me-0 px-0 mt-5 py-0">

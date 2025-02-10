@@ -450,9 +450,7 @@ const toggleHighContrastMode = () => {
     return (
       <div id="navBarDiv">
         <div className="navbar">
-          <a href="/" aria-label="Go back to home page">
             <img src={Logo} alt="GanttifyHomePage" className="logo" />
-          </a>
           <h1 className="navbarHeader"> Ganttify </h1>
           <ul className="navbarOptions">
             <li><Link to="/"><button id="button"> Home</button></Link></li>
@@ -467,7 +465,7 @@ const toggleHighContrastMode = () => {
     return (
       <div id="navBarDiv" style={dashboardNav}>
         <div class="container-fluid navbarDash">
-          <a href="/" aria-label="Go back to home page">
+          <a href="/dashboard" aria-label="Go back to dashboard">
             <img src={Logo} alt="GanttifyHomePage" className="logoDash" />
           </a>
           <h1 className="navbarHeaderDash"> DashBoard </h1>
@@ -482,7 +480,7 @@ const toggleHighContrastMode = () => {
       <div className="layout-3">
         <div id="navBarDiv" style={dashboardNav} role="navigation">
           <div className="navbarDash">
-            <a href="/" aria-label="Go back to home page">
+            <a href="/dashboard" aria-label="Go back to dashboard">
               <img src={Logo} alt="GanttifyHomePage" className="logoDash" />
             </a>
             <ProjectTitle projectId={projectId} />
@@ -619,7 +617,7 @@ const toggleHighContrastMode = () => {
     return (
       <div id="navBarDiv">
         <div className="navbar" >
-          <a href="/" aria-label="Go back to home page">
+          <a href="/dashboard" aria-label="Go back to home page">
             <img src={Logo} alt="GanttifyHomePage" className="logo" />
           </a>
           <h1 className="navbarHeader" > Ganttify </h1>

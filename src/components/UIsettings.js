@@ -81,7 +81,7 @@ const UISettings = () => {
             </div>
 
             {/* Color UI/CVD Filter Preview Container */}
-            <div class="ui-preview-container">
+            <div class="ui-preview-container ">
             <h1>
             Color UI Preview: 
               <span className="normal-text">
@@ -92,7 +92,7 @@ const UISettings = () => {
             </h1>
 
               {/* This is the container for the preview images */}
-              <div className="img-container">
+              <div className="img-container normal cvd_filter_applicable">
                 <DashboardPreview className="dashboard-preview" style={{
                       '--background-color': backgroundColor,
                       '--navbar-color': navbarColor,
@@ -113,6 +113,9 @@ const UISettings = () => {
                       '--timetable-border-color': timetableBorderColor,
                       '--grid-color': gridColor,
                   }} />
+                  <button className="protan-toggle" onClick={() => applyProtanCVDFilter()}>
+                    <div className="thumb"></div> 
+                  </button>
               </div>
             </div>
 
