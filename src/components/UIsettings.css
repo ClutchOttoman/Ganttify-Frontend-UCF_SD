@@ -1,5 +1,6 @@
 .color-preset-container, .ui-preview-container, .font-container{
-    max-width: 1250px;
+    max-width: 80%;
+    height: auto;
     margin: 0px auto;
     padding: 20px;
     background: #fff;
@@ -45,8 +46,8 @@
   
 .dashboard-preview,
 .timetable-preview {
-    width: 500px;   /* Adjust the width */
-    height: 400px;  /* Adjust the height */
+    max-width: 100%;   /* Adjust the width */
+    max-height: auto;  /* Adjust the height */
 }
 
 .font-container{

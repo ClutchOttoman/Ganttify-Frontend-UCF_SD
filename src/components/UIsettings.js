@@ -113,9 +113,9 @@ const UISettings = () => {
                       '--timetable-border-color': timetableBorderColor,
                       '--grid-color': gridColor,
                   }} />
-                  <button className="protan-toggle" onClick={() => applyProtanCVDFilter()}>
+                  {/*<button className="protan-toggle" onClick={() => applyProtanCVDFilter()}>
                     <div className="thumb"></div> 
-                  </button>
+                  </button>*/}
               </div>
             </div>
 
