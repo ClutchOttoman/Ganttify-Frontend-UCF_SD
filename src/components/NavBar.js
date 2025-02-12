@@ -471,6 +471,9 @@ const toggleHighContrastMode = () => {
           </a>
           <h1 className="navbarHeaderDash"> DashBoard </h1>
           <ul className="navbarOptionsDash">
+            <li><Link to="https://ucf.qualtrics.com/jfe/form/SV_8fcwggJ2eZxlMea" target="_blank"><button id="button">Give Feedback</button></Link></li>
+          </ul>
+          <ul className="navbarOptionsDash">
             <li><Link to="/"><button id="button">Sign Out</button></Link></li>
           </ul>
         </div>
