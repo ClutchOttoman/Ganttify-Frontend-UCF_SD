@@ -814,23 +814,28 @@ body.high-contrast p.card-subtext{
   visibility: visible;
 }
 
+
 body.high-contrast .footer{
   background-color: #6B2B00 !important;  /* WORK (footer) members background */
   color: #000000 !important;  /* Light text */
+  visibility: visible;
 }
 
 body.high-contrast .landing-page-container{
   background-color: #fff !important;  /* WORK (footer) members background */
   color: #000000 !important;  /* Light text */
+  visibility: visible;
 }
 
 body.high-contrast a.footer-link{
  color: #FFFFFF;
+ visibility: visible;
 }
 
 
 body.high-contrast div.cards-container{
   background-color: #fff !important; 
+  visibility: visible;
 }
 
 
@@ -840,35 +845,42 @@ body.high-contrast .todoTableBody{ /* Table background*/
   background-color: #fff;
   padding: 15px;
   color:rgb(0, 0, 0);
+  visibility: visible;
 }
 
 body.high-contrast .col1{
   background-color: #fff;
   color:rgb(0, 0, 0);
+  visibility: visible;
 } /* Due Date */
 
 body.high-contrast .col2{
   background-color: #fff;
   color:rgb(0, 0, 0);
+  visibility: visible;
 } /* Task name */
 
 body.high-contrast .col3{
   background-color: #fff;
   color:rgb(0, 0, 0);
+  visibility: visible;
 } /* Category */
 
 body.high-contrast .col4{
   background-color: #fff;
   color:rgb(0, 0, 0);
+  visibility: visible;
 } /* Project */
 
 body.high-contrast .col5{
   background-color: #fff;
   color:rgb(0, 0, 0);
+  visibility: visible;
 } /* Progress */
 
 
 body.high-contrast .taskBtn {
+  visibility: visible;
   background-color: #fff;/* Background for the button (...) */
   color: #000000 !important; /* White text for the button */
   border: none !important; /* Remove default border */
@@ -879,9 +891,11 @@ body.high-contrast .taskBtn {
 
 body.high-contrast .table td {
   padding: 3px 0px;
+  visibility: visible;
 }
 
 body.high-contrast .table {
+  visibility: visible;
   background-color: #fff !important; /* Dark background for table */
   color: #000000 !important; /* ------- under titles */
   border-collapse: collapse !important; /* Ensure proper spacing */
@@ -890,10 +904,12 @@ body.high-contrast .table {
 
 /* Table body rows */
 body.high-contrast .table tbody tr {
+  visibility: visible;
   background-color: #000000 !important; /* Dark background for rows */
 }
 
 body.high-contrast .table tbody tr:nth-child(even) {
+  visibility: visible;
   background-color: #000000 !important; /* Slightly lighter dark background for even rows */
 }
 
@@ -903,55 +919,69 @@ body.high-contrast .table tbody tr:nth-child(even) {
 
 body.high-contrast  input#submitLogin.btn{ /* Login button */
   background-color: #002238;
+  visibility: visible;
   color: #FFFFFF;
 }
 
 body.high-contrast h1.loginTitle{ /* Login title*/
   color: #000;
+  visibility: visible;
 }
 
 body.high-contrast label.formLabel.mb-1{ /* Email & Password text */
   color: #000;
+  visibility: visible;
 }
 
 body.high-contrast span{ /* Email & Password text and Time Line Dates*/
   color: #000000;
+  visibility: visible;
 }
 
 body.high-contrast div.loginForm.text-center{
   background-color: #f3b35b;
+  visibility: visible;
 }
 
 body.high-contrast div.card-header.loginFormHeader{
   background-color: #f3b35b;
+  visibility: visible;
 }
 
 body.high-contrast label.formLabel.mb-1{
   background-color: #f3b35b;
+  visibility: visible;
 }
 
 body.high-contrast label.formLabel.mb-1{
   background-color: #f3b35b;
+  visibility: visible;
 }
 
 body.high-contrast a.forgot-password-link{
   background-color: #f3b35b;
+  visibility: visible;
 }
 
 body.high-contrast div.row.text-center.mb-2{
   background-color: #f3b35b;
+  visibility: visible;
 }
 
 body.high-contrast div.loginContainer.mt-5{ /* background*/
-  background-color: #fff
+  background-color: #fff;
+  visibility: visible;
+
 }
 
 body.high-contrast h1.loginTitle::after{
   background-color: #630D19;
+  visibility: visible;
 }
 
 body.high-contrast h1.loginTitle::before{
   background-color: #630D19;
+  visibility: visible;
 }
 
 
@@ -961,49 +991,60 @@ body.high-contrast h1.loginTitle::before{
 body.high-contrast h1.verify-email-title{
   color: #000;
   background-color: #f3b35b;
+  visibility: visible;
 }
 
 body.high-contrast div.verify-email-card{
   background-color: #f3b35b;
+  visibility: visible;
 }
 
 body.high-contrast h3#appTitle{
   color: #ffffff;
+  visibility: visible;
 }
 
 body.high-contrast #navBarDiv{
   background-color: #6B2B00 !important;
+  visibility: visible;
 }
 
 body.high-contrast p.verify-email-description{
   background-color: #f3b35b;
+  visibility: visible;
 }
 
 body.high-contrast div.verify-email-container{
   background-color: #fff;
+  visibility: visible;
 }
 
 body.high-contrast a.btn-2.btn-link.mt-2{
   background-color: #f3b35b;
   color: #630D19;
+  visibility: visible;
 }
 
 body.high-contrast a.btn-2.btn-link.mt-2:hover{
   background-color: #f3b35b;
   color: #630D19;
+  visibility: visible;
 }
 
 body.high-contrast h1.verify-email-title::after{
   background-color: #630D19;
+  visibility: visible;
 }
 
 body.high-contrast h1.verify-email-title::before{
   background-color: #630D19;
+  visibility: visible;
 
 }
 
 body.high-contrast span.email-style{
   color: #660000;
+  visibility: visible;
 }
 
 
@@ -1072,10 +1113,12 @@ body.high-contrast h1.reset-password-title{
 
 body.high-contrast button.btn{
   background-color: #002238;
+  visibility: visible;
 }
 
 body.high-contrast div.forgot-password-card{
   background-color: #f3b35b;
+  visibility: visible;
 }
 
 
@@ -1085,137 +1128,103 @@ body.high-contrast div.forgot-password-card{
 
 body.high-contrast button.btn.deleteModalBtn{ /* button Tes, delete my project */
   background-color: #002238 !important;
+  visibility: visible;
 }
 
 
 body.high-contrast .modal-body {
   background-color: #fff;  /* Darker modal background */
   color: #000000;  /* Light text in modal */
+  visibility: visible;
 }
 
 body.high-contrast .modal-header {
   background-color: #fff;  /* Dark modal header */
   color: #000000;
+  visibility: visible;
 }
 
 body.high-contrast .modal-footer {
   background-color: #fff;  /* Dark footer */
   color: #ffffff;
+  visibility: visible;
 }
 
 
 body.high-contrast button.btn.deleteModalBtn{ /* back for delete button*/
   background-color: #402C12;
+  visibility: visible;
 }
 
 body.high-contrast button.btn.btn-primary{ /* Create Project button back*/
   background-color: #402C12;
+  visibility: visible;
 }
 
 body.high-contrast #createProjectModalLabel{ /* Create a Project */
   color:#000000;
+  visibility: visible;
 }
 
 body.high-contrast button.btn-close{ /* X button background */
   background-color:#fff;
   color: #000;
+  visibility: visible;
 }
 
 body.high-contrast h5#changeProjectModalLabel.modal-title{
   color: #000;
+  visibility: visible;
 }
 
 body.high-contrast button.btn-close{
   color: #000;
+  visibility: visible;
 }
 
 
 /* Text */
 
 body.high-contrast p, body.high-contrast a, body.high-contrast li {
+  visibility: visible;
   color: #000000;  /* (Forgot Password & all small text) Light color for text, links, and list items */
 }
 
 body.high-contrast h1.title{ /*titles in dashboard*/
   color: #000;
+  visibility: visible;
 }
 
 body.high-contrast h5.btnLabel{ /* Delete & Restore*/
   color: #000;
+  visibility: visible;
 }
 
 body.high-contrast h5.card-title{ /* project name */
   color:#000;
+  visibility: visible;
 }
 
 body.high-contrast span.navBtnTextSmall{ /* project name */
   color:#fff;
+  visibility: visible;
 }
 
 body.high-contrast #createProjectModalLabel{ /* Create a Project */
   color:#000000;
+  visibility: visible;
 }
 
 body.high-contrast a#navbarDropdown.nav-link.dropdown-toggle{ /* Team */
   color: #ffffff;
+  visibility: visible;
 }
 
 
 body.high-contrast button.btn-outline-primary{ /* Edit Project Name */
   color:#fff;
+  visibility: visible;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
