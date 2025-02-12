@@ -78,6 +78,7 @@ function DashboardProjectCard({project,userId,setSelectedProject,setNewName,setI
                                 <h5 class="card-subtitle">
                                     {project.nameProject}
                                     <button
+                                        style={{fontSize: "0.6em"}}
                                         className="btn-outline-primary"
                                         onClick={() => {
                                             setSelectedProject(project);
@@ -85,7 +86,7 @@ function DashboardProjectCard({project,userId,setSelectedProject,setNewName,setI
                                             setIsModalOpen(true);
                                         }}
                                     >
-                                        ✏️
+                                        ✏️ Edit Project Name
                                     </button> 
                                 </h5>
                                 <p class="card-text">Owner: {project.founderId.toString().localeCompare(userId.toString()) === 0 ? meText : friendText}</p>
