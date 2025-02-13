@@ -296,7 +296,12 @@ const AddTaskButton = ({ projectId }) => {
 
               <div className="modal-header">
                 <h5 className="modal-title">Add a Task</h5>
-                <button type="button" className="btn-close" onClick={closeModal}></button>
+        
+                <button type="button" className="btn-close" onClick={closeModal}
+                  style={{ fontSize: '1.7rem'}}>
+                    ✖  
+                </button>
+                      
               </div>
 
 
