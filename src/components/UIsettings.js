@@ -1,5 +1,6 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from 'react';
+import {useParams, useNavigate} from 'react-router-dom';
+import {buildPath} from './buildPath';
 import useDarkMode from './useDarkMode';
 import useHighContrastMode from './useHighContrastMode';
 import './UIsettings.css'
@@ -12,6 +13,7 @@ const UISettings = () => {
     const [fontStyle, setFontStyle] = useState(() => {
         return localStorage.getItem("fontStyle") || "Inter";
     });
+    const [message, setMessage] = useState('');
 
     //Dynamically changes the image preview svgs
     const backgroundColor = isDarkMode ? "#121212" : isHighContrastMode ? "white" : "white";
@@ -29,30 +31,90 @@ const UISettings = () => {
     const timetableBorderColor = isDarkMode ? "#FFF" : isHighContrastMode ? "#000000 " : "#000000 ";
     const gridColor = isDarkMode? "white" : isHighContrastMode ? "black" : "black"
 
-    const toggleDarkMode = () => {
-        setIsDarkMode((prevMode) => {
-          if (!prevMode) {
-            setIsHightContrastMode(false); // Turn off High Contrast Mode if it's on
-          }
-          return !prevMode;
-        });
-      };
-  
-      const toggleHighContrastMode = () => {
-        setIsHightContrastMode((prevMode) => {
-          if (!prevMode) {
-            setIsDarkMode(false); // Turn off Dark Mode if it's on
-          }
-          return !prevMode;
-        });
-      };
+    const toggleDarkMode = async () => {
 
-      //Handles Font Changes
-      const handleFontChange = (event) => {
-        setFontStyle(event.target.value)
-        const selectedFont = event.target.value;
-        document.body.style.fontFamily = selectedFont;
-        localStorage.setItem("fontStyle", selectedFont);
+      // Handles localStorage.
+      setIsDarkMode((prevMode) => {
+        if (!prevMode) {
+          setIsHightContrastMode(false); // Turn off High Contrast Mode if it's on
+        }
+        return !prevMode;
+      });
+
+      const savedUserInfo = localStorage.getItem('user_data');
+      const savedUserId = JSON.parse(savedUserInfo)._id; // use user id to query database.
+      console.log("Toggling dark mode, savedUserId = " + savedUserId);
+
+      const response = await fetch(buildPath(`api/ui-settings/toggle-default-dark-mode/${savedUserId}`), {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (!response.ok){
+        // Set error message here.
+        setMessage("Unable to toggle to dark mode");
+      } else {
+        const message = await response.json();
+        setMessage(message);
+      }
+    };
+  
+    const toggleHighContrastMode = async () => {
+
+      // Handles localStorage.
+      setIsHightContrastMode((prevMode) => {
+        if (!prevMode) {
+          setIsDarkMode(false); // Turn off Dark Mode if it's on
+        }
+        return !prevMode;
+      });
+
+      const savedUserInfo = localStorage.getItem('user_data');
+      const savedUserId = JSON.parse(savedUserInfo)._id; // use user id to query database.
+      console.log("Toggling high contrast mode, savedUserId = " + savedUserId);
+
+      const response = await fetch(buildPath(`api/ui-settings/toggle-default-high-contrast-mode/${savedUserId}`), {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (!response.ok){
+        // Set error message here.
+        setMessage("Unable to toggle to high contrast mode");
+      } else {
+        const message = await response.json();
+        setMessage(message);
+      }
+
+    };
+
+    // Handles Font Changes
+    const handleFontChange = async (event) => {
+
+      // Handle localStorage.
+      setFontStyle(event.target.value)
+      const selectedFont = event.target.value;
+      document.body.style.fontFamily = selectedFont;
+
+      const savedUserInfo = localStorage.getItem('user_data');
+      const savedUserId = JSON.parse(savedUserInfo)._id; // use user id to query database.
+      console.log("Changing font style, savedUserId = " + savedUserId);
+
+      const response = await fetch(buildPath(`api/ui-settings/change-font-style/${savedUserId}/${selectedFont}`), {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (!response.ok){
+        // Set error message here.
+        setMessage("Unable to save font style changes");
+      } else {
+        const message = await response.json();
+        setMessage(message);
+      }
+
+      localStorage.setItem("fontStyle", selectedFont);
+
     };
       
     return(
@@ -133,7 +195,6 @@ const UISettings = () => {
                 <option value="Courier New">Courier New </option>
               </select>
               </div>
-
         </div>
     )
 }

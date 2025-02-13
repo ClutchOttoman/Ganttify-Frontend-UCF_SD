@@ -25,6 +25,8 @@ function Login() {
       if (res.error !== "") {
         setMessage(res.error);
       } else {
+
+        // Load user information and ui settings.
         var user = {
             _id:res._id,
             email: res.email,
@@ -33,11 +35,14 @@ function Login() {
             phone: res.phone,
             projects: res.projects,
             toDoList: res.toDoList,
-            error: res.error};
+            uiOptions: res.uiOptions,
+            error: res.error
+        };
+        console.log(JSON.stringify(user));
+        localStorage.setItem('fontStyle', user.uiOptions.textFontStyle);
+        localStorage.setItem('isDarkMode', user.uiOptions.useDefaultDarkMode);
+        localStorage.setItem('isHighContrastMode', user.uiOptions.useDefaultHighContrastMode);
         localStorage.setItem('user_data', JSON.stringify(user));
-        console.log(user._id);
-        
-
         setMessage('');
         window.location.href = '/dashboard';
       }
