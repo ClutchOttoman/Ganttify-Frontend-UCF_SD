@@ -982,17 +982,15 @@ body.high-contrast #createProjectModalLabel{ /* Create a Project */
   color:#000000;
 }
 
-body.high-contrast button.btn-close{ /* X button background */
-  background-color:#fff;
-  color: #000;
-}
 
 body.high-contrast h5#changeProjectModalLabel.modal-title{
   color: #000;
 }
 
-body.high-contrast button.btn-close{
+body.high-contrast button.btn-close{ /* X button  */
   color: #000;
+  background-color:#fff;
+  visibility: visible;
 }
 
 
@@ -1500,7 +1498,7 @@ body.dark .modal-footer{
 }
 
 body.dark .btn-close{
-  background-color: #2a2a2a;
+  color: #ffffff !important;
 }
 
 
