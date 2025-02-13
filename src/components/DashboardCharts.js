@@ -209,7 +209,7 @@ function DashboardCharts({ projects, triggerReSearch  }) {
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="DeleteProjectModalLabel">{projectIsDeleted ? "Project was deleted succesfully" :"Are you sure you want to delete " + projectToDelete.nameProject+"?"}</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={()=>handleProjectDeleted()}
-                                style={{ fontSize: '1.7rem'}}>
+                                style={{ color: 'black', fontSize: '1.7rem', background: 'none', border: 'none' }}> 
                                      ✖  
                             </button>
                         </div>
@@ -229,7 +229,7 @@ function DashboardCharts({ projects, triggerReSearch  }) {
                                     <div className="modal-header">
                                         <h5 className="modal-title" id="changeProjectModalLabel">Change Project Name</h5>
                                         <button type="button" className="btn-close" onClick={() => setIsModalOpen(false)} aria-label="Close"
-                                            style={{ fontSize: '1.7rem'}}>
+                                            style={{ color: 'black', fontSize: '1.7rem', background: 'none', border: 'none' }}> 
                                                 ✖  
                                         </button>
                                     </div>
