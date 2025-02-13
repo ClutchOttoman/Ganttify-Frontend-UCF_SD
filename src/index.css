@@ -19,11 +19,11 @@ code {
     monospace;
 } 
 
-
-
-
-
-
+@font-face {
+  font-family: "Opendyslexic";
+  font-size: 0.8em;
+  src: url("./fonts/opendyslexic/OpenDyslexic-Regular.woff") format("woff");
+}
 
 /* Light Mode */
 
@@ -982,14 +982,17 @@ body.high-contrast #createProjectModalLabel{ /* Create a Project */
   color:#000000;
 }
 
+body.high-contrast button.btn-close{ /* X button background */
+  background-color:#fff;
+  color: #000;
+}
 
 body.high-contrast h5#changeProjectModalLabel.modal-title{
   color: #000;
 }
 
-body.high-contrast button.btn-close{ /* X button  */
+body.high-contrast button.btn-close{
   color: #000;
-  background-color:#fff;
 }
 
 
@@ -1496,9 +1499,8 @@ body.dark .modal-footer{
   background-color: #2b2b2b;  /* WORK Dark background */
 }
 
-body.dark button.btn-close{
-  color: #ffffff !important;
-  background-color: #313131;
+body.dark .btn-close{
+  background-color: #2a2a2a;
 }
 
 
