@@ -22,7 +22,7 @@ code {
 @font-face {
   font-family: "Opendyslexic";
   font-size: 0.8em;
-  src: url("./fonts/opendyslexic/OpenDyslexic-Regular.woff") format("woff");
+  src: url("./fonts/opendyslexic/OpenDyslexic-Custom-Reduced-Regular.woff") format("woff");
 }
 
 /* Light Mode */
