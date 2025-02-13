@@ -990,7 +990,6 @@ body.high-contrast h5#changeProjectModalLabel.modal-title{
 body.high-contrast button.btn-close{ /* X button  */
   color: #000;
   background-color:#fff;
-  visibility: visible;
 }
 
 
