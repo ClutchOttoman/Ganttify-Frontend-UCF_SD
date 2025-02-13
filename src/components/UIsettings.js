@@ -7,6 +7,7 @@ import './UIsettings.css'
 import DashboardPreview  from '../Images/assets/setting_previews/dashboard_preview.svg?react';
 import TimetablePreview  from '../Images/assets/setting_previews/timetable_preview.svg?react';
 
+
 const UISettings = () => {
     const [isDarkMode, setIsDarkMode] = useDarkMode();
     const [isHighContrastMode, setIsHightContrastMode] = useHighContrastMode();
@@ -193,6 +194,8 @@ const UISettings = () => {
                 <option value="Verdana">Verdana </option>
                 <option value="Open Sans">Open Sans </option>
                 <option value="Courier New">Courier New </option>
+                <option value="Opendyslexic">Opendyslexic</option>
+
               </select>
               </div>
         </div>
