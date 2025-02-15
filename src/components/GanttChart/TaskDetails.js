@@ -403,7 +403,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
   const handleStatusChange = async (newStatus) => {
     if(newStatus == "Completed" && (task.prerequisiteTasks.length != 0 && !task.allPrerequisitesDone)){
         // List the tasks that need to be completed Here
-	console.log(
+	console.log(task.allPrerequisitesDone);
         let prequisiteTaskAlert = generatePrereqAlert();
         window.alert(prequisiteTaskAlert);
         return;
