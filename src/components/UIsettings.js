@@ -73,6 +73,10 @@ const UISettings = () => {
       const savedUserInfo = localStorage.getItem('user_data');
       const savedUserId = JSON.parse(savedUserInfo)._id; // use user id to query database.
       console.log("Toggling high contrast mode, savedUserId = " + savedUserId);
+      const status = response.status;
+      const statusText = await response.text()
+      console.log("Status of the toggle dark mode" + status);
+      console.log("Status of the toggle dark mode" + statusText);
 
       const response = await fetch(buildPath(`api/ui-settings/toggle-default-high-contrast-mode/${savedUserId}`), {
         method: 'PUT',
