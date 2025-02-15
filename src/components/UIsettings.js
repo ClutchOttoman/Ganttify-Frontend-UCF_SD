@@ -46,7 +46,7 @@ const UISettings = () => {
       const savedUserId = JSON.parse(savedUserInfo)._id; // use user id to query database.
       console.log("Toggling dark mode, savedUserId = " + savedUserId);
     
-      const response = await fetch(buildPath(`api/ui-settings/toggle-default-dark-mode/${savedUserId}`), {
+      const response = await fetch(buildPath(`api/toggle-default-dark-mode/${savedUserId}`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
       });
@@ -74,7 +74,7 @@ const UISettings = () => {
       const savedUserId = JSON.parse(savedUserInfo)._id; // use user id to query database.
       console.log("Toggling high contrast mode, savedUserId = " + savedUserId);
 
-      const response = await fetch(buildPath(`api/ui-settings/toggle-default-high-contrast-mode/${savedUserId}`), {
+      const response = await fetch(buildPath(`api/toggle-default-high-contrast-mode/${savedUserId}`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
       });
@@ -101,7 +101,7 @@ const UISettings = () => {
       const savedUserId = JSON.parse(savedUserInfo)._id; // use user id to query database.
       console.log("Changing font style, savedUserId = " + savedUserId);
 
-      const response = await fetch(buildPath(`api/ui-settings/change-font-style/${savedUserId}/${selectedFont}`), {
+      const response = await fetch(buildPath(`api/change-font-style/${savedUserId}/${selectedFont}`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
       });
@@ -202,4 +202,4 @@ const UISettings = () => {
     )
 }
 
-export default UISettings
+export default UISettings;
