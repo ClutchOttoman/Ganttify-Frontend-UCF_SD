@@ -23,6 +23,7 @@ import Solid_Single_Square_Density_1 from '../../Images/assets/accessible_patter
 import Solid_Single_Star_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Star_Density_1.svg';
 import Solid_Single_Triangle_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Triangle_Density_1.svg';
 import './TimeTable.css';
+import './Patterns.css';
 
 // Colors to choose from
 const colorOptions = [
@@ -49,14 +50,31 @@ const patternDisplayNames = {
 	'Solid_Single_Triangle_Density_1.svg':'Solid Triangles',
     'No Pattern':'No Pattern'
 }
+const patterns = {
+    'Diagonal_Right_Single_Line_Density_1.svg':Diagonal_Right_Single_Line_Density_1,
+    'Diagonal_Left_Single_Line_Density_1.svg':Diagonal_Left_Single_Line_Density_1, 'Diagonal_Left_Single_Line_Density_1.svg':Diagonal_Left_Single_Line_Density_1,
+    'Diagonal_Woven_Line_Density_1.svg':Diagonal_Woven_Line_Density_1, 'Single_Horizontal_Line_Density_1.svg':Single_Horizontal_Line_Density_1,
+    'Single_Vertical_Line_Density_1.svg':Single_Vertical_Line_Density_1,'Solid_Single_Circle_Density_1.svg':Solid_Single_Circle_Density_1,
+    'Solid_Single_Dot_Density_1.svg':Solid_Single_Dot_Density_1,'Solid_Single_Rhombus_Density_1.svg':Solid_Single_Rhombus_Density_1,
+    'Solid_Single_Square_Density_1.svg':Solid_Single_Square_Density_1,'Solid_Single_Star_Density_1.svg':Solid_Single_Star_Density_1,
+    'Solid_Single_Triangle_Density_1.svg':Solid_Single_Triangle_Density_1,'Hollow_Single_Circle_Density_1.svg':Hollow_Single_Circle_Density_1,
+    'Hollow_Single_Dot_Density_1.svg':Hollow_Single_Dot_Density_1,'Hollow_Single_Rhombus_Density_1.svg':Hollow_Single_Rhombus_Density_1,
+    'Hollow_Single_Square_Density_1.svg':Hollow_Single_Square_Density_1,'Hollow_Single_Star_Density_1.svg':Hollow_Single_Star_Density_1,
+    'Hollow_Single_Triangle_Density_1.svg':Hollow_Single_Triangle_Density_1
+  }
+
+  const Hollow_Single_Circle_Density_1_Pattern = {
+    backgroundImage: `url('data:image/svg+xml,<%3Fxml version="1.0" encoding="UTF-8"%3F><!-- Created with Inkscape (http://www.inkscape.org/) --><svg id="SVGRoot" width="100" height="100" enable-background="new" version="1.1" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><clipPath id="patternClipPath"><rect id="clipPathRect" width="100" height="100" color="%23000000" enable-background="accumulate" fill="%23ff0"/></clipPath></defs><g id="patternLayer"><use id="phantomBottom" width="100%" height="100%" opacity=".3" xlink:href="%23designBottom"/><use id="phantomTop" width="100%" height="100%" opacity=".3" xlink:href="%23designTop"/><g id="fullPattern" clip-path="url(%23patternClipPath)"><g id="designBottom" display="none"><rect width="100" height="100" color="%23000000" display="inline" enable-background="accumulate" fill="url(%23radialGradient3070)"/></g><g id="designTop"><ellipse transform="scale(-1,1)" cx="-51.321" cy="50" rx="1.2735" ry="1.2956" fill="none" stroke="%23000" stroke-width=".095635"/></g><g id="designBottomGenerator"><use transform="translate(-100,-100)" width="100%" height="100%" xlink:href="%23designBottom"/><use transform="translate(0,-100)" width="100%" height="100%" xlink:href="%23designBottom"/><use transform="translate(100,-100)" width="100%" height="100%" xlink:href="%23designBottom"/><use transform="translate(-100)" width="100%" height="100%" xlink:href="%23designBottom"/><use width="100%" height="100%" xlink:href="%23designBottom"/><use transform="translate(100)" width="100%" height="100%" xlink:href="%23designBottom"/><use transform="translate(-100,100)" width="100%" height="100%" xlink:href="%23designBottom"/><use transform="translate(0,100)" width="100%" height="100%" xlink:href="%23designBottom"/><use transform="translate(100,100)" width="100%" height="100%" xlink:href="%23designBottom"/></g><g id="designTopGenerator"><use transform="translate(-100,-100)" width="100%" height="100%" xlink:href="%23designTop"/><use transform="translate(0,-100)" width="100%" height="100%" xlink:href="%23designTop"/><use transform="translate(100,-100)" width="100%" height="100%" xlink:href="%23designTop"/><use transform="translate(-100)" width="100%" height="100%" xlink:href="%23designTop"/><use width="100%" height="100%" xlink:href="%23designTop"/><use transform="translate(100)" width="100%" height="100%" xlink:href="%23designTop"/><use transform="translate(-100,100)" width="100%" height="100%" xlink:href="%23designTop"/><use transform="translate(0,100)" width="100%" height="100%" xlink:href="%23designTop"/><use transform="translate(100,100)" width="100%" height="100%" xlink:href="%23designTop"/></g></g></g></svg>');`
+  }
 
 
 // Initializes variables
-const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks }) => {
+const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks, forceTaskVisualUpdate }) => {
   const [status, setStatus] = useState('');
   const [newCategory, setNewCategory] = useState(''); // Added  
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [color, setColor] = useState('white'); // Default color
+  const [patternColor, setPatternColor] = useState('black'); // Default color
   const [pattern,setPattern] = useState('No Pattern');
   const [patternToDisplay,setPatternToDisplay] = useState('No Pattern');
   const [taskCreatorName, setTaskCreatorName] = useState('');
@@ -98,6 +116,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
       setProgressEditPermission(false);
       setStatus(task.progress);
       setColor(task.color);
+      setPatternColor(task.patternColor ? task.patternColor : 'black')
       setTaskCategory(task.taskCategory || 'No category'); //added
       fetchTaskCreator(task.taskCreatorId);
       fetchAssignedUsers(task.assignedTasksUsers);
@@ -164,6 +183,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
     setProgressEditPermission(false);
     setStatus(fetchedTask.progress);
     setColor(fetchedTask.color);
+    setPatternColor(fetchedTask.patternColor ? fetchedTask.patternColor : 'black')
     setPattern(fetchedTask.pattern);
     setTaskCategory(fetchedTask.taskCategory || 'No category'); //added
     fetchTaskCreator(fetchedTask.taskCreatorId);
@@ -210,6 +230,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
     if (originalTask) {
       setStatus(originalTask.progress);
       setColor(originalTask.color);
+      setPatternColor(originalTask.patternColor ? originalTask.patternColor : 'black')
       setTaskTitle(originalTask.taskTitle);
       setTaskDescription(originalTask.description);
       setCreatedDate(originalTask.taskCreated);
@@ -393,15 +414,18 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
   };
 
   const formatDateForInput = (dateString) => {
+    //console.log("Inputted Date: " + dateString);
     const date = new Date(dateString);
+    date.setMinutes(date.getMinutes() + date.getTimezoneOffset())
     return date.toISOString().split('T')[0];  // Convert to YYYY-MM-DD format
   };
   
   const formatDate = (dateString) => {
-    console.log('Date string:', dateString);  // Add this line
+    //console.log('Date string:', dateString);  // Add this line
     const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
     const date = new Date(dateString);
-    console.log('Parsed date:', date);  // Add this line
+    date.setMinutes(date.getMinutes() + date.getTimezoneOffset())
+    //console.log('Parsed date:', date);  // Add this line
     return date.toLocaleDateString('en-US', options);
   };
   const isPrerequisiteDropdownDisabled = () =>{
@@ -419,7 +443,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
   }
 
   const handleStatusChange = async (newStatus) => {
-    if(newStatus == "Completed" && !allPrerequisitesDone){
+    if(newStatus == "Completed" && fetchedTask.prerequisiteTasks.length != 0 && !fetchedTask.allPrerequisitesDone){
         // List the tasks that need to be completed Here
         let prequisiteTaskAlert = generatePrereqAlert();
         window.alert(prequisiteTaskAlert);
@@ -453,6 +477,11 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
     var element = document.getElementById('color-circle');
     element.style.backgroundColor = newColor;
   };
+
+  const handlePatternColorChange = (newColor) => {
+    setPatternColor(newColor);
+    //change color of task bar
+  }
 
   
   const handlePatternChange = async (newPattern,newPatternToDisplay) => {
@@ -533,9 +562,8 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
     // Step 4: Update task with the category (whether existing or newly created)
     try {
 
-      var timeZone =  " " + new Date().toString().match(/([A-Z]+[\+-][0-9]+)/)[1];
-      startDate += timeZone;
-      dueDate += timeZone;
+        //adjust dates to be in client's timezone
+    
 
       const response = await fetch(buildPath(`api/tasks/${task._id}`), {
         method: 'PUT',
@@ -569,12 +597,13 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
 
       setTaskCategory(updatedTask.category || null ); // Handle removed category
       setOriginalTask(updatedTask); // Sync the original task with the latest data
+      forceTaskVisualUpdate(task._id,pattern)
   
       // Update users' to-do list
       await updateUsersToDoList(task._id, assignedUserNames.map(name => teamUsers.find(user => user.name === name)._id).filter(id => id));
   
       setEditMode(false); // Exit edit mode
-      window.location.reload(); // Reload the page to reflect changes (optional)
+      //window.location.reload(); // Reload the page to reflect changes (optional)
   
       onHide(); // Close the modal after saving
     } catch (error) {
@@ -658,6 +687,9 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
     onHide();
     resetTaskDetails();
   };
+  const handleCloseColorPicker = () => { 
+    setShowColorPicker(false);
+  }
 
   const handleDeleteClick = () => {
     if (window.confirm('Are you sure you want to delete?')) {
@@ -690,8 +722,18 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
       {showColorPicker && (
         <div id="color-picker-sidebar" className="container color-picker-sidebar">
             <form>
+                <div class ="row justify-content-end">
+                    <div class ="col-3 d-flex">
+                        <button type="button" className="close" onClick={handleCloseColorPicker}>&times;</button>
+                    </div>
+                </div>
+                <div class ="row justify-content-center">
+                    <div class ="col-12 d-flex justify-content-center">
+                        <p class="fs-6 fw-bold">Edit Task Appearance</p>
+                    </div>
+                </div>
                 <div class ="row mt-3">
-                    <div class ="col-7">
+                    <div class ="col-7 d-flex align-items-center">
                         <label>Task Color</label>
                     </div>
                     <div class ="col-5">
@@ -699,7 +741,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
                     </div>
                 </div>
                 <div class = 'row mt-3'>
-                    <div class= "col-12">
+                    <div class= "col-12 d-flex align-items-center">
                                 <button class="nav-link dropdown-toggle taskPatternDropdown" type="button" id="pattern" data-bs-toggle="dropdown" aria-expanded="false">
                                     {patternToDisplay}
                                 </button>
@@ -725,12 +767,18 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
                                     </ul>
                         </div>
                 </div>
-                <div class ="row mt-3">
-                    <div class ="col-7">
+                <div class ="row mt-5">
+                    {/* PATTERN COLOR -- DOES NOT WORK YET
+                    <div class ="col-7 d-flex align-items-center">
                         <label>Pattern Color</label>
                     </div>
                     <div class ="col-5">
-                        <input type="color" className="form-control form-control-color color-sidebar-color-picker" id="myColor" value={color} title="Choose a color" onChange={(e) => handleColorChange(e.target.value)} />
+                        <input type="color" className="form-control form-control-color color-sidebar-color-picker" id="myColor" value={patternColor} title="Choose a color" onChange={(e) => handlePatternColorChange(e.target.value)} />
+                    </div>*/}
+                </div>
+                <div class="row mt-4 justify-content-center">
+                    <div class="col-12 d-flex align-items-center">
+                        <div class="task-appearance-preview" draggable="false" style={{background:`${color}`,backgroundImage:`url(${patterns[pattern]})`,backgroundSize: 'contain'}}></div>
                     </div>
                 </div>
             </form>
@@ -750,41 +798,6 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
         <div className="dropdownDetails">
             <a className="nav-link" id="todoDropdown" disabled aria-expanded="false" >{status}</a>
         </div>}
-        
-        {/*editMode?
-        <div className="dropdownDetails flex-fill mx-1">
-                        <button class="nav-link dropdown-toggle dropdownBtn" type="button" id="pattern" data-bs-toggle="dropdown" aria-expanded="false">
-                            {patternToDisplay}
-                        </button>
-                        <ul class="dropdown-menu">
-                        <a onClick={()=>handlePatternChange('Hollow_Single_Circle_Density_1.svg','Hollow Circles')} class = "dropdown-item patternDropdownItem patternDropdownItem">Hollow Circles</a>
-                            <a onClick={()=>handlePatternChange('Hollow_Single_Dot_Density_1.svg','Hollow Dots')} class = "dropdown-item patternDropdownItem patternDropdownItem">Hollow Dots</a>
-                            <a onClick={()=>handlePatternChange('Hollow_Single_Rhombus_Density_1.svg','Hollow Rhombuses')} class = "dropdown-item patternDropdownItem patternDropdownItem">Hollow Rhombuses</a>
-                            <a onClick={()=>handlePatternChange('Hollow_Single_Square_Density_1.svg','Hollow Squares')} class = "dropdown-item patternDropdownItem">Hollow Squares</a>
-                            <a onClick={()=>handlePatternChange('Hollow_Single_Star_Density_1.svg','Hollow Stars')} class = "dropdown-item patternDropdownItem">Hollow Stars</a>
-                            <a onClick={()=>handlePatternChange('Hollow_Single_Triangle_Density_1.svg','Hollow Triangles')} class = "dropdown-item patternDropdownItem">Hollow Triangles</a>
-                            <a onClick={()=>handlePatternChange('Diagonal_Left_Single_Line_Density_1.svg','Left Diagonal Lines')} class = "dropdown-item patternDropdownItem">Left Diagonal Lines</a>
-                            <a onClick={()=>handlePatternChange('Diagonal_Right_Single_Line_Density_1.svg','Right Diagonal Lines')} class = "dropdown-item patternDropdownItem">Right Diagonal Lines</a>
-                            <a onClick={()=>handlePatternChange('Diagonal_Woven_Line_Density_1.svg','Woven Diagonal Lines')} class = "dropdown-item patternDropdownItem">Woven Diagonal Lines</a>
-                            <a onClick={()=>handlePatternChange('Single_Horizontal_Line_Density_1.svg','Horizontal Line')} class = "dropdown-item patternDropdownItem">Horizontal Line</a>
-                            <a onClick={()=>handlePatternChange('Single_Vertical_Line_Density_1.svg','Vertical Line')} class = "dropdown-item patternDropdownItem">Vertical Lines</a>
-                            <a onClick={()=>handlePatternChange('Solid_Single_Circle_Density_1.svg','Solid Circles')} class = "dropdown-item patternDropdownItem">Solid Circles</a>
-                            <a onClick={()=>handlePatternChange('Solid_Single_Dot_Density_1.svg','Solid Dots')} class = "dropdown-item patternDropdownItem">Solid Dots</a>
-                            <a onClick={()=>handlePatternChange('Solid_Single_Rhombus_Density_1.svg','Solid Rhombuses')} class = "dropdown-item patternDropdownItem">Solid Rhombuses</a>
-                            <a onClick={()=>handlePatternChange('Solid_Single_Square_Density_1.svg','Solid Squares')} class = "dropdown-item patternDropdownItem">Solid Squares</a>
-                            <a onClick={()=>handlePatternChange('Solid_Single_Star_Density_1.svg','Solid Stars')} class = "dropdown-item patternDropdownItem">Solid Stars</a>
-                            <a onClick={()=>handlePatternChange('Solid_Single_Triangle_Density_1.svg','Solid Triangles')} class = "dropdown-item patternDropdownItem">Solid Triangles</a>
-                            <a onClick={()=>handlePatternChange('No Pattern','No Pattern')} class = "dropdown-item patternDropdownItem">No Pattern</a>
-                            </ul>
-                    </div>:
-                    <div className="dropdownDetails flex-fill mx-1">
-                    <button class="nav-link dropdownBtn" type="button" id="pattern" data-bs-toggle="dropdown" aria-expanded="false" disabled>
-                        {patternToDisplay}
-                    </button></div>*/}
-        </div>
-        <div class="container-flex editTaskAppearanceContainer">
-            <div className={`color-circle ${editMode ? 'clickable hover-highlight' : ''} translate-middle-y`} id="color-circle" style={{ backgroundColor: color }} onClick={() => editMode && setShowColorPicker(!showColorPicker)} />
-
         </div>
       
       {/*Rich Text Editor */}
