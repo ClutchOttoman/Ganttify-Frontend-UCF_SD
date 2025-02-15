@@ -82,7 +82,7 @@ body.preload {
 
 /* DEFAULT MODE */
 /* Toggle Buttons */
-button.dark-mode-toggle, button.high-contrast-mode-toggle {
+button.dark-mode-toggle, button.high-contrast-mode-toggle, .protan-toggle  {
   background-color: #DC6B2C ;  /* Darker background for toggle button */
   color: #fff !important;  /* Light text for button */
   border: 1px solid #000000 !important;
@@ -99,7 +99,7 @@ button.dark-mode-toggle, button.high-contrast-mode-toggle {
 }
 
 /* Slider CSS */
-button.dark-mode-toggle .thumb, button.high-contrast-mode-toggle .thumb {
+button.dark-mode-toggle .thumb, button.high-contrast-mode-toggle .thumb, .protan-toggle .thumb{
   height: 20px;
   width: 20px;
   background-color: #fff;
@@ -113,7 +113,7 @@ button.dark-mode-toggle .thumb, button.high-contrast-mode-toggle .thumb {
 }
 
 /* Button Hover CSS */
-button.dark-mode-toggle:hover, button.high-contrast-mode-toggle:hover {
+button.dark-mode-toggle:hover, button.high-contrast-mode-toggle:hover, .protan-toggle:hover {
   background-color: #b3704c; /* Brighter background for hover */
   color: #fff !important; /* White text */
   border: 1px solid #262626 !important;
@@ -125,8 +125,10 @@ button.dark-mode-toggle:hover, button.high-contrast-mode-toggle:hover {
 
 /*HIGH CONTRAST MODE */
 /* Toggle Buttons */
-body.high-contrast button.dark-mode-toggle, body.high-contrast button.high-contrast-mode-toggle {
-  background-color: #8a3700;  /* Darker background for toggle button */
+body.high-contrast {
+  button.dark-mode-toggle, button.high-contrast-mode-toggle, .protan-toggle {
+    background-color: #8a3700;  /* Darker background for toggle button */
+  }  
 }
 
 /* Button Hover CSS */
@@ -600,6 +602,14 @@ body.high-contrast #Charts { /*top bar*/
 body.high-contrast #ToDo\ List { /*top bar*/
   background-color: #402C12 !important;
 }
+body.high-contrast #Account { /*top bar*/
+  background-color: #402C12 !important;
+}
+
+body.high-contrast #Settings { /*top bar*/
+  background-color: #402C12 !important;
+}
+
 
 body.high-contrast #button:hover {
   background-color: #8a3700 !important;  /*  (Sign out) Slightly lighter on hover */
@@ -1117,14 +1127,18 @@ body.high-contrast button.btn-outline-primary{ /* Edit Project Name */
 
 /* DARK MODE */
 /* Toggle Buttons */
-body.dark button.dark-mode-toggle, body.dark button.high-contrast-mode-toggle {
-  background-color: #414141;  /* Darker background for toggle button */
+body.dark {
+  button.dark-mode-toggle, button.high-contrast-mode-toggle, .protan-toggle {
+    background-color: #414141;  /* Darker background for toggle button */
+  }
 }
 
 /* Toggle Hover CSS */
-body.dark button.dark-mode-toggle:hover, body.dark button.high-contrast-mode-toggle:hover {
-  background-color: #6d6d6d; /* Brighter background for hover */
-
+body.dark 
+{
+  button.dark-mode-toggle:hover, button.high-contrast-mode-toggle:hover, protan-toggle:hover{
+    background-color: #6d6d6d; /* Brighter background for hover */
+  }
 }
 
 /* Slider Animation to show that dark mode is on */
@@ -1720,8 +1734,13 @@ body.dark .table td {
 
 /* Account Details */
 
-body.dark .dashboardAccountContainer{
-  background-color: #313131 !important; /* WORK (Account square) Dark background */
+body.dark {
+  .dashboardAccountContainer {
+    background-color: #313131 !important; /* WORK (Account square) Dark background */
+  }
+  .mainContainer, .container.position-relative.d-inline-flex.flex-column {
+    background-color: #121212;
+  }
 }
 
 body.dark span.detailValue{
@@ -1733,11 +1752,15 @@ body.dark label.detailLabel{
 }
 
 /* UI Settings */
-body.dark .color-preset-container, body.dark .ui-preview-container, body.dark .font-container {
-  background-color: #313131 !important; 
+body.dark {
+  .ui-settings-container, .color-preset-container, .ui-preview-container, .font-container {
+    background-color: #313131 !important; 
+  }
+  .settings-container{
+    background-color: #121212 !important;
+  }
+  
 }
-
-
 /* Dashboard */
 
 body.dark {
