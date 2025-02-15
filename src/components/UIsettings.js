@@ -45,8 +45,6 @@ const UISettings = () => {
       const savedUserInfo = localStorage.getItem('user_data');
       const savedUserId = JSON.parse(savedUserInfo)._id; // use user id to query database.
       console.log("Toggling dark mode, savedUserId = " + savedUserId);
-      const status = response.status;
-      console.log("Status of the dark contrast mode" + status);
     
       const response = await fetch(buildPath(`api/ui-settings/toggle-default-dark-mode/${savedUserId}`), {
         method: 'PUT',
@@ -75,8 +73,6 @@ const UISettings = () => {
       const savedUserInfo = localStorage.getItem('user_data');
       const savedUserId = JSON.parse(savedUserInfo)._id; // use user id to query database.
       console.log("Toggling high contrast mode, savedUserId = " + savedUserId);
-      const status = response.status;
-      console.log("Status of the high contrast mode" + status);
 
       const response = await fetch(buildPath(`api/ui-settings/toggle-default-high-contrast-mode/${savedUserId}`), {
         method: 'PUT',
