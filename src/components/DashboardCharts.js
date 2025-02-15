@@ -208,7 +208,10 @@ function DashboardCharts({ projects, triggerReSearch  }) {
                     <div class="modal-content">
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="DeleteProjectModalLabel">{projectIsDeleted ? "Project was deleted succesfully" :"Are you sure you want to delete " + projectToDelete.nameProject+"?"}</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={()=>handleProjectDeleted()}></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={()=>handleProjectDeleted()}
+                                style={{ color: 'black', fontSize: '1.7rem', background: 'none', border: 'none' }}> 
+                                     ✖  
+                            </button>
                         </div>
                         <div class="modal-body">
                             {projectIsDeleted  ? "You can also delete your project from the recently deleted page manually":"Your project will be moved to your recently deleted page for 30 days, then it is deleted permanantly"}
@@ -225,7 +228,10 @@ function DashboardCharts({ projects, triggerReSearch  }) {
                                 <div className="modal-content">
                                     <div className="modal-header">
                                         <h5 className="modal-title" id="changeProjectModalLabel">Change Project Name</h5>
-                                        <button type="button" className="btn-close" onClick={() => setIsModalOpen(false)} aria-label="Close"></button>
+                                        <button type="button" className="btn-close" onClick={() => setIsModalOpen(false)} aria-label="Close"
+                                            style={{ color: 'black', fontSize: '1.7rem', background: 'none', border: 'none' }}> 
+                                                ✖  
+                                        </button>
                                     </div>
                                     <div className="modal-body">
                                     <form onSubmit={(e) => {handleSubmit}}>

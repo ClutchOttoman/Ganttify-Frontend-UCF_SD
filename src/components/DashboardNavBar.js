@@ -238,7 +238,10 @@ function DasboardNavBar({page}) {
                     <div className="modal-content">
                         <div className="modal-header">
                             <h1 className="modal-title fs-5" id="createProjectModalLabel">{projectCreated ? "Project has been Created" : "Create a Project"}</h1>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={hanldeProjectCreated}></button>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={hanldeProjectCreated}  
+                                style={{ color: 'black', fontSize: '1.7rem', background: 'none', border: 'none' }}>  
+                                     ✖  
+                            </button>
                         </div>
                         <div className="modal-body">
                             {projectCreated ? (
