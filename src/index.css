@@ -1734,8 +1734,13 @@ body.dark .table td {
 
 /* Account Details */
 
-body.dark .dashboardAccountContainer{
-  background-color: #313131 !important; /* WORK (Account square) Dark background */
+body.dark {
+  .dashboardAccountContainer {
+    background-color: #313131 !important; /* WORK (Account square) Dark background */
+  }
+  .mainContainer, .container.position-relative.d-inline-flex.flex-column {
+    background-color: #121212;
+  }
 }
 
 body.dark span.detailValue{
