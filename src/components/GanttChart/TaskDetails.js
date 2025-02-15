@@ -401,7 +401,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks })
   }
 
   const handleStatusChange = async (newStatus) => {
-    if(newStatus == "Completed" && (prerequisiteTasks.length == 0 || !allPrerequisitesDone)){
+    if(newStatus == "Completed" && (prerequisiteTasks.length != 0 && !allPrerequisitesDone)){
         // List the tasks that need to be completed Here
         let prequisiteTaskAlert = generatePrereqAlert();
         window.alert(prequisiteTaskAlert);
