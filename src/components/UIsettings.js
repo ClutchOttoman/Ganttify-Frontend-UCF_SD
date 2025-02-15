@@ -1,10 +1,12 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from 'react';
+import {useParams, useNavigate} from 'react-router-dom';
+import {buildPath} from './buildPath';
 import useDarkMode from './useDarkMode';
 import useHighContrastMode from './useHighContrastMode';
 import './UIsettings.css'
 import DashboardPreview  from '../Images/assets/setting_previews/dashboard_preview.svg?react';
 import TimetablePreview  from '../Images/assets/setting_previews/timetable_preview.svg?react';
+
 
 const UISettings = () => {
     const [isDarkMode, setIsDarkMode] = useDarkMode();
@@ -12,6 +14,7 @@ const UISettings = () => {
     const [fontStyle, setFontStyle] = useState(() => {
         return localStorage.getItem("fontStyle") || "Inter";
     });
+    const [message, setMessage] = useState('');
 
     //Dynamically changes the image preview svgs
     const backgroundColor = isDarkMode ? "#121212" : isHighContrastMode ? "white" : "white";
@@ -29,34 +32,96 @@ const UISettings = () => {
     const timetableBorderColor = isDarkMode ? "#FFF" : isHighContrastMode ? "#000000 " : "#000000 ";
     const gridColor = isDarkMode? "white" : isHighContrastMode ? "black" : "black"
 
-    const toggleDarkMode = () => {
-        setIsDarkMode((prevMode) => {
-          if (!prevMode) {
-            setIsHightContrastMode(false); // Turn off High Contrast Mode if it's on
-          }
-          return !prevMode;
-        });
-      };
-  
-      const toggleHighContrastMode = () => {
-        setIsHightContrastMode((prevMode) => {
-          if (!prevMode) {
-            setIsDarkMode(false); // Turn off Dark Mode if it's on
-          }
-          return !prevMode;
-        });
-      };
+    const toggleDarkMode = async () => {
 
-      //Handles Font Changes
-      const handleFontChange = (event) => {
-        setFontStyle(event.target.value)
-        const selectedFont = event.target.value;
-        document.body.style.fontFamily = selectedFont;
-        localStorage.setItem("fontStyle", selectedFont);
+      // Handles localStorage.
+      setIsDarkMode((prevMode) => {
+        if (!prevMode) {
+          setIsHightContrastMode(false); // Turn off High Contrast Mode if it's on
+        }
+        return !prevMode;
+      });
+
+      const savedUserInfo = localStorage.getItem('user_data');
+      const savedUserId = JSON.parse(savedUserInfo)._id; // use user id to query database.
+      console.log("Toggling dark mode, savedUserId = " + savedUserId);
+    
+      const response = await fetch(buildPath(`api/toggle-default-dark-mode/${savedUserId}`), {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (!response.ok){
+        // Set error message here.
+        setMessage("Unable to toggle to dark mode");
+      } else {
+        const message = await response.json();
+        setMessage(message);
+      }
+    };
+  
+    const toggleHighContrastMode = async () => {
+
+      // Handles localStorage.
+      setIsHightContrastMode((prevMode) => {
+        if (!prevMode) {
+          setIsDarkMode(false); // Turn off Dark Mode if it's on
+        }
+        return !prevMode;
+      });
+
+      const savedUserInfo = localStorage.getItem('user_data');
+      const savedUserId = JSON.parse(savedUserInfo)._id; // use user id to query database.
+      console.log("Toggling high contrast mode, savedUserId = " + savedUserId);
+
+      const response = await fetch(buildPath(`api/toggle-default-high-contrast-mode/${savedUserId}`), {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (!response.ok){
+        // Set error message here.
+        setMessage("Unable to toggle to high contrast mode");
+      } else {
+        const message = await response.json();
+        setMessage(message);
+      }
+
+    };
+
+    // Handles Font Changes
+    const handleFontChange = async (event) => {
+
+      // Handle localStorage.
+      setFontStyle(event.target.value)
+      const selectedFont = event.target.value;
+      document.body.style.fontFamily = selectedFont;
+
+      const savedUserInfo = localStorage.getItem('user_data');
+      const savedUserId = JSON.parse(savedUserInfo)._id; // use user id to query database.
+      console.log("Changing font style, savedUserId = " + savedUserId);
+
+      const response = await fetch(buildPath(`api/change-font-style/${savedUserId}/${selectedFont}`), {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (!response.ok){
+        // Set error message here.
+        setMessage("Unable to save font style changes");
+      } else {
+        const message = await response.json();
+        setMessage(message);
+      }
+
+      localStorage.setItem("fontStyle", selectedFont);
+
     };
       
     return(
-        <div class="settings-container">
+      <div>
+        <h1 class="title">UI Settings</h1>
+        <div class="settings-container d-inline-flex flex-column ">
           {/* Color Settings Container */}
             <div class="color-preset-container">
             <h1>Preset Color Options:</h1>
@@ -81,7 +146,7 @@ const UISettings = () => {
             </div>
 
             {/* Color UI/CVD Filter Preview Container */}
-            <div class="ui-preview-container">
+            <div class="ui-preview-container ">
             <h1>
             Color UI Preview: 
               <span className="normal-text">
@@ -92,7 +157,7 @@ const UISettings = () => {
             </h1>
 
               {/* This is the container for the preview images */}
-              <div className="img-container">
+              <div className="img-container normal cvd_filter_applicable">
                 <DashboardPreview className="dashboard-preview" style={{
                       '--background-color': backgroundColor,
                       '--navbar-color': navbarColor,
@@ -113,6 +178,9 @@ const UISettings = () => {
                       '--timetable-border-color': timetableBorderColor,
                       '--grid-color': gridColor,
                   }} />
+                  {/*<button className="protan-toggle" onClick={() => applyProtanCVDFilter()}>
+                    <div className="thumb"></div> 
+                  </button>*/}
               </div>
             </div>
 
@@ -131,11 +199,13 @@ const UISettings = () => {
                 <option value="Verdana">Verdana </option>
                 <option value="Open Sans">Open Sans </option>
                 <option value="Courier New">Courier New </option>
+                <option value="Opendyslexic">Opendyslexic</option>
+
               </select>
               </div>
-
         </div>
+      </div>
     )
 }
 
-export default UISettings
+export default UISettings;

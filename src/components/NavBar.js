@@ -1,14 +1,13 @@
+import React, { useEffect, useState } from 'react';
 import { Link, useParams } from "react-router-dom";
 import Logo from '../Images/assets/logo/Logo.png';
-import './NavBar.css';
-import React, { useState, useEffect } from 'react';
+import { buildPath } from './buildPath';
 import ProjectTitle from './GanttChart/ProjectTitle';
-import {buildPath} from './buildPath';
+import './NavBar.css';
+import ProjectInviteLink from './ProjectInviteLink.js';
 
-import DarkModeSwitch from './DarkModeSwitch';
 import useDarkMode from './useDarkMode';
 import useHighContrastMode from './useHighContrastMode';
-import HighContrastSwitch from './HighContrastSwitch';
 
 
 const baseStyle = {
@@ -450,9 +449,7 @@ const toggleHighContrastMode = () => {
     return (
       <div id="navBarDiv">
         <div className="navbar">
-          <a href="/" aria-label="Go back to home page">
             <img src={Logo} alt="GanttifyHomePage" className="logo" />
-          </a>
           <h1 className="navbarHeader"> Ganttify </h1>
           <ul className="navbarOptions">
             <li><Link to="/"><button id="button"> Home</button></Link></li>
@@ -467,10 +464,13 @@ const toggleHighContrastMode = () => {
     return (
       <div id="navBarDiv" style={dashboardNav}>
         <div class="container-fluid navbarDash">
-          <a href="/" aria-label="Go back to home page">
+          <a href="/dashboard" aria-label="Go back to dashboard">
             <img src={Logo} alt="GanttifyHomePage" className="logoDash" />
           </a>
           <h1 className="navbarHeaderDash"> DashBoard </h1>
+          <ul className="navbarOptionsDash">
+            <li><Link to="https://ucf.qualtrics.com/jfe/form/SV_8fcwggJ2eZxlMea" target="_blank"><button id="button">Give Feedback</button></Link></li>
+          </ul>
           <ul className="navbarOptionsDash">
             <li><Link to="/"><button id="button">Sign Out</button></Link></li>
           </ul>
@@ -482,7 +482,7 @@ const toggleHighContrastMode = () => {
       <div className="layout-3">
         <div id="navBarDiv" style={dashboardNav} role="navigation">
           <div className="navbarDash">
-            <a href="/" aria-label="Go back to home page">
+            <a href="/dashboard" aria-label="Go back to dashboard">
               <img src={Logo} alt="GanttifyHomePage" className="logoDash" />
             </a>
             <ProjectTitle projectId={projectId} />
@@ -569,12 +569,11 @@ const toggleHighContrastMode = () => {
                 </button>
               </div>
               <div className="modal-body">
-                <p>Enter the email address of the person you want to invite to the team.</p>
-                <input type="email" className="form-control" value={inviteEmail} onChange={handleInviteEmailChange} placeholder="Email address" required />
-                <div className="invite-message" style={{ textAlign: 'center' }}>{inviteMessage}</div>
+                <p>Share the invite link with your team members to join this project:</p>
+                <ProjectInviteLink projectId={projectId} />
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-primary" onClick={handleInviteSubmit}>Send Invite</button>
+                <button type="button" className="btn btn-secondary" onClick={closeInviteModal}>Close</button>
               </div>
             </div>
           </div>
@@ -619,7 +618,7 @@ const toggleHighContrastMode = () => {
     return (
       <div id="navBarDiv">
         <div className="navbar" >
-          <a href="/" aria-label="Go back to home page">
+          <a href="/dashboard" aria-label="Go back to home page">
             <img src={Logo} alt="GanttifyHomePage" className="logo" />
           </a>
           <h1 className="navbarHeader" > Ganttify </h1>

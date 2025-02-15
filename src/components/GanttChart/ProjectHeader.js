@@ -78,7 +78,10 @@ function ProjectHeader({ projectName, setProjectName, projectId }) {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="changeProjectModalLabel">Change Project Name</h5>
-              <button type="button" className="btn-close" onClick={() => setIsModalOpen(false)} aria-label="Close"></button>
+               <button type="button" className="btn-close" onClick={() => setIsModalOpen(false)} aria-label="Close"
+                style={{ color: 'black', fontSize: '1.7rem', background: 'none', border: 'none' }}>  
+                  ✖  
+                </button>
             </div>
             <div className="modal-body">
               <input

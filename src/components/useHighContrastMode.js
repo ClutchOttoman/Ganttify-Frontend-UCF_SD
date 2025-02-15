@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 const useHighContrastMode = () => {
     const [isHighContrastMode, setIsHighContrastMode] = useState(() => {
       const savedMode = localStorage.getItem('isHighContrastMode');
-      return savedMode ? JSON.parse(savedMode) : false;
+      return savedMode == "true" ?  true : false;
     });
   
     useEffect(() => {
