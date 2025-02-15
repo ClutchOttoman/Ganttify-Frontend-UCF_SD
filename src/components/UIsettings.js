@@ -56,7 +56,9 @@ const UISettings = () => {
     };
       
     return(
-        <div class="settings-container">
+      <div>
+        <h1 class="title">UI Settings</h1>
+        <div class="settings-container d-inline-flex flex-column ">
           {/* Color Settings Container */}
             <div class="color-preset-container">
             <h1>Preset Color Options:</h1>
@@ -138,6 +140,7 @@ const UISettings = () => {
               </div>
 
         </div>
+      </div>
     )
 }
 

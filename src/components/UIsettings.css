@@ -1,5 +1,32 @@
+.title{
+    font:bold;
+    margin-top: 0px;
+    margin-bottom:40px;
+    color: black;
+}
+
+.settings-container {
+    width: 90vw;
+    margin: 0 auto; 
+}
+
+@media (max-width: 1200px) {
+    .settings-container {
+        width: 90vw; 
+    }
+}
+
+@media (max-width: 768px) {
+    .settings-container {
+        width: 95vw; 
+    }
+    .title{
+        margin-top: -60px;
+    }
+}
+
 .color-preset-container, .ui-preview-container, .font-container{
-    max-width: 80%;
+    width: 80%;
     height: auto;
     margin: 0px auto;
     padding: 20px;
@@ -8,6 +35,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 50px;
 }
+
 .default-colorbar{
     display: flex;
     flex-direction: row;

@@ -227,7 +227,7 @@ function DasboardNavBar({page}) {
                         <div class = "col-2"><a id ="Settings" class ="btn navBtnSmall" href="/dashboard/ui-settings"><span class = "navBtnTextSmall">UI Settings</span></a></div>
                      </div>
             </div>
-            <div class = "d-md-inline-flex d-block container mainContainer ms-5 me-0 px-0 mt-5 py-0">
+            <div class = "d-md-inline-flex d-block container mainContainer ms-5 mt-5">
                {page}
             </div>
             

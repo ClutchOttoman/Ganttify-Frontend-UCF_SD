@@ -1747,11 +1747,15 @@ body.dark label.detailLabel{
 }
 
 /* UI Settings */
-body.dark .color-preset-container, body.dark .ui-preview-container, body.dark .font-container {
-  background-color: #313131 !important; 
+body.dark {
+  .ui-settings-container, .color-preset-container, .ui-preview-container, .font-container {
+    background-color: #313131 !important; 
+  }
+  .settings-container{
+    background-color: #121212 !important;
+  }
+  
 }
-
-
 /* Dashboard */
 
 body.dark {
