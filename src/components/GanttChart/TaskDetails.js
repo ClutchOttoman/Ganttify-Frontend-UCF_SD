@@ -75,6 +75,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks, f
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [color, setColor] = useState('white'); // Default color
   const [patternColor, setPatternColor] = useState('black'); // Default color
+  const [patternPreview, setPatternPreview] = useState('');
   const [pattern,setPattern] = useState('No Pattern');
   const [patternToDisplay,setPatternToDisplay] = useState('No Pattern');
   const [taskCreatorName, setTaskCreatorName] = useState('');
@@ -128,6 +129,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks, f
       setDueDate(task.dueDateTime);
       setPattern(task.pattern);
       setPatternToDisplay(patternDisplayNames[task.pattern]);
+      setPatternPreview(`url(${patterns[task.pattern]})`)
       setDependentTasks(task.dependentTasks);
       setPrerequisiteTasks(task.prerequisiteTasks);
       setAllPrerequisitesDone(task.allPrerequisitesDone);
@@ -185,6 +187,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks, f
     setColor(fetchedTask.color);
     setPatternColor(fetchedTask.patternColor ? fetchedTask.patternColor : 'black')
     setPattern(fetchedTask.pattern);
+    setPatternPreview(`url(${patterns[fetchedTask.pattern]})`)
     setTaskCategory(fetchedTask.taskCategory || 'No category'); //added
     fetchTaskCreator(fetchedTask.taskCreatorId);
     fetchAssignedUsers(fetchedTask.assignedTasksUsers);
@@ -488,6 +491,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks, f
   const handlePatternChange = async (newPattern,newPatternToDisplay) => {
     console.log(newPattern);
     setPatternToDisplay(newPatternToDisplay)
+    setPatternPreview(`url(${patterns[newPattern]})`);
     setPattern(newPattern);
   }
   
@@ -779,7 +783,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks, f
                 </div>
                 <div class="row mt-4 justify-content-center">
                     <div class="col-12 d-flex align-items-center">
-                        <div class="task-appearance-preview" draggable="false" style={{backgroundColor:`${color}`,backgroundImage:`url(${patterns[pattern]})`,backgroundSize: 'contain'}}></div>
+                        <div class="task-appearance-preview" draggable="false" style={{backgroundColor:`${color}`,backgroundImage:patternPreview,backgroundSize: 'contain'}}></div>
                     </div>
                 </div>
             </form>
