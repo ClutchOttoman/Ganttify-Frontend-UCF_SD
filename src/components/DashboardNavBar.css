@@ -2,7 +2,7 @@ body{
     font-family: "Inter", sans-serif;
     margin: 0;
     padding: 0;
-    min-height: 100% !important;
+
 }
 .navBarBody {
     background-color: #DC6B2C;
@@ -29,8 +29,7 @@ body{
     cursor:pointer;
 }
 .navBtn:hover{
-    background-color: #DC6B2C;
-    color:#DC6B2C;
+    background-color: #F0F0F0  !important;
 }
 .topNavBtn{
     margin-top: 30px !important;
@@ -62,3 +61,12 @@ body{
     width:max-content;
     font-size: 10px;
 }
+
+.modal-backdrop {
+    filter: none !important;  /* Disable filter for backdrop */
+    pointer-events: none;     /* Allow clicks to pass through the backdrop */
+  }
+
+  .modal-backdrop.show {
+    background-color: rgba(0, 0, 0, 0.5); /* Standard backdrop color */
+  }

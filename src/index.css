@@ -14,6 +14,7 @@ body {
   overflow-x:hidden;
 }
 
+
 code {
   font-family: 'Inter',source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -82,11 +83,11 @@ body.preload {
 
 /* DEFAULT MODE */
 /* Toggle Buttons */
-button.dark-mode-toggle, button.high-contrast-mode-toggle, .protan-toggle  {
+button.dark-mode-toggle, button.high-contrast-mode-toggle, .protan-toggle, .deuteran-toggle, .tritan-toggle  {
   background-color: #DC6B2C ;  /* Darker background for toggle button */
   color: #fff !important;  /* Light text for button */
   border: 1px solid #000000 !important;
-  border-radius: 99px;
+  border-radius: 99px !important;
   width: 50px;
   height: 28px;
   transition: background-color 0.1s ease, border-color 0.2s ease;
@@ -99,34 +100,53 @@ button.dark-mode-toggle, button.high-contrast-mode-toggle, .protan-toggle  {
 }
 
 /* Slider CSS */
-button.dark-mode-toggle .thumb, button.high-contrast-mode-toggle .thumb, .protan-toggle .thumb{
-  height: 20px;
-  width: 20px;
-  background-color: #fff;
-  border-radius: 99px;
-  transform: translateX(0);
-  transition: left 0.3s ease;
-  position: absolute;
-  left: 3px;
-  top: 50%;
-  transform: translateY(-50%);
+button.dark-mode-toggle, button.high-contrast-mode-toggle, .protan-toggle, .deuteran-toggle, .tritan-toggle{
+  .thumb{
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    border-radius: 99px;
+    transform: translateX(0);
+    transition: left 0.3s ease;
+    position: absolute;
+    left: 3px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
 }
 
 /* Button Hover CSS */
-button.dark-mode-toggle:hover, button.high-contrast-mode-toggle:hover, .protan-toggle:hover {
-  background-color: #b3704c; /* Brighter background for hover */
-  color: #fff !important; /* White text */
-  border: 1px solid #262626 !important;
+button.dark-mode-toggle:hover, button.high-contrast-mode-toggle:hover, .protan-toggle:hover, .deuteran-toggle:hover, .tritan-toggle:hover {
+    background-color: #b3704c; /* Brighter background for hover */
+    color: #fff !important; /* White text */
+    border: 1px solid #262626 !important;
+}
+
+.protan-toggle, .deuteran-toggle, .tritan-toggle  {
+  background-color: #DC6B2C ;  /* Darker background for toggle button */
+  color: #fff !important;  /* Light text for button */
+  border: 1px solid #000000 !important;
+  border-radius: 99px !important;
+  width: 50px;
+  height: 28px;
+  transition: background-color 0.1s ease, border-color 0.2s ease;
   margin-top: -20px !important;
   margin-left: 3px !important;
   margin-right: 10px !important;
   padding: 3px 6px !important;
+  position: relative;
+}
+.protan-toggle.active .thumb,
+.deuteran-toggle.active .thumb,
+.tritan-toggle.active .thumb {
+  left: calc(50px - 25px);
 }
 
 /*HIGH CONTRAST MODE */
 /* Toggle Buttons */
 body.high-contrast {
-  button.dark-mode-toggle, button.high-contrast-mode-toggle, .protan-toggle {
+  button.dark-mode-toggle, button.high-contrast-mode-toggle, .protan-toggle, .deuteran-toggle, .tritan-toggle {
     background-color: #8a3700;  /* Darker background for toggle button */
   }  
 }
@@ -137,7 +157,7 @@ body.high-contrast button.dark-mode-toggle:hover, body.high-contrast button.high
 }
 
 /* Slider Animation to show that high contrast mode is on */
-body.high-contrast button.high-contrast-mode-toggle.active .thumb{
+body.high-contrast button.high-contrast-mode-toggle.high-contrast .thumb{
   left: calc(50px - 25px);
 }
 
@@ -224,9 +244,19 @@ body.high-contrast button.btn.saveBtn{
 
 /* UI Settings */
 
-body.high-contrast .color-preset-container, body.high-contrast .ui-preview-container, body.high-contrast .font-container {
-  background-color: #f3b35b !important;
+body.high-contrast {
+  .color-preset-container, .ui-preview-container, .font-container {
+    background-color: #f3b35b !important;
+  }
+
+  .submit-btn{
+    background-color:#402C12 !important;
+  }
+  .submit-btn:hover{
+    background-color:#6A4520 !important;
+  }
 }
+
 
 /* Add Task */
 
@@ -524,6 +554,9 @@ body.high-contrast p.task-title-text{ /* task names */
 body.high-contrast .btn.viewChartBtn{
   background-color: #002238 !important; /*  (View Chart) Dark background */
   color: #ffffff;
+  &:hover{
+    background-color: #003055 !important;
+  }
   
 }
 
@@ -583,31 +616,8 @@ body.high-contrast #button {
   color: #FFFFFF  !important;  /* Light text */
 }
 
-body.high-contrast #Create\ Project{ /*top bar*/
-  background-color: #402C12 !important;
-}
-
-body.high-contrast #Recently\ Deleted { /*top bar*/
-  background-color: #402C12 !important;
-}
-
 body.high-contrast button.btn.chartNavButton{ /* Next button*/
   background-color: #002238;
-}
-
-body.high-contrast #Charts { /*top bar*/
-  background-color: #402C12 !important;
-}
-
-body.high-contrast #ToDo\ List { /*top bar*/
-  background-color: #402C12 !important;
-}
-body.high-contrast #Account { /*top bar*/
-  background-color: #402C12 !important;
-}
-
-body.high-contrast #Settings { /*top bar*/
-  background-color: #402C12 !important;
 }
 
 
@@ -634,14 +644,15 @@ body.high-contrast div.d-none.d-md-table-cell.container-lg.navBarBody.me-5.pb-5{
 } */
 
 
-body.high-contrast .btn.navBtnSmall{
-  background-color: #E9B56D !important; /*  (background buttons) Dark background */
-  color: #ffffff;
-}
-
-body.high-contrast .btn.navBtn{
-  background-color: #402C12 !important; /*  (btns background for to do list, etc) Dark background */
-  color: #ffffff;
+body.high-contrast {
+  .btn.navBtnSmall, .btn.navBtn {
+    background-color: #402C12 !important; 
+    color: #ffffff;
+    
+    &:hover {
+      background-color: #6A4520 !important;
+    }
+  }
 }
 
 
@@ -1128,7 +1139,7 @@ body.high-contrast button.btn-outline-primary{ /* Edit Project Name */
 /* DARK MODE */
 /* Toggle Buttons */
 body.dark {
-  button.dark-mode-toggle, button.high-contrast-mode-toggle, .protan-toggle {
+  button.dark-mode-toggle, button.high-contrast-mode-toggle, .protan-toggle, .deuteran-toggle, .tritan-toggle {
     background-color: #414141;  /* Darker background for toggle button */
   }
 }
@@ -1137,12 +1148,12 @@ body.dark {
 body.dark 
 {
   button.dark-mode-toggle:hover, button.high-contrast-mode-toggle:hover, protan-toggle:hover{
-    background-color: #6d6d6d; /* Brighter background for hover */
+    background-color: #6d6d6d;
   }
 }
 
 /* Slider Animation to show that dark mode is on */
-body.dark button.dark-mode-toggle.active .thumb{
+body.dark button.dark-mode-toggle.dark .thumb{
   left: calc(50px - 25px);
 }
 
@@ -1666,6 +1677,9 @@ body.dark .gantt-task-row .task-category {
 body.dark .btn.viewChartBtn{
   background-color: #3e3e3e !important; /* WORK (View Chart) Dark background */
   color: #ffffff;
+  &:hover{
+    background-color: #323232 !important;
+  }
   
 }
 
@@ -1756,8 +1770,8 @@ body.dark {
   .ui-settings-container, .color-preset-container, .ui-preview-container, .font-container {
     background-color: #313131 !important; 
   }
-  .settings-container{
-    background-color: #121212 !important;
+  .settings-container {
+    background-color: black !important;
   }
   
 }
@@ -1798,15 +1812,17 @@ body.dark div.d-none.d-md-table-cell.container-lg.navBarBody.me-5.pb-5{
   background-color: #2f2f2f !important;  /*  (NAV BAR ON SIDE) Dark background */
 }
 
-body.dark .btn.navBtnSmall{
-  background-color: #5b5a5a !important; /* WORK (background buttons) Dark background */
-  color: #ffffff;
+body.dark {
+  .btn.navBtnSmall,.btn.navBtn {
+    background-color: #424242 !important; /* WORK (btn for to do list, etc) Dark background */
+    color: #ffffff;
+        &:hover{
+      background-color: #555 !important;  /* WORK (Sign out) Slightly lighter on hover */
+    }
+  }
 }
 
-body.dark .btn.navBtn{
-  background-color: #424242 !important; /* WORK (btn for to do list, etc) Dark background */
-  color: #ffffff;
-}
+
 
 
 /* About US */
