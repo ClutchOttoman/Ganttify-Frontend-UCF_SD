@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import './App.css';
 import { DarkModeProvider } from "./components/DarkModeContext"; // Ensure correct path
 import { HighContrastModeProvider } from "./components/HighContrastModeContext"; // Ensure correct path
+import { CVDProvider } from "./components/CVDFilterContext";
 import NavBar from "./components/NavBar";
 import './index.css';
 
@@ -63,6 +64,7 @@ function App() {
 
 
   return (
+    <CVDProvider>
     <HighContrastModeProvider>
     <DarkModeProvider>
       <BrowserRouter>
@@ -92,6 +94,7 @@ function App() {
     </BrowserRouter>
     </DarkModeProvider>
     </HighContrastModeProvider>
+    </CVDProvider>
   );
 }
 

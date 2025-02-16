@@ -233,7 +233,7 @@ function DasboardNavBar({page}) {
             
             
 
-            <div className="modal fade px-0" id="createProjectModal" tabindex="-1" aria-labelledby="createProjectModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+            <div className="modal fade px-0" id="createProjectModal" tabindex="-1" aria-labelledby="createProjectModalLabel" aria-hidden="true" data-bs-backdrop="false" data-bs-keyboard="false">
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
@@ -263,7 +263,7 @@ function DasboardNavBar({page}) {
                                             onChange={handleCSVImport} 
                                         />
                                     </div>
-                                    <button type="submit" className="btn btn-primary">Create Project</button>
+                                    <button type="submit" className="btn btn-primary submit-btn">Create Project</button>
                                 </form>
                             )}
                         </div>

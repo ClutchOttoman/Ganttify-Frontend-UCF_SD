@@ -302,25 +302,37 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
 
 
   return (
-    <div id="gantt-container">
-      <Grid>
-        <Tasks
-          tasks={tasks}
-          setTasks={setTasks}
-          setTaskDurations={setTaskDurations}
-          userRole={userRole}
-          setSelectedTask={setSelectedTask}
-          setShowDetails={setShowDetails}
-        />
-        <TimeTable
-          timeRange={timeRange}
-          tasks={tasks}
-          setTasks={setTasks}
-          taskDurations={taskDurations}
-          setTaskDurations={setTaskDurations}
+    <div className="container-fluid px-0 mx-0 py-0 mt-5 mb-0 main-container" >
+      <div id="gantt-container">
+        <Grid>
+          <Tasks
+            tasks={tasks}
+            setTasks={setTasks}
+            setTaskDurations={setTaskDurations}
+            userRole={userRole}
+            setSelectedTask={setSelectedTask}
+            setShowDetails={setShowDetails}
+          />
+          <TimeTable
+            timeRange={timeRange}
+            tasks={tasks}
+            setTasks={setTasks}
+            taskDurations={taskDurations}
+            setTaskDurations={setTaskDurations}
+            userId={userId}
+            projectId={projectId}
+            userRole={userRole}
+          />
+        </Grid>
+
+        <TaskDetails
+          show={showDetails}
+          onHide={() => setShowDetails(false)}
+          task={selectedTask}
+          handleDelete={(taskId) => setTasks(tasks.filter(task => task._id !== taskId))}
           userId={userId}
-          projectId={projectId}
           userRole={userRole}
+          teamId={teamId}
         />
       </Grid>
 
@@ -361,8 +373,8 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
             <option value="months"><p>Months</p></option>
           </select>
         {/* </div> */}
+
       </div>
-      
     </div>
   );
 }

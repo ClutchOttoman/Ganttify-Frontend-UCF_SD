@@ -39,6 +39,7 @@ function Login() {
             error: res.error
         };
         console.log(JSON.stringify(user));
+        localStorage.setItem('CVDFilter', user.uiOptions.CVDFilter);
         localStorage.setItem('fontStyle', user.uiOptions.textFontStyle);
         localStorage.setItem('isDarkMode', user.uiOptions.useDefaultDarkMode);
         localStorage.setItem('isHighContrastMode', user.uiOptions.useDefaultHighContrastMode);

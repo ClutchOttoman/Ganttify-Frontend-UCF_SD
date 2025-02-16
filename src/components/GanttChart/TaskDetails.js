@@ -947,15 +947,14 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks, f
 ) : (
   formatDate(fetchedTask.dueDateTime)
 )}</p>
+        {editMode && <button type="button" className="done-button" onClick={handleSaveChanges}>Done</button>}
+
 
           </div>
 
           {dateError && <p className="error">{dateError}</p>}
 
         </div>
-
-        {editMode && <button type="button" className="done-button" onClick={handleSaveChanges}>Done</button>}
-
       </div>
     </div>
   );

@@ -30,12 +30,20 @@ function App() {
         return localStorage.getItem("fontStyle") || "Inter";
     });
 
+    const [activeCVD, setActiveCVD] = useState(() =>{
+      return localStorage.getItem("CVDFilter" || "normal")
+    })
+
     useEffect(() => {
         document.body.style.fontFamily = fontStyle;
     }, [fontStyle]);
 
+    useEffect(() => {
+      localStorage.setItem("CVDFilter", activeCVD);
+  }, [activeCVD]);
 
   return (
+    <div className={`${activeCVD} cvd_filter_applicable`}>
     <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -60,6 +68,7 @@ function App() {
           <Route path="/dashboard/ui-settings" element={<UISettingsPage />} />
         </Routes>
     </BrowserRouter>
+    </div>
   );
 }
 

@@ -91,7 +91,7 @@ ul li{
     justify-content: space-between;
     background-color: #FDDC87;
     padding: 15px 0px;
-    position: fixed;
+
     top: 0;
     z-index: 99999;
 }
@@ -174,7 +174,11 @@ ul li{
     margin-left:-10px;
 }
 
-
+.modal-footer{
+    .btn {
+        width: 500px;
+    }
+}
 
 
 

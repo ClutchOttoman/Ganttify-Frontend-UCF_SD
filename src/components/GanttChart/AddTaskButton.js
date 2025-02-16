@@ -328,8 +328,8 @@ const AddTaskButton = ({ projectId }) => {
       {showModal && (
 
 
-        <div className="modal show" style={{ display: 'block' }}>
-          <div className="modal-dialog">
+        <div className="modal show w-100">
+          <div className="modal-dialog add-task-modal ">
             <div className="modal-content">
 
 
@@ -467,8 +467,8 @@ const AddTaskButton = ({ projectId }) => {
                     </div>
                 </div>
 
-
                   <button type="submit" className="btn btn-primary mt-3">Add Task</button>
+                  
                 </form>
               </div>
             </div>
