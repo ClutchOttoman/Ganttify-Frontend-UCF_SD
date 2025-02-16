@@ -564,9 +564,6 @@ const toggleHighContrastMode = () => {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">Invite Team Member</h5>
-                <button type="button" className="closeEmailModal" aria-label="Close" onClick={closeInviteModal}>
-                  <span aria-hidden="true">&times;</span>
-                </button>
               </div>
               <div className="modal-body">
                 <p>Share the invite link with your team members to join this project:</p>

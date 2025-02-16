@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {useParams, useNavigate} from 'react-router-dom';
 import {buildPath} from './buildPath';
 import useDarkMode from './useDarkMode';
@@ -7,13 +7,31 @@ import './UIsettings.css'
 import DashboardPreview  from '../Images/assets/setting_previews/dashboard_preview.svg?react';
 import TimetablePreview  from '../Images/assets/setting_previews/timetable_preview.svg?react';
 
+const debounce = (func, delay) => {
+  const timeoutRef = useRef(null);  // This will persist across renders
 
+  const debouncedFunction = (...args) => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);  // Clear any existing timeout
+    }
+    timeoutRef.current = setTimeout(() => {
+      func(...args);
+    }, delay);
+  };
+
+  return debouncedFunction;
+};
 const UISettings = () => {
+  
     const [isDarkMode, setIsDarkMode] = useDarkMode();
     const [isHighContrastMode, setIsHightContrastMode] = useHighContrastMode();
     const [fontStyle, setFontStyle] = useState(() => {
         return localStorage.getItem("fontStyle") || "Inter";
     });
+    const [activeCVD, setActiveCVD] = useState(() => {
+      return localStorage.getItem("CVDFilter") || "normal";
+  });
+
     const [message, setMessage] = useState('');
 
     //Dynamically changes the image preview svgs
@@ -117,10 +135,89 @@ const UISettings = () => {
       localStorage.setItem("fontStyle", selectedFont);
 
     };
+
+    //Filters
+    const applyProtanCVDFilter = () => {
+      if (activeCVD === 'protanopia') {
+        removeCVDFilter();
+      } 
+      else {
+        setActiveCVD('protanopia'); // Apply Protanopia filter
+          const allInstances = document.getElementsByClassName("cvd_filter_applicable");
+          for (let i = 0; i < allInstances.length; i++) {
+            allInstances[i].classList.remove("normal", "protanopia", "deuteranopia", "tritanopia");
+            allInstances[i].classList.add("protanopia");
+          }
+          CVDFilterHandler('protanopia');
+        }
+    };
+    
+    const applyDeuteranCVDFilter = () => {
+      if (activeCVD === 'deuteranopia') {
+        removeCVDFilter();
+      } 
+      else {
+      setActiveCVD('deuteranopia');
+      const allInstances = document.getElementsByClassName("cvd_filter_applicable");
+      for (let i = 0; i < allInstances.length; i++) {
+        allInstances[i].classList.remove("normal", "protanopia", "deuteranopia", "tritanopia");
+        allInstances[i].classList.add("deuteranopia");
+      }
+      CVDFilterHandler('deuteranopia');
+      }
+    };
+    
+    const applyTritanCVDFilter = () => {
+      if (activeCVD === 'tritanopia') {
+        removeCVDFilter();
+      } else {
+      setActiveCVD('tritanopia');
+      const allInstances = document.getElementsByClassName("cvd_filter_applicable");
+      for (let i = 0; i < allInstances.length; i++) {
+        allInstances[i].classList.remove("normal", "protanopia", "deuteranopia", "tritanopia");
+        allInstances[i].classList.add("tritanopia");
+      }
+      CVDFilterHandler('tritanopia');
+    }
+    };
+
+    const removeCVDFilter = () => {
+      // Get all tags and objects that are of class "cvd_filter_applicable"
+      setActiveCVD('normal'); // Remove the active CVD filter
+      const allInstances = document.getElementsByClassName("cvd_filter_applicable");
+
+      // Apply no filter.
+      for (let i = 0; i < allInstances.length; i++){
+        allInstances[i].classList.remove("normal", "protanopia", "deuteranopia", "tritanopia");
+        allInstances[i].classList.add("normal");
+      }
+      CVDFilterHandler('normal');
+    }
+
+    const CVDFilterHandler = debounce(async(filter) => {
+      const savedUserInfo = localStorage.getItem('user_data');
+      const savedUserId = JSON.parse(savedUserInfo)._id; // use user id to query database.
+      console.log("Changing CVD filter, savedUserId = " + savedUserId);
+
+      const response = await fetch(buildPath(`api/change-CVD-filter/${savedUserId}/${filter}`), {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (!response.ok){
+        // Set error message here.
+        setMessage("Unable to change CVD Filter");
+      } else {
+        const message = await response.json();
+        setMessage(message);
+    }
+
+    localStorage.setItem("CVDFilter", filter);
+  }, 500);
       
     return(
       <div>
-        <h1 class="title">UI Settings</h1>
+        <h1 class="title"></h1>
         <div class="settings-container d-inline-flex flex-column ">
           {/* Color Settings Container */}
             <div class="color-preset-container">
@@ -178,10 +275,32 @@ const UISettings = () => {
                       '--timetable-border-color': timetableBorderColor,
                       '--grid-color': gridColor,
                   }} />
-                  {/*<button className="protan-toggle" onClick={() => applyProtanCVDFilter()}>
-                    <div className="thumb"></div> 
-                  </button>*/}
               </div>
+              <h2>CVD Filters</h2>
+              <div className="cvd-toolbar">
+                <button 
+                  className={`protan-toggle ${activeCVD === 'protanopia' ? 'active' : 'normal'}`} 
+                  onClick={applyProtanCVDFilter}
+                >
+                  <div className="thumb"></div> 
+                  
+                </button>
+                <span>Protanopia Filer</span>
+                <button 
+                  className={`deuteran-toggle ${activeCVD === 'deuteranopia' ? 'active' : 'normal'}`} 
+                  onClick={applyDeuteranCVDFilter}
+                >
+                  <div className="thumb"></div> 
+                </button>
+                <span>Deuteranopia Filter</span>
+                <button 
+                  className={`tritan-toggle ${activeCVD === 'tritanopia' ? 'active' : 'normal'}`} 
+                  onClick={applyTritanCVDFilter}
+                >
+                  <div className="thumb"></div> 
+                </button>
+                <span>Tritanopia Filter</span>
+            </div>
             </div>
 
             {/* Font Editing Container */}

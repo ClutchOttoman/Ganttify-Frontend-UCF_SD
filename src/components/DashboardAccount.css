@@ -15,7 +15,7 @@
 @media (max-width: 768px) {
   .dashboardAccountContainer {
       width: 95vw; 
-      transform: translateX(-80%);
+      transform: translateX(-25%);
   }
   .title{
       margin-top: -60px;
@@ -32,7 +32,7 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: width 0.3s ease;
-    margin-left: 300px;
+    margin-left: 20vw;
   }
   
   .dashboardTitle {

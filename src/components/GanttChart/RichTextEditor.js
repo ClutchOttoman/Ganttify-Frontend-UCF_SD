@@ -137,171 +137,187 @@ const RichTextEditor = ({ taskDescription, setTaskDescription}) => {
       }
     };
 
-  return (
-    <div className="task-details-body">
-      <div id="editor-wrapper">
-        {/* Toolbar */}
-        <div id="editor-toolbar">
-          {/* Undo Button */}
-          <button 
-          className={`toolbar-btn `}
-          onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()}>
-          <i className="fas fa-undo"></i>
-          </button>
+    return (
+      <div className="task-details-body">
+        <div id="editor-wrapper">
+          {/* Toolbar */}
+          <div id="editor-toolbar">
+            {/* Undo Button */}
+            <button 
+            className={`toolbar-btn `}
+            onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()}
+            type="button">
+            <i className="fas fa-undo"></i>
+            </button>
 
-          {/* Redo Button */}
-          <button 
-          className={`toolbar-btn `}
-          onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().redo()}>
-          <i className="fas fa-redo"></i>
-          </button>
+            {/* Redo Button */}
+            <button 
+            className={`toolbar-btn `}
+            onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().redo()}
+            type="button">
+            <i className="fas fa-redo"></i>
+            </button>
 
-          {/* Headings Dropdown */}
-          <div className="dropdown">
-          <button
-            className="dropdown-toggle"
-            onClick={() => setShowHeader(!showHeader)}
-          >
-            {currentHeading === 0 ? 'Normal Text' : `Heading ${currentHeading}`}
-          </button>
-          {showHeader && (
-            <div className="dropdown-menu">
-               <button
-                className="header-item"
-                onClick={() => handleHeadingChange(0)}
-              >
-                Normal Text
-              </button>
-              <button
-                className="header-item"
-                onClick={() => handleHeadingChange(1)}
-              >
-                Heading 1
-              </button>
-              <button
-                className="header-item"
-                onClick={() => handleHeadingChange(2)}
-              >
-                Heading 2
-              </button>
-              <button
-                className="header-item"
-                onClick={() => handleHeadingChange(3)}
-              >
-                Heading 3
-              </button>
-              <button
-                className="header-item"
-                onClick={() => handleHeadingChange(4)}
-              >
-                Heading 4
-              </button>
-              <button
-                className="header-item"
-                onClick={() => handleHeadingChange(5)}
-              >
-                Heading 5
-              </button>
-            </div>
-          )}
-        </div>
-
-          {/* Bold Button */}
-          <button
-            className={`toolbar-btn ${isBoldActive ? 'active' : ''}`}
-            onClick={() => editor.chain().focus().toggleBold().run()}
-          >
-            <div>
-            <strong>B</strong>
-            </div>
-
-          </button>
-
-          {/* Italics Button */}
-          <button
-            className={`toolbar-btn ${isItalicActive ? 'active' : ''}`}
-            onClick={() => editor.chain().focus().toggleItalic().run()}
-          >
-            <em>I</em>
-          </button>
-
-          {/* Underline Button */}
-          <button
-            className={`toolbar-btn ${isUnderlineActive ? 'active' : ''}`}
-            onClick={() => editor.chain().focus().toggleUnderline().run()}
-          >
-            <u>U</u>
-          </button>
-
-          {/* Highlight Button */}
-          <div>
-          <button
-            className={`toolbar-btn`}
-            onClick={() => setShowColorPicker(!showColorPicker)}
-          >
-          <i className="fas fa-eye-dropper"></i>
-            {/* Color Indicator */}
-            <div 
-            id="color-indicator-bar" 
-            style={{
-              backgroundColor: color === 'rgba(255, 255, 0, 0)' ? 'transparent' : color, 
-              border: color === 'rgba(255, 255, 0, 0)' ? '2px solid #ccc' : 'none'
-            }}
-          />
-          </button>
-          
-        {showColorPicker && (
-         <div id="highlight-picker-sidebar" className="highlight-picker-sidebar">
-        <div
-          className="no-highlight"
-          onClick={() => handleColorChange('rgba(255, 255, 0, 0)', 1)}
-        >
-          None
-        </div>
-         {colorOptions.map((colorOption) => (
-           <div key={colorOption} className="highlight-option-sidebar" style={{ backgroundColor: colorOption }} onClick={() => handleColorChange(colorOption, 1)} />
-         ))}
-         <div className="highlight-picker-wrapper">
-         <i className="fas fa-eye-dropper"></i>
-           <input type="color" className="form-control form-control-color-sidebar" id="myColor" value={color} title="Choose a color" onChange={(e) => handleColorChange(e.target.value, 2)} />
-         </div>
-       </div>
-        )}
+            {/* Headings Dropdown */}
+            <div className="dropdown">
+            <button
+              className="dropdown-toggle"
+              onClick={() => setShowHeader(!showHeader)}
+              type="button"
+            >
+              {currentHeading === 0 ? 'Normal Text' : `Heading ${currentHeading}`}
+            </button>
+            {showHeader && (
+              <div className="dropdown-menu">
+                <button
+                  className="header-item"
+                  onClick={() => handleHeadingChange(0)}
+                  type="button"
+                >
+                  Normal Text
+                </button>
+                <button
+                  className="header-item"
+                  onClick={() => handleHeadingChange(1)}
+                  type="button"
+                >
+                  Heading 1
+                </button>
+                <button
+                  className="header-item"
+                  onClick={() => handleHeadingChange(2)}
+                  type="button"
+                >
+                  Heading 2
+                </button>
+                <button
+                  className="header-item"
+                  onClick={() => handleHeadingChange(3)}
+                  type="button"
+                >
+                  Heading 3
+                </button>
+                <button
+                  className="header-item"
+                  onClick={() => handleHeadingChange(4)}
+                  type="button"
+                >
+                  Heading 4
+                </button>
+                <button
+                  className="header-item"
+                  onClick={() => handleHeadingChange(5)}
+                  type="button"
+                >
+                  Heading 5
+                </button>
+              </div>
+            )}
           </div>
-          
-          {/* Strikethrough Button */}
-          <button
-            className={`toolbar-btn ${isStrikeActive ? 'active' : ''}`}
-            onClick={() => editor.chain().focus().toggleStrike().run()}
-          >
-            <s>A</s>
-          </button>
 
-          {/* BulletList Button */}
-          <button
-            className={`toolbar-btn ${isBulletActive ? 'active' : ''}`}
-            onClick={() => editor.chain().focus().toggleBulletList().run()}
-          >
-          <i className="fas fa-list-ul"></i> 
-          </button>
+            {/* Bold Button */}
+            <button
+              className={`toolbar-btn ${isBoldActive ? 'active' : ''}`}
+              onClick={() => editor.chain().focus().toggleBold().run()}
+              type="button"
+            >
+              <div>
+              <strong>B</strong>
+              </div>
 
-          {/* OrderedList Button */}
-          <button
-            className={`toolbar-btn ${isOrderedActive ? 'active' : ''}`}
-            onClick={() => editor.chain().toggleOrderedList().run()}
-          >
-          <i className="fas fa-list-ol"></i>
-          </button>
+            </button>
 
+            {/* Italics Button */}
+            <button
+              className={`toolbar-btn ${isItalicActive ? 'active' : ''}`}
+              onClick={() => editor.chain().focus().toggleItalic().run()}
+              type="button"
+            >
+              <em>I</em>
+            </button>
+
+            {/* Underline Button */}
+            <button
+              className={`toolbar-btn ${isUnderlineActive ? 'active' : ''}`}
+              onClick={() => editor.chain().focus().toggleUnderline().run()}
+              type="button"
+            >
+              <u>U</u>
+            </button>
+
+            {/* Highlight Button */}
+            <div>
+            <button
+              className={`toolbar-btn`}
+              onClick={() => setShowColorPicker(!showColorPicker)}
+              type="button"
+            >
+            <i className="fas fa-eye-dropper"></i>
+              {/* Color Indicator */}
+              <div 
+              id="color-indicator-bar" 
+              style={{
+                backgroundColor: color === 'rgba(255, 255, 0, 0)' ? 'transparent' : color, 
+                border: color === 'rgba(255, 255, 0, 0)' ? '2px solid #ccc' : 'none'
+              }}
+            />
+            </button>
+            
+          {showColorPicker && (
+          <div id="highlight-picker-sidebar" className="highlight-picker-sidebar">
+          <div
+            className="no-highlight"
+            onClick={() => handleColorChange('rgba(255, 255, 0, 0)', 1)}
+          >
+            None
+          </div>
+          {colorOptions.map((colorOption) => (
+            <div key={colorOption} className="highlight-option-sidebar" style={{ backgroundColor: colorOption }} onClick={() => handleColorChange(colorOption, 1)} />
+          ))}
+          <div className="highlight-picker-wrapper">
+          <i className="fas fa-eye-dropper"></i>
+            <input type="color" className="form-control form-control-color-sidebar" id="myColor" value={color} title="Choose a color" onChange={(e) => handleColorChange(e.target.value, 2)} />
+          </div>
         </div>
-          
-        <EditorContent id="editor-textbox" 
-        editor={editor}
-        onFocus={handleFocus} 
-        />
-      </div>
-    </div>
-  );
-};
+          )}
+            </div>
+            
+            {/* Strikethrough Button */}
+            <button
+              className={`toolbar-btn ${isStrikeActive ? 'active' : ''}`}
+              onClick={() => editor.chain().focus().toggleStrike().run()}
+              type="button"
+            >
+              <s>A</s>
+            </button>
 
-export default RichTextEditor;
+            {/* BulletList Button */}
+            <button
+              className={`toolbar-btn ${isBulletActive ? 'active' : ''}`}
+              onClick={() => editor.chain().focus().toggleBulletList().run()}
+              type="button"
+            >
+            <i className="fas fa-list-ul"></i> 
+            </button>
+
+            {/* OrderedList Button */}
+            <button
+              className={`toolbar-btn ${isOrderedActive ? 'active' : ''}`}
+              onClick={() => editor.chain().toggleOrderedList().run()}
+              type="button"
+            >
+            <i className="fas fa-list-ol"></i>
+            </button>
+
+          </div>
+            
+          <EditorContent id="editor-textbox" 
+          editor={editor}
+          onFocus={handleFocus} 
+          />
+        </div>
+      </div>
+    );
+  };
+
+  export default RichTextEditor;
