@@ -467,8 +467,8 @@ const AddTaskButton = ({ projectId }) => {
                     </div>
                 </div>
 
-
-                  <button type="submit" className="btn btn-primary submit-btn">Add Task</button>
+                  <button type="submit" className="btn btn-primary mt-3">Add Task</button>
+                  
                 </form>
               </div>
             </div>
