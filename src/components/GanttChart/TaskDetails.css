@@ -45,7 +45,7 @@
   height: 20px;
   border-radius: 50%;
   cursor: pointer;
-  margin-right: 15px;
+  margin-inline: 5px;
   flex-shrink: 0;
   cursor: default;
 }
@@ -137,16 +137,12 @@
   position: absolute;
   background-color: white;
   border-radius: 5px;
-  width: 250px;
-  height: 110px;
+  width: 225px;
+  height: 300px;
   margin-left: 20px;
   box-shadow: -1px 3px 8px rgba(0, 0, 0, 0.3);
   margin-top: 95px;
-  align-items: center;
-  justify-content: center;
   z-index: 99999;
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
   padding-top: 5px;
 }
 
@@ -332,6 +328,21 @@ select[multiple] {
     padding-top: 4px;
     padding-bottom: 4px;
 }
+.taskPatternDropdown{
+    border-color: black;
+    width: 100%;
+    background-color:white;
+    border-style: groove;
+    border-width: 1px;
+    border-radius: 5px;
+    border-radius: 5px;
+    
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
 
 .color-option-sidebar {
   width: 20px;
@@ -343,6 +354,18 @@ select[multiple] {
   align-items: center;
   justify-content: center;
   margin-left: 8px;
+}
+
+.color-picker-sidebar-close-btn{
+    width:50% !important;
+    height:50% !important;
+}
+
+.task-appearance-preview{
+    width: 100%;
+    height: 30px;
+    border-radius:5px;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.05);
 }
 
 .color-picker-wrapper {
@@ -360,20 +383,23 @@ select[multiple] {
 }
 
 .form-control-color-sidebar {
-  width: 24px;
+  width: 48px;
   height: 24px;
-  border-radius: 50%;
   padding: 0;
   border: none;
   background-color: transparent;
   cursor: pointer;
-  
 }
 
 .form-control-color-sidebar:hover {
   outline: 2px solid #7AA7B7; 
   outline-offset: 3px; 
   
+}
+
+.color-sidebar-color-picker{
+    width: 60px !important;
+    height: 30px !important;
 }
 
 .form-control-color-sidebar::-webkit-color-swatch-wrapper {
@@ -436,4 +462,19 @@ select[multiple] {
     margin-left: 10px;
 }
 
+.editTaskAppearanceContainer{
+    margin-top: 10px;
+    margin-inline-start: 20px;
+}
+.taskDurationBaseStyle{
+    position: absolute;
+    height: calc(var(--cell-height) * 0.75);
+    top: calc(var(--cell-height) / 8);
+    border-radius: var(--border-radius);
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.05);
+}
+
+.editTaskAppearanceButton{
+    height: 32px !important;
+}
 
