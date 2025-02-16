@@ -2,6 +2,8 @@ import React, { useLayoutEffect, useState } from 'react';
 import './DashboardToDo.css';
 import {buildPath} from './buildPath';
 
+const GanttifyOrange = "#DC6B2C";
+
 function toDate(timestanp) {
     var i = 0;
     var date = "";
@@ -329,15 +331,27 @@ function DashboardToDo() {
                         <div class="modal-content">
                             <div class="modal-header">
                             {taskToDisplay ? <h3 class="modal-title">{taskToDisplay['taskTitle']}<h5 class="modal-title">{taskToDisplay['projectName']}</h5></h3> : null}
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={doTaskModalClose}></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={doTaskModalClose}  style={{ color: 'black', fontSize: '1.7rem', background: `${GanttifyOrange}`, border: 'none' }}>
+                                      ✖  
+                                </button>
                             </div>
                             <div class="modal-body">
                              {taskToDisplay ? 
                                 <div><p dangerouslySetInnerHTML={{__html: taskToDisplay['description'].trim()}}></p>{taskToDisplay['progress'].localeCompare("Completed") === 0 ? null:<p>{taskToDisplay['dueDatePretty'].localeCompare("PAST DUE") === 0 ? "THIS TASK WAS DUE: "+ taskToDisplay['dueDateActual']: "Due: "+ taskToDisplay['dueDatePretty']}</p>}{taskToDisplay['userInfoText']}</div> : null}<div id = "taskContactsDiv"></div></div>
                             {taskToDisplay? 
-                            <div class="modal-footer">
-                                {(taskToDisplay['progress'].localeCompare("Completed") === 0) ?  <button type="button" class="btn btn-primary" onClick={()=>doMarkTaskInProgress()}>Mark Task In Progress</button>:
-                                <button type="button" class="btn btn-primary" onClick={()=>doMarkTaskComplete()}>Mark Task Complete</button>}
+                            <div class="modal-footer mx-0 justify-content-center">
+                                {(taskToDisplay['progress'].localeCompare("Completed") === 0) ?  
+                                <div class="row justify-content-center">
+                                    <div class="col-12">
+                                        <button type="button" class="btn btn-primary w-100 mx-0" onClick={()=>doMarkTaskInProgress()}>Mark Task In Progress</button>
+                                    </div>
+                                </div>
+                                :
+                                <div class="row justify-content-center">
+                                    <div class="col-12">
+                                        <button type="button" class="btn btn-primary w-100 mx-0" onClick={()=>doMarkTaskComplete()}>Mark Task Complete</button>
+                                    </div>
+                                </div>}
                             </div>:null}
                         </div>
                     </div>
