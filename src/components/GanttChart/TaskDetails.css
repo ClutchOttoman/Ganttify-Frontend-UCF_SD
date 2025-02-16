@@ -475,5 +475,6 @@ select[multiple] {
 
 .editTaskAppearanceButton{
     height: 32px !important;
+    width: fit-content;
 }
 
