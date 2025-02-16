@@ -465,9 +465,15 @@ const AddTaskButton = ({ projectId }) => {
                     <div class="col-12 d-flex align-items-center">
                         <div class="task-appearance-preview" draggable="false" style={{backgroundColor:`${color}`,backgroundImage:`url(${patterns[patternPreview]})`,backgroundSize: 'contain'}}></div>
                     </div>
-                </div>
+                  </div>
+                  <div class="row mt-3 justify-content-center">
+                    <div class="col-8">
+                        <button type="submit" className="btn btn-primary px-0 mx-0 mt-3 w-100">Add Task</button>
+                    </div>
+                  </div>
+                 
 
-                  <button type="submit" className="btn btn-primary mt-3">Add Task</button>
+                  
                   
                 </form>
               </div>

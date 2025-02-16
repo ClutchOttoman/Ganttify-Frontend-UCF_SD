@@ -602,7 +602,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks, f
 
       setTaskCategory(updatedTask.category || null ); // Handle removed category
       setOriginalTask(updatedTask); // Sync the original task with the latest data
-      forceTaskVisualUpdate(task._id,pattern)
+      forceTaskVisualUpdate(task._id,pattern,color)
   
       // Update users' to-do list
       await updateUsersToDoList(task._id, assignedUserNames.map(name => teamUsers.find(user => user.name === name)._id).filter(id => id));
