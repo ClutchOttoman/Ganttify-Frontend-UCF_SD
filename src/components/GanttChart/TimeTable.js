@@ -1042,13 +1042,14 @@ export default function TimeTable({
       break;
   }
 
-  const forceTaskVisualUpdate = (taskId,newPattern) => {
+  const forceTaskVisualUpdate = (taskId,newPattern,newColor) => {
     let taskDuration = document.getElementById(`${taskId}--pattern-target`)
     if(!taskDuration){
         console.log("Task cant be found by id: " + `${taskId}--pattern-target` );
         return;
     }
     taskDuration.style.backgroundImage = newPattern ? `url(${patterns[newPattern]})` : 'none';
+    taskDuration.style.backgroundColor = newColor;
   }
 
   const handleDelete = async (taskId, projectId) => {
