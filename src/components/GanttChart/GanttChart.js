@@ -325,15 +325,16 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
           />
         </Grid>
 
-        <TaskDetails
-          show={showDetails}
-          onHide={() => setShowDetails(false)}
-          task={selectedTask}
-          handleDelete={(taskId) => setTasks(tasks.filter(task => task._id !== taskId))}
-          userId={userId}
-          userRole={userRole}
-          teamId={teamId}
-        />
+      <TaskDetails
+        show={showDetails}
+        onHide={() => setShowDetails(false)}
+        task={selectedTask}
+        handleDelete={(taskId) => setTasks(tasks.filter(task => task._id !== taskId))}
+        userId={userId}
+        userRole={userRole}
+        teamId={teamId}
+        projectTasks={tasks}
+      />
 
         <div className="export-buttons-container">
           {/* <div className="gantt-chart-sort-selector"> */}
