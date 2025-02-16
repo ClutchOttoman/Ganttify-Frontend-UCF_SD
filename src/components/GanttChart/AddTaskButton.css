@@ -29,6 +29,7 @@
   }
   
   .button-icon {
+    font-family: "Inter", sans-serif !important;
     font-size: 24px;
     transition: transform 0.3s, margin 0.3s;
     margin-right: -71px;
@@ -136,3 +137,20 @@
     margin-left: 10px;
 }
 
+.submit-btn{
+  width: 300px;
+}
+
+
+@media (max-width: 1200px) {
+  .modal-content{
+      transform: translateX(-20%);
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+      width: 95vw; 
+      transform: translateX(-35%);
+  }
+}

@@ -174,7 +174,11 @@ ul li{
     margin-left:-10px;
 }
 
-
+.modal-footer{
+    .btn {
+        width: 500px;
+    }
+}
 
 
 

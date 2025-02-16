@@ -263,7 +263,7 @@ function DasboardNavBar({page}) {
                                             onChange={handleCSVImport} 
                                         />
                                     </div>
-                                    <button type="submit" className="btn btn-primary">Create Project</button>
+                                    <button type="submit" className="btn btn-primary submit-btn">Create Project</button>
                                 </form>
                             )}
                         </div>
