@@ -103,8 +103,11 @@
 }
 .dropdownBtnAdd{
     background-color:white !important;
-    border-color: lightgrey;
-    border-style: groove;
+    border-color: #CCCCCC !important;
+    border-style: solid !important;
+    border-radius: 5px !important;
+    border-width:0.8px !important ;
+    color: black !important;
 }
 .prerequisiteTaskDropdownItem{
     font-size: larger;
@@ -122,3 +125,14 @@
     margin-left: 10px;
 }
 
+.checkBoxAddBtn{
+    width: 17.6px !important;
+}
+.taskAppearanceColorPicker{
+    width: 60px !important;
+    height: 30px !important;
+    border: none !important;
+    border-radius: 0% !important;
+    border-width: 0px !important;
+    padding: 0px !important;
+}

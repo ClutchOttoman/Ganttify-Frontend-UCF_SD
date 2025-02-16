@@ -779,16 +779,16 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks, f
                 </div>
                 <div class="row mt-4 justify-content-center">
                     <div class="col-12 d-flex align-items-center">
-                        <div class="task-appearance-preview" draggable="false" style={{background:`${color}`,backgroundImage:`url(${patterns[pattern]})`,backgroundSize: 'contain'}}></div>
+                        <div class="task-appearance-preview" draggable="false" style={{backgroundColor:`${color}`,backgroundImage:`url(${patterns[pattern]})`,backgroundSize: 'contain'}}></div>
                     </div>
                 </div>
             </form>
             
        </div>
       )}
-      <div class = "d-inline-flex container align-items-start">
+      <div class = "row align-items-start">
         {progressEditPermission ?
-        <div className="dropdownDetails">
+        <div className="col-4  dropdownDetails">
             <a className="nav-link dropdown-toggle" id="todoDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >{status}</a>
             <div className="dropdown-menu" aria-labelledby="todoDropdown">
             <a className="dropdown-item" onClick={() => handleStatusChange('Not Started')}>Not Started</a>
@@ -796,9 +796,14 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks, f
             <a className="dropdown-item" onClick={() => handleStatusChange('Completed')}>Completed</a>:
             </div>
         </div> :
-        <div className="dropdownDetails">
+        <div className="col-4 dropdownDetails">
             <a className="nav-link" id="todoDropdown" disabled aria-expanded="false" >{status}</a>
         </div>}
+        {(editMode && !showColorPicker) ?
+            <div class= "col-8 dropdownDetails">
+                <a class =  "btn editTaskAppearanceButton m-0" onClick={() => setShowColorPicker(!showColorPicker)} >Edit Task Appearance</a>
+            </div>
+         : null}
         </div>
       
       {/*Rich Text Editor */}

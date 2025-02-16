@@ -467,11 +467,14 @@ select[multiple] {
     margin-inline-start: 20px;
 }
 .taskDurationBaseStyle{
-    position: 'absolute';
-    height: 'calc(var(--cell-height) * 0.75)';
-    top: 'calc(var(--cell-height) / 8)';
-    border-radius: 'var(--border-radius)';
-    box-shadow: '3px 3px 3px rgba(0, 0, 0, 0.05)';
-  }
+    position: absolute;
+    height: calc(var(--cell-height) * 0.75);
+    top: calc(var(--cell-height) / 8);
+    border-radius: var(--border-radius);
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.05);
+}
 
+.editTaskAppearanceButton{
+    height: 32px !important;
+}
 
