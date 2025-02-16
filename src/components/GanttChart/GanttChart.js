@@ -322,6 +322,7 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
             userId={userId}
             projectId={projectId}
             userRole={userRole}
+            projectTasks={tasks}
           />
         </Grid>
 
@@ -333,6 +334,7 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
           userId={userId}
           userRole={userRole}
           teamId={teamId}
+          projectTasks={tasks}
         />
       </div>
 
