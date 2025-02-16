@@ -334,7 +334,7 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
           userRole={userRole}
           teamId={teamId}
         />
-      </Grid>
+      </div>
 
       <TaskDetails
         show={showDetails}
