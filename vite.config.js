@@ -36,6 +36,8 @@ export default defineConfig(()=>({
     },
   },
   // End workaround
-	assetsInclude: ["**/*.PNG","**/*.JPG"],
-
+	assetsInclude: ["**/*.PNG","**/*.JPG","**/*.SVG"],
+	build: {
+   	 assetsInlineLimit: 0
+ 	 },
 }))
