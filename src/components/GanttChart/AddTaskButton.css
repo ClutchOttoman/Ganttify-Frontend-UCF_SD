@@ -56,7 +56,21 @@
   
   .modal.show {
     display: block;
-    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .add-task-modal {
+    position: fixed;
+    width: 100%; 
+    left: 35%;
+    overflow-y: none; 
+  }  
+
+  .modal-content{
+    text-align: left;
+    max-width: 600px;
+    max-height: 600px;
+    width: 100%;  
+    overflow-x:hidden;
   }
   
   .color-options {

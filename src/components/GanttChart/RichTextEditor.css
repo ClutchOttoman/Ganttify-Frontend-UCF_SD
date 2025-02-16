@@ -20,6 +20,7 @@
 }
 
 #editor-toolbar .dropdown-toggle {
+  color: black;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -76,8 +77,9 @@
   color: white;
 }
 
-
-.toolbar-btn {
+#editor-wrapper #editor-toolbar{
+  .toolbar-btn {
+    color: black;
     background: none;
     border: none;
     border-radius: 5px;
@@ -110,50 +112,50 @@
 }
 
 .highlight-picker-sidebar {
-    position: absolute;
-    background-color: white;
-    border-radius: 5px;
-    width: 250px;
-    height: 130px;
-    margin-left: -112px;
-    box-shadow: -1px 3px 8px rgba(0, 0, 0, 0.3);
-    align-items: center;
-    justify-content: center;
-    z-index: 99999;
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    padding-top: 5px;
-  }
-  
+  position: absolute;
+  background-color: white;
+  border-radius: 5px;
+  width: 250px;
+  height: 130px;
+  margin-left: -112px;
+  box-shadow: -1px 3px 8px rgba(0, 0, 0, 0.3);
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding-top: 5px;
+}
+
 .highlight-circle.clickable:hover {
+outline: 2px solid #7AA7B7; 
+outline-offset: 3px; 
+}
+
+.highlight-option-sidebar {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.3s;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+}
+
+.highlight-option-sidebar:hover {
   outline: 2px solid #7AA7B7; 
   outline-offset: 3px; 
 }
 
-.highlight-option-sidebar {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    cursor: pointer;
-    border: 2px solid transparent;
-    transition: border-color 0.3s;
-    align-items: center;
-    justify-content: center;
-    margin-left: 8px;
-}
-  
-.highlight-option-sidebar:hover {
-    outline: 2px solid #7AA7B7; 
-    outline-offset: 3px; 
-  }
-  
 .no-highlight{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    grid-column: 1 / -1;
-    grid-row: 1;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-column: 1 / -1;
+  grid-row: 1;
+}
 
 .no-highlight:hover {
 background-color: #d3d3d3;
@@ -161,23 +163,27 @@ background-color: #d3d3d3;
 }
 
 .highlight-picker-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  grid-column: 3 / span 3;
-  grid-row: 4;
+display: flex;
+align-items: center;
+justify-content: center;
+grid-column: 3 / span 3;
+grid-row: 4;
 }
-  
+
 .highlight-picker-wrapper .fa-eye-dropper {
-    margin-right: 10px;
-    font-size: 18px;
-    cursor: default;
+  margin-right: 10px;
+  font-size: 18px;
+  cursor: default;
 }
 #color-indicator-bar {
-    width: 25px;
-    height: 5px;
-    z-index: 10;
-  }
+  width: 25px;
+  height: 5px;
+  z-index: 10;
+}
+
+}
+
+
 
 #editor-textbox {
     height: 223px;

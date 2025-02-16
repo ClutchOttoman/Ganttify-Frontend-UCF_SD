@@ -273,7 +273,6 @@ select[multiple] {
 }
 
 .done-button {
-  position: fixed;
   bottom: 15px;
   right: 22px;
   background-color: #135C91;

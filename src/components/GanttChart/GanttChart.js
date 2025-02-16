@@ -302,66 +302,68 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
 
 
   return (
-    <div id="gantt-container">
-      <Grid>
-        <Tasks
-          tasks={tasks}
-          setTasks={setTasks}
-          setTaskDurations={setTaskDurations}
-          userRole={userRole}
-          setSelectedTask={setSelectedTask}
-          setShowDetails={setShowDetails}
-        />
-        <TimeTable
-          timeRange={timeRange}
-          tasks={tasks}
-          setTasks={setTasks}
-          taskDurations={taskDurations}
-          setTaskDurations={setTaskDurations}
+    <div className="container-fluid px-0 mx-0 py-0 mt-5 mb-0 main-container" >
+      <div id="gantt-container">
+        <Grid>
+          <Tasks
+            tasks={tasks}
+            setTasks={setTasks}
+            setTaskDurations={setTaskDurations}
+            userRole={userRole}
+            setSelectedTask={setSelectedTask}
+            setShowDetails={setShowDetails}
+          />
+          <TimeTable
+            timeRange={timeRange}
+            tasks={tasks}
+            setTasks={setTasks}
+            taskDurations={taskDurations}
+            setTaskDurations={setTaskDurations}
+            userId={userId}
+            projectId={projectId}
+            userRole={userRole}
+          />
+        </Grid>
+
+        <TaskDetails
+          show={showDetails}
+          onHide={() => setShowDetails(false)}
+          task={selectedTask}
+          handleDelete={(taskId) => setTasks(tasks.filter(task => task._id !== taskId))}
           userId={userId}
-          projectId={projectId}
           userRole={userRole}
+          teamId={teamId}
         />
-      </Grid>
 
-      <TaskDetails
-        show={showDetails}
-        onHide={() => setShowDetails(false)}
-        task={selectedTask}
-        handleDelete={(taskId) => setTasks(tasks.filter(task => task._id !== taskId))}
-        userId={userId}
-        userRole={userRole}
-        teamId={teamId}
-      />
+        <div className="export-buttons-container">
+          {/* <div className="gantt-chart-sort-selector"> */}
+            <select className="gantt-chart-sort-selection" onChange={handleSortChange} value={sortBy}>
+              <option value="alphabetical">Alphabetical</option>
+              <option value="created">By Creation Date</option>
+            </select>
+          {/* </div> */}
 
-      <div className="export-buttons-container">
-        {/* <div className="gantt-chart-sort-selector"> */}
-          <select className="gantt-chart-sort-selection" onChange={handleSortChange} value={sortBy}>
-            <option value="alphabetical">Alphabetical</option>
-            <option value="created">By Creation Date</option>
-          </select>
-        {/* </div> */}
+          {!isExporting && (
+            <>
+              <button onClick={exportToPDF} className="export-pdf-button">
+                Export PDF
+              </button>
+              <button onClick={exportToCSV} className="export-csv-button">
+                Export CSV
+              </button>
+            </>
+          )}
 
-        {!isExporting && (
-          <>
-            <button onClick={exportToPDF} className="export-pdf-button">
-              Export PDF
-            </button>
-            <button onClick={exportToCSV} className="export-csv-button">
-              Export CSV
-            </button>
-          </>
-        )}
-
-        {/* <div class="gantt-chart-time-range-selector"> */}
-          <select id = "timeRangeDropdown" class="gantt-chart-time-range-selection" onChange={(e) => handleTimeRangeChange(e)}>
-            <option value="">Range</option>
-            <option value="weeks"><p>Weeks</p></option>
-            <option value="months"><p>Months</p></option>
-          </select>
-        {/* </div> */}
+          {/* <div class="gantt-chart-time-range-selector"> */}
+            <select id = "timeRangeDropdown" class="gantt-chart-time-range-selection" onChange={(e) => handleTimeRangeChange(e)}>
+              <option value="">Range</option>
+              <option value="weeks"><p>Weeks</p></option>
+              <option value="months"><p>Months</p></option>
+            </select>
+          {/* </div> */}
+        </div>
+        
       </div>
-      
     </div>
   );
 }

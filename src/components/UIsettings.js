@@ -140,7 +140,8 @@ const UISettings = () => {
     const applyProtanCVDFilter = () => {
       if (activeCVD === 'protanopia') {
         removeCVDFilter();
-      } else {
+      } 
+      else {
         setActiveCVD('protanopia'); // Apply Protanopia filter
           const allInstances = document.getElementsByClassName("cvd_filter_applicable");
           for (let i = 0; i < allInstances.length; i++) {
@@ -154,15 +155,16 @@ const UISettings = () => {
     const applyDeuteranCVDFilter = () => {
       if (activeCVD === 'deuteranopia') {
         removeCVDFilter();
-      } else {
+      } 
+      else {
       setActiveCVD('deuteranopia');
       const allInstances = document.getElementsByClassName("cvd_filter_applicable");
       for (let i = 0; i < allInstances.length; i++) {
         allInstances[i].classList.remove("normal", "protanopia", "deuteranopia", "tritanopia");
         allInstances[i].classList.add("deuteranopia");
       }
-      }
       CVDFilterHandler('deuteranopia');
+      }
     };
     
     const applyTritanCVDFilter = () => {
@@ -196,7 +198,7 @@ const UISettings = () => {
       const savedUserInfo = localStorage.getItem('user_data');
       const savedUserId = JSON.parse(savedUserInfo)._id; // use user id to query database.
       console.log("Changing CVD filter, savedUserId = " + savedUserId);
-      console.log(activeCVD)
+
       const response = await fetch(buildPath(`api/change-CVD-filter/${savedUserId}/${filter}`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
