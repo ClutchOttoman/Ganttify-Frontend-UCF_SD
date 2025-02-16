@@ -779,7 +779,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks, f
                 </div>
                 <div class="row mt-4 justify-content-center">
                     <div class="col-12 d-flex align-items-center">
-                        <div class="task-appearance-preview" draggable="false" style={{backgroundColor:`${color}`,backgroundImage:"url(" + `${patterns[pattern]})`,backgroundSize: 'contain'}}></div>
+                        <div class="task-appearance-preview" draggable="false" style={{backgroundColor:`${color}`,backgroundImage:`url(${patterns[pattern]})`,backgroundSize: 'contain'}}></div>
                     </div>
                 </div>
             </form>
