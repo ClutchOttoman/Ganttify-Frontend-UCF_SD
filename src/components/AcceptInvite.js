@@ -50,7 +50,7 @@ function AcceptInvite() {
       try{
         const response = await fetch(buildPath(`api/search-user/${email}`), {
           method: 'GET',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json' }
         });
 
         const res = await response.json();
@@ -66,7 +66,7 @@ function AcceptInvite() {
           try {
             const response = await fetch(buildPath(`api/accept-invite/${token}/${email}`), {
               method: 'GET',
-              headers: { 'Content-Type': 'application/json'},
+              headers: { 'Content-Type': 'application/json'}
             });
   
           } catch (e) {
