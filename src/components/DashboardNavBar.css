@@ -28,7 +28,7 @@ body{
     margin-top:20px;
     cursor:pointer;
 }
-.navBtn:hover, .navBtnSmall{
+.navBtn:hover, .navBtnSmall:hover{
     background-color: #F0F0F0  !important;
 }
 .topNavBtn{
