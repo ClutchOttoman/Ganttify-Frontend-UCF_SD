@@ -64,7 +64,7 @@ function ProjectHeader({ projectName, setProjectName, projectId, founderId }) {
       <span style= {{fontSize: "0.6em"}} className="project-name">{projectName}</span>
       {founderId === userId ?
         <button style= {{fontSize: "0.3em"}}
-        className="btn-outline-primary"
+        className="btn-outline-primary2"
         onClick={() => setIsModalOpen(true)} // Open modal on button click
       >
         ✏️ Edit Project Name
