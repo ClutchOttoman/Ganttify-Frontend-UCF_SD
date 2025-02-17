@@ -1883,6 +1883,10 @@ body.dark {
   }
 }
 
+body.dark div#taskContactsDiv.contactInfoDiv.mt-1{
+    background-color: #313131;
+}
+
 
 
 
