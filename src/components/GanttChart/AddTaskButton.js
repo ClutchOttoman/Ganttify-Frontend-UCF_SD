@@ -3,9 +3,40 @@ import React, { useState, useEffect } from 'react';
 import './AddTaskButton.css';
 import {buildPath} from '../buildPath';
 import RichTextEditor from './RichTextEditor.js';
+import Hollow_Single_Circle_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Circle_Density_1.svg';
+import Hollow_Single_Dot_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Dot_Density_1.svg';
+import Hollow_Single_Rhombus_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Rhombus_Density_1.svg';
+import Hollow_Single_Square_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Square_Density_1.svg';
+import Hollow_Single_Star_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Star_Density_1.svg';
+import Hollow_Single_Triangle_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Triangle_Density_1.svg';
+import Diagonal_Left_Single_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Diagonal_Left_Single_Line_Density_1.svg';
+import Diagonal_Right_Single_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Diagonal_Right_Single_Line_Density_1.svg';
+import Diagonal_Woven_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Diagonal_Woven_Line_Density_1.svg';
+import Single_Horizontal_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Single_Horizontal_Line_Density_1.svg';
+import Single_Vertical_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Single_Vertical_Line_Density_1.svg';
+import Solid_Single_Circle_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Circle_Density_1.svg';
+import Solid_Single_Dot_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Dot_Density_1.svg';
+import Solid_Single_Rhombus_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Rhombus_Density_1.svg';
+import Solid_Single_Square_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Square_Density_1.svg';
+import Solid_Single_Star_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Star_Density_1.svg';
+import Solid_Single_Triangle_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Triangle_Density_1.svg';
 
 //Default color
 const GanttifyOrange = "#DC6B2C";
+
+
+const patterns = {
+    'Diagonal_Right_Single_Line_Density_1.svg':Diagonal_Right_Single_Line_Density_1,
+    'Diagonal_Left_Single_Line_Density_1.svg':Diagonal_Left_Single_Line_Density_1, 'Diagonal_Left_Single_Line_Density_1.svg':Diagonal_Left_Single_Line_Density_1,
+    'Diagonal_Woven_Line_Density_1.svg':Diagonal_Woven_Line_Density_1, 'Single_Horizontal_Line_Density_1.svg':Single_Horizontal_Line_Density_1,
+    'Single_Vertical_Line_Density_1.svg':Single_Vertical_Line_Density_1,'Solid_Single_Circle_Density_1.svg':Solid_Single_Circle_Density_1,
+    'Solid_Single_Dot_Density_1.svg':Solid_Single_Dot_Density_1,'Solid_Single_Rhombus_Density_1.svg':Solid_Single_Rhombus_Density_1,
+    'Solid_Single_Square_Density_1.svg':Solid_Single_Square_Density_1,'Solid_Single_Star_Density_1.svg':Solid_Single_Star_Density_1,
+    'Solid_Single_Triangle_Density_1.svg':Solid_Single_Triangle_Density_1,'Hollow_Single_Circle_Density_1.svg':Hollow_Single_Circle_Density_1,
+    'Hollow_Single_Dot_Density_1.svg':Hollow_Single_Dot_Density_1,'Hollow_Single_Rhombus_Density_1.svg':Hollow_Single_Rhombus_Density_1,
+    'Hollow_Single_Square_Density_1.svg':Hollow_Single_Square_Density_1,'Hollow_Single_Star_Density_1.svg':Hollow_Single_Star_Density_1,
+    'Hollow_Single_Triangle_Density_1.svg':Hollow_Single_Triangle_Density_1,'No Pattern':null,
+  }
 
 // Initialization of the modal
 const AddTaskButton = ({ projectId }) => {
@@ -31,6 +62,7 @@ const AddTaskButton = ({ projectId }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [color, setColor] = useState('#DC6B2C'); 
   const [pattern,setPattern] = useState('No Pattern');
+  const [patternPreview,setPatternPreview] = useState('No Pattern');
   const [projectTasks, setProjectTasks] = useState([]);
   const [prerequisiteTasks, setPrerequisiteTasks] = useState([]);
   const [allowEmailNotifications, setAllowEmailNotifcations] = useState(false);
@@ -158,6 +190,7 @@ const AddTaskButton = ({ projectId }) => {
   const handlePatternChange = async (newPattern,newPatternToDisplay) => {
     console.log(newPattern);
     setPattern(newPatternToDisplay);
+    setPatternPreview(newPattern);
     setTaskData(oldData => ({...oldData, pattern: newPattern}));
   }
   const isPrerequisiteDropdownDisabled = () =>{
@@ -166,6 +199,7 @@ const AddTaskButton = ({ projectId }) => {
   }
   
   const handlePrerequisiteChange = async (taskId) =>{
+    console.log("prereqs changed: " + taskId);
     if(prerequisiteTasks && prerequisiteTasks.includes(taskId)){
         setPrerequisiteTasks(prerequisiteTasks.filter(prereq => prereq !== taskId));
         //console.log("removing prereq: " + taskId + " from: " + prerequisiteTasks);
@@ -225,7 +259,9 @@ const AddTaskButton = ({ projectId }) => {
     
     
     try {
-
+      var timeZone =  " " + new Date().toString().match(/([A-Z]+[\+-][0-9]+)/)[1];
+      newTask.dueDateTime += timeZone; 
+      newTask.startDateTime += timeZone;
       const response = await fetch(buildPath('api/createtask'), {
         method: 'POST',
         headers: {
@@ -269,6 +305,8 @@ const AddTaskButton = ({ projectId }) => {
       dependentTasks:[],
       allowEmailNotifications: false,
     });
+    setPattern('No Pattern')
+    setPatternPreview('No Pattern')
     setColor(GanttifyOrange);
     setAllowEmailNotifcations(false);
     setErrorMessage(""); 
@@ -277,6 +315,7 @@ const AddTaskButton = ({ projectId }) => {
 
   return (
     <>
+    
       <div className="floating-button" onClick={() => setShowModal(true)}>
         <div className="button-content">
           <span className="button-icon">+</span>
@@ -289,16 +328,15 @@ const AddTaskButton = ({ projectId }) => {
       {showModal && (
 
 
-        <div className="modal show" style={{ display: 'block' }}>
-          <div className="modal-dialog">
+        <div className="modal show w-100">
+          <div className="modal-dialog add-task-modal ">
             <div className="modal-content">
 
 
               <div className="modal-header">
                 <h5 className="modal-title">Add a Task</h5>
         
-                <button type="button" className="btn-close" onClick={closeModal}
-                  style={{ fontSize: '1.7rem'}}>
+                <button type="button" className="btn-close align-content-center" onClick={closeModal} style={{ color: 'black', fontSize: '1.7rem', background: `${GanttifyOrange}`, border: 'none' }}>
                     ✖  
                 </button>
                       
@@ -347,8 +385,8 @@ const AddTaskButton = ({ projectId }) => {
                         <ul class="dropdown-menu" id = "prerequisiteTaskDropdownMenu">
                             {projectTasks.map(task =>(
                                     <a href={"#" + `${task._id}`} key={task._id} class ="dropdown-item">
-                                        <div class="form-check">
-                                            <input type ="checkbox" id={task._id} class ="form-check-input" value={task._id} onChange={(e) => handlePrerequisiteChange(e.target.value)}/>
+                                        <div class="form-check  d-flex align-items-center">
+                                           <input type ="checkbox" id={task._id} className ="form-check-input checkBoxAddBtn me-2"  checked={taskData.prerequisiteTasks.includes(task._id)} onChange={() => handlePrerequisiteChange(task._id)}/>
                                             <label htmlFor = {task._id} class = "form-check-label prerequisiteTaskDropdownItem">{task.taskTitle}</label>
                                         </div>
                                     </a>
@@ -356,9 +394,8 @@ const AddTaskButton = ({ projectId }) => {
                             ))}
                            <>
                            </>
-                        </ul>
-                        </div>
-                  
+                        </ul> 
+                        </div>                 
                   <div className="mb-4 dropup dropup-center d-grid gap-2">
                   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"></link>
                     <label htmlFor="assignedTasksUsers" className="form-label text-align-start">Assigned Users</label>
@@ -366,11 +403,11 @@ const AddTaskButton = ({ projectId }) => {
                     <ul class ="dropdown-menu" id="assignedUsersDropdownMenu" >
 
                       {teamUsers.map(user => (
-                        <a href={"#"+`${user.id}`}key={user._id} class="dropdown-item">
-                          <div class="form-check">
+                        <a href={"#"+`${user.id}`}key={user._id} class="dropdown-item ">
+                          <div class="form-check d-flex align-items-center">
                             <input
                                 type="checkbox"
-                                class ="form-check-input"
+                                class ="form-check-input checkBoxAddBtn me-2"
                                 id={`user-${user._id}`}
                                 checked={taskData.assignedTasksUsers.includes(user._id)}
                                 onChange={() => handleCheckboxChange(user._id)}
@@ -388,18 +425,11 @@ const AddTaskButton = ({ projectId }) => {
                       <input type="checkbox" class = "form-check-input allowEmailNotifcationsCheckBox" checked = {allowEmailNotifications} onChange={(e) => handleAllowEmailNotificationsCheckboxChange(allowEmailNotifications)}/>
                  </div>*/}
                   <div className="mb-3">
-                  <label className="form-label">Color</label>
-
-
-                  <div className="color-options">
-                    {colorOptions.map((colorOption) => (
-                      <div key={colorOption} className="color-option" style={{ backgroundColor: colorOption }} onClick={() => handleColorChange(colorOption)} />
-                    ))}
-                  </div>
+                  <label className="form-label">Task Color</label>
 
 
                   <div className="color-picker-container">
-                    <input type="color" className="form-control form-control-color" id="myColor" value={color} title="Choose a color" onChange={(e) => handleColorChange(e.target.value)} />
+                    <input type="color" className="form-control form-control-color taskAppearanceColorPicker" id="myColor" value={color} title="Choose a color" onChange={(e) => handleColorChange(e.target.value)} />
                   </div>
 
                 </div>
@@ -429,9 +459,18 @@ const AddTaskButton = ({ projectId }) => {
                         <a onClick={()=>handlePatternChange('Solid_Single_Triangle_Density_1.svg','Solid Triangles')} class = "dropdown-item patternDropdownItem">Solid Triangles</a>
                         </ul>
                   </div>
-
-
-                  <button type="submit" className="btn btn-primary">Add Task</button>
+                  <label class="form-label">Task Appearance Preview</label>
+                  <div class="row mt-3 justify-content-center">
+                    <div class="col-12 d-flex align-items-center">
+                        <div class="task-appearance-preview" draggable="false" style={{backgroundColor:`${color}`,backgroundImage:`url(${patterns[patternPreview]})`,backgroundSize: 'contain'}}></div>
+                    </div>
+                  </div>
+                  <div class="row mt-3 justify-content-center">
+                    <div class="col-8">
+                        <button type="submit" className="btn btn-primary px-0 mx-0 mt-3 w-100">Add Task</button>
+                    </div>
+                  </div>
+                  
                 </form>
               </div>
             </div>

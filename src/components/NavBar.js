@@ -136,7 +136,8 @@ const toggleHighContrastMode = () => {
     if (props.layout === 3) {
       fetchTeamMembers(projectId);
     }
-  }, [props.layout, projectId]);
+
+  }, [props.layout, projectId, founderId]);
 
 
 
@@ -449,9 +450,7 @@ const toggleHighContrastMode = () => {
     return (
       <div id="navBarDiv">
         <div className="navbar">
-          <a href="/" aria-label="Go back to home page">
             <img src={Logo} alt="GanttifyHomePage" className="logo" />
-          </a>
           <h1 className="navbarHeader"> Ganttify </h1>
           <ul className="navbarOptions">
             <li><Link to="/"><button id="button"> Home</button></Link></li>
@@ -466,7 +465,7 @@ const toggleHighContrastMode = () => {
     return (
       <div id="navBarDiv" style={dashboardNav}>
         <div class="container-fluid navbarDash">
-          <a href="/" aria-label="Go back to home page">
+          <a href="/dashboard" aria-label="Go back to dashboard">
             <img src={Logo} alt="GanttifyHomePage" className="logoDash" />
           </a>
           <h1 className="navbarHeaderDash"> DashBoard </h1>
@@ -484,10 +483,10 @@ const toggleHighContrastMode = () => {
       <div className="layout-3">
         <div id="navBarDiv" style={dashboardNav} role="navigation">
           <div className="navbarDash">
-            <a href="/" aria-label="Go back to home page">
+            <a href="/dashboard" aria-label="Go back to dashboard">
               <img src={Logo} alt="GanttifyHomePage" className="logoDash" />
             </a>
-            <ProjectTitle projectId={projectId} />
+            <ProjectTitle projectId={projectId} founderId={founderId}/>
             <ul className="navbarOptionsView">
               {isEditor && (
                 <li className="nav-item dropdown">
@@ -566,16 +565,13 @@ const toggleHighContrastMode = () => {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">Invite Team Member</h5>
-                <button type="button" className="closeEmailModal" aria-label="Close" onClick={closeInviteModal}>
-                  <span aria-hidden="true">&times;</span>
-                </button>
               </div>
               <div className="modal-body">
                 <p>Share the invite link with your team members to join this project:</p>
                 <ProjectInviteLink projectId={projectId} />
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={closeInviteModal}>Close</button>
+                <button type="button" className="btn btn-primary px-0 mx-0 mt-3 w-100" onClick={closeInviteModal}>Close</button>
               </div>
             </div>
           </div>
@@ -620,7 +616,7 @@ const toggleHighContrastMode = () => {
     return (
       <div id="navBarDiv">
         <div className="navbar" >
-          <a href="/" aria-label="Go back to home page">
+          <a href="/dashboard" aria-label="Go back to home page">
             <img src={Logo} alt="GanttifyHomePage" className="logo" />
           </a>
           <h1 className="navbarHeader" > Ganttify </h1>

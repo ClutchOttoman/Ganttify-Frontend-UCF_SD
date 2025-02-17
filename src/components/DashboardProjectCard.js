@@ -72,11 +72,11 @@ function DashboardProjectCard({project,userId,setSelectedProject,setNewName,setI
                                     
                                 </div>
                                     : 
-                                <div class = "row align-items-start justify-content-end mb-1">
-                                    <div class = "col col-3 px-0 ms-0 me-2"><a class = "btn viewChartBtn mx-0" href = {`/viewchart/${project?._id}`}>View Chart</a></div>
+                                <div class = "row align-items-center justify-content-end mb-1">
+                                    <div class = "col-3 px-0 ms-0 me-4"><a class = "btn viewChartBtn mx-0" href = {`/viewchart/${project?._id}`}>View Chart</a></div>
                                 </div>}
                                 <h5 class="card-subtitle">
-                                    {project.nameProject}
+                                    {project.nameProject}{ userId.toString() === project.founderId.toString() ? 
                                     <button
                                         style={{fontSize: "0.6em"}}
                                         className="btn-outline-primary"
@@ -87,7 +87,7 @@ function DashboardProjectCard({project,userId,setSelectedProject,setNewName,setI
                                         }}
                                     >
                                         ✏️ Edit Project Name
-                                    </button> 
+                                    </button>:null }
                                 </h5>
                                 <p class="card-text">Owner: {project.founderId.toString().localeCompare(userId.toString()) === 0 ? meText : friendText}</p>
                             </div>
@@ -106,7 +106,7 @@ function DashboardProjectCard({project,userId,setSelectedProject,setNewName,setI
                                     <div class="col col-1 ps-0 ms-5 me-3"><button class="projectBtn"><img alt="RestoreButtonIcon" src={RestoreIcon} class="btnIcon"  onClick={()=>setProjectToRestoreChart(project)}/></button></div>
                                     <div class = "col col-3 px-0"><h5 class = "btnLabel">Restore</h5></div>
                                 </div>
-                                <h5 class="card-title">{project.nameProject}</h5>
+                                <h5 class="card-subtitle mt-1">{project.nameProject}</h5>
                                 <p class="card-text">Recover Until: {toRecoverDate(project.dateMoved)}</p>
                             </div>
                         </div>

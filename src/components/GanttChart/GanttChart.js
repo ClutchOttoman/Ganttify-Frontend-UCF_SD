@@ -172,7 +172,7 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
     const sortedTasks = sortTasks(tasks); // Sort the current tasks based on the selected sorting method
     setTasks(sortedTasks); // Update the state with sorted tasks
   }, [sortBy]); // Trigger re-sorting whenever sortBy changes
-  
+
 
   useEffect(() => {
     document.documentElement.style.setProperty('--task-count', tasks.length);
@@ -202,7 +202,7 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
     setSortBy(newSortBy); // Update the sorting preference
     sessionStorage.setItem("sortBy", newSortBy); // Save the sort option in sessionStorage
   };
-  
+
 
 
   const exportToPDF = async () => {
@@ -210,41 +210,41 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
     const exportButtons = document.querySelectorAll('.export-pdf-button, .export-csv-button');
     const rangeMenu = document.querySelector('.gantt-chart-time-range-selector');
     const sortMenu = document.querySelector('.gantt-chart-sort-selector');
-  
+
     if (!ganttContainer) return;
-  
+
     // Temporarily hide the elements we don't want in the export
     const hideElements = () => {
       exportButtons.forEach(button => button.style.display = 'none');
       if (rangeMenu) rangeMenu.style.display = 'none';
       if (sortMenu) sortMenu.style.display = 'none';
     };
-  
+
     // Restore the hidden elements
     const restoreElements = () => {
       exportButtons.forEach(button => button.style.display = '');
       if (rangeMenu) rangeMenu.style.display = '';
       if (sortMenu) sortMenu.style.display = '';
     };
-  
+
     try {
       // Hide the elements temporarily
       hideElements();
-  
+
       // Use html2canvas to capture the gantt container
       const canvas = await html2canvas(ganttContainer, { scale: 2 });
       const imgData = canvas.toDataURL('image/png');
-  
+
       // Create a new jsPDF instance
       const pdf = new jsPDF({
         orientation: 'landscape',
         unit: 'px',
         format: [canvas.width, canvas.height],
       });
-  
+
       // Add the image to the PDF
       pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
-  
+
       // Save the PDF
       pdf.save('gantt-chart.pdf');
     } catch (error) {
@@ -254,7 +254,7 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
       restoreElements();
     }
   };
-  
+
 
   const exportToCSV = () => {
     // Set exporting state to true
@@ -302,27 +302,41 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
 
 
   return (
-    <div id="gantt-container">
-      <Grid>
-        <Tasks
-          tasks={tasks}
-          setTasks={setTasks}
-          setTaskDurations={setTaskDurations}
-          userRole={userRole}
-          setSelectedTask={setSelectedTask}
-          setShowDetails={setShowDetails}
-        />
-        <TimeTable
-          timeRange={timeRange}
-          tasks={tasks}
-          setTasks={setTasks}
-          taskDurations={taskDurations}
-          setTaskDurations={setTaskDurations}
+    <div className="container-fluid px-0 mx-0 py-0 mt-5 mb-0 main-container" >
+      <div id="gantt-container">
+        <Grid>
+          <Tasks
+            tasks={tasks}
+            setTasks={setTasks}
+            setTaskDurations={setTaskDurations}
+            userRole={userRole}
+            setSelectedTask={setSelectedTask}
+            setShowDetails={setShowDetails}
+          />
+          <TimeTable
+            timeRange={timeRange}
+            tasks={tasks}
+            setTasks={setTasks}
+            taskDurations={taskDurations}
+            setTaskDurations={setTaskDurations}
+            userId={userId}
+            projectId={projectId}
+            userRole={userRole}
+            projectTasks={tasks}
+          />
+        </Grid>
+
+        <TaskDetails
+          show={showDetails}
+          onHide={() => setShowDetails(false)}
+          task={selectedTask}
+          handleDelete={(taskId) => setTasks(tasks.filter(task => task._id !== taskId))}
           userId={userId}
-          projectId={projectId}
           userRole={userRole}
+          teamId={teamId}
+          projectTasks={tasks}
         />
-      </Grid>
+      </div>
 
       <TaskDetails
         show={showDetails}
@@ -332,6 +346,7 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
         userId={userId}
         userRole={userRole}
         teamId={teamId}
+        projectTasks={tasks}
       />
 
       <div className="export-buttons-container">
@@ -355,13 +370,13 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
 
         {/* <div class="gantt-chart-time-range-selector"> */}
           <select id = "timeRangeDropdown" class="gantt-chart-time-range-selection" onChange={(e) => handleTimeRangeChange(e)}>
-            <option value="">Range</option>
+            <option value="">Days</option>
             <option value="weeks"><p>Weeks</p></option>
             <option value="months"><p>Months</p></option>
           </select>
         {/* </div> */}
+
       </div>
-      
     </div>
   );
 }

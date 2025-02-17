@@ -6,13 +6,15 @@
 .navbar{
     width: 100%;
     height: 9%;
+    max-height: 76px;
     display : flex;
     align-items: center;
     justify-content: space-between;
     background-color: #FDDC87;
     padding : 15px 0px;
     position: fixed;
-    z-index: 99999  ;
+    z-index: 99999;
+    float: top;
 }
 .navbarDash{
     width: 100%;
@@ -25,7 +27,6 @@
     padding : 15px 0px;
     position: relative;
     z-index: 99999  ;
-    float: top;
 }
 
 .logo{
@@ -57,7 +58,9 @@ ul li{
     margin : 10px 20px;
     font-size: 18px;
     cursor: pointer;
-    
+    &:hover{
+        color: #DC6B2C;
+    }
 }
 
 
@@ -90,7 +93,7 @@ ul li{
     justify-content: space-between;
     background-color: #FDDC87;
     padding: 15px 0px;
-    position: fixed;
+
     top: 0;
     z-index: 99999;
 }
@@ -173,51 +176,13 @@ ul li{
     margin-left:-10px;
 }
 
+.modal-footer{
+    .btn.btn-secondary {
+        width: 200px;
+        margin-right: 170px;
+    }
+}
 
-
-
-
-
-/* Dark Mode Toggle Button */
-button.dark-mode-toggle {
-    background-color: #DC6B2C; /* Make the background transparent */
-    color: #ffffff; /* Default text color (for light mode) */
-    padding: 3px 9px;
-    margin-top: -1%;
-    font-size: 17px;
-    cursor: pointer;
-    transition: all 0.3s ease; /* Smooth transition for color changes */
-    border-radius: 5px; /* Rounded corners */
-    outline: none; /* Remove the outline on focus */
-  }
-  
- /* Dark Mode Toggle Button */
-button.dark-mode-toggle:hover {
-    background-color: #b3704c; /* Make the background transparent */
-    color: #ffffff; /* Default text color (for light mode) */
-    
-  }
-  
-
-/* High Contrast Mode Toggle Button */
-button.high-contrast-mode-toggle {
-    background-color: #ea6e2b; /* Make the background transparent */
-    color: #ffffff; /* Default text color (for light mode) */
-    padding: 3px 9px;
-    margin-top: -1%;
-    font-size: 17px;
-    cursor: pointer;
-    transition: all 0.3s ease; /* Smooth transition for color changes */
-    border-radius: 5px; /* Rounded corners */
-    outline: none; /* Remove the outline on focus */
-  }
-  
- /* High Contrast Mode Toggle Button */
-button.high-contrast-mode-toggle:hover {
-    background-color: #cf7c4f; /* Make the background transparent */
-    color: #ffffff; /* Default text color (for light mode) */
-    
-  }
-
-
-
+.modal-title{
+    margin-left: 0px !important;
+}

@@ -1,11 +1,38 @@
+.title{
+  font:bold;
+  margin-top: 0px;
+  margin-bottom:20px;
+  color: black;
+}
+
+@media (max-width: 1400px) {
+  .dashboardAccountContainer {
+      width: 90vw; 
+      transform: translateX(-45%)
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboardAccountContainer {
+      width: 95vw; 
+      transform: translateX(-25%);
+  }
+  .title{
+      margin-top: -60px;
+
+  }
+}
 
 .dashboardAccountContainer {
-    max-width: 600px;
+    width: 38vw;
+    min-width: 350px;
     margin: 0px auto;
     padding: 20px;
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: width 0.3s ease;
+    margin-left: 20vw;
   }
   
   .dashboardTitle {
@@ -18,7 +45,7 @@
 
   .dashboardTitle::before, .dashboardTitle::after {
     content: '';
-    position: absolute;
+    position: relative;
     top: 50%;
     width: 80px;
     height: 2px;

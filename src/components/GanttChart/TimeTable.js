@@ -593,6 +593,7 @@ export default function TimeTable({
                     return (
                       <div
                         key={`${i}-${el?.task}`}
+                        id={`${task._id}--pattern-target`}
                         className="task-duration"
                         draggable="false"
                         style={{
@@ -787,6 +788,7 @@ export default function TimeTable({
                       return (
                         <div
                           key={`${i}-${el?.task}`}
+                          id={`${task._id}--pattern-target`}
                           className="task-duration"
                           draggable="false"
                           style={{
@@ -961,7 +963,7 @@ export default function TimeTable({
                         
                         <div
                           key={`${i}-${el?.task}`}
-    
+                          id={`${task._id}--pattern-target`}
                     
                           className={`task-duration ${taskDurationElDraggedId === el?._id ? 'dragging' : ''}`}
     
@@ -1038,6 +1040,16 @@ export default function TimeTable({
       }
 
       break;
+  }
+
+  const forceTaskVisualUpdate = (taskId,newPattern,newColor) => {
+    let taskDuration = document.getElementById(`${taskId}--pattern-target`)
+    if(!taskDuration){
+        console.log("Task cant be found by id: " + `${taskId}--pattern-target` );
+        return;
+    }
+    taskDuration.style.backgroundImage = newPattern ? `url(${patterns[newPattern]})` : 'none';
+    taskDuration.style.backgroundColor = newColor;
   }
 
   const handleDelete = async (taskId, projectId) => {
@@ -1336,6 +1348,7 @@ export default function TimeTable({
       );
       break;
   }
+  
 
     return (
 
@@ -1371,6 +1384,7 @@ export default function TimeTable({
           task={selectedTask}
           projectTasks={arrayOfTasks}
           handleDelete={handleDelete}
+          forceTaskVisualUpdate={forceTaskVisualUpdate}
           userId={userId}
         />
       </div>

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import Papa from 'papaparse'; // CSV parsing
+import React, { useState } from 'react';
 import "./DashboardNavBar.css";
 import { buildPath } from './buildPath';
-import Papa from 'papaparse';  // CSV parsing
 
 function DasboardNavBar({page}) {   
     const [message, setMessage] = useState('');
@@ -36,33 +36,46 @@ function DasboardNavBar({page}) {
             }
             // If no CSV is imported, proceed with regular project creation
             if (!csvData) {
-            const response = await fetch(buildPath('api/createproject'), {
-                method: 'POST',
-                body: js,
-                headers: { 'Content-Type': 'application/json' }
-            });
 
-            const txt = await response.text();
-            const res = JSON.parse(txt);
+                console.log("NO CSV DATA...");
 
-            if (res.error != null) {
-                setMessage("API Error:" + res.error);
-            } else {
-                setMessage('Project has been created');
-                setProjectCreated(true);
-                // Fetch project and its tasks after creation
-                fetchProject(res.project._id);
+                const response = await fetch(buildPath('api/createproject'), {
+                    method: 'POST',
+                    body: js,
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                const txt = await response.text();
+                const res = JSON.parse(txt);
+
+                console.log("res: ", res);
+
+                const inviteLinkResponse = await fetch(buildPath(`api/generate-invite-link/${res.project._id}`), {
+                    method: 'POST',
+                });
+
+                const inviteRes = await inviteLinkResponse.json();
+
+                console.log("Invite Link has been created...");
+
+                if (res.error != null && inviteRes.error != null) {
+                    setMessage("API Error:" + res.error);
+                } else {
+                    setMessage('Project has been created');
+                    setProjectCreated(true);
+                    // Fetch project and its tasks after creation
+                    fetchProject(res.project._id);
+                    
+                    // window.location.reload(); // Reload the page
                 
-                window.location.reload(); // Reload the page
-               
-            }
-        } else {
-            // If CSV data exists, use createProjectWithCSV
-            createProjectWithCSV(csvData);
-           
-            window.location.reload(); // Reload the page
+                }
+            } else {
+                // If CSV data exists, use createProjectWithCSV
+                createProjectWithCSV(csvData);
             
-        }
+                window.location.reload(); // Reload the page
+                
+            }
         } catch (e) {
             setMessage(e.toString());
         }
@@ -219,19 +232,21 @@ function DasboardNavBar({page}) {
                 </div>
                 <div class = "d-md-none navBarBodySmall mb-5 pb-5">
                     <div class = "row align-items-center mt-3">
-                        <div class = "col-3"><a id ="ToDo List" class= "btn navBtnSmall" href="/dashboard"><span class = "navBtnTextSmall">To Do</span></a></div>
-                        <div class = "col-3"><a id ="Charts" class = "btn navBtnSmall" href="/dashboard/charts"><span class = "navBtnTextSmall">Charts</span></a></div>
-                        <div class = "col-3"><a id ="Recently Deleted" class ="btn navBtnSmall" href="/dashboard/recently-deleted"><span class = "navBtnTextSmall">R.D.</span></a></div>
-                        <div class = "col-3"><button id ="Create Project" class ="btn navBtnSmall" data-bs-toggle="modal" data-bs-target="#createProjectModal"><span class = "navBtnTextSmall">Create</span></button> </div>
+                        <div class = "col-2"><a id ="ToDo List" class= "btn navBtnSmall" href="/dashboard"><span class = "navBtnTextSmall">To Do</span></a></div>
+                        <div class = "col-2"><a id ="Charts" class = "btn navBtnSmall" href="/dashboard/charts"><span class = "navBtnTextSmall">Charts</span></a></div>
+                        <div class = "col-2"><a id ="Recently Deleted" class ="btn navBtnSmall" href="/dashboard/recently-deleted"><span class = "navBtnTextSmall">R.D.</span></a></div>
+                        <div class = "col-2"><a id ="Create Project" class ="btn navBtnSmall" data-bs-toggle="modal" data-bs-target="#createProjectModal"><span class = "navBtnTextSmall">Create</span></a> </div>
+                        <div class = "col-2"><a id ="Account" class ="btn navBtnSmall" href="/dashboard/account"><span class = "navBtnTextSmall">Account</span></a></div>
+                        <div class = "col-2"><a id ="Settings" class ="btn navBtnSmall" href="/dashboard/ui-settings"><span class = "navBtnTextSmall">UI Settings</span></a></div>
                      </div>
             </div>
-            <div class = "d-md-inline-flex d-block container mainContainer ms-5 me-0 px-0 mt-5 py-0">
+            <div class = "d-md-inline-flex d-block container mainContainer ms-5 mt-5">
                {page}
             </div>
             
             
 
-            <div className="modal fade px-0" id="createProjectModal" tabindex="-1" aria-labelledby="createProjectModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+            <div className="modal fade px-0" id="createProjectModal" tabindex="-1" aria-labelledby="createProjectModalLabel" aria-hidden="true" data-bs-backdrop="false" data-bs-keyboard="false">
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
@@ -261,7 +276,7 @@ function DasboardNavBar({page}) {
                                             onChange={handleCSVImport} 
                                         />
                                     </div>
-                                    <button type="submit" className="btn btn-primary">Create Project</button>
+                                    <button type="submit" className="btn btn-primary px-0 mx-0 mt-3 w-100">Create Project</button>
                                 </form>
                             )}
                         </div>

@@ -167,7 +167,9 @@ function DashboardAccount() {
   };
 
   return (
-    <div class= "container position-absolute start-50 translate-middle-x">
+    <div>
+      <h1 class="title"></h1>
+    <div class= "container position-relative d-inline-flex flex-column ">
     <div className="dashboardAccountContainer">
       <h1 className="dashboardTitle">Account Information</h1>
       {user ? (
@@ -294,6 +296,7 @@ function DashboardAccount() {
       )}
     </div>
     </div>
+  </div>
   );
 }
 

@@ -1,23 +1,57 @@
+.title{
+    font:bold;
+    color: black;
+}
+
+
+.settings-container {
+    width: 90vw;
+    margin: 0 auto; 
+}
+
+@media (max-width: 1200px) {
+    .settings-container{
+        transform: translateX(-10%);
+        width: 83vw; 
+    }
+}
+
+@media (max-width: 768px) {
+    .settings-container {
+        width: 95vw; 
+        transform: translateX(-5%);
+    }
+    .title{
+        margin-top: -60px;
+    }
+}
+
 .color-preset-container, .ui-preview-container, .font-container{
-    max-width: 1250px;
-    margin: 0px auto;
+    width: 80%;
+    height: auto;
     padding: 20px;
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 50px;
+    margin-bottom: 5vw;
+    margin-left: 5vw;
 }
-.default-colorbar{
+
+.default-colorbar, .cvd-toolbar{
     display: flex;
     flex-direction: row;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
 }
-.default-colorbar span{
+
+.default-colorbar span, .cvd-toolbar span{
     position: relative;
     padding-right: 25px;
     top: -10px;
+    flex-wrap: wrap;
 }
-.settings-container h1{
+.settings-container h1, h2{
     margin-bottom: 40px;
 }
 
@@ -45,8 +79,8 @@
   
 .dashboard-preview,
 .timetable-preview {
-    width: 500px;   /* Adjust the width */
-    height: 400px;  /* Adjust the height */
+    max-width: 100%;   /* Adjust the width */
+    max-height: auto;  /* Adjust the height */
 }
 
 .font-container{
@@ -67,8 +101,8 @@
 }
 
 .font-selector option {
-    background-color: white; /* Default background for options */
+    background-color: white; 
 }
 .font-selector option:hover {
-    background-color: #ea6e2b; /* Default background for options */
+    background-color: #ea6e2b; 
 }
