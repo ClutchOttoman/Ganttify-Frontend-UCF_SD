@@ -18,11 +18,30 @@ body{
     max-width: 20%;
     min-width: 10%;
 }
+.table-responsive-xxl{
+    scrollbar-color: #888 #FDDC87;
+    scrollbar-width: thin;
+}
 .table{
     margin-top: 40px;
     margin-left: 40px;
     width: 68vw;
 }
+
+@media (max-width: 1400px) {
+    .table {
+        width: 60vw;
+        transform: translateX(-5%)
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .table{
+        max-width: 10vw; 
+        transform: translateX(-5%)
+    }
+  }
+
 .tr{
     line-height: 100px !important;
     min-height: 100px !important; 

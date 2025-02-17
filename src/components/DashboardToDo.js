@@ -320,7 +320,7 @@ function DashboardToDo() {
                     <input type="search" class="form-control searchForm" placeholder='Search tasks by name, category or project...' id="search projects" onChange={doTaskSearch} ref={(c) => search = c} />
                 </form>
                 <div class="table-responsive-xxl">
-                    <table class="table table-bordereless" id="taskTableHeader">
+                    <table class="table" id="taskTableHeader">
                         <thead>
                             <tr>
                                 <th width="15%" scope='col' class="todoTableBody">Due Date</th>

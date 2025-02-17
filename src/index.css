@@ -948,6 +948,10 @@ html.high-contrast .todoTableBody{ /* Table background*/
   visibility: visible;
 }
 
+html.high-contrast div.table-responsive-xxl{ /*Table scrollbar */
+  scrollbar-color: #363636 #C7C7C7 !important; 
+}
+
 html.high-contrast .col1{
   background-color: #fff;
   color:rgb(0, 0, 0);
@@ -1190,8 +1194,12 @@ html.high-contrast div.forgot-password-card{
 
 /* Modals */
 
-html.high-contrast div.modal-content{ /* Are u sure u want to delete */
-  margin-left: 20px;
+html.high-contrast .modal-content button{ /* Are u sure u want to delete */
+    background-color: #402C12 !important;
+    &:hover{
+      background-color: #b35408 !important;
+      visibility: visible;
+    }
 }
 
 
@@ -1401,10 +1409,13 @@ html.dark select:focus {
 /* Buttons */
 
 html.dark button,  html.dark .btn.btn-primary{
-  background-color: #555 !important;  /* Dark background for buttons */
+  background-color: #424242  !important;  /* Dark background for buttons */
   color: #fff;  /* Light text */
   transition: ease-in 0.1s;
   visibility: visible;
+  &:hover{
+    background-color: #555 !important;
+  }
 }
 
 html.dark .d-md-none.navBarBodySmall {
@@ -2191,6 +2202,11 @@ html.dark .todoTableBody{ /* Table background*/
   visibility: visible;
 }
 
+
+html.dark div.table-responsive-xxl{ /*Table scrollbar */
+  scrollbar-color: #1e1e1e #797979 !important; 
+}
+
 html.dark .col1{
   background-color: #121212;
   color:rgb(255, 255, 255);
@@ -2223,9 +2239,8 @@ html.dark .col5{
 
 /* Button inside the table */
 html.dark .taskBtn {
-  background-color:  #121212;/* Dark background for the button */
+  background-color:  #121212 !important;/* Dark background for the button */
   color: #fff !important; /* White text for the button */
-  border: none !important; /* Remove default border */
   padding: 5px 10px !important; /* Add padding for better clickability */
   cursor: pointer !important; /* Change cursor to pointer */
   visibility: visible;

@@ -10,6 +10,9 @@
       width: 90vw; 
       transform: translateX(-45%)
   }
+  .password-modal{
+    min-width: 500px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -19,7 +22,10 @@
   }
   .title{
       margin-top: -60px;
-
+  }
+  .password-modal{
+    width: 70vw;
+    transform: translateX(12%)
   }
 }
 
@@ -31,7 +37,7 @@
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: width 0.3s ease;
+    transition: ease-in 3s ease;
     margin-left: 20vw;
   }
   
@@ -158,12 +164,11 @@
 
 
   .password-modal {
-    position: fixed;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5); 
+    margin-top: -125px;
+    position: absolute;
+    height: 90vh;
+    min-width: 500px;
     display: flex;
     align-items: center;
     justify-content: center;
