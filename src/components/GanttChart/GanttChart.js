@@ -172,7 +172,7 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
     const sortedTasks = sortTasks(tasks); // Sort the current tasks based on the selected sorting method
     setTasks(sortedTasks); // Update the state with sorted tasks
   }, [sortBy]); // Trigger re-sorting whenever sortBy changes
-  
+
 
   useEffect(() => {
     document.documentElement.style.setProperty('--task-count', tasks.length);
@@ -202,7 +202,7 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
     setSortBy(newSortBy); // Update the sorting preference
     sessionStorage.setItem("sortBy", newSortBy); // Save the sort option in sessionStorage
   };
-  
+
 
 
   const exportToPDF = async () => {
@@ -210,41 +210,41 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
     const exportButtons = document.querySelectorAll('.export-pdf-button, .export-csv-button');
     const rangeMenu = document.querySelector('.gantt-chart-time-range-selector');
     const sortMenu = document.querySelector('.gantt-chart-sort-selector');
-  
+
     if (!ganttContainer) return;
-  
+
     // Temporarily hide the elements we don't want in the export
     const hideElements = () => {
       exportButtons.forEach(button => button.style.display = 'none');
       if (rangeMenu) rangeMenu.style.display = 'none';
       if (sortMenu) sortMenu.style.display = 'none';
     };
-  
+
     // Restore the hidden elements
     const restoreElements = () => {
       exportButtons.forEach(button => button.style.display = '');
       if (rangeMenu) rangeMenu.style.display = '';
       if (sortMenu) sortMenu.style.display = '';
     };
-  
+
     try {
       // Hide the elements temporarily
       hideElements();
-  
+
       // Use html2canvas to capture the gantt container
       const canvas = await html2canvas(ganttContainer, { scale: 2 });
       const imgData = canvas.toDataURL('image/png');
-  
+
       // Create a new jsPDF instance
       const pdf = new jsPDF({
         orientation: 'landscape',
         unit: 'px',
         format: [canvas.width, canvas.height],
       });
-  
+
       // Add the image to the PDF
       pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
-  
+
       // Save the PDF
       pdf.save('gantt-chart.pdf');
     } catch (error) {
@@ -254,7 +254,7 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
       restoreElements();
     }
   };
-  
+
 
   const exportToCSV = () => {
     // Set exporting state to true
@@ -326,7 +326,6 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
           />
         </Grid>
 
-
         <TaskDetails
           show={showDetails}
           onHide={() => setShowDetails(false)}
@@ -379,6 +378,5 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
 
       </div>
     </div>
-  </div>
   );
 }
