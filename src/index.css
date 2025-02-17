@@ -228,7 +228,7 @@ html.high-contrast
 
 
 /* Slider Animation to show that high contrast mode is on */
-html.high-contrast button.high-contrast-mode-toggle.active .thumb{
+html.high-contrast button.high-contrast-mode-toggle.high-contrast .thumb{
   left: calc(50px - 25px);
   visibility: visible;
 }
@@ -476,12 +476,6 @@ html.high-contrast div.dropdownDetails.flex-fill.mx-1{
   visibility: visible;
 }
 
-html.high-contrast #todoDropdown.nav-link.dropdown-toggle{ /* not started */
-  background-color: #dfdfdf;
-  color:rgb(0, 0, 0);
-  visibility: visible;
-}
-
 html.high-contrast button#pattern.nav-link.dropdown-toggle.dropdownBtn{ /* pattern */
   background-color: #dfdfdf;
   visibility: visible;
@@ -537,16 +531,23 @@ html.high-contrast div.task-details-body{
 }
 
 
-html.high-contrast button#assignedUsers.dropdownBtnAdd.dropdown-toggle{ /* Show Users Text*/
-  color: #000;
-  visibility: visible;
+html.high-contrast{
+  #assignedUsers.dropdownBtnAdd.dropdown-toggle, #prerequisiteTasks, button#pattern.dropdownBtnAdd.dropdown-toggle, .taskPatternDropdown, #todoDropdown.nav-link.dropdown-toggle{
+    background-color: #002238 !important;
+    visibility: visible;
+    color: white !important;
+    &:hover{
+      background-color: #6d6d6d !important;
+      visibility: visible;
+    } 
+  }
+  .form-check-input:checked{
+    background-color: #727171 !important ;
+    visibility: visible;
+  }
+  
 }
 
-
-html.high-contrast button#prerequisiteTasks.dropdownBtnAdd.dropdown-toggle{
-  color: #000;
-  visibility: visible;
-}
 
 
 /* Category */
@@ -699,6 +700,9 @@ html.high-contrast .dropdown-menu.show{
 html.high-contrast .dropdown-item{
   visibility: visible;
   background-color: #ffffff !important;  /*  (Team inside) Slightly lighter on hover */
+  &:hover{
+    background-color:#F0F0F0 !important;
+  }
 }
 
 
@@ -736,6 +740,7 @@ html.high-contrast p.task-title-text{ /* task names */
 
 html.high-contrast button.btn.chartNavButton.hiddenButton:hover{ /* Previous btn*/
   color: #fff;
+  background-color: #0f4875 !important;
   visibility: visible;
 }
 
@@ -822,37 +827,15 @@ html.high-contrast #button {
   color: #FFFFFF  !important;  /* Light text */
 }
 
-html.high-contrast #Create\ Project{ /*top bar*/
-  visibility: visible;
-  background-color: #402C12 !important;
-}
-
-html.high-contrast #Recently\ Deleted { /*top bar*/
-  background-color: #402C12 !important;
-  visibility: visible;
-}
-
 html.high-contrast button.btn.chartNavButton{ /* Next button*/
   background-color: #002238;
   visibility: visible;
 }
 
-html.high-contrast #Charts { /*top bar*/
-  visibility: visible;
-  background-color: #402C12 !important;
-}
-
-html.high-contrast #ToDo\ List { /*top bar*/
-  background-color: #402C12 !important;
+html.high-contrast #button:hover{ /* NavBar btns */
+  color:#363636 !important; 
   visibility: visible;
 }
-
-html.high-contrast #button:hover {
-  background-color: #8a3700 !important;  /*  (Sign out) Slightly lighter on hover */
-  border-radius: 5px; /* Rounded corners */
-  visibility: visible;
-}
-
 
 
 html.high-contrast div.d-none.d-md-table-cell.container-lg.navBarBody.me-5.pb-5{
@@ -861,18 +844,20 @@ html.high-contrast div.d-none.d-md-table-cell.container-lg.navBarBody.me-5.pb-5{
 }
 
 
+html.high-contrast{
+  .btn.navBtn, .btn.navBtnSmall{
+    background-color: #402C12 !important; /*  (background buttons) Dark background */
+    color: #ffffff;
+    visibility: visible;
 
-html.high-contrast .btn.navBtnSmall{
-  background-color: #E9B56D !important; /*  (background buttons) Dark background */
-  color: #ffffff;
-  visibility: visible;
+    &:hover{
+      background-color: #b35408 !important;
+      visibility: visible;
+    }
+  }  
 }
 
-html.high-contrast .btn.navBtn{
-  background-color: #402C12 !important; /*  (btns background for to do list, etc) Dark background */
-  color: #ffffff;
-  visibility: visible;
-}
+
 
 
 html.high-contrast h3, html.high-contrast h4, html.high-contrast h5, html.high-contrast h6 {
@@ -1262,6 +1247,7 @@ html.high-contrast h5#changeProjectModalLabel.modal-title{
 }
 
 html.high-contrast button.btn-close{
+  background-color: #813400 !important;
   color: #000;
   visibility: visible;
 }
@@ -1302,6 +1288,9 @@ html.high-contrast #createProjectModalLabel{ /* Create a Project */
 html.high-contrast a#navbarDropdown.nav-link.dropdown-toggle{ /* Team */
   color: #ffffff;
   visibility: visible;
+  &:hover{
+    color:#363636 !important; 
+  }
 }
 
 
@@ -1346,7 +1335,7 @@ html.high-contrast button.btn-outline-primary2{ /* Edit Project Name */
 /* Toggle Buttons */
 html.dark {
   button.dark-mode-toggle, button.high-contrast-mode-toggle, .protan-toggle, .deuteran-toggle, .tritan-toggle {
-    background-color: #414141;  /* Darker background for toggle button */
+    background-color: #414141 !important;  /* Darker background for toggle button */
     visibility: visible;
   }
 }
@@ -1355,13 +1344,13 @@ html.dark {
 html.dark 
 {
   button.dark-mode-toggle:hover, button.high-contrast-mode-toggle:hover, button.protan-toggle:hover, button.deuteran-toggle:hover, button.tritan-toggle:hover{
-    background-color: #6d6d6d;
+    background-color: #6d6d6d !important;
     visibility: visible;
   }
 }
 
 /* Slider Animation to show that dark mode is on */
-html.dark button.dark-mode-toggle.active .thumb{
+html.dark button.dark-mode-toggle.dark .thumb{
   left: calc(50px - 25px);
   visibility: visible;
 }
@@ -1549,10 +1538,6 @@ html.dark #prerequisiteTasks{ /* NOT WORK*/
   visibility: visible;
 }
 
-html.dark button#pattern.dropdownBtnAdd.dropdown-toggle{ /* NOT WORK */
-  background-color: #353535;
-  visibility: visible;
-}
 
 html.dark div.dropdown{
   background-color: #2b2b2b;
@@ -1573,17 +1558,27 @@ html.dark div#editor-toolbar{
   button.toolbar-btn{
     background-color: #2b2b2b !important;
     visibility: visible;
+    &:hover{
+      background-color:#888888  !important;
+    }
   }
   .dropdown-toggle{
     background-color: #2b2b2b !important;
     color: white !important;
     border-color: #2b2b2b!important;
     visibility: visible;
+    &:hover{
+      background-color:#888888  !important;
+    }
   }
   .dropdown-menu, .dropdown-menu .header-item{
     background-color:#2b2b2b !important;
     color: white !important;
     visibility: visible;
+    
+  }
+  .header-item:hover{
+    background-color:#888888  !important;
   }
 }
 
@@ -1612,12 +1607,6 @@ html.dark h5.modal-title{ /* Add task title*/
 
 html.dark textarea#description.form-control{
   margin-left: 2px;
-  visibility: visible;
-}
-
-html.dark button#pattern.dropdownBtnAdd.dropdown-toggle { /* Add Task button */
-  background-color: rgb(50, 49, 49) !important;
-  color: white !important;
   visibility: visible;
 }
 
@@ -1801,15 +1790,18 @@ html.dark .div.table-responsive-lg{
 }
 
 
-html.dark .dropdown-menu.show{
-  visibility: visible;
-  background-color: #727171 !important;  /* WORK (Team dropdown) Slightly lighter on hover */
+html.dark {
+  .dropdown-menu.show,.dropdown-item{ /* drop down items for pre-req tasks */
+    visibility: visible;
+    background-color: #2b2b2b !important;
+    
+  }
+  .dropdown-item:hover {  
+    background-color:#888888  !important;
+  }
 }
 
-html.dark .dropdown-item{
-  visibility: visible;
-  background-color: #727171 !important;  /* WORK (Team inside) Slightly lighter on hover */
-}
+
 
 
 /* Dark mode styles for the table */
@@ -1974,7 +1966,7 @@ html.dark div.dropdownDetails.flex-fill.mx-1{
 html.dark #todoDropdown.nav-link.dropdown-toggle, html.dark .editTaskAppearanceButton, html.dark .done-button, html.dark #ul.assignedUsersDropdownMenu.dropdown-menu.show
 {
   background-color: rgb(84, 83, 83);
-  color:rgb(255, 255, 255);
+  color:rgb(255, 255, 255) !important;
   border-color:#444;
   visibility: visible;
   &:hover{
@@ -1984,7 +1976,8 @@ html.dark #todoDropdown.nav-link.dropdown-toggle, html.dark .editTaskAppearanceB
     visibility: visible;
   }
 }
-html.dark .prerequisiteTaskDropdownItem.prerequisiteTaskDropdownItem{
+
+html.dark .prerequisiteTaskDropdownItem.prerequisiteTaskDropdownItem, html.dark .assignedUserDropdownItem{ /* Text color for dropdown menu items */
   color: white !important;
   visibility: visible;
 }
@@ -2016,23 +2009,28 @@ html.dark div.details-body{
 }
 
 
-
-
-html.dark div.details-header, html.dark #assignedUsers.dropdownBtnAdd.dropdown-toggle, html.dark #prerequisiteTasks{
+html.dark div.details-header{
   background-color: rgb(50, 49, 49) !important;
   color:rgb(255, 255, 255) !important;
   visibility: visible;
 }
 
 html.dark{
-  .form-check-input:checked{
-    background-color: rgb(50, 49, 49) !important  ;
+  #assignedUsers.dropdownBtnAdd.dropdown-toggle, #prerequisiteTasks, button#pattern.dropdownBtnAdd.dropdown-toggle, .taskPatternDropdown{
+    background-color: rgb(50, 49, 49) !important;
+    color:rgb(255, 255, 255) !important;
     visibility: visible;
+    &:hover{
+      background-color:#888888  !important;
+    }
   }
 }
 
-html.dark button.dropdownBtnAdd.dropdown-toggle{
-  color: #fff;
+html.dark{
+  .form-check-input:checked{
+    background-color: #727171 !important ;
+    visibility: visible;
+  }
 }
 
 
@@ -2088,7 +2086,17 @@ html.dark .task-tooltip {
 
 }
 
-
+html.dark{
+  button.export-csv-button, button.export-pdf-button, .editTaskAppearanceButton, .done-button, button.btn.btn-primary{ /* CSV+PDF export */
+    background-color: #414141 !important;
+    visibility: visible;
+    color: white;
+    &:hover{
+      background-color: #6d6d6d !important;
+      visibility: visible;
+    } 
+  }
+} 
 
 /* Category */
 
@@ -2146,6 +2154,7 @@ html.dark button.btn-outline-primary:hover{ /* Edit Project Name */
 
 html.dark button.btn.chartNavButton.hiddenButton:hover{ /* Previous btn*/
   color: #fff;
+  background-color: #323232 !important;
   visibility: visible;
 }
 
@@ -2212,8 +2221,6 @@ html.dark .col5{
   visibility: visible;
 } /* Progress */
 
-
-
 /* Button inside the table */
 html.dark .taskBtn {
   background-color:  #121212;/* Dark background for the button */
@@ -2261,7 +2268,20 @@ html.dark label.detailLabel{
   visibility: visible;
 }
 
-/* UI Settings */
+html.dark{
+  button.resetPasswordBtn, button.editBtn, button.deleteBtn, button.saveBtn { /*reset pw, edit, save, delete acc buttons */
+    background-color: #414141 !important;
+    visibility: visible;
+    color: white;
+    &:hover{
+      background-color: #6d6d6d !important;
+      visibility: visible;
+    } 
+  }
+} 
+
+
+/*UI Settings */
 
 html.dark {
   .ui-settings-container, .color-preset-container, .ui-preview-container, .font-container {
@@ -2327,10 +2347,19 @@ html.dark #button {
 }
 
 html.dark #button:hover {
-  background-color: #555 !important;  /* WORK (Sign out) Slightly lighter on hover */
-  border-radius: 5px; /* Rounded corners */
+  color: #a8a8a8 !important;  /* WORK (Sign out) Slightly lighter on hover */
   visibility: visible;
+  
 }
+
+html.dark a#navbarDropdown.nav-link.dropdown-toggle{ /* Team */
+  color: #ffffff;
+  visibility: visible;
+  &:hover{
+    color:#a8a8a8 !important; 
+  }
+}
+
 
 html.dark div.d-none.d-md-table-cell.container-lg.navBarBody.me-5.pb-5{
   background-color: #2f2f2f !important;  /*  (NAV BAR ON SIDE) Dark background */
