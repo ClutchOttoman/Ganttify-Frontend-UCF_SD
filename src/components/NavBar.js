@@ -551,7 +551,7 @@ const toggleHighContrastMode = () => {
                     <label htmlFor="pattern" className="form-label">Pattern</label>
                     <input type="text" className="form-control" id="pattern" name="pattern" value={taskData.pattern} onChange={handleInputChange} />
                   </div>
-                  <button type="submit" className="btn btn-primary">Add Task</button>
+                  <button type="submit" className="btn btn-primary px-0 mx-0 mt-3 w-100">Add Task</button>
                 </form>
               </div>
               <div className="modal-footer">
@@ -602,7 +602,7 @@ const toggleHighContrastMode = () => {
                   {selectedMember && selectedMember._id !== founderId && (
                     <>
                       <button type="button" className="btn btn-secondary" onClick={handleDeleteMember}>Remove Member</button>
-                      <button type="button" className="btn btn-primary" onClick={handleEditMemberSubmit}>Update Role</button>
+                      <button type="button" className="btn btn-primary px-0 mx-0 mt-3 w-100" onClick={handleEditMemberSubmit}>Update Role</button>
                     </>
                   )}
                 </div>
