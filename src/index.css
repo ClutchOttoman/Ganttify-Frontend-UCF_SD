@@ -1273,6 +1273,10 @@ body.dark button.close {
   color: #fff;
 }
 
+body.dark div.task-details-sidebar.task-details-sidebar{
+    background-color: rgb(50, 49, 49);
+  }
+
 
 
 /* Add Task */
