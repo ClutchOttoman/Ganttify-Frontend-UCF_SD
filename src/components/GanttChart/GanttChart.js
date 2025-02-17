@@ -370,7 +370,7 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
 
         {/* <div class="gantt-chart-time-range-selector"> */}
           <select id = "timeRangeDropdown" class="gantt-chart-time-range-selection" onChange={(e) => handleTimeRangeChange(e)}>
-            <option value="">Range</option>
+            <option value="">Days</option>
             <option value="weeks"><p>Weeks</p></option>
             <option value="months"><p>Months</p></option>
           </select>

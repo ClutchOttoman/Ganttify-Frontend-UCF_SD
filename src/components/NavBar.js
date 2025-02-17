@@ -136,7 +136,8 @@ const toggleHighContrastMode = () => {
     if (props.layout === 3) {
       fetchTeamMembers(projectId);
     }
-  }, [props.layout, projectId]);
+
+  }, [props.layout, projectId, founderId]);
 
 
 
@@ -485,7 +486,7 @@ const toggleHighContrastMode = () => {
             <a href="/dashboard" aria-label="Go back to dashboard">
               <img src={Logo} alt="GanttifyHomePage" className="logoDash" />
             </a>
-            <ProjectTitle projectId={projectId} />
+            <ProjectTitle projectId={projectId} founderId={founderId}/>
             <ul className="navbarOptionsView">
               {isEditor && (
                 <li className="nav-item dropdown">
@@ -570,7 +571,7 @@ const toggleHighContrastMode = () => {
                 <ProjectInviteLink projectId={projectId} />
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={closeInviteModal}>Close</button>
+                <button type="button" className="btn btn-primary px-0 mx-0 mt-3 w-100" onClick={closeInviteModal}>Close</button>
               </div>
             </div>
           </div>

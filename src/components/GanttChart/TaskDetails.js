@@ -605,7 +605,6 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks, f
       forceTaskVisualUpdate(task._id,pattern,color)
   
       // Update users' to-do list
-      await updateUsersToDoList(task._id, assignedUserNames.map(name => teamUsers.find(user => user.name === name)._id).filter(id => id));
   
       setEditMode(false); // Exit edit mode
       //window.location.reload(); // Reload the page to reflect changes (optional)
@@ -613,27 +612,6 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks, f
       onHide(); // Close the modal after saving
     } catch (error) {
       console.error('Error updating task:', error);
-    }
-  };
-
-
-  const updateUsersToDoList = async (taskId, userIds) => {
-    try {
-      const response = await fetch(buildPath('api/updateUsersToDoList'), {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ taskId, userIds }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to update users\' toDoList');
-      }
-
-      console.log('Users\' toDoList updated successfully');
-    } catch (error) {
-      console.error('Error updating users\' toDoList:', error);
     }
   };
 
