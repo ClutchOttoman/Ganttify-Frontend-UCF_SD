@@ -115,9 +115,7 @@
   .form-label{
     font-weight: bold;
   }
-.patternDropdownItem{
-    font-size: larger;
-}
+
 .dropdownBtnAdd{
     background-color:white !important;
     border-color: #CCCCCC !important;
@@ -125,15 +123,16 @@
     border-radius: 5px !important;
     border-width:0.8px !important ;
     color: black !important;
+    &:hover{
+      background-color:#F0F0F0 !important;
+    }
+    
 }
-.prerequisiteTaskDropdownItem{
+.prerequisiteTaskDropdownItem, .assignedUserDropdownItem, .patternDropdownItem{
     font-size: larger;
     color: black;
 }
-.assignedUserDropdownItem{
-    font-size: larger;
-    color: black;
-}
+
 .allowEmailNotifcationsCheckBox{
     font-size: larger;
     color: #000;
