@@ -6,6 +6,7 @@
     display: inline-block;
     overflow-wrap: break-word;
     text-overflow: ellipsis;
+    text-align: center;
   }
   
   .invite-link-container h3 {
@@ -21,11 +22,19 @@
     }
 
   .link-box{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
     max-width: 100%;
     text-decoration: underline;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  .link-box p{
+    margin: 0;
   }
   
   .invite-link-container button {
