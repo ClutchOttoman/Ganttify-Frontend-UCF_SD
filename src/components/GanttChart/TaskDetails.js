@@ -129,7 +129,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks, f
       setDueDate(task.dueDateTime);
       setPattern(task.pattern);
       setPatternToDisplay(patternDisplayNames[task.pattern]);
-      setPatternPreview(`url(${patterns[task.pattern]})`)
+      setPatternPreview("url(" + `${patterns[task.pattern]})`)
       setDependentTasks(task.dependentTasks);
       setPrerequisiteTasks(task.prerequisiteTasks);
       setAllPrerequisitesDone(task.allPrerequisitesDone);
@@ -187,7 +187,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks, f
     setColor(fetchedTask.color);
     setPatternColor(fetchedTask.patternColor ? fetchedTask.patternColor : 'black')
     setPattern(fetchedTask.pattern);
-    setPatternPreview(`url(${patterns[fetchedTask.pattern]})`)
+    setPatternPreview("url(" + `${patterns[fetchedTask.pattern]})`);
     setTaskCategory(fetchedTask.taskCategory || 'No category'); //added
     fetchTaskCreator(fetchedTask.taskCreatorId);
     fetchAssignedUsers(fetchedTask.assignedTasksUsers);
@@ -491,7 +491,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks, f
   const handlePatternChange = async (newPattern,newPatternToDisplay) => {
     console.log(newPattern);
     setPatternToDisplay(newPatternToDisplay)
-    setPatternPreview(`url(${patterns[newPattern]})`);
+    setPatternPreview("url(" + `${patterns[newPattern]})`);
     setPattern(newPattern);
   }
   
@@ -602,7 +602,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks, f
 
       setTaskCategory(updatedTask.category || null ); // Handle removed category
       setOriginalTask(updatedTask); // Sync the original task with the latest data
-      forceTaskVisualUpdate(task._id,pattern)
+      forceTaskVisualUpdate(task._id,pattern,color)
   
       // Update users' to-do list
       await updateUsersToDoList(task._id, assignedUserNames.map(name => teamUsers.find(user => user.name === name)._id).filter(id => id));

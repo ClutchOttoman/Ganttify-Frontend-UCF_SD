@@ -2,6 +2,8 @@ import React, { useLayoutEffect, useState } from 'react';
 import './DashboardToDo.css';
 import {buildPath} from './buildPath';
 
+const GanttifyOrange = "#DC6B2C";
+
 function toDate(timestanp) {
     var i = 0;
     var date = "";
@@ -246,48 +248,58 @@ function DashboardToDo() {
         }
 
     }
+
     const doMarkTaskComplete = async event => {
         var error = "";
         var obj = {progress:"Completed"};
         var js = JSON.stringify(obj);
 
         try{
-            const response = await fetch(buildPath('api/tasks/'+taskToDisplay['_id']),{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
-            var txt = await response.text();
-            var res = JSON.parse(txt);
-            if(res.acknowledged){
-                window.location.assign(window.location.pathname);
+            console.log("Editing task in to-do list; " + taskToDisplay._id);
+            const response = await fetch(buildPath(`api/to-do-tasks/${taskToDisplay._id}`),
+            {method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+            var jsonResult = await response.json();
+            if(response.ok){
+                alert(jsonResult.message);
+            } else{
+                alert(jsonResult.error);
             }
-            else{
-                error = "Failed to update project visibility"
-                alert(error);
-            }
+            window.location.assign(window.location.pathname);
         }
         catch(e){
+            error = "Failed to update task visibility"
             alert(error);
+        } finally {
+            window.location.assign(window.location.pathname);
         }
+
     }
     const doMarkTaskInProgress = async event => {
         var error = "";
-        var obj = {progress:"In-Progress"};
+        var obj = {progress:"In-progress"};
         var js = JSON.stringify(obj);
 
         try{
-            const response = await fetch(buildPath('api/tasks/'+taskToDisplay['_id']),{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
-            var txt = await response.text();
-            var res = JSON.parse(txt);
-            if(res.acknowledged){
-                window.location.assign(window.location.pathname);
+            console.log("Editing task in to-do list; " + taskToDisplay._id);
+            const response = await fetch(buildPath(`api/to-do-tasks/${taskToDisplay._id}`),
+            {method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+            var jsonResult = await response.json();
+            if(response.ok){
+                alert(jsonResult.message);
+            } else{
+                alert(jsonResult.error);
             }
-            else{
-                error = "Failed to update project visibility"
-                alert(error);
-            }
+            window.location.assign(window.location.pathname);
         }
         catch(e){
+            error = "Failed to update task visibility"
             alert(error);
+        } finally {
+            window.location.assign(window.location.pathname);
         }
+
     }
+
     function doTaskModalClose(){
         const contactInfoDiv = document.getElementById("taskContactsDiv");
         taskToDisplay.users.forEach(u =>{
@@ -299,6 +311,7 @@ function DashboardToDo() {
         })
         contactInfoDiv.style.display = "none";
     }
+
     useLayoutEffect(() => { getTasks() }, []);
     return (
         <div class="container px-0 mt-5 mx-0">
@@ -330,15 +343,27 @@ function DashboardToDo() {
                         <div class="modal-content">
                             <div class="modal-header">
                             {taskToDisplay ? <h3 class="modal-title">{taskToDisplay['taskTitle']}<h5 class="modal-title">{taskToDisplay['projectName']}</h5></h3> : null}
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={doTaskModalClose}></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={doTaskModalClose}  style={{ color: 'black', fontSize: '1.7rem', background: `${GanttifyOrange}`, border: 'none' }}>
+                                      ✖  
+                                </button>
                             </div>
                             <div class="modal-body">
                              {taskToDisplay ? 
                                 <div><p dangerouslySetInnerHTML={{__html: taskToDisplay['description'].trim()}}></p>{taskToDisplay['progress'].localeCompare("Completed") === 0 ? null:<p>{taskToDisplay['dueDatePretty'].localeCompare("PAST DUE") === 0 ? "THIS TASK WAS DUE: "+ taskToDisplay['dueDateActual']: "Due: "+ taskToDisplay['dueDatePretty']}</p>}{taskToDisplay['userInfoText']}</div> : null}<div id = "taskContactsDiv"></div></div>
                             {taskToDisplay? 
-                            <div class="modal-footer">
-                                {(taskToDisplay['progress'].localeCompare("Completed") === 0) ?  <button type="button" class="btn btn-primary" onClick={()=>doMarkTaskInProgress()}>Mark Task In Progress</button>:
-                                <button type="button" class="btn btn-primary" onClick={()=>doMarkTaskComplete()}>Mark Task Complete</button>}
+                            <div class="modal-footer mx-0 justify-content-center">
+                                {(taskToDisplay['progress'].localeCompare("Completed") === 0) ?  
+                                <div class="row justify-content-center">
+                                    <div class="col-12">
+                                        <button type="button" class="btn btn-primary w-100 mx-0" onClick={()=>doMarkTaskInProgress()}>Mark Task In Progress</button>
+                                    </div>
+                                </div>
+                                :
+                                <div class="row justify-content-center">
+                                    <div class="col-12">
+                                        <button type="button" class="btn btn-primary w-100 mx-0" onClick={()=>doMarkTaskComplete()}>Mark Task Complete</button>
+                                    </div>
+                                </div>}
                             </div>:null}
                         </div>
                     </div>

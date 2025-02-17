@@ -322,8 +322,22 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
             userId={userId}
             projectId={projectId}
             userRole={userRole}
+            projectTasks={tasks}
           />
         </Grid>
+
+
+        <TaskDetails
+          show={showDetails}
+          onHide={() => setShowDetails(false)}
+          task={selectedTask}
+          handleDelete={(taskId) => setTasks(tasks.filter(task => task._id !== taskId))}
+          userId={userId}
+          userRole={userRole}
+          teamId={teamId}
+          projectTasks={tasks}
+        />
+      </div>
 
       <TaskDetails
         show={showDetails}
