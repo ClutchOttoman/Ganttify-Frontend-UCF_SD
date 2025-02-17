@@ -527,10 +527,9 @@ body.high-contrast #gantt-grid-container__time {
   overflow-x: scroll;
   outline: 0.5px solid var(--color-outline);
   padding-bottom: 1px;
-  scrollbar-color: #363636 #C7C7C7;
+
   scrollbar-width: thin;
 }
-
 
 body.high-contrast .dropdown-menu.show{
   background-color: #ffffff !important;  /*  (Team dropdown) Slightly lighter on hover */
@@ -554,6 +553,8 @@ body.high-contrast button#pattern.dropdownBtnAdd.dropdown-toggle { /* Add Task b
   background-color: #ffffff;
   color: #000000;
 }
+
+
 
 body.high-contrast .task-duration { /* border around task bars*/
   border: 1.5px solid black !important; 
