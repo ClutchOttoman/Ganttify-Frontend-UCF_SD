@@ -28,7 +28,7 @@ body{
     margin-top:20px;
     cursor:pointer;
 }
-.navBtn:hover{
+.navBtn:hover, .navBtnSmall{
     background-color: #F0F0F0  !important;
 }
 .topNavBtn{
@@ -52,8 +52,10 @@ body{
 
 .navBtnSmall{
     text-align: start;
+    margin-top: 10px;
     background-color: white !important;
-    width:50%;
+    height: 45px;
+    width: 50px;
 }
 .navBtnTextSmall{
     color:black;

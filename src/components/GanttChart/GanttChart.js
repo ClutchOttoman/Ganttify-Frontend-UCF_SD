@@ -326,6 +326,7 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
           />
         </Grid>
 
+
         <TaskDetails
           show={showDetails}
           onHide={() => setShowDetails(false)}
@@ -378,5 +379,6 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
 
       </div>
     </div>
+  </div>
   );
 }
