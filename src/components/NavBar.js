@@ -571,7 +571,7 @@ const toggleHighContrastMode = () => {
                 <ProjectInviteLink projectId={projectId} />
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={closeInviteModal}>Close</button>
+                <button type="button" className="btn btn-primary px-0 mx-0 mt-3 w-100" onClick={closeInviteModal}>Close</button>
               </div>
             </div>
           </div>

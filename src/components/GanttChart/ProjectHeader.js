@@ -97,7 +97,7 @@ function ProjectHeader({ projectName, setProjectName, projectId, founderId }) {
             <div className="modal-footer">
               <button 
                 type="button" 
-                className="btn btn-primary" 
+                className="btn btn-primary px-0 mx-0 mt-3 w-100" 
                 onClick={handleSubmit}
               >
                 Submit
