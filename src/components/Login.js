@@ -33,8 +33,8 @@ function Login() {
             name: res.name,
             username: res.username,
             phone: res.phone,
-            projects: res.projects,
-            toDoList: res.toDoList,
+            //projects: res.projects,
+            //toDoList: res.toDoList,
             uiOptions: res.uiOptions,
             error: res.error
         };
@@ -61,7 +61,6 @@ function Login() {
           <div className ="card-header loginFormHeader">
               <h1 className = "loginTitle">Login</h1>
           </div>
-      
           <div className = "card-body p-0">
       
               <form onSubmit={doLogin}>

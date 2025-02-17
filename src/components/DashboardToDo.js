@@ -160,17 +160,17 @@ function DashboardToDo() {
                     const emailText = document.createElement("p");
                     emailText.innerText=email;
                     emailText.setAttribute("class","contactBody");
-                    let phone = "Phone: " + toPhonePretty(userRaw.phone);
-                    const phoneText = document.createElement("p");
-                    phoneText.innerText = phone;
-                    phoneText.setAttribute("class","contactBody");
+                    // let phone = "Phone: " + toPhonePretty(userRaw.phone);
+                    // const phoneText = document.createElement("p");
+                    // phoneText.innerText = phone;
+                    //phoneText.setAttribute("class","contactBody");
                     let name = userRaw.name;
                     const nameText = document.createElement("p");
                     nameText.innerText = name;
                     nameText.setAttribute("class","contactName");
                     userInfoDiv.appendChild(nameText);
                     userInfoDiv.appendChild(emailText);
-                    userInfoDiv.appendChild(phoneText);
+                    //userInfoDiv.appendChild(phoneText);
                     userInfoDiv.id = userRaw._id
                     userInfoDiv.style.display = "none";
                     taskContactsDiv.appendChild(userInfoDiv);
