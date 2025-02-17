@@ -285,7 +285,7 @@ const UISettings = () => {
                   <div className="thumb"></div> 
                   
                 </button>
-                <span>Protanopia Filer</span>
+                <span>Protanopia Filter</span>
                 <button 
                   className={`deuteran-toggle ${activeCVD === 'deuteranopia' ? 'active' : 'normal'}`} 
                   onClick={applyDeuteranCVDFilter}

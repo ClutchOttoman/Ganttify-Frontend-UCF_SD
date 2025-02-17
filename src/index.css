@@ -531,6 +531,9 @@ body.high-contrast #gantt-grid-container__time {
   scrollbar-width: thin;
 }
 
+body.high-contrast div.modal-content{
+  scrollbar-color: #363636 #C7C7C7;
+}
 
 body.high-contrast .dropdown-menu.show{
   background-color: #ffffff !important;  /*  (Team dropdown) Slightly lighter on hover */
@@ -1031,9 +1034,7 @@ body.high-contrast h5#changeProjectModalLabel.modal-title{
   color: #000;
 }
 
-body.high-contrast button.btn-close{
-  color: #000 !important;
-}
+
 
 
 /* Text */
