@@ -175,9 +175,14 @@ ul li{
 }
 
 .modal-footer{
-    .btn {
-        width: 500px;
+    .btn.btn-secondary {
+        width: 200px;
+        margin-right: 170px;
     }
+}
+
+.modal-title{
+    margin-left: 0px !important;
 }
 
 
@@ -223,6 +228,8 @@ button.high-contrast-mode-toggle:hover {
     color: #ffffff; /* Default text color (for light mode) */
     
   }
+
+
 
 
 

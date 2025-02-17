@@ -315,6 +315,7 @@ function DashboardToDo() {
                                 <th width="15%" scope='col' class="todoTableBody">Category</th>
                                 <th width="25%" scope='col' class="todoTableBody" >Project</th>
                                 <th width="20%" scope='col' class="todoTableBody" >Progress</th>
+                                <th width="20%" scope='col' class="todoTableBody" >Details</th>
                             </tr>
                         </thead>
                         <tbody class="table-group-divider" id="taskTableBody">
