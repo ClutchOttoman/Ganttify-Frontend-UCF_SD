@@ -248,48 +248,58 @@ function DashboardToDo() {
         }
 
     }
+
     const doMarkTaskComplete = async event => {
         var error = "";
         var obj = {progress:"Completed"};
         var js = JSON.stringify(obj);
 
         try{
-            const response = await fetch(buildPath('api/tasks/'+taskToDisplay['_id']),{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
-            var txt = await response.text();
-            var res = JSON.parse(txt);
-            if(res.acknowledged){
-                window.location.assign(window.location.pathname);
+            console.log("Editing task in to-do list; " + taskToDisplay._id);
+            const response = await fetch(buildPath(`api/to-do-tasks/${taskToDisplay._id}`),
+            {method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+            var jsonResult = await response.json();
+            if(response.ok){
+                alert(jsonResult.message);
+            } else{
+                alert(jsonResult.error);
             }
-            else{
-                error = "Failed to update project visibility"
-                alert(error);
-            }
+            window.location.assign(window.location.pathname);
         }
         catch(e){
+            error = "Failed to update task visibility"
             alert(error);
+        } finally {
+            window.location.assign(window.location.pathname);
         }
+
     }
     const doMarkTaskInProgress = async event => {
         var error = "";
-        var obj = {progress:"In-Progress"};
+        var obj = {progress:"In-progress"};
         var js = JSON.stringify(obj);
 
         try{
-            const response = await fetch(buildPath('api/tasks/'+taskToDisplay['_id']),{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
-            var txt = await response.text();
-            var res = JSON.parse(txt);
-            if(res.acknowledged){
-                window.location.assign(window.location.pathname);
+            console.log("Editing task in to-do list; " + taskToDisplay._id);
+            const response = await fetch(buildPath(`api/to-do-tasks/${taskToDisplay._id}`),
+            {method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+            var jsonResult = await response.json();
+            if(response.ok){
+                alert(jsonResult.message);
+            } else{
+                alert(jsonResult.error);
             }
-            else{
-                error = "Failed to update project visibility"
-                alert(error);
-            }
+            window.location.assign(window.location.pathname);
         }
         catch(e){
+            error = "Failed to update task visibility"
             alert(error);
+        } finally {
+            window.location.assign(window.location.pathname);
         }
+
     }
+
     function doTaskModalClose(){
         const contactInfoDiv = document.getElementById("taskContactsDiv");
         taskToDisplay.users.forEach(u =>{
@@ -301,6 +311,7 @@ function DashboardToDo() {
         })
         contactInfoDiv.style.display = "none";
     }
+
     useLayoutEffect(() => { getTasks() }, []);
     return (
         <div class="container px-0 mt-5 mx-0">
@@ -317,6 +328,7 @@ function DashboardToDo() {
                                 <th width="15%" scope='col' class="todoTableBody">Category</th>
                                 <th width="25%" scope='col' class="todoTableBody" >Project</th>
                                 <th width="20%" scope='col' class="todoTableBody" >Progress</th>
+                                <th width="20%" scope='col' class="todoTableBody" >Details</th>
                             </tr>
                         </thead>
                         <tbody class="table-group-divider" id="taskTableBody">

@@ -47,10 +47,6 @@ button.btn.btn-primary{ /* Submit button */
   margin-left: 65px;
 }
 
-#createProjectModalLabel{ /* create a project text*/
-  margin-left: 85px;
-}
-
 button.btn.deleteModalBtn{
   margin-right: 115px;
   padding: 12px;
@@ -117,7 +113,7 @@ button.dark-mode-toggle, button.high-contrast-mode-toggle, .protan-toggle, .deut
 }
 
 /* Button Hover CSS */
-button.dark-mode-toggle:hover, button.high-contrast-mode-toggle:hover, .protan-toggle:hover, .deuteran-toggle:hover, .tritan-toggle:hover {
+button.dark-mode-toggle:hover, button.high-contrast-mode-toggle:hover, button.protan-toggle:hover, button.deuteran-toggle:hover, button.tritan-toggle:hover {
     background-color: #b3704c; /* Brighter background for hover */
     color: #fff !important; /* White text */
     border: 1px solid #262626 !important;
@@ -152,9 +148,13 @@ body.high-contrast {
 }
 
 /* Button Hover CSS */
-body.high-contrast button.dark-mode-toggle:hover, body.high-contrast button.high-contrast-mode-toggle:hover {
-  background-color: #b75927; /* Brighter background for hover */
+body.high-contrast 
+{
+  button.dark-mode-toggle:hover, button.high-contrast-mode-toggle:hover, button.protan-toggle:hover, button.deuteran-toggle:hover, button.tritan-toggle:hover {
+    background-color: #b75927; /* Brighter background for hover */
+  }
 }
+
 
 /* Slider Animation to show that high contrast mode is on */
 body.high-contrast button.high-contrast-mode-toggle.high-contrast .thumb{
@@ -223,37 +223,48 @@ body.high-contrast h1.dashboardTitle::before{
   background-color: #471D00 !important; /* Account Info text */
 }
 
-body.high-contrast button.btn.resetPasswordBtn{
+body.high-contrast button.btn.resetPasswordBtn {
   background-color: #523F00;
   color: #FFFFFF;
 }
 
-body.high-contrast button.btn.editBtn{
+body.high-contrast button.btn.resetPasswordBtn:hover {
+  background-color: #6a5200; /* Lighter brown */
+}
+
+body.high-contrast button.btn.editBtn {
   background-color: #004A99;
   color: #FFFFFF;
 }
 
-body.high-contrast button.btn.deleteBtn{
+body.high-contrast button.btn.editBtn:hover {
+  background-color: #1a63b8;
+}
+
+body.high-contrast button.btn.deleteBtn {
   background-color: #810E1F;
   color: #FFFFFF;
 }
 
-body.high-contrast button.btn.saveBtn{
-  background-color: #004A99;
+body.high-contrast button.btn.deleteBtn:hover {
+  background-color: #a32030;
 }
+
+body.high-contrast button.btn.saveBtn {
+  background-color: #004A99;
+  color: #FFFFFF;
+}
+
+body.high-contrast button.btn.saveBtn:hover {
+  background-color: #1a63b8;
+}
+
 
 /* UI Settings */
 
 body.high-contrast {
   .color-preset-container, .ui-preview-container, .font-container {
     background-color: #f3b35b !important;
-  }
-
-  .submit-btn{
-    background-color:#402C12 !important;
-  }
-  .submit-btn:hover{
-    background-color:#6A4520 !important;
   }
 }
 
@@ -262,10 +273,14 @@ body.high-contrast {
 
 
 body.high-contrast h5.modal-title{ /* Add a Task title*/
-  margin-left: 110px;
+  margin-left: 200px;
 }
 body.high-contrast button.btn.btn-primary{ /*Add task button */
   margin-left: 65px;
+}
+
+body.high-contrast .floating-button{ /* floating add task button */
+  background-color: #813400;
 }
 
 body.high-contrast div.modal-body{
@@ -274,6 +289,9 @@ body.high-contrast div.modal-body{
 
 body.high-contrast button.btn.btn-primary{
   background-color: #002238 !important;
+  &:hover{
+    background-color: #1a4a75  !important;
+  }
 }
 
 body.high-contrast h5.modal-title{
@@ -474,12 +492,11 @@ body.high-contrast textarea::placeholder {
 
 /* Time table */
 
-body.high-contrast button.export-csv-button{ /* CSV export */
+body.high-contrast button.export-csv-button, body.high-contrast button.export-pdf-button{ /* CSV+PDF export */
   background-color: #813400;
-}
-
-body.high-contrast button.export-pdf-button{ /* PDF export*/
-  background-color: #813400;
+  &:hover{
+    background-color: #b35408;
+  }
 }
 
 /* WORK (TimeTable Inside) Default dark mode for all task divs */
@@ -555,7 +572,7 @@ body.high-contrast .btn.viewChartBtn{
   background-color: #002238 !important; /*  (View Chart) Dark background */
   color: #ffffff;
   &:hover{
-    background-color: #003055 !important;
+    background-color: #0f4875 !important;
   }
   
 }
@@ -1147,7 +1164,7 @@ body.dark {
 /* Toggle Hover CSS */
 body.dark 
 {
-  button.dark-mode-toggle:hover, button.high-contrast-mode-toggle:hover, protan-toggle:hover{
+  button.dark-mode-toggle:hover, button.high-contrast-mode-toggle:hover, button.protan-toggle:hover, button.deuteran-toggle:hover, button.tritan-toggle:hover{
     background-color: #6d6d6d;
   }
 }
@@ -1195,9 +1212,13 @@ body.dark select:focus {
 
 
 /* Buttons */
-body.dark button {
-  background-color: #333;  /* Dark background for buttons */
+body.dark button,  body.dark .btn.btn-primary{
+  background-color: #555 !important;  /* Dark background for buttons */
   color: #fff;  /* Light text */
+  transition: ease-in 0.1s;
+  &:hover{
+    background-color: #444 !important;
+  }
 }
 
 body.dark .d-md-none.navBarBodySmall {
@@ -1206,10 +1227,6 @@ body.dark .d-md-none.navBarBodySmall {
 
 body.dark .navBtnTextSmall {
   color: #fff;  /* Light color for nav text */
-}
-
-body.dark .btn.btn-primary {
-  background-color: #444;  /* Darker background for primary buttons */
 }
 
 
@@ -1259,6 +1276,16 @@ body.dark div.modal-footer {
 
 body.dark div.modal-content{
   background-color: #313131 !important;
+  scrollbar-color: #1e1e1e #797979;
+
+}
+
+body.dark{
+  .highlight-picker-sidebar, .color-picker-sidebar{
+    background-color: #313131 !important;
+    color: white;
+    
+  }
 }
 
 body.dark button.btn.deleteModalBtn{
@@ -1309,18 +1336,28 @@ body.dark button.dropdown-toggle{
 
 body.dark div#editor-toolbar{
   background-color: #2b2b2b;
+  button.toolbar-btn{
+    background-color: #2b2b2b !important;
+  }
+  .dropdown-toggle{
+    background-color: #2b2b2b !important;
+    color: white !important;
+    border-color: #2b2b2b!important;
+  }
+  .dropdown-menu, .dropdown-menu .header-item{
+    background-color:#2b2b2b !important;
+    color: white !important;
+  }
 }
 
-body.dark button.toolbar-btn{
-  background-color: #4a4a4a;
-}
+
 
 body.dark button.btn.btn-primary{ /* Add task btn*/
   margin-left: 60px;
 }
 
-body.dark h5.modal-title{ /* Add task title*/
-  margin-left: 110px;
+body.dark .floating-button{ /* floating add task button */
+  background-color: #555;
 }
 
 body.dark textarea#description.form-control{
@@ -1328,8 +1365,8 @@ body.dark textarea#description.form-control{
 }
 
 body.dark button#pattern.dropdownBtnAdd.dropdown-toggle { /* Add Task button */
-  background-color: #444;
-  color: #000000;
+  background-color: rgb(50, 49, 49) !important;
+  color: white !important;
 }
 
 /* Account Details */
@@ -1543,6 +1580,9 @@ body.dark div#textbox{ /* add a descrip background*/
   background-color: #323131;
 }
 
+body.dark .align-items-start{
+  background-color: #323131;
+}
 body.dark div#description-title{
   background-color: #323131;
   margin-left: 0px;
@@ -1585,9 +1625,19 @@ body.dark div.dropdownDetails.flex-fill.mx-1{
   color:rgb(255, 255, 255);
 }
 
-body.dark #todoDropdown.nav-link.dropdown-toggle{ /* not started */
+body.dark #todoDropdown.nav-link.dropdown-toggle, body.dark .editTaskAppearanceButton, body.dark .done-button, body.dark #ul.assignedUsersDropdownMenu.dropdown-menu.show
+{
   background-color: rgb(84, 83, 83);
   color:rgb(255, 255, 255);
+  border-color:#444;
+  &:hover{
+    background-color: #444;
+    border-color:#444;
+    color:white;
+  }
+}
+body.dark .prerequisiteTaskDropdownItem.prerequisiteTaskDropdownItem{
+  color: white !important;
 }
 
 body.dark div.d-inline-flex{
@@ -1610,9 +1660,15 @@ body.dark div.details-body{
   color:rgb(255, 255, 255);
 }
 
-body.dark div.details-header{
-  background-color: rgb(50, 49, 49);
-  color:rgb(255, 255, 255);
+body.dark div.details-header, body.dark #assignedUsers.dropdownBtnAdd.dropdown-toggle, body.dark #prerequisiteTasks{
+  background-color: rgb(50, 49, 49) !important;
+  color:rgb(255, 255, 255) !important;
+}
+
+body.dark{
+  .form-check-input:checked{
+    background-color: rgb(50, 49, 49) !important  ;
+  }
 }
 
 body.dark div.task-details-footer{
@@ -1635,6 +1691,7 @@ body.dark div.task-details-body{
 body.dark .task-duration { /* border around task bars*/
   border: 1.2px solid rgb(203, 203, 203) !important; 
 }
+
 
 /* WORK (TimeTable Inside) Default dark mode for all task divs */
 body.dark [data-task] {

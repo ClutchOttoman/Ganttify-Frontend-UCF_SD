@@ -61,16 +61,18 @@
 
   .add-task-modal {
     position: fixed;
-    width: 100%; 
-    left: 35%;
+    left: 33%;
     overflow-y: none; 
   }  
 
+  .modal-title{
+    margin-left: 200px;
+  }
   .modal-content{
     text-align: left;
     max-width: 600px;
     max-height: 600px;
-    width: 100%;  
+    width: 150%;  
     overflow-x:hidden;
   }
   
@@ -140,7 +142,6 @@
     margin-left: 10px;
 }
 
-
 .submit-btn{
   width: 300px;
 }
@@ -155,10 +156,9 @@
 @media (max-width: 768px) {
   .modal-content {
       width: 95vw; 
-      transform: translateX(-35%);
+      transform: translateX(-33.5%);
   }
 }
-
 .checkBoxAddBtn{
     width: 17.6px !important;
 }
@@ -171,3 +171,8 @@
     padding: 0px !important;
 }
 
+.submit-btn{
+  margin-left: 150px !important;
+  width: 200px;
+  transition: ease-in 0.3s;
+}

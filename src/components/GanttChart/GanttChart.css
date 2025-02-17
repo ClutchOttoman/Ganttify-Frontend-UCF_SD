@@ -69,6 +69,7 @@
   cursor: pointer;
   padding: 3px 7px;
   font-weight: bold;
+  transition: ease-in 0.1s;
   /* margin-right: 98px;
   margin-top: 11px;
   margin-left: 345px; */

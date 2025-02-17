@@ -467,12 +467,9 @@ const AddTaskButton = ({ projectId }) => {
                   </div>
                   <div class="row mt-3 justify-content-center">
                     <div class="col-8">
-                        <button type="submit" className="btn btn-primary px-0 mx-0 mt-3 w-100">Add Task</button>
+                        <button type="submit" className="btn btn-primary px-0 mx-0 mt-3 w-100 submit-btn">Add Task</button>
                     </div>
                   </div>
-                 
-
-                  
                   
                 </form>
               </div>
