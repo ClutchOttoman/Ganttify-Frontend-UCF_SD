@@ -72,11 +72,11 @@ function DashboardProjectCard({project,userId,setSelectedProject,setNewName,setI
                                     
                                 </div>
                                     : 
-                                <div class = "row align-items-start justify-content-end mb-1">
-                                    <div class = "col col-3 px-0 ms-0 me-2"><a class = "btn viewChartBtn mx-0" href = {`/viewchart/${project?._id}`}>View Chart</a></div>
+                                <div class = "row align-items-center justify-content-end mb-1">
+                                    <div class = "col-3 px-0 ms-0 me-4"><a class = "btn viewChartBtn mx-0" href = {`/viewchart/${project?._id}`}>View Chart</a></div>
                                 </div>}
                                 <h5 class="card-subtitle">
-                                    {project.nameProject}
+                                    {project.nameProject}{ userId.toString() === project.founderId.toString() ? 
                                     <button
                                         style={{fontSize: "0.6em"}}
                                         className="btn-outline-primary"
@@ -87,7 +87,7 @@ function DashboardProjectCard({project,userId,setSelectedProject,setNewName,setI
                                         }}
                                     >
                                         ✏️ Edit Project Name
-                                    </button> 
+                                    </button>:null }
                                 </h5>
                                 <p class="card-text">Owner: {project.founderId.toString().localeCompare(userId.toString()) === 0 ? meText : friendText}</p>
                             </div>
