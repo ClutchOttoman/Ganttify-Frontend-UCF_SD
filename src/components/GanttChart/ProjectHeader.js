@@ -3,7 +3,7 @@ import './ProjectHeader.css';
 import { buildPath } from '../buildPath';
 
 
-function ProjectHeader({ projectName, setProjectName, projectId }) {
+function ProjectHeader({ projectName, setProjectName, projectId, founderId }) {
   const [newName, setNewName] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [message, setMessage] = useState('');
@@ -14,9 +14,7 @@ function ProjectHeader({ projectName, setProjectName, projectId }) {
 
   const handleSubmit = async event => {
     event.preventDefault();
-  
-    var obj = { founderId: userId, nameProject: newName };
-  
+
     try {
       // Check for project name length
       if (newName.length > 35) {
@@ -64,12 +62,15 @@ function ProjectHeader({ projectName, setProjectName, projectId }) {
     <div className="project-header">
       <h1>
       <span style= {{fontSize: "0.6em"}} className="project-name">{projectName}</span>
+      {founderId === userId ?
         <button style= {{fontSize: "0.3em"}}
-          className="btn-outline-primary"
-          onClick={() => setIsModalOpen(true)} // Open modal on button click
-        >
-          ✏️ Edit Project Name
-        </button>
+        className="btn-outline-primary"
+        onClick={() => setIsModalOpen(true)} // Open modal on button click
+      >
+        ✏️ Edit Project Name
+      </button> : ''
+      }
+
       </h1>
 
       {/* Bootstrap Modal */}

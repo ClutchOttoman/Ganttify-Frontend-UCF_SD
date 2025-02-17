@@ -25,7 +25,7 @@
     justify-content: space-between;
     background-color: #FDDC87;
     padding : 15px 0px;
-    position: fixed;
+    position: relative;
     z-index: 99999  ;
     float: top;
 }
