@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import Papa from 'papaparse'; // CSV parsing
+import React, { useState } from 'react';
 import "./DashboardNavBar.css";
 import { buildPath } from './buildPath';
-import Papa from 'papaparse';  // CSV parsing
 
 function DasboardNavBar({page}) {   
     const [message, setMessage] = useState('');
@@ -36,33 +36,46 @@ function DasboardNavBar({page}) {
             }
             // If no CSV is imported, proceed with regular project creation
             if (!csvData) {
-            const response = await fetch(buildPath('api/createproject'), {
-                method: 'POST',
-                body: js,
-                headers: { 'Content-Type': 'application/json' }
-            });
 
-            const txt = await response.text();
-            const res = JSON.parse(txt);
+                console.log("NO CSV DATA...");
 
-            if (res.error != null) {
-                setMessage("API Error:" + res.error);
-            } else {
-                setMessage('Project has been created');
-                setProjectCreated(true);
-                // Fetch project and its tasks after creation
-                fetchProject(res.project._id);
+                const response = await fetch(buildPath('api/createproject'), {
+                    method: 'POST',
+                    body: js,
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                const txt = await response.text();
+                const res = JSON.parse(txt);
+
+                console.log("res: ", res);
+
+                const inviteLinkResponse = await fetch(buildPath(`api/generate-invite-link/${res.project._id}`), {
+                    method: 'POST',
+                });
+
+                const inviteRes = await inviteLinkResponse.json();
+
+                console.log("Invite Link has been created...");
+
+                if (res.error != null && inviteRes.error != null) {
+                    setMessage("API Error:" + res.error);
+                } else {
+                    setMessage('Project has been created');
+                    setProjectCreated(true);
+                    // Fetch project and its tasks after creation
+                    fetchProject(res.project._id);
+                    
+                    // window.location.reload(); // Reload the page
                 
-                window.location.reload(); // Reload the page
-               
-            }
-        } else {
-            // If CSV data exists, use createProjectWithCSV
-            createProjectWithCSV(csvData);
-           
-            window.location.reload(); // Reload the page
+                }
+            } else {
+                // If CSV data exists, use createProjectWithCSV
+                createProjectWithCSV(csvData);
             
-        }
+                window.location.reload(); // Reload the page
+                
+            }
         } catch (e) {
             setMessage(e.toString());
         }
