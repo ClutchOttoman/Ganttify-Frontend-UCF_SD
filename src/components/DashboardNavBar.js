@@ -258,7 +258,7 @@ function DasboardNavBar({page}) {
                         </div>
                         <div className="modal-body">
                             {projectCreated ? (
-                                <button className="btn btn-primary" data-bs-dismiss="modal" aria-label="Close" onClick={hanldeProjectCreated}>Got It</button>
+                                <button className="btn btn-primary px-0 mx-0 mt-3 w-100" data-bs-dismiss="modal" aria-label="Close" onClick={hanldeProjectCreated}>Got It</button>
                             ) : (
                                 <form onSubmit={doCreateProject}>
                                     <label htmlFor="newProjectNameInput">Enter a name for your new project:</label>

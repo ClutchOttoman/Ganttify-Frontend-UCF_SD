@@ -338,7 +338,7 @@ function DashboardToDo() {
                         </tbody>
                     </table>
                 </div>
-                <div class="modal fade" tabindex="-1" id="taskModal" data-bs-backdrop="static" data-bs-keyboard="false">
+                <div class="modal fade" tabindex="-1" id="taskModal" data-bs-backdrop="false" data-bs-keyboard="false">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
