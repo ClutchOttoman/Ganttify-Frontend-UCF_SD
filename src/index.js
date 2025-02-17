@@ -1,78 +1,52 @@
+
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-// Dark mode
-const useDarkMode = () => {
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    const savedMode = localStorage.getItem('isDarkMode');
-    return savedMode ? JSON.parse(savedMode) : window.matchMedia('(prefers-color-scheme: dark)').matches;
-  });
+const applyThemeSettings = () => {
+  const savedDarkMode = localStorage.getItem('isDarkMode');
+  const savedContrastMode = localStorage.getItem('isHighContrastMode');
 
-  useEffect(() => {
-    if (isDarkMode) {
-      document.body.classList.add('dark');
-    } else {
-      document.body.classList.remove('dark');
-    }
-    localStorage.setItem('isDarkMode', JSON.stringify(isDarkMode));
-  }, [isDarkMode]);
+  const isDarkMode = savedDarkMode ? JSON.parse(savedDarkMode) : window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const isHighContrast = savedContrastMode ? JSON.parse(savedContrastMode) : window.matchMedia('(prefers-contrast: more)').matches;
 
-  return [isDarkMode, setIsDarkMode];
+  if (isDarkMode) document.body.classList.add('dark');  // Keep using body.dark
+  if (isHighContrast) document.body.classList.add('high-contrast');
+
+  // Ensure visibility is hidden until styles are fully applied
+  document.body.style.visibility = 'hidden';
 };
 
-const DarkModeLoader = () => {
-  const [isDarkMode] = useDarkMode();
+// Run before React initializes
+applyThemeSettings();
+
+
+const RootComponent = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
   useEffect(() => {
-    // Add no-flash class to prevent any render until theme is applied
-    document.body.classList.remove('no-flash');
+    setTimeout(() => {
+      document.body.style.visibility = 'visible'; // Ensure styles apply before rendering
+      setIsLoaded(true);
+    }, 50); // Reduced delay
   }, []);
-  return null;
+
+  return isLoaded ? <App /> : null;
 };
 
 
-
-// High contrast
-const useHighContrastMode = () => {
-  const [isHighContrastMode, setIsHighContrastMode] = useState(() => {
-    const savedMode = localStorage.getItem('isHighContrastMode');
-    return savedMode ? JSON.parse(savedMode) : window.matchMedia('(prefers-color-scheme: high-contrast)').matches;
-  });
-
-  useEffect(() => {
-    if (isHighContrastMode) {
-      document.body.classList.add('high-contrast');
-    } else {
-      document.body.classList.remove('high-contrast');
-    }
-    localStorage.setItem('isHighContrastMode', JSON.stringify(isHighContrastMode));
-  }, [isHighContrastMode]);
-
-  return [isHighContrastMode, setIsHighContrastMode];
-};
-
-const HighContrastModeLoader = () => {
-  const [isHighContrastMode] = useHighContrastMode();
-  useEffect(() => {
-    // Add no-flash class to prevent any render until theme is applied
-    document.body.classList.remove('no-flash');
-  }, []);
-  return null;
-};
-
-// Prevent React from rendering until theme is applied
-document.body.classList.add('no-flash');
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-root.render(
-  <React.StrictMode>
-    <HighContrastModeLoader/>
-    <DarkModeLoader />
-    <App />
-  </React.StrictMode>
-);
+setTimeout(() => {
+  root.render(
+    <React.StrictMode>
+      <RootComponent />
+    </React.StrictMode>
+  );
+}, 0); // Ensure styles apply before React initializes
 
 reportWebVitals();
+
