@@ -2366,6 +2366,10 @@ html.dark div.d-none.d-md-table-cell.container-lg.navBarBody.me-5.pb-5{
   visibility: visible;
 }
 
+html.dark div#taskContactsDiv.contactInfoDiv.mt-1{
+    background-color: #313131;
+}
+
 
 
 html.dark {
