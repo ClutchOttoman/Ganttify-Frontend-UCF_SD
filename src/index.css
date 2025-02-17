@@ -423,6 +423,14 @@ html.high-contrast span.button-icon{ /* + */
 }
 
 
+html.hign-contrast button.btn-close.align-content-center{
+  background-color: #fff !important ;
+}
+
+html.hign-contrast button.btn-close.align-content-center:hover{
+  background-color: #fff !important ;
+}
+
 
 /* Task Details */
 
@@ -761,7 +769,7 @@ html.high-contrast .projectBtn{  /* Icons background */
 html.high-contrast .btn-outline-primary { /* Pencil */
   background-color: transparent;
   visibility: visible;
-  color: #ff6600; /* Highlighted color for outline buttons */
+  color: #000000; /* Highlighted color for outline buttons */
 }
 
 html.high-contrast h5.card-subtitle{ /* project name */
@@ -852,16 +860,6 @@ html.high-contrast div.d-none.d-md-table-cell.container-lg.navBarBody.me-5.pb-5{
   visibility: visible;  
 }
 
-
-/* .navBarBody {
-    background-color: #DC6B2C;
-    min-height: 1000px !important;
-    min-width: 150px;
-    max-width:11% !important;
-    float:left;
-    text-align: left;
-    padding-bottom: 100% !important;
-} */
 
 
 html.high-contrast .btn.navBtnSmall{
@@ -1038,6 +1036,10 @@ html.high-contrast  input#submitLogin.btn{ /* Login button */
   background-color: #002238;
   visibility: visible;
   color: #FFFFFF;
+}
+
+html.high-contrast  input#submitLogin.btn:hover{ /* Login button */
+  color: #FFFFFF !important;
 }
 
 html.high-contrast h1.loginTitle{ /* Login title*/
@@ -1506,6 +1508,11 @@ html.dark button.btn.deleteModalBtn{
   visibility: visible;
 }
 
+html.dark button.btn.deleteModalBtn:hover{
+  color: #FFFFFF;
+  visibility: visible;
+}
+
 /* Task Details */
 
 html.dark div#textbox{ /* add description here... */
@@ -1518,7 +1525,7 @@ html.dark button.close {
   visibility: visible;
 }
 
-body.dark div.task-details-sidebar.task-details-sidebar{
+html.dark div.task-details-sidebar.task-details-sidebar{
   background-color: rgb(50, 49, 49);
 }
 
@@ -1964,7 +1971,7 @@ html.dark div.dropdownDetails.flex-fill.mx-1{
 
 
 
-html.dark #todoDropdown.nav-link.dropdown-toggle, body.dark .editTaskAppearanceButton, body.dark .done-button, body.dark #ul.assignedUsersDropdownMenu.dropdown-menu.show
+html.dark #todoDropdown.nav-link.dropdown-toggle, html.dark .editTaskAppearanceButton, html.dark .done-button, html.dark #ul.assignedUsersDropdownMenu.dropdown-menu.show
 {
   background-color: rgb(84, 83, 83);
   color:rgb(255, 255, 255);
@@ -2011,7 +2018,7 @@ html.dark div.details-body{
 
 
 
-html.dark div.details-header, body.dark #assignedUsers.dropdownBtnAdd.dropdown-toggle, body.dark #prerequisiteTasks{
+html.dark div.details-header, html.dark #assignedUsers.dropdownBtnAdd.dropdown-toggle, html.dark #prerequisiteTasks{
   background-color: rgb(50, 49, 49) !important;
   color:rgb(255, 255, 255) !important;
   visibility: visible;
@@ -2534,6 +2541,9 @@ html.dark input#submitLogin.btn{ /*login btn*/
   visibility: visible;
 }
 
+html.dark input#submitLogin.btn:hover{ /* Login button */
+  color: #FFFFFF !important;
+}
 
 
 /* Forgot Password Page*/
