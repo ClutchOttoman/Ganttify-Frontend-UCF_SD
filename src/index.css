@@ -411,7 +411,6 @@ body.high-contrast button#prerequisiteTasks.dropdownBtnAdd.dropdown-toggle{
   color: #000;
 }
 
-
 /* Category */
 
 body.high-contrast .gantt-task-row .task-category {
@@ -492,8 +491,9 @@ body.high-contrast textarea::placeholder {
 
 /* Time table */
 
-body.high-contrast button.export-csv-button, body.high-contrast button.export-pdf-button{ /* CSV+PDF export */
+body.high-contrast button.export-csv-button, body.high-contrast button.export-pdf-button, body.high-contrast .editTaskAppearanceButton, body.high-contrast .done-button{ /* CSV+PDF export */
   background-color: #813400;
+  color: white;
   &:hover{
     background-color: #b35408;
   }
@@ -527,9 +527,10 @@ body.high-contrast #gantt-grid-container__time {
   overflow-x: scroll;
   outline: 0.5px solid var(--color-outline);
   padding-bottom: 1px;
-
+  scrollbar-color: #363636 #C7C7C7;
   scrollbar-width: thin;
 }
+
 
 body.high-contrast .dropdown-menu.show{
   background-color: #ffffff !important;  /*  (Team dropdown) Slightly lighter on hover */
@@ -1022,8 +1023,8 @@ body.high-contrast #createProjectModalLabel{ /* Create a Project */
 }
 
 body.high-contrast button.btn-close{ /* X button background */
-  background-color:#fff;
-  color: #000;
+  background-color:#fff !important;
+  color: #000 !important;
 }
 
 body.high-contrast h5#changeProjectModalLabel.modal-title{
@@ -1031,7 +1032,7 @@ body.high-contrast h5#changeProjectModalLabel.modal-title{
 }
 
 body.high-contrast button.btn-close{
-  color: #000;
+  color: #000 !important;
 }
 
 
