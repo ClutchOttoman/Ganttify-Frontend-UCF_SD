@@ -58,3 +58,7 @@ body{
     margin-top: 0;
     margin-left: 40px;
 }
+.todoTableBody{
+    background-color: white;
+    color:black;
+}

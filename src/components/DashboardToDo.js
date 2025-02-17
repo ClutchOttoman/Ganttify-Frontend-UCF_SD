@@ -2,6 +2,8 @@ import React, { useLayoutEffect, useState } from 'react';
 import './DashboardToDo.css';
 import {buildPath} from './buildPath';
 
+const GanttifyOrange = "#DC6B2C";
+
 function toDate(timestanp) {
     var i = 0;
     var date = "";
@@ -144,6 +146,7 @@ function DashboardToDo() {
             const taskContactsHeader = document.createElement("h5");
             taskContactsHeader.textContent = "Teammate Information:"
             taskContactsDiv.appendChild(taskContactsHeader);
+            //turn user info into readable info for table
             if(userInfoRaw){
                 userInfoRaw.forEach(userRaw =>{
                     //console.log(userRaw);
@@ -157,17 +160,17 @@ function DashboardToDo() {
                     const emailText = document.createElement("p");
                     emailText.innerText=email;
                     emailText.setAttribute("class","contactBody");
-                    let phone = "Phone: " + toPhonePretty(userRaw.phone);
-                    const phoneText = document.createElement("p");
-                    phoneText.innerText = phone;
-                    phoneText.setAttribute("class","contactBody");
+                    // let phone = "Phone: " + toPhonePretty(userRaw.phone);
+                    // const phoneText = document.createElement("p");
+                    // phoneText.innerText = phone;
+                    //phoneText.setAttribute("class","contactBody");
                     let name = userRaw.name;
                     const nameText = document.createElement("p");
                     nameText.innerText = name;
                     nameText.setAttribute("class","contactName");
                     userInfoDiv.appendChild(nameText);
                     userInfoDiv.appendChild(emailText);
-                    userInfoDiv.appendChild(phoneText);
+                    //userInfoDiv.appendChild(phoneText);
                     userInfoDiv.id = userRaw._id
                     userInfoDiv.style.display = "none";
                     taskContactsDiv.appendChild(userInfoDiv);
@@ -179,20 +182,26 @@ function DashboardToDo() {
 
                 const dueDateCol = document.createElement('td');
                 dueDateCol.innerText =  tasks[i]['dueDatePretty'];
+                dueDateCol.setAttribute("class","todoTableBody");
 
                 const taskNameCol = document.createElement('td');
                 taskNameCol.innerText = tasks[i]['taskTitle'];
+                taskNameCol.setAttribute("class","todoTableBody");
 
                 const taskCategoryCol = document.createElement('td');
                 taskCategoryCol.innerText = tasks[i]['taskCategory'];
+                taskCategoryCol.setAttribute("class","todoTableBody");
 
                 const projectNameCol = document.createElement('td');
                 projectNameCol.innerText = tasks[i]['projectName'];
+                projectNameCol.setAttribute("class","todoTableBody");
 
                 const taskProgressCol = document.createElement('td');
                 taskProgressCol.innerText = tasks[i]['progress'];
+                taskProgressCol.setAttribute("class","todoTableBody");
 
                 const actionCol = document.createElement('td');
+                actionCol.setAttribute("class","todoTableBody");
 
                 const actionButton = document.createElement('button');
                 actionButton.id = 'task-action-button' + i
@@ -239,48 +248,58 @@ function DashboardToDo() {
         }
 
     }
+
     const doMarkTaskComplete = async event => {
         var error = "";
         var obj = {progress:"Completed"};
         var js = JSON.stringify(obj);
 
         try{
-            const response = await fetch(buildPath('api/tasks/'+taskToDisplay['_id']),{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
-            var txt = await response.text();
-            var res = JSON.parse(txt);
-            if(res.acknowledged){
-                window.location.assign(window.location.pathname);
+            console.log("Editing task in to-do list; " + taskToDisplay._id);
+            const response = await fetch(buildPath(`api/to-do-tasks/${taskToDisplay._id}`),
+            {method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+            var jsonResult = await response.json();
+            if(response.ok){
+                alert(jsonResult.message);
+            } else{
+                alert(jsonResult.error);
             }
-            else{
-                error = "Failed to update project visibility"
-                alert(error);
-            }
+            window.location.assign(window.location.pathname);
         }
         catch(e){
+            error = "Failed to update task visibility"
             alert(error);
+        } finally {
+            window.location.assign(window.location.pathname);
         }
+
     }
     const doMarkTaskInProgress = async event => {
         var error = "";
-        var obj = {progress:"In-Progress"};
+        var obj = {progress:"In-progress"};
         var js = JSON.stringify(obj);
 
         try{
-            const response = await fetch(buildPath('api/tasks/'+taskToDisplay['_id']),{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
-            var txt = await response.text();
-            var res = JSON.parse(txt);
-            if(res.acknowledged){
-                window.location.assign(window.location.pathname);
+            console.log("Editing task in to-do list; " + taskToDisplay._id);
+            const response = await fetch(buildPath(`api/to-do-tasks/${taskToDisplay._id}`),
+            {method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+            var jsonResult = await response.json();
+            if(response.ok){
+                alert(jsonResult.message);
+            } else{
+                alert(jsonResult.error);
             }
-            else{
-                error = "Failed to update project visibility"
-                alert(error);
-            }
+            window.location.assign(window.location.pathname);
         }
         catch(e){
+            error = "Failed to update task visibility"
             alert(error);
+        } finally {
+            window.location.assign(window.location.pathname);
         }
+
     }
+
     function doTaskModalClose(){
         const contactInfoDiv = document.getElementById("taskContactsDiv");
         taskToDisplay.users.forEach(u =>{
@@ -292,23 +311,24 @@ function DashboardToDo() {
         })
         contactInfoDiv.style.display = "none";
     }
+
     useLayoutEffect(() => { getTasks() }, []);
     return (
-        <div class="wrapper mt-3">
-            <div class="container-sm px-0 mt-5 mx-0 mainContainer">
+        <div class="container px-0 mt-5 mx-0">
                 <h1 class="title">To Do List</h1>
                 <form>
                     <input type="search" class="form-control searchForm" placeholder='Search tasks by name, category or project...' id="search projects" onChange={doTaskSearch} ref={(c) => search = c} />
                 </form>
-                <div class="table-responsive-lg">
+                <div class="table-responsive-xxl">
                     <table class="table table-bordereless" id="taskTableHeader">
                         <thead>
                             <tr>
-                                <th width="15%" scope='col'>Due Date</th>
-                                <th width="25%" scope='col'>Task Name</th>
-                                <th width="15%" scope='col'>Category</th>
-                                <th width="25%" scope='col'>Project</th>
-                                <th width="20%" scope='col'>Progress</th>
+                                <th width="15%" scope='col' class="todoTableBody">Due Date</th>
+                                <th width="25%" scope='col' class="todoTableBody">Task Name</th>
+                                <th width="15%" scope='col' class="todoTableBody">Category</th>
+                                <th width="25%" scope='col' class="todoTableBody" >Project</th>
+                                <th width="20%" scope='col' class="todoTableBody" >Progress</th>
+                                <th width="20%" scope='col' class="todoTableBody" >Details</th>
                             </tr>
                         </thead>
                         <tbody class="table-group-divider" id="taskTableBody">
@@ -323,20 +343,31 @@ function DashboardToDo() {
                         <div class="modal-content">
                             <div class="modal-header">
                             {taskToDisplay ? <h3 class="modal-title">{taskToDisplay['taskTitle']}<h5 class="modal-title">{taskToDisplay['projectName']}</h5></h3> : null}
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={doTaskModalClose}></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={doTaskModalClose}  style={{ color: 'black', fontSize: '1.7rem', background: `${GanttifyOrange}`, border: 'none' }}>
+                                      ✖  
+                                </button>
                             </div>
                             <div class="modal-body">
                              {taskToDisplay ? 
-                                <div><p>{taskToDisplay['description']}</p>{taskToDisplay['progress'].localeCompare("Completed") === 0 ? null:<p>{taskToDisplay['dueDatePretty'].localeCompare("PAST DUE") === 0 ? "THIS TASK WAS DUE: "+ taskToDisplay['dueDateActual']: "Due: "+ taskToDisplay['dueDatePretty']}</p>}{taskToDisplay['userInfoText']}</div> : null}<div id = "taskContactsDiv"></div></div>
+                                <div><p dangerouslySetInnerHTML={{__html: taskToDisplay['description'].trim()}}></p>{taskToDisplay['progress'].localeCompare("Completed") === 0 ? null:<p>{taskToDisplay['dueDatePretty'].localeCompare("PAST DUE") === 0 ? "THIS TASK WAS DUE: "+ taskToDisplay['dueDateActual']: "Due: "+ taskToDisplay['dueDatePretty']}</p>}{taskToDisplay['userInfoText']}</div> : null}<div id = "taskContactsDiv"></div></div>
                             {taskToDisplay? 
-                            <div class="modal-footer">
-                                {(taskToDisplay['progress'].localeCompare("Completed") === 0) ?  <button type="button" class="btn btn-primary" onClick={()=>doMarkTaskInProgress()}>Mark Task In Progress</button>:
-                                <button type="button" class="btn btn-primary" onClick={()=>doMarkTaskComplete()}>Mark Task Complete</button>}
+                            <div class="modal-footer mx-0 justify-content-center">
+                                {(taskToDisplay['progress'].localeCompare("Completed") === 0) ?  
+                                <div class="row justify-content-center">
+                                    <div class="col-12">
+                                        <button type="button" class="btn btn-primary w-100 mx-0" onClick={()=>doMarkTaskInProgress()}>Mark Task In Progress</button>
+                                    </div>
+                                </div>
+                                :
+                                <div class="row justify-content-center">
+                                    <div class="col-12">
+                                        <button type="button" class="btn btn-primary w-100 mx-0" onClick={()=>doMarkTaskComplete()}>Mark Task Complete</button>
+                                    </div>
+                                </div>}
                             </div>:null}
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
     );
 };

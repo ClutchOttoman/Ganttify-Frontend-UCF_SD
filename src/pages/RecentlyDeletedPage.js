@@ -8,8 +8,7 @@ const  RecentlyDeletedPage = () =>
     return(
       <div>
         <NavBar layout={2}/>
-        <DashboardNavBar/>
-        <RecentlyDeletedSearch/>
+        <DashboardNavBar page={<RecentlyDeletedSearch/>}/>
       </div>
     );
 };

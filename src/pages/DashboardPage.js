@@ -9,8 +9,7 @@ const DashboardPage = () =>
     return(
       <div>
         <NavBar layout={2}/>
-        <DashboardNavBar/>
-        <DashboardToDo/>
+        <DashboardNavBar page={<DashboardToDo/>}/>
       </div>
     );
 };
