@@ -132,6 +132,20 @@ body{
     text-decoration: none;
     cursor: pointer;
   }
-
+  
+.deleteProjectModal.modal-dialog.div.modal-content{
+    width: 400px;
+    transform: translateX(-40%);
+}
+@media (max-width: 1400px) {
+div.modal-content{
+    transform: translateX(-8%);
+}
+}
+@media(max-width: 768px){
+    div.modal-content{
+        transform: translateX(-5%);
+    }
+}
   
   

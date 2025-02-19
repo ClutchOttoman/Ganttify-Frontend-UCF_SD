@@ -28,6 +28,7 @@ body{
     width: 68vw;
 }
 
+/* Resizing table */
 @media (max-width: 1400px) {
     .table {
         width: 60vw;
@@ -45,7 +46,7 @@ body{
 .tr{
     line-height: 100px !important;
     min-height: 100px !important; 
-    height: 100px !important;
+    height: 100px !important; 
 }
 .cell{
     vertical-align:middle;

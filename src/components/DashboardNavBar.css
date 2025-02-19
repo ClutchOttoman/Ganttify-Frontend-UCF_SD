@@ -64,8 +64,8 @@ body{
     font-size: 10px;
 }
 
-.modal-content{
-    transition: ease-in 0.1s;
+div.modal-content{
+    transition: ease-in 0.1;
 }
 
 .modal-backdrop {
@@ -78,13 +78,13 @@ body{
   }
 
 @media (max-width: 1400px) {
-    .modal-content{
-        transform: translateX(-8%)
+    div.modal-content{
+        transform: translateX(-8%);
     }
 }
 @media(max-width: 768px){
-    .modal-content{
-        transform: translateX(20%)
+    div.modal-content{
+        transform: translateX(-5%);
     }
 }
 
