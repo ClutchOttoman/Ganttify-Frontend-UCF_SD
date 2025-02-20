@@ -7,11 +7,6 @@
   scrollbar-width: thin;
 }
 
-/* #gantt-grid-container__time::-webkit-scrollbar {
-  width: 0px;
-  background: transparent;
-} */
-
 .task-duration {
   position: absolute;
   height: calc(var(--cell-height) / 1.5);
@@ -21,7 +16,7 @@
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.05);
   cursor: move;
   resize: vertical;
-  
+  border: 1.5px solid black !important;
 }
 
 .task-duration:dragging {

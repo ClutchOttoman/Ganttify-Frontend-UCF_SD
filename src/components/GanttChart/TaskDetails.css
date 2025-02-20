@@ -76,7 +76,6 @@
 
 .task-details-footer {
   padding: 10px;
-  border-top: 1px solid #ddd;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -156,32 +155,10 @@
   outline-offset: 3px; 
 }
 
-
-/* .color-circle:hover {
-  outline: 2px solid #7AA7B7; 
-  outline-offset: 3px; 
-  cursor: default;
-} */
-
 .color-option-sidebar:hover {
   outline: 2px solid #7AA7B7; 
   outline-offset: 3px; 
 }
-
-
-
-/*#description {
-  border-radius: 5px;
-  max-height: 100px;
-  overflow-y: auto;
-  height: 100px;
-  padding-bottom: 30px;
-  margin-top: 6px;
-  font-size: 15px;
-  margin-left: 10px;
-  margin-right: 10px;
-  color: #737373;
-}*/
 
 #title-text {
   width: 100%;
@@ -214,11 +191,12 @@
   margin-top: 20px;
 }
 
-#details-header {
+.details-header {
   border-bottom: 1px solid #ddd;
   padding: 5px;
   font-size: 18px;
   text-align: center;
+  border-radius: 5px;
 }
 
 #details-content {

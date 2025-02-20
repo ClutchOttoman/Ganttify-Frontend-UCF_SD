@@ -108,24 +108,20 @@
   
   .deleteBtn {
     background-color: #dc3545;
-    color: white;
+    &:hover {
+      background-color: #b52d3a;
+      color: white;
+    }
   }
-  
-  .deleteBtn:hover {
-    background-color: #b52d3a;
-  }
-  
+
   .editBtn,
   .saveBtn {
     background-color: #007bff;
-    color: white;
+    &:hover {
+      background-color: #0056b3;
+      color: white;
   }
-  
-  .editBtn:hover,
-  .saveBtn:hover {
-    background-color: #0056b3;
   }
-  
   .editInput {
     padding: 5px;
     font-size: 14px;
@@ -137,11 +133,10 @@
   
   .resetPasswordBtn {
     background-color: #ffc107;
-    color: #000;
-  }
-  
-  .resetPasswordBtn:hover {
-    background-color: #e0a800;
+    &:hover{
+      background-color: #e0a800;
+      color: white;
+    }
   }
 
   .editSelect {
