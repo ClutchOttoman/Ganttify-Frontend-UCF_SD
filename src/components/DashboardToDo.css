@@ -8,7 +8,6 @@ body{
     float:top;
 }
 .title{
-    font:bold;
     margin-left:40px;
     margin-top:-60px;
     color: black;
@@ -48,6 +47,7 @@ body{
     border-color:#DC6B2C    ;
     color:rgb(255, 255, 255);
     visibility: visible;
+
 }
 
 .tr{
@@ -62,13 +62,21 @@ body{
     border: none;
     visibility: hidden;
 }
-.taskBtn{
-    border:none;
-    background: none;
-    color:none;
-    font-size:x-large;
-    padding: 0;
-    margin: 0;
+
+.taskBtn {
+    width: 33px; 
+    height: 33px;
+    border-radius: 50%;
+    display: block;
+    margin: auto;
+    border: none;
+    color: white;
+    background-color: #DC6B2C;
+
+    &:hover{
+        transition: background-color ease-in 0.1s;
+        background-color: #f08b4f;
+    }
 }
 .modalSubTitle{
     float:bottom;

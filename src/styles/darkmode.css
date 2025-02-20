@@ -28,7 +28,7 @@ html.dark {
         border: 1px solid #464646; /* Light border for inputs */
         visibility: visible;
         &:focus{
-            background-color: #808080;   
+            background-color: #808080;
             visibility: visible;   
         }
         &::placeholder{
@@ -200,10 +200,10 @@ html.dark {
     
     /* Button inside the table */
     .taskBtn {
-        background-color:  #292929 !important;
-        padding: 5px 10px !important; 
-        cursor: pointer !important; 
-        visibility: visible;
+        background-color:  #1E1E1E!important;
+        &:hover{
+          background-color: #555 !important;
+        }
     }
 
     /* Charts Page */

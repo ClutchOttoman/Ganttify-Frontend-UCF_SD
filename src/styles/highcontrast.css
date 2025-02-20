@@ -51,7 +51,7 @@ html.high-contrast {
         color: white !important;
     }
     /* Transparent background Edit Project Name + Delete*/
-    button.btn-outline-primary, button.projectBtn, .img.btnIcon{
+    button.btn-outline-primary, button.btn-outline-primary2, button.projectBtn, .img.btnIcon{
         background-color: transparent !important;
         &:hover{
             background-color: transparent !important;         
@@ -160,9 +160,6 @@ html.high-contrast {
     
     /* Button inside the table */
     .taskBtn {
-        padding: 5px 10px !important; 
-        cursor: pointer !important; 
-        visibility: visible;
     }
 
     /* Charts Page */
