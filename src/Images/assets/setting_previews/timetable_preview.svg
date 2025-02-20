@@ -4,7 +4,7 @@
 <rect id="navbar" x="347" width="27" height="347" transform="rotate(90 347 0)" fill="var(--navbar-color)"/>
 <rect x="6" y="2" width="23" height="23" fill="url(#pattern0_383_223)"/>
 <rect id = "timetable-outer" x="12.5" y="42.5" width="320" height="100" rx="3.5" fill="var(--timetable-color)" stroke="var(--border-color)"/>
-<circle cx="328" cy="192" r="10" fill="#DC6B2C"/>
+<circle cx="328" cy="192" r="10" fill="var(--add-task-btn-color)"/>
 <line x1="323" y1="192" x2="333" y2="192" stroke="white" stroke-width="2"/>
 <line x1="328" y1="187" x2="328" y2="197" stroke="white" stroke-width="2"/>
 <rect width="294" height="80" transform="translate(39 63)" fill="white"/>

@@ -43,6 +43,13 @@ body{
     }
   }
 
+  th.todoTableBody{ 
+    background-color: #DC6B2C;
+    border-color:#DC6B2C    ;
+    color:rgb(255, 255, 255);
+    visibility: visible;
+}
+
 .tr{
     line-height: 100px !important;
     min-height: 100px !important; 
