@@ -27,11 +27,12 @@ code {
   src: url("./fonts/opendyslexic/OpenDyslexic-Custom-Reduced-Regular.woff") format("woff");
 }
 
-
+/* Global Scrollbar Styles */
 /* Ensure no flash of white/light mode */
 html {
   background-color: #ffffff; /* Default dark background */
   color: white; /* Default text color */
+  scrollbar-color: #888 #FDDC87 !important;
 }
 
 html.no-flash {

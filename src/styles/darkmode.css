@@ -2,6 +2,7 @@ html.dark {
     background-color: #121212;
     color: #fff;
     visibility: visible;
+    scrollbar-color: #1e1e1e #797979 !important; 
 
     /* General CSS */
     /* Background/Wallpaper Colors  */
