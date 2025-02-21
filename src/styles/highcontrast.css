@@ -32,7 +32,7 @@ html.high-contrast {
         color: #fff !important; 
         visibility: visible;
         &:hover{
-            color:#363636 !important;  
+            color:#FFE4B5 !important;  
             visibility: visible;
         }
     }
@@ -63,7 +63,7 @@ html.high-contrast {
       color: #ffffff;
       visibility: visible;
       &:hover{
-        color:#363636 !important;  
+        color:#FFE4B5 !important;  
       }
     }
   
@@ -158,10 +158,11 @@ html.high-contrast {
         scrollbar-color: #363636 #C7C7C7 !important; 
     }
     
-    /* Button inside the table */
+    /* Button inside the table 
     .taskBtn {
     }
-
+    */
+    
     /* Charts Page */
     /* Chart Cards */
     /* View Chart Button */
@@ -215,6 +216,7 @@ html.high-contrast {
 
     /* Gantt Chart/Project Page */
     /* Time table */
+
     /*Task bar border */
     .task-duration { 
         background-color: 1.2px solid #002238 !important;

@@ -4,14 +4,15 @@
   right: 0;
   width: 500px;
   height: calc(100vh - 112px); 
+  border-radius: 20px;
   background-color: #fff;
-  box-shadow: -2px 5px 2px rgba(0, 0, 0, 0.3); 
+  box-shadow: -2px 5px 4px rgba(0, 0, 0, 0.3); 
   z-index: 9999;
   overflow-y: auto;
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
-
+  transition: right 0.3s ease-in-out;
 }
 
 .task-details-header {
@@ -36,6 +37,10 @@
   margin-bottom: 20px;
 }
 
+div.details{
+  border-top-left-radius: 20px !important;
+  border-top-right-radius: 20px !important;
+}
 .task-details-content {
   margin-left: 10px;
   margin-right: 10px;

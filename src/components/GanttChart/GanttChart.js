@@ -302,7 +302,7 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
 
 
   return (
-    <div className="container-fluid px-0 mx-0 py-0 mt-5 mb-0 main-container" >
+    <div className="container-fluid mx-0 py-0 mt-5 mb-0 main-container" >
       <div id="gantt-container">
         <Grid>
           <Tasks

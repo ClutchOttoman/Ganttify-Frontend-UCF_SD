@@ -279,6 +279,10 @@ html.dark {
 
     /* Gantt Chart/Project Page */
     /* Time table */
+    /*Time table container color*/
+    #gantt-container, #gantt-grid-container{
+      background-color: #313131 !important; 
+    }
     /*Task bar border */
     .task-duration { 
       border: 1.2px solid rgb(203, 203, 203) !important; 
