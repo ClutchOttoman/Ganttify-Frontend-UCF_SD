@@ -352,8 +352,8 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
       <div className="export-buttons-container">
         {/* <div className="gantt-chart-sort-selector"> */}
           <select className="gantt-chart-sort-selection" onChange={handleSortChange} value={sortBy}>
-            <option value="alphabetical">Alphabetical</option>
-            <option value="created">By Creation Date</option>
+            <option value="alphabetical">By Creation Date</option>
+            <option value="created">Alphabetical</option>
           </select>
         {/* </div> */}
 

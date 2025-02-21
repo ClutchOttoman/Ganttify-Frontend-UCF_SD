@@ -1,5 +1,5 @@
 html.high-contrast {
-  scrollbar-color: #363636 #C7C7C7 !important;
+    scrollbar-color: #363636 #C7C7C7 !important; 
     /* General CSS */
     /* General Buttons */
     button, .btn.btn-primary, .btn, .cta-button{
