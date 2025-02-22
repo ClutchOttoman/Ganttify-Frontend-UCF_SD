@@ -72,7 +72,7 @@ div.details{
 .task-details-sidebar #textbox {
   border-top: 1px solid #ddd;
   overflow-y: auto;
-  min-height: 150px;
+  min-height: 225px;
   padding-left: 10px;
   overflow-x: hidden;
   overflow-wrap: break-word;

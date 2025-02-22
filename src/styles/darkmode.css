@@ -216,7 +216,7 @@ html.dark {
     }
     
     /* Transparent background Edit Project Name */
-    button.btn-outline-primary{
+    button.btn-outline-primary, button.btn-outline-primary2{
         background-color: transparent !important;
     }
     
