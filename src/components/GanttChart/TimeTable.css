@@ -1,6 +1,7 @@
 #gantt-grid-container__time {
   display: grid;
   overflow-x: scroll;
+  overflow-y: hidden;
   outline: 0.5px solid var(--color-outline);
   padding-bottom: 1px;
   scrollbar-color: #888 #FDDC87;

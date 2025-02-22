@@ -101,7 +101,7 @@ async function createTask(newTask) {
 
 function NavBar(props) {
 
-  const [showModal, setShowModal] = useState(false);
+  const [showAnnouncementModal, setAnnouncmentModal] = useState(false);
   const [inviteModal, setInviteModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [teamMembers, setTeamMembers] = useState([]);
@@ -167,11 +167,8 @@ const toggleHighContrastMode = () => {
     userId = ud._id;
   }
 
-
   let tempProjectId = useParams();
   let projectId = tempProjectId.id;
-
-
 
   useEffect(() => {
     if (props.layout === 3) {
@@ -179,8 +176,6 @@ const toggleHighContrastMode = () => {
     }
 
   }, [props.layout, projectId, founderId]);
-
-
 
   const fetchTeamMembers = async (projectId) => {
 
@@ -346,7 +341,6 @@ const toggleHighContrastMode = () => {
   };
 
 
-  const openModal = () => setShowModal(true);
   const openInviteModal = () => setInviteModal(true);
   const closeInviteModal = () => {
     setInviteModal(false);

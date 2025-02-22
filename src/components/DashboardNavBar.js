@@ -1,5 +1,6 @@
 import Papa from 'papaparse'; // CSV parsing
 import React, { useState } from 'react';
+import AnnouncementModal from './AnnouncementModal';
 import "./DashboardNavBar.css";
 import { buildPath } from './buildPath';
 
@@ -221,7 +222,9 @@ function DasboardNavBar({page}) {
     
 
           return(
-            <div class = "d-md-flex d-block">
+            <div class = "d-md-flex d-block">         
+            {/*Announcements for new features */}
+            <AnnouncementModal />
                 <div class = "d-none d-md-table-cell container-lg navBarBody me-5 pb-5">
                         <a id ="ToDo List" class = "btn navBtn topNavBtn" href="/dashboard"><span class = "navBtnText">To Do List</span></a>
                         <a id ="Charts" class = "btn navBtn" href="/dashboard/charts"><span class = "navBtnText">Charts</span></a>

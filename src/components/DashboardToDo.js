@@ -1,4 +1,5 @@
 import React, { useLayoutEffect, useState } from 'react';
+import AnnouncementModal from './AnnouncementModal';
 import './DashboardToDo.css';
 import {buildPath} from './buildPath';
 
@@ -315,6 +316,8 @@ function DashboardToDo() {
     useLayoutEffect(() => { getTasks() }, []);
     return (
         <div class="container px-0 mt-5 mx-0">
+            {/*Announcements for new features */}
+            <AnnouncementModal />
                 <h1 class="title">To Do List</h1>
                 <form onSubmit={(e) => e.preventDefault()}>
                     <input type="search" class="form-control searchForm" placeholder='Search tasks by name, category or project...' id="search projects" onChange={doTaskSearch} ref={(c) => search = c} />
