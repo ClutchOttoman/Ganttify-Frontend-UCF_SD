@@ -304,8 +304,8 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
 };
 
 const filteredTasks = tasks.filter(task =>
-  task.taskTitle.toLowerCase().includes(searchTasks.toLowerCase()) ||
-  task.taskCategory.toLowerCase().includes(searchTasks.toLowerCase())
+  (task.taskTitle?.toLowerCase() || '').includes(searchTasks.toLowerCase()) ||
+  (task.taskCategory?.toLowerCase() || '').includes(searchTasks.toLowerCase())
 );
 
 const handleSearch = (event) =>{
