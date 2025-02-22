@@ -1,9 +1,17 @@
-div.container-fluid.px-0.mx-0.py-0.mt-5.mb-0.main-container {
-  margin-left: 50px;
-  width: 97%;
-  height: 250px;
-  margin-top: 200px;
-  position:sticky;
+.main-container {
+  width: 98%;
+  min-height: 200px;
+  height: auto; /* Prevents it from getting too large */
+  padding: 30px 25px;
+  border-radius: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  margin: 0 auto; 
+}
+
+input#search-tasks.form-control.searchForm{
+  position: relative;
+  right: 38px;
+  border: 1.0px solid black;
 }
 
 #gantt-container {
@@ -17,9 +25,10 @@ div.container-fluid.px-0.mx-0.py-0.mt-5.mb-0.main-container {
     --border-radius: 5px;
     --cell-height: 40px;
     padding: 1rem;
-      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
-      border-radius: 10px;
-      border: 0.3px solid black !important;
+    margin: 0 auto;
+    border-radius: 10px;
+    border: 0.3px solid black !important;
+    background-color: white
   }
 
   .gantt-chart-time-range-selector {
@@ -80,9 +89,6 @@ div.container-fluid.px-0.mx-0.py-0.mt-5.mb-0.main-container {
   padding: 3px 7px;
   font-weight: bold;
   transition: ease-in 0.1s;
-  /* margin-right: 98px;
-  margin-top: 11px;
-  margin-left: 345px; */
   text-wrap: wrap;
  
 }
@@ -101,7 +107,6 @@ div.container-fluid.px-0.mx-0.py-0.mt-5.mb-0.main-container {
 
 /* To explicitly adjust the vertical position of the buttons */
 .export-buttons-container {
-  margin-bottom: 100px; /* Add vertical spacing above */
   margin-top: 0.5rem;
   display: flex;
   flex-wrap: wrap;

@@ -22,7 +22,7 @@ body{
     min-width: 100% !important;
 }
 .chartsContainer{
-    margin-left: 40px;
+    width: 90% !important;
 }
 .cardCol{
     max-width: fit-content;

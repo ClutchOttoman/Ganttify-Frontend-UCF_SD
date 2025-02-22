@@ -19,6 +19,8 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
   const currentYear = currentDate.getFullYear();
 
   const [tasks, setTasks] = useState([]);
+  const [searchTasks, setSearchTasks] = useState('')
+
   const [taskDurations, setTaskDurations] = useState([]);
   const [timeRange, setTimeRange] = useState({
     fromSelectMonth: currentMonth,
@@ -76,6 +78,7 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
 
     return sortedTasks;
   };
+
 
 
   useEffect(() => {
@@ -300,13 +303,26 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
     setIsExporting(false);
 };
 
+const filteredTasks = tasks.filter(task =>
+  task.taskTitle.toLowerCase().includes(searchTasks.toLowerCase()) ||
+  task.taskCategory.toLowerCase().includes(searchTasks.toLowerCase())
+);
+
+const handleSearch = (event) =>{
+  setSearchTasks(event.target.value)
+  console.log(searchTasks)
+}
+
 
   return (
-    <div className="container-fluid mx-0 py-0 mt-5 mb-0 main-container" >
+    <div className="container-fluid main-container" >
+      <form onSubmit={(e) => e.preventDefault()}  >
+          <input type="search" class="form-control searchForm" placeholder='Search tasks by name or category...' id="search-tasks" value ={searchTasks} onChange={handleSearch}/>
+      </form >
       <div id="gantt-container">
         <Grid>
           <Tasks
-            tasks={tasks}
+            tasks={filteredTasks}
             setTasks={setTasks}
             setTaskDurations={setTaskDurations}
             userRole={userRole}
@@ -315,14 +331,14 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
           />
           <TimeTable
             timeRange={timeRange}
-            tasks={tasks}
+            tasks={filteredTasks}
             setTasks={setTasks}
             taskDurations={taskDurations}
             setTaskDurations={setTaskDurations}
             userId={userId}
             projectId={projectId}
             userRole={userRole}
-            projectTasks={tasks}
+            projectTasks={filteredTasks}
           />
         </Grid>
 
@@ -330,11 +346,11 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
           show={showDetails}
           onHide={() => setShowDetails(false)}
           task={selectedTask}
-          handleDelete={(taskId) => setTasks(tasks.filter(task => task._id !== taskId))}
+          handleDelete={(taskId) => setTasks(filteredTasks.filter(task => task._id !== taskId))}
           userId={userId}
           userRole={userRole}
           teamId={teamId}
-          projectTasks={tasks}
+          projectTasks={filteredTasks}
         />
       </div>
 
@@ -342,11 +358,11 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
         show={showDetails}
         onHide={() => setShowDetails(false)}
         task={selectedTask}
-        handleDelete={(taskId) => setTasks(tasks.filter(task => task._id !== taskId))}
+        handleDelete={(taskId) => setTasks(filteredTasks.filter(task => task._id !== taskId))}
         userId={userId}
         userRole={userRole}
         teamId={teamId}
-        projectTasks={tasks}
+        projectTasks={filteredTasks}
       />
 
       <div className="export-buttons-container">

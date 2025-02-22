@@ -24,12 +24,12 @@ html.dark {
 
     /* Input styles */
     input, textarea {
-        background-color:  #666 ; /* Darker background for input fields */
+        background-color:  #383737 ; /* Darker background for input fields */
         color: #fff !important; /* White text */
         border: 1px solid #464646; /* Light border for inputs */
         visibility: visible;
         &:focus{
-            background-color: #808080;
+            background-color: #6D6D6D;
             visibility: visible;   
         }
         &::placeholder{
@@ -280,9 +280,13 @@ html.dark {
 
     /* Gantt Chart/Project Page */
     /* Time table */
-    /*Time table container color*/
+    /*Time table container outer color*/
+    .main-container {
+      background-color: #1F1E1E;
+    }
+    /*Time table container inner color*/
     #gantt-container, #gantt-grid-container{
-      background-color: #313131 !important; 
+      background-color: #2B2A2A !important; 
     }
     /*Task bar border */
     .task-duration { 
