@@ -304,8 +304,8 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
 };
 
 const filteredTasks = tasks.filter(task =>
-  task.taskTitle.toLowerCase().includes(searchTasks.toLowerCase()) ||
-  task.taskCategory.toLowerCase().includes(searchTasks.toLowerCase())
+  (task.taskTitle?.toLowerCase() || '').includes(searchTasks.toLowerCase()) ||
+  (task.taskCategory?.toLowerCase() || '').includes(searchTasks.toLowerCase())
 );
 
 const handleSearch = (event) =>{
@@ -316,7 +316,7 @@ const handleSearch = (event) =>{
 
   return (
     <div className="container-fluid main-container" >
-      <form onSubmit={(e) => e.preventDefault()}  >
+      <form>
           <input type="search" class="form-control searchForm" placeholder='Search tasks by name or category...' id="search-tasks" value ={searchTasks} onChange={handleSearch}/>
       </form >
       <div id="gantt-container">
@@ -342,7 +342,7 @@ const handleSearch = (event) =>{
           />
         </Grid>
       </div>
-      
+
       <TaskDetails
         show={showDetails}
         onHide={() => setShowDetails(false)}
