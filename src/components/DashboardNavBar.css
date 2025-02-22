@@ -64,11 +64,27 @@ body{
     font-size: 10px;
 }
 
+div.modal-content{
+    transition: ease-in 0.1;
+}
+
 .modal-backdrop {
-    filter: none !important;  /* Disable filter for backdrop */
-    pointer-events: none;     /* Allow clicks to pass through the backdrop */
+    filter: none !important;  
+    pointer-events: none;    
   }
 
   .modal-backdrop.show {
-    background-color: rgba(0, 0, 0, 0.5); /* Standard backdrop color */
+    background-color: rgba(0, 0, 0, 0.5); 
   }
+
+@media (max-width: 1400px) {
+    div.modal-content{
+        transform: translateX(-8%);
+    }
+}
+@media(max-width: 768px){
+    div.modal-content{
+        transform: translateX(-5%);
+    }
+}
+

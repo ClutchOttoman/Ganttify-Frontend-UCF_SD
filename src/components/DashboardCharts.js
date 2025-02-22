@@ -20,11 +20,6 @@ function DashboardCharts({ projects, triggerReSearch  }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [message, setMessage] = useState('');
 
-    const friendText = "Friend";
-    const meText = "Me";
-    const publicText = "(public)"
-    const privateText = "(private)";
-
     //change number of displayed projects based on screen size
     const [pageStartIndex,setPageStartIndex] = useState(0);
     const [oldPageWidth,setOldPageWidth] = useState(document.documentElement.clientWidth)
@@ -161,7 +156,9 @@ function DashboardCharts({ projects, triggerReSearch  }) {
     //previous page, need to render only the charts and buttons that need to be rendered
     const prevChartPage = event => {
         let newPageStartIndex = pageStartIndex - pageSize;
-        setPageStartIndex(newPageStartIndex);
+        if(newPageStartIndex > -1){
+            setPageStartIndex(newPageStartIndex);
+        }
     }
     const doProjectDelete = async event =>{
         try
@@ -203,9 +200,9 @@ function DashboardCharts({ projects, triggerReSearch  }) {
                     <button class={nextButton} onClick={nextChartPage}>Next</button>
                 </div>
             </div>
-            <div class="modal modal-lg fade" id="deleteProjectModal" tabIndex="-1" aria-labelledby="DeleteProjectModalLabel" aria-hidden="true"  data-bs-backdrop="static" data-bs-keyboard="false" >
+            <div class="modal modal-lg fade" id="deleteProjectModal" tabIndex="-1" aria-labelledby="DeleteProjectModalLabel" aria-hidden="true"  data-bs-backdrop="false" data-bs-keyboard="false" >
                 <div class="modal-dialog">
-                    <div class="modal-content">
+                    <div class="modal-content delete-content">
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="DeleteProjectModalLabel">{projectIsDeleted ? "Project was deleted succesfully" :"Are you sure you want to delete " + projectToDelete.nameProject+"?"}</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={()=>handleProjectDeleted()}
@@ -217,7 +214,7 @@ function DashboardCharts({ projects, triggerReSearch  }) {
                             {projectIsDeleted  ? "You can also delete your project from the recently deleted page manually":"Your project will be moved to your recently deleted page for 30 days, then it is deleted permanantly"}
                         </div>
                         <div class="modal-footer">
-                        {projectIsDeleted?  <button type="button" class="btn deleteModalBtn" data-bs-dismiss="modal" onClick={()=>handleProjectDeleted()}>Got It!</button> : <button type="button" class="btn deleteModalBtn" onClick={doProjectDelete}>Yes, delete my project </button>}
+                        {projectIsDeleted?  <button type="button" class="btn deleteModalBtn" data-bs-dismiss="modal" onClick={()=>handleProjectDeleted()}>Got It!</button> : <button type="button" class="btn btn-primary w-100 mx-0" onClick={doProjectDelete}>Yes, delete my project </button>}
                         </div>
                     </div>
                 </div>
@@ -248,7 +245,7 @@ function DashboardCharts({ projects, triggerReSearch  }) {
                                 <div className="modal-footer">
                                     <button 
                                         type="button" 
-                                        className="btn btn-primary" 
+                                        className="btn btn-primary px-0 mx-0 mt-3 w-100" 
                                         onClick={handleSubmit}
                                     >
                                         Submit

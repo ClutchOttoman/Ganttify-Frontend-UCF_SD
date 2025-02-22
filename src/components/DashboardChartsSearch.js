@@ -70,7 +70,7 @@ function DashboardChartsSearch(){
     return(
             <div>
                 <div class="px-0 mx-0 mt-5 mb-4">
-                    <form>
+                    <form onSubmit={(e) => e.preventDefault()}>
                         <h1 class="title">Charts</h1>
                         <input type="search" class="form-control searchForm" placeholder='Search charts by name...' id="search projects" onChange={doProjectSearch} ref={(c) => search = c}/>
                     </form>

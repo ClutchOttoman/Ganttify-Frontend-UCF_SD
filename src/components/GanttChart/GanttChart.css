@@ -1,3 +1,18 @@
+.main-container {
+  width: 98%;
+  min-height: 200px;
+  height: auto; /* Prevents it from getting too large */
+  padding: 15px 25px;
+  border-radius: 20px;
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+  margin: 0 auto; 
+}
+
+input#search-tasks.form-control.searchForm{
+  position: relative;
+  right: 38px;
+  border: 1.0px solid black;
+}
 
 #gantt-container {
     --color-text: #272a2e;
@@ -10,6 +25,10 @@
     --border-radius: 5px;
     --cell-height: 40px;
     padding: 1rem;
+    margin: 0 auto;
+    border-radius: 10px;
+    border: 0.3px solid black !important;
+    background-color: white
   }
 
   .gantt-chart-time-range-selector {
@@ -70,9 +89,6 @@
   padding: 3px 7px;
   font-weight: bold;
   transition: ease-in 0.1s;
-  /* margin-right: 98px;
-  margin-top: 11px;
-  margin-left: 345px; */
   text-wrap: wrap;
  
 }
@@ -91,7 +107,6 @@
 
 /* To explicitly adjust the vertical position of the buttons */
 .export-buttons-container {
-  margin-bottom: 100px; /* Add vertical spacing above */
   margin-top: 0.5rem;
   display: flex;
   flex-wrap: wrap;

@@ -28,13 +28,12 @@ function Login() {
 
         // Load user information and ui settings.
         var user = {
-            _id:res._id,
+            token: res.token,
+            _id: res._id,
             email: res.email,
             name: res.name,
             username: res.username,
             phone: res.phone,
-            //projects: res.projects,
-            //toDoList: res.toDoList,
             uiOptions: res.uiOptions,
             error: res.error
         };
