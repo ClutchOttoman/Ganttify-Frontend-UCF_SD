@@ -16,6 +16,7 @@ function ContentBox() {
         <div className="left-column">
           <h1 className="animated-header-1">Never pay for Gantt charts again.</h1>
           <p>At Ganttify, there's only one plan: free, simple and accessible to everyone.</p>
+          <p>Critical Update: The team link invite has been fixed. We apologize for the mistake, and we really appreciate you reaching out and alerting us via our survey.</p>
           <Link to="/register" className="cta-button">Get free Ganttify access</Link>
         </div>
         <div className="right-column">
