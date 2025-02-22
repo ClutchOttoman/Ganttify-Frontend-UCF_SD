@@ -27,15 +27,20 @@ async function checkSavedSession(){
 
   if (localData){
     
-    // Allow users to resume their session.   
-    console.log("Found saved session.");
-    const localJson = JSON.parse(localData);
-    const body = {userId: localJson._id.toString(), token: localJson.token.toString()};
-    const bodyString = JSON.stringify(body);
-    console.log(body);
-
     // Validate the token. If invalid or expired, redirect the user to the login page.
     try {
+
+      const localJson = JSON.parse(localData);
+
+      // If there's no valid fields, reject.
+      if (!localJson._id || !localJson.token){
+        throw new Error();
+      }
+
+      const body = {userId: localJson._id.toString(), token: localJson.token.toString()};
+      const bodyString = JSON.stringify(body);
+      console.log("Found saved session.");
+
       const response = await fetch(buildPath('api/validate-session-login-token'), {
         method: 'POST',
         body: bodyString,
