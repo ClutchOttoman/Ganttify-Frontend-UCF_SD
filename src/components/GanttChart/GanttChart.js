@@ -341,19 +341,8 @@ const handleSearch = (event) =>{
             projectTasks={filteredTasks}
           />
         </Grid>
-
-        <TaskDetails
-          show={showDetails}
-          onHide={() => setShowDetails(false)}
-          task={selectedTask}
-          handleDelete={(taskId) => setTasks(filteredTasks.filter(task => task._id !== taskId))}
-          userId={userId}
-          userRole={userRole}
-          teamId={teamId}
-          projectTasks={filteredTasks}
-        />
       </div>
-
+      
       <TaskDetails
         show={showDetails}
         onHide={() => setShowDetails(false)}
