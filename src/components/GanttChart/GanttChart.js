@@ -36,7 +36,7 @@ export default function GanttChart({ projectId, setUserRole, userRole }) {
   const [isExporting, setIsExporting] = useState(false); //added
 
 
-  const [sortBy, setSortBy] = useState('alphabetical'); // Default sort by alphabetical
+  const [sortBy, setSortBy] = useState('created'); // Default sort by creation date
   const [teamId, setTeamId] = useState('')
 
   const sortTasks = (tasks) => {
@@ -357,8 +357,8 @@ const handleSearch = (event) =>{
       <div className="export-buttons-container">
         {/* <div className="gantt-chart-sort-selector"> */}
           <select className="gantt-chart-sort-selection" onChange={handleSortChange} value={sortBy}>
-            <option value="alphabetical">By Creation Date</option>
-            <option value="created">Alphabetical</option>
+            <option value="created">By Creation Date</option>
+            <option value="alphabetical">Alphabetical</option>
           </select>
         {/* </div> */}
 
