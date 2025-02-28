@@ -95,7 +95,7 @@ function DashboardCharts({ projects, triggerReSearch  }) {
         setIsModalOpen(false); // Close modal after successful update
         setMessage('');
         
-        window.location.reload()
+        window.location.reload();
     } catch (error) {
         setMessage(error.toString());
     }
