@@ -602,7 +602,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
       // Update users' to-do list
   
       setEditMode(false); // Exit edit mode
-      //window.location.reload(); // Reload the page to reflect changes (optional)
+      window.location.reload(); // Reload the page to reflect changes (optional)
   
       onHide(); // Close the modal after saving
     } catch (error) {
