@@ -48,7 +48,7 @@ function ProjectHeader({ projectName, setProjectName, projectId, founderId }) {
       setProjectName(updatedProject.updatedName || newName);
       setNewName('');
       setIsModalOpen(false);
-        
+      window.location.reload();
       
     } catch (error) {
       console.error('Error updating project name:', error);
