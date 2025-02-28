@@ -92,10 +92,10 @@ function DashboardCharts({ projects, triggerReSearch  }) {
         const updatedProject = await response.json();
         
         setNewName('');
-        //window.location.reload()
         setIsModalOpen(false); // Close modal after successful update
         setMessage('');
-
+        
+        window.location.reload()
     } catch (error) {
         setMessage(error.toString());
     }
