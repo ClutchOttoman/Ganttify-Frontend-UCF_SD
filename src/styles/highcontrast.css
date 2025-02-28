@@ -2,6 +2,20 @@ html.high-contrast {
     scrollbar-color: #363636 #C7C7C7 !important; 
     /* General CSS */
     /* General Buttons */
+
+    button.btn-close{
+      background-color: #fff !important;
+    }
+
+    button.close{
+      background-color: #fff !important;
+      color: #000;
+    }
+
+    button.btn-outline-primary{
+      color: #000;
+    }
+    
     button, .btn.btn-primary, .btn, .cta-button{
         background-color: #002238  !important;  /* Dark background for buttons */
         color: #fff;  /* Light text */
