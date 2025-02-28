@@ -212,7 +212,7 @@ function DashboardAccount() {
                     </span>
                   )}
                   <i
-                    className={`fas ${visibility.name ? 'fa-eye-slash' : 'fa-eye'}`}
+                    className={`fas ${visibility.name ? 'fa-eye-slash' : 'fa-eye'} detailIcon`}
                     onClick={() => toggleVisibility('name')}
                   ></i>
                 </div>
@@ -222,7 +222,7 @@ function DashboardAccount() {
                     {visibility.email ? user.email : getHiddenValue(user.email)}
                   </span>
                   <i
-                    className={`fas ${visibility.email ? 'fa-eye-slash' : 'fa-eye'}`}
+                    className={`fas ${visibility.email ? 'fa-eye-slash' : 'fa-eye'} detailIcon`}
                     onClick={() => toggleVisibility('email')}
                   ></i>
                 </div>
@@ -242,7 +242,7 @@ function DashboardAccount() {
                     </span>
                   )}
                   <i
-                    className={`fas ${visibility.username ? 'fa-eye-slash' : 'fa-eye'}`}
+                    className={`fas ${visibility.username ? 'fa-eye-slash' : 'fa-eye'} detailIcon`}
                     onClick={() => toggleVisibility('username')}
                   ></i>
                 </div>
@@ -262,7 +262,7 @@ function DashboardAccount() {
                     </span>
                   )}
                   <i
-                    className={`fas ${visibility.organization ? 'fa-eye-slash' : 'fa-eye'}`}
+                    className={`fas ${visibility.organization ? 'fa-eye-slash' : 'fa-eye'} detailIcon`}
                     onClick={() => toggleVisibility('organization')}
                   ></i>
                 </div>
@@ -282,7 +282,7 @@ function DashboardAccount() {
                     </span>
                   )}
                   <i
-                    className={`fas ${visibility.phone ? 'fa-eye-slash' : 'fa-eye'}`}
+                    className={`fas ${visibility.phone ? 'fa-eye-slash' : 'fa-eye'} detailIcon`}
                     onClick={() => toggleVisibility('phone')}
                   ></i>
                 </div>
@@ -302,7 +302,7 @@ function DashboardAccount() {
                     </span>
                   )}
                   <i
-                    className={`fas ${visibility.discordAccount ? 'fa-eye-slash' : 'fa-eye'}`}
+                    className={`fas ${visibility.discordAccount ? 'fa-eye-slash' : 'fa-eye'} detailIcon`}
                     onClick={() => toggleVisibility('discordAccount')}
                   ></i>
                 </div>
@@ -322,7 +322,7 @@ function DashboardAccount() {
                     </span>
                   )}
                   <i
-                    className={`fas ${visibility.pronouns ? 'fa-eye-slash' : 'fa-eye'}`}
+                    className={`fas ${visibility.pronouns ? 'fa-eye-slash' : 'fa-eye'} detailIcon`}
                     onClick={() => toggleVisibility('pronouns')}
                   ></i>
                 </div>
@@ -343,7 +343,7 @@ function DashboardAccount() {
                     </span>
                   )}
                   <i
-                    className={`fas ${visibility.timezone ? 'fa-eye-slash' : 'fa-eye'}`}
+                    className={`fas ${visibility.timezone ? 'fa-eye-slash' : 'fa-eye'} detailIcon`}
                     onClick={() => toggleVisibility('timezone')}
                   ></i>
                 </div>
