@@ -4,11 +4,11 @@ body {
     padding: 0;
 }
 
-.container {
+.about-section {
     padding-top: 8%;
-    margin-left: "auto"; 
-    margin-right: "auto";
-    text-align: "center";
+    margin-left: auto; 
+    margin-right: auto;
+    text-align: center;
 }
 
 .dropdown-section {

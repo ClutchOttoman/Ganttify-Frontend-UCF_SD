@@ -18,7 +18,7 @@ import {buildPath} from './buildPath';
 function AboutUs() {   
 
     return (
-        <div style={{paddingTop: "8%", marginLeft: "auto", marginRight: "auto", textAlign: "center"}}>
+        <div className="about-section">
             
             <h1>Ganttify Teams</h1>
             <p>Thank you for your contributions to this project.</p>
