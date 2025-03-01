@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
-import './AboutUs.css';
-import member_an from '../Images/assets/team_member_icons/AN.jpg';
-import member_nb from '../Images/assets/team_member_icons/NB.png';
-import member_tk from '../Images/assets/team_member_icons/TK.jpg';
-import member_lr from '../Images/assets/team_member_icons/LR.jpg';
-import member_kr from '../Images/assets/team_member_icons/KR.jpg';
-import member_sw from '../Images/assets/team_member_icons/SW.jpg';
-import member_oc from '../Images/assets/team_member_icons/OC.jpg';
+import React from 'react';
 import member_ak from '../Images/assets/team_member_icons/AK.PNG';
+import member_an from '../Images/assets/team_member_icons/AN.jpg';
+import member_cb from '../Images/assets/team_member_icons/CB.jpeg';
+import member_lr from '../Images/assets/team_member_icons/LR.jpg';
+import member_nb from '../Images/assets/team_member_icons/NB.png';
+import member_oc from '../Images/assets/team_member_icons/OC.jpg';
 import member_placeholder from '../Images/assets/team_member_icons/Placeholder.jpg';
-import {buildPath} from './buildPath';
+import member_sw from '../Images/assets/team_member_icons/SW.jpg';
+import member_tk from '../Images/assets/team_member_icons/TK.jpg';
+import './AboutUs.css';
 
 
 function AboutUs() {
@@ -25,7 +24,7 @@ function AboutUs() {
                 </button>
 
                 <div className="team-member-alt">
-                    <img src={member_placeholder} alt="Ash Koltz" className="team-image"/>
+                    <img src={member_cb} alt="Ash Koltz" className="team-image"/>
                     <div className="member-info">
                         <h2>Connor Bennett</h2>
                         <p>Frontend</p>
