@@ -4,10 +4,29 @@ body {
     padding: 0;
 }
 
+.container {
+    padding-top: 8%;
+    margin-left: "auto"; 
+    margin-right: "auto";
+    text-align: "center";
+}
+
 .dropdown-section {
+    padding-top: 1%;
+    padding-bottom: 1%;
     position: relative;
     display: inline-block;
     width: 75%;
+}
+
+.section-header {
+    text-align: center;
+    color: white;
+    height: 2em;
+    background-color: #135C91;
+    width: 100%;
+    padding-top: 4px;
+    font-weight: bolder;
 }
 
 .dropdown-content {
@@ -19,6 +38,7 @@ body {
     padding: 10px;
     width: "100%";
     height: fit-content;
+    background-color: #135C91;
 }
 
 .dropdown-section:hover .dropdown-content {
@@ -51,7 +71,12 @@ body {
 .team-member-alt {
     display: flex;
     height: 200px;
-    background-color: #ffefc5;
+    background-color: #135C91;
+    color: white;
+}
+
+.member-info-box {
+    text-align: left;
 }
 
 .member-info {
