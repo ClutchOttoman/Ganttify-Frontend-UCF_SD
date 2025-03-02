@@ -5,7 +5,7 @@ import {buildPath} from './buildPath';
 
 function Register() {
   const [regName, setRegName] = useState('');
-  const regUser = "username"
+  const [regUsername, setUsername] = useState('');
   const [regPassword, setRegPassword] = useState('');
   const [regPasswordVerify, setRegPasswordVerify] = useState('');
   const [regPhone, setRegPhone] = useState('');
@@ -27,6 +27,12 @@ function Register() {
   const doRegister = async event => {
     event.preventDefault();
     setDisable(true);
+
+    if (!regUsername) {
+      setMessage("*** Please enter a Username ***");
+      setDisable(false);
+      return;
+    }
 
     if (!validPhone.test(regPhone)) {
       setMessage("*** Please enter a valid 10 digit phone number ***");
@@ -66,7 +72,7 @@ function Register() {
       return;
     }
 
-    var obj = { email: regEmail.toLowerCase(), name: regName, phone: regPhone, password: regPassword, username: regUser };
+    var obj = { email: regEmail.toLowerCase(), name: regName, phone: regPhone, password: regPassword, username: regUsername };
     var js = JSON.stringify(obj);
     try {
       const response = await fetch(buildPath('api/register'), {
@@ -201,6 +207,10 @@ function Register() {
                             <div class = "row text-start"><label class = "formLabel mb-1" for="nameForm">Full name</label></div>
                             
                             <div class = "row text-center mb-3"><input id="nameForm" type="text" class="formItem mx-0 mt-0" placeholder='Firstname Lastname' value={regName} onChange={(e) => setRegName(e.target.value)} required></input></div>
+
+                            <div class = "row text-start"><label class = "formLabel mb-1" for="usernameForm">Username</label></div>
+                            
+                            <div class = "row text-center mb-3"><input id="usernameForm" type="text" class="formItem mx-0 mt-0" placeholder='Username' value={regUsername} onChange={(e) => setUsername(e.target.value)} required></input></div>
                             
                             <div class = "row text-start"><label class = "formLabel mb-1" for="emailForm">Email</label></div>
                             
