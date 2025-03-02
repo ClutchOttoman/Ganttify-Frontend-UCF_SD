@@ -5,23 +5,23 @@ import DeleteTaskButton from '../../Images/assets/action_buttons/Delete_Task_or_
 import EditTaskButton from '../../Images/assets/action_buttons/Edit_Task.svg';
 import {buildPath} from '../buildPath';
 import RichTextEditor from './RichTextEditor.js';
-import Hollow_Single_Circle_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Circle_Density_1.svg';
-import Hollow_Single_Dot_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Dot_Density_1.svg';
-import Hollow_Single_Rhombus_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Rhombus_Density_1.svg';
-import Hollow_Single_Square_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Square_Density_1.svg';
-import Hollow_Single_Star_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Star_Density_1.svg';
-import Hollow_Single_Triangle_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Triangle_Density_1.svg';
-import Diagonal_Left_Single_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Diagonal_Left_Single_Line_Density_1.svg';
-import Diagonal_Right_Single_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Diagonal_Right_Single_Line_Density_1.svg';
-import Diagonal_Woven_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Diagonal_Woven_Line_Density_1.svg';
-import Single_Horizontal_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Single_Horizontal_Line_Density_1.svg';
-import Single_Vertical_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Single_Vertical_Line_Density_1.svg';
-import Solid_Single_Circle_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Circle_Density_1.svg';
-import Solid_Single_Dot_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Dot_Density_1.svg';
-import Solid_Single_Rhombus_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Rhombus_Density_1.svg';
-import Solid_Single_Square_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Square_Density_1.svg';
-import Solid_Single_Star_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Star_Density_1.svg';
-import Solid_Single_Triangle_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Triangle_Density_1.svg';
+import Hollow_Single_Circle_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Circle_Density_1.jsx?react';
+import Hollow_Single_Dot_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Dot_Density_1.jsx';
+import Hollow_Single_Rhombus_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Rhombus_Density_1.jsx';
+import Hollow_Single_Square_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Square_Density_1.jsx';
+import Hollow_Single_Star_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Star_Density_1.jsx';
+import Hollow_Single_Triangle_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Triangle_Density_1.jsx';
+import Diagonal_Left_Single_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Diagonal_Left_Single_Line_Density_1.jsx';
+import Diagonal_Right_Single_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Diagonal_Right_Single_Line_Density_1.jsx';
+import Diagonal_Woven_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Diagonal_Woven_Line_Density_1.jsx';
+import Single_Horizontal_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Single_Horizontal_Line_Density_1.jsx';
+import Single_Vertical_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Single_Vertical_Line_Density_1.jsx';
+import Solid_Single_Circle_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Circle_Density_1.jsx';
+import Solid_Single_Dot_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Dot_Density_1.jsx';
+import Solid_Single_Rhombus_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Rhombus_Density_1.jsx';
+import Solid_Single_Square_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Square_Density_1.jsx';
+import Solid_Single_Star_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Star_Density_1.jsx';
+import Solid_Single_Triangle_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Triangle_Density_1.jsx';
 import './TimeTable.css';
 import './Patterns.css';
 
@@ -31,41 +31,38 @@ const colorOptions = [
   '#f47474', '#ffd580', '#fff77e','#b2e687', '#8fb9f9', '#9a86cc', '#b27fc6'
 ];
 const patternDisplayNames = {
-	'Hollow_Single_Circle_Density_1.svg':'Hollow Circles',
-	'Hollow_Single_Dot_Density_1.svg':'Hollow Dots',
-	'Hollow_Single_Rhombus_Density_1.svg':'Hollow Rhombuses',
-	'Hollow_Single_Square_Density_1.svg':'Hollow Squares',
-	'Hollow_Single_Star_Density_1.svg':'Hollow Stars',
-	'Hollow_Single_Triangle_Density_1.svg':'Hollow Triangles',
-	'Diagonal_Left_Single_Line_Density_1.svg':'Left Diagonal Lines',
-	'Diagonal_Right_Single_Line_Density_1.svg':'Right Diagonal Lines',
-	'Diagonal_Woven_Line_Density_1.svg':'Woven Diagonal Lines',
-	'Single_Horizontal_Line_Density_1.svg':'Horizontal Line',
-	'Single_Vertical_Line_Density_1.svg':'Vertical Line',
-	'Solid_Single_Circle_Density_1.svg':'Solid Circles',
-	'Solid_Single_Dot_Density_1.svg':'Solid Dots',
-	'Solid_Single_Rhombus_Density_1.svg':'Solid Rhombuses',
-	'Solid_Single_Square_Density_1.svg':'Solid Squares',
-	'Solid_Single_Star_Density_1.svg':'Solid Stars',
-	'Solid_Single_Triangle_Density_1.svg':'Solid Triangles',
+	'Hollow_Single_Circle_Density_1.jsx':'Hollow Circles',
+	'Hollow_Single_Dot_Density_1.jsx':'Hollow Dots',
+	'Hollow_Single_Rhombus_Density_1.jsx':'Hollow Rhombuses',
+	'Hollow_Single_Square_Density_1.jsx':'Hollow Squares',
+	'Hollow_Single_Star_Density_1.jsx':'Hollow Stars',
+	'Hollow_Single_Triangle_Density_1.jsx':'Hollow Triangles',
+	'Diagonal_Left_Single_Line_Density_1.jsx':'Left Diagonal Lines',
+	'Diagonal_Right_Single_Line_Density_1.jsx':'Right Diagonal Lines',
+	'Diagonal_Woven_Line_Density_1.jsx':'Woven Diagonal Lines',
+	'Single_Horizontal_Line_Density_1.jsx':'Horizontal Line',
+	'Single_Vertical_Line_Density_1.jsx':'Vertical Line',
+	'Solid_Single_Circle_Density_1.jsx':'Solid Circles',
+	'Solid_Single_Dot_Density_1.jsx':'Solid Dots',
+	'Solid_Single_Rhombus_Density_1.jsx':'Solid Rhombuses',
+	'Solid_Single_Square_Density_1.jsx':'Solid Squares',
+	'Solid_Single_Star_Density_1.jsx':'Solid Stars',
+	'Solid_Single_Triangle_Density_1.jsx':'Solid Triangles',
     'No Pattern':'No Pattern'
 }
 const patterns = {
-    'Diagonal_Right_Single_Line_Density_1.svg':Diagonal_Right_Single_Line_Density_1,
-    'Diagonal_Left_Single_Line_Density_1.svg':Diagonal_Left_Single_Line_Density_1, 'Diagonal_Left_Single_Line_Density_1.svg':Diagonal_Left_Single_Line_Density_1,
-    'Diagonal_Woven_Line_Density_1.svg':Diagonal_Woven_Line_Density_1, 'Single_Horizontal_Line_Density_1.svg':Single_Horizontal_Line_Density_1,
-    'Single_Vertical_Line_Density_1.svg':Single_Vertical_Line_Density_1,'Solid_Single_Circle_Density_1.svg':Solid_Single_Circle_Density_1,
-    'Solid_Single_Dot_Density_1.svg':Solid_Single_Dot_Density_1,'Solid_Single_Rhombus_Density_1.svg':Solid_Single_Rhombus_Density_1,
-    'Solid_Single_Square_Density_1.svg':Solid_Single_Square_Density_1,'Solid_Single_Star_Density_1.svg':Solid_Single_Star_Density_1,
-    'Solid_Single_Triangle_Density_1.svg':Solid_Single_Triangle_Density_1,'Hollow_Single_Circle_Density_1.svg':Hollow_Single_Circle_Density_1,
-    'Hollow_Single_Dot_Density_1.svg':Hollow_Single_Dot_Density_1,'Hollow_Single_Rhombus_Density_1.svg':Hollow_Single_Rhombus_Density_1,
-    'Hollow_Single_Square_Density_1.svg':Hollow_Single_Square_Density_1,'Hollow_Single_Star_Density_1.svg':Hollow_Single_Star_Density_1,
-    'Hollow_Single_Triangle_Density_1.svg':Hollow_Single_Triangle_Density_1
+    'Diagonal_Right_Single_Line_Density_1.jsx':Diagonal_Right_Single_Line_Density_1,
+    'Diagonal_Left_Single_Line_Density_1.jsx':Diagonal_Left_Single_Line_Density_1, 'Diagonal_Left_Single_Line_Density_1.jsx':Diagonal_Left_Single_Line_Density_1,
+    'Diagonal_Woven_Line_Density_1.jsx':Diagonal_Woven_Line_Density_1, 'Single_Horizontal_Line_Density_1.jsx':Single_Horizontal_Line_Density_1,
+    'Single_Vertical_Line_Density_1.jsx':Single_Vertical_Line_Density_1,'Solid_Single_Circle_Density_1.jsx':Solid_Single_Circle_Density_1,
+    'Solid_Single_Dot_Density_1.jsx':Solid_Single_Dot_Density_1,'Solid_Single_Rhombus_Density_1.jsx':Solid_Single_Rhombus_Density_1,
+    'Solid_Single_Square_Density_1.jsx':Solid_Single_Square_Density_1,'Solid_Single_Star_Density_1.jsx':Solid_Single_Star_Density_1,
+    'Solid_Single_Triangle_Density_1.jsx':Solid_Single_Triangle_Density_1,'Hollow_Single_Circle_Density_1.jsx':Hollow_Single_Circle_Density_1,
+    'Hollow_Single_Dot_Density_1.jsx':Hollow_Single_Dot_Density_1,'Hollow_Single_Rhombus_Density_1.jsx':Hollow_Single_Rhombus_Density_1,
+    'Hollow_Single_Square_Density_1.jsx':Hollow_Single_Square_Density_1,'Hollow_Single_Star_Density_1.jsx':Hollow_Single_Star_Density_1,
+    'Hollow_Single_Triangle_Density_1.jsx':Hollow_Single_Triangle_Density_1
   }
 
-  const Hollow_Single_Circle_Density_1_Pattern = {
-    backgroundImage: `url('data:image/svg+xml,<%3Fxml version="1.0" encoding="UTF-8"%3F><!-- Created with Inkscape (http://www.inkscape.org/) --><svg id="SVGRoot" width="100" height="100" enable-background="new" version="1.1" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><clipPath id="patternClipPath"><rect id="clipPathRect" width="100" height="100" color="%23000000" enable-background="accumulate" fill="%23ff0"/></clipPath></defs><g id="patternLayer"><use id="phantomBottom" width="100%" height="100%" opacity=".3" xlink:href="%23designBottom"/><use id="phantomTop" width="100%" height="100%" opacity=".3" xlink:href="%23designTop"/><g id="fullPattern" clip-path="url(%23patternClipPath)"><g id="designBottom" display="none"><rect width="100" height="100" color="%23000000" display="inline" enable-background="accumulate" fill="url(%23radialGradient3070)"/></g><g id="designTop"><ellipse transform="scale(-1,1)" cx="-51.321" cy="50" rx="1.2735" ry="1.2956" fill="none" stroke="%23000" stroke-width=".095635"/></g><g id="designBottomGenerator"><use transform="translate(-100,-100)" width="100%" height="100%" xlink:href="%23designBottom"/><use transform="translate(0,-100)" width="100%" height="100%" xlink:href="%23designBottom"/><use transform="translate(100,-100)" width="100%" height="100%" xlink:href="%23designBottom"/><use transform="translate(-100)" width="100%" height="100%" xlink:href="%23designBottom"/><use width="100%" height="100%" xlink:href="%23designBottom"/><use transform="translate(100)" width="100%" height="100%" xlink:href="%23designBottom"/><use transform="translate(-100,100)" width="100%" height="100%" xlink:href="%23designBottom"/><use transform="translate(0,100)" width="100%" height="100%" xlink:href="%23designBottom"/><use transform="translate(100,100)" width="100%" height="100%" xlink:href="%23designBottom"/></g><g id="designTopGenerator"><use transform="translate(-100,-100)" width="100%" height="100%" xlink:href="%23designTop"/><use transform="translate(0,-100)" width="100%" height="100%" xlink:href="%23designTop"/><use transform="translate(100,-100)" width="100%" height="100%" xlink:href="%23designTop"/><use transform="translate(-100)" width="100%" height="100%" xlink:href="%23designTop"/><use width="100%" height="100%" xlink:href="%23designTop"/><use transform="translate(100)" width="100%" height="100%" xlink:href="%23designTop"/><use transform="translate(-100,100)" width="100%" height="100%" xlink:href="%23designTop"/><use transform="translate(0,100)" width="100%" height="100%" xlink:href="%23designTop"/><use transform="translate(100,100)" width="100%" height="100%" xlink:href="%23designTop"/></g></g></g></svg>');`
-  }
 
 
 // Initializes variables
@@ -729,39 +726,39 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks, f
                                     {patternToDisplay}
                                 </button>
                                 <ul class="dropdown-menu">
-                                <a onClick={()=>handlePatternChange('Hollow_Single_Circle_Density_1.svg','Hollow Circles')} class = "dropdown-item patternDropdownItem patternDropdownItem">Hollow Circles</a>
-                                    <a onClick={()=>handlePatternChange('Hollow_Single_Dot_Density_1.svg','Hollow Dots')} class = "dropdown-item patternDropdownItem patternDropdownItem">Hollow Dots</a>
-                                    <a onClick={()=>handlePatternChange('Hollow_Single_Rhombus_Density_1.svg','Hollow Rhombuses')} class = "dropdown-item patternDropdownItem patternDropdownItem">Hollow Rhombuses</a>
-                                    <a onClick={()=>handlePatternChange('Hollow_Single_Square_Density_1.svg','Hollow Squares')} class = "dropdown-item patternDropdownItem">Hollow Squares</a>
-                                    <a onClick={()=>handlePatternChange('Hollow_Single_Star_Density_1.svg','Hollow Stars')} class = "dropdown-item patternDropdownItem">Hollow Stars</a>
-                                    <a onClick={()=>handlePatternChange('Hollow_Single_Triangle_Density_1.svg','Hollow Triangles')} class = "dropdown-item patternDropdownItem">Hollow Triangles</a>
-                                    <a onClick={()=>handlePatternChange('Diagonal_Left_Single_Line_Density_1.svg','Left Diagonal Lines')} class = "dropdown-item patternDropdownItem">Left Diagonal Lines</a>
-                                    <a onClick={()=>handlePatternChange('Diagonal_Right_Single_Line_Density_1.svg','Right Diagonal Lines')} class = "dropdown-item patternDropdownItem">Right Diagonal Lines</a>
-                                    <a onClick={()=>handlePatternChange('Diagonal_Woven_Line_Density_1.svg','Woven Diagonal Lines')} class = "dropdown-item patternDropdownItem">Woven Diagonal Lines</a>
-                                    <a onClick={()=>handlePatternChange('Single_Horizontal_Line_Density_1.svg','Horizontal Line')} class = "dropdown-item patternDropdownItem">Horizontal Line</a>
-                                    <a onClick={()=>handlePatternChange('Single_Vertical_Line_Density_1.svg','Vertical Line')} class = "dropdown-item patternDropdownItem">Vertical Lines</a>
-                                    <a onClick={()=>handlePatternChange('Solid_Single_Circle_Density_1.svg','Solid Circles')} class = "dropdown-item patternDropdownItem">Solid Circles</a>
-                                    <a onClick={()=>handlePatternChange('Solid_Single_Dot_Density_1.svg','Solid Dots')} class = "dropdown-item patternDropdownItem">Solid Dots</a>
-                                    <a onClick={()=>handlePatternChange('Solid_Single_Rhombus_Density_1.svg','Solid Rhombuses')} class = "dropdown-item patternDropdownItem">Solid Rhombuses</a>
-                                    <a onClick={()=>handlePatternChange('Solid_Single_Square_Density_1.svg','Solid Squares')} class = "dropdown-item patternDropdownItem">Solid Squares</a>
-                                    <a onClick={()=>handlePatternChange('Solid_Single_Star_Density_1.svg','Solid Stars')} class = "dropdown-item patternDropdownItem">Solid Stars</a>
-                                    <a onClick={()=>handlePatternChange('Solid_Single_Triangle_Density_1.svg','Solid Triangles')} class = "dropdown-item patternDropdownItem">Solid Triangles</a>
+                                <a onClick={()=>handlePatternChange('Hollow_Single_Circle_Density_1.jsx','Hollow Circles')} class = "dropdown-item patternDropdownItem patternDropdownItem">Hollow Circles</a>
+                                    <a onClick={()=>handlePatternChange('Hollow_Single_Dot_Density_1.jsx','Hollow Dots')} class = "dropdown-item patternDropdownItem patternDropdownItem">Hollow Dots</a>
+                                    <a onClick={()=>handlePatternChange('Hollow_Single_Rhombus_Density_1.jsx','Hollow Rhombuses')} class = "dropdown-item patternDropdownItem patternDropdownItem">Hollow Rhombuses</a>
+                                    <a onClick={()=>handlePatternChange('Hollow_Single_Square_Density_1.jsx','Hollow Squares')} class = "dropdown-item patternDropdownItem">Hollow Squares</a>
+                                    <a onClick={()=>handlePatternChange('Hollow_Single_Star_Density_1.jsx','Hollow Stars')} class = "dropdown-item patternDropdownItem">Hollow Stars</a>
+                                    <a onClick={()=>handlePatternChange('Hollow_Single_Triangle_Density_1.jsx','Hollow Triangles')} class = "dropdown-item patternDropdownItem">Hollow Triangles</a>
+                                    <a onClick={()=>handlePatternChange('Diagonal_Left_Single_Line_Density_1.jsx','Left Diagonal Lines')} class = "dropdown-item patternDropdownItem">Left Diagonal Lines</a>
+                                    <a onClick={()=>handlePatternChange('Diagonal_Right_Single_Line_Density_1.jsx','Right Diagonal Lines')} class = "dropdown-item patternDropdownItem">Right Diagonal Lines</a>
+                                    <a onClick={()=>handlePatternChange('Diagonal_Woven_Line_Density_1.jsx','Woven Diagonal Lines')} class = "dropdown-item patternDropdownItem">Woven Diagonal Lines</a>
+                                    <a onClick={()=>handlePatternChange('Single_Horizontal_Line_Density_1.jsx','Horizontal Line')} class = "dropdown-item patternDropdownItem">Horizontal Line</a>
+                                    <a onClick={()=>handlePatternChange('Single_Vertical_Line_Density_1.jsx','Vertical Line')} class = "dropdown-item patternDropdownItem">Vertical Lines</a>
+                                    <a onClick={()=>handlePatternChange('Solid_Single_Circle_Density_1.jsx','Solid Circles')} class = "dropdown-item patternDropdownItem">Solid Circles</a>
+                                    <a onClick={()=>handlePatternChange('Solid_Single_Dot_Density_1.jsx','Solid Dots')} class = "dropdown-item patternDropdownItem">Solid Dots</a>
+                                    <a onClick={()=>handlePatternChange('Solid_Single_Rhombus_Density_1.jsx','Solid Rhombuses')} class = "dropdown-item patternDropdownItem">Solid Rhombuses</a>
+                                    <a onClick={()=>handlePatternChange('Solid_Single_Square_Density_1.jsx','Solid Squares')} class = "dropdown-item patternDropdownItem">Solid Squares</a>
+                                    <a onClick={()=>handlePatternChange('Solid_Single_Star_Density_1.jsx','Solid Stars')} class = "dropdown-item patternDropdownItem">Solid Stars</a>
+                                    <a onClick={()=>handlePatternChange('Solid_Single_Triangle_Density_1.jsx','Solid Triangles')} class = "dropdown-item patternDropdownItem">Solid Triangles</a>
                                     <a onClick={()=>handlePatternChange('No Pattern','No Pattern')} class = "dropdown-item patternDropdownItem">No Pattern</a>
                                     </ul>
                         </div>
                 </div>
                 <div class ="row mt-5">
-                    {/* PATTERN COLOR -- DOES NOT WORK YET
+                    {/* PATTERN COLOR -- DOES NOT WORK YET*/}
                     <div class ="col-7 d-flex align-items-center">
                         <label>Pattern Color</label>
                     </div>
                     <div class ="col-5">
                         <input type="color" className="form-control form-control-color color-sidebar-color-picker" id="myColor" value={patternColor} title="Choose a color" onChange={(e) => handlePatternColorChange(e.target.value)} />
-                    </div>*/}
+                    </div>
                 </div>
                 <div class="row mt-4 justify-content-center">
                     <div class="col-12 d-flex align-items-center">
-                        <div class="task-appearance-preview" draggable="false" style={{backgroundColor:`${color}`,backgroundImage:patternPreview,backgroundSize: 'contain'}}></div>
+                        <div class="task-appearance-preview" draggable="false" style={{backgroundColor:`${color}`,backgroundSize: 'contain', backgroundImage:`${patternPreview}`}}></div>
                     </div>
                 </div>
             </form>
