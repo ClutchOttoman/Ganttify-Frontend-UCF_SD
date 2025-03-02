@@ -137,7 +137,7 @@ function RecentlyDeletedCharts({ projects,triggerReSearch }) {
                     <button class={nextButton} onClick={nextChartPage}>Next</button>
                 </div>
             </div>
-            <div class="modal modal-lg fade" id="deleteProjectModal" tabindex="-1" aria-labelledby="DeleteProjectModalLabel" aria-hidden="true"  data-bs-backdrop="static" data-bs-keyboard="false" >
+            <div class="modal modal fade" id="deleteProjectModal" tabindex="-1" aria-labelledby="DeleteProjectModalLabel" aria-hidden="true"  data-bs-backdrop="false" data-bs-keyboard="false" >
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -149,7 +149,7 @@ function RecentlyDeletedCharts({ projects,triggerReSearch }) {
                             This action cannot be undone!
                         </div>}
                         <div class="modal-footer">
-                        {projectIsDeleted?  <button type="button" class="btn deleteModalBtn" data-bs-dismiss="modal" onClick={()=>handleProjectDeleted()}>Got It!</button> : <button type="button" class="btn deleteModalBtn" onClick={doProjectDelete}>Yes, delete my project</button>}
+                        {projectIsDeleted?  <button type="button" class="btn btn-primary w-100" data-bs-dismiss="modal" onClick={()=>handleProjectDeleted()}>Got It!</button> : <button type="button" class="btn btn-primary w-100" onClick={doProjectDelete}>Yes, delete my project</button>}
                         </div>
                     </div>
                 </div>
