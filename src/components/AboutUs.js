@@ -10,6 +10,7 @@ import member_oc from '../Images/assets/team_member_icons/OC.jpg';
 import member_ak from '../Images/assets/team_member_icons/AK.PNG';
 import member_jn from '../Images/assets/team_member_icons/JN.jpg';
 import member_cb from '../Images/assets/team_member_icons/CB.jpeg';
+import member_am from '../Images/assets/team_member_icons/AM.webp'
 
 import member_placeholder from '../Images/assets/team_member_icons/Placeholder.jpg';
 import {buildPath} from './buildPath';
@@ -67,7 +68,7 @@ function AboutUs() {
                     </div>
 
                     <div className="team-member">
-                        <img src={member_placeholder} alt="Allen Menorca" className="team-image"/>
+                        <img src={member_am} alt="Allen Menorca" className="team-image"/>
                         
                         <div className='member-info-box'>
                             <div className="member-info">
