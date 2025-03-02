@@ -49,6 +49,7 @@ const UISettings = () => {
     const timetableInnerColor = isDarkMode ? "#333" : isHighContrastMode ?  "#FFF" : "#FFF";
     const timetableBorderColor = isDarkMode ? "#FFF" : isHighContrastMode ? "#000000 " : "#000000 ";
     const gridColor = isDarkMode? "white" : isHighContrastMode ? "black" : "black"
+    const addTaskButtonColor = isDarkMode ? "#333" : isHighContrastMode ? "#002238" : "#DC6B2C";
 
     const toggleDarkMode = async () => {
 
@@ -274,6 +275,7 @@ const UISettings = () => {
                       '--timetable-inner-color': timetableInnerColor,
                       '--timetable-border-color': timetableBorderColor,
                       '--grid-color': gridColor,
+                      '--add-task-btn-color': addTaskButtonColor,
                   }} />
               </div>
               <h2>CVD Filters</h2>

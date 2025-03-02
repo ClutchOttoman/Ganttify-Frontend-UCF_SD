@@ -8,7 +8,6 @@ body{
     float:top;
 }
 .title{
-    font:bold;
     margin-left:40px;
     margin-top:-60px;
     color: black;
@@ -18,14 +17,43 @@ body{
     max-width: 20%;
     min-width: 10%;
 }
+.table-responsive-xxl{
+    scrollbar-color: #888 #FDDC87;
+    scrollbar-width: thin;
+}
 .table{
     margin-top: 40px;
     margin-left: 40px;
+    width: 68vw;
 }
+
+/* Resizing table */
+@media (max-width: 1400px) {
+    .table {
+        width: 60vw;
+        transform: translateX(-5%)
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .table{
+        max-width: 10vw; 
+        transform: translateX(-5%)
+    }
+  }
+
+  th.todoTableBody{ 
+    background-color: #DC6B2C;
+    border-color:#DC6B2C    ;
+    color:rgb(255, 255, 255);
+    visibility: visible;
+
+}
+
 .tr{
     line-height: 100px !important;
     min-height: 100px !important; 
-    height: 100px !important;
+    height: 100px !important; 
 }
 .cell{
     vertical-align:middle;
@@ -34,13 +62,21 @@ body{
     border: none;
     visibility: hidden;
 }
-.taskBtn{
-    border:none;
-    background: none;
-    color:none;
-    font-size:x-large;
-    padding: 0;
-    margin: 0;
+
+.taskBtn {
+    width: 33px; 
+    height: 33px;
+    border-radius: 50%;
+    display: block;
+    margin: auto;
+    border: none;
+    color: white;
+    background-color: #DC6B2C;
+
+    &:hover{
+        transition: background-color ease-in 0.1s;
+        background-color: #f08b4f;
+    }
 }
 .modalSubTitle{
     float:bottom;

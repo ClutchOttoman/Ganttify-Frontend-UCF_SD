@@ -63,10 +63,8 @@ const patterns = {
     'Hollow_Single_Triangle_Density_1.jsx':Hollow_Single_Triangle_Density_1
   }
 
-
-
 // Initializes variables
-const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks, forceTaskVisualUpdate }) => {
+const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) => {
   const [status, setStatus] = useState('');
   const [newCategory, setNewCategory] = useState(''); // Added  
   const [showColorPicker, setShowColorPicker] = useState(false);
@@ -599,12 +597,12 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks, f
 
       setTaskCategory(updatedTask.category || null ); // Handle removed category
       setOriginalTask(updatedTask); // Sync the original task with the latest data
-      forceTaskVisualUpdate(task._id,pattern,color)
+      // forceTaskVisualUpdate(task._id,pattern,color)
   
       // Update users' to-do list
   
       setEditMode(false); // Exit edit mode
-      //window.location.reload(); // Reload the page to reflect changes (optional)
+      window.location.reload(); // Reload the page to reflect changes (optional)
   
       onHide(); // Close the modal after saving
     } catch (error) {

@@ -5,10 +5,8 @@ import { buildPath } from './buildPath';
 import ProjectTitle from './GanttChart/ProjectTitle';
 import './NavBar.css';
 import ProjectInviteLink from './ProjectInviteLink.js';
-
 import useDarkMode from './useDarkMode';
 import useHighContrastMode from './useHighContrastMode';
-
 
 const baseStyle = {
   backgroundColor: "#FDDC87",
@@ -17,18 +15,66 @@ const baseStyle = {
   paddingBottom: "10px"
 };
 
-
 const dashboardNav = {
   position: "relative",
   float: "top",
   zIndex: "100"
 };
 
+// Upon clicking the login button, check if the user has a session.
+async function checkSavedSession(){
+  let localData = localStorage.getItem("user_data");
 
+  if (localData){
+    
+    // Validate the token. If invalid or expired, redirect the user to the login page.
+    try {
 
+      const localJson = JSON.parse(localData);
+
+      // If there's no valid fields, reject.
+      if (!localJson._id || !localJson.token){
+        throw new Error();
+      }
+
+      const body = {userId: localJson._id.toString(), token: localJson.token.toString()};
+      const bodyString = JSON.stringify(body);
+      console.log("Found saved session.");
+
+      const response = await fetch(buildPath('api/validate-session-login-token'), {
+        method: 'POST',
+        body: bodyString,
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      if (!response.ok){
+        throw new Error();
+      }
+
+      console.log("Valid local data found. Redirecting...");
+      window.location.href = '/dashboard';
+    } catch (error){
+      console.log("Valid local data not found. Enforce regular login.");
+      window.location.href = '/login';
+    }
+
+  } else {
+    // Enforce regular login.
+    console.log("Valid local data not found. Enforce regular login.");
+    window.location.href = '/login';
+  }
+
+}
+
+// Logs out the user.
+function Logout(){
+  // Upon logging out, the local storage of the browser should be cleared.
+  localStorage.clear();
+  console.log("Logging out...");
+  window.location.href = '/';
+};
 
 async function createTask(newTask) {
-
 
   try {
 
@@ -60,7 +106,7 @@ async function createTask(newTask) {
 
 function NavBar(props) {
 
-  const [showModal, setShowModal] = useState(false);
+  const [showAnnouncementModal, setAnnouncmentModal] = useState(false);
   const [inviteModal, setInviteModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [teamMembers, setTeamMembers] = useState([]);
@@ -126,11 +172,8 @@ const toggleHighContrastMode = () => {
     userId = ud._id;
   }
 
-
   let tempProjectId = useParams();
   let projectId = tempProjectId.id;
-
-
 
   useEffect(() => {
     if (props.layout === 3) {
@@ -138,8 +181,6 @@ const toggleHighContrastMode = () => {
     }
 
   }, [props.layout, projectId, founderId]);
-
-
 
   const fetchTeamMembers = async (projectId) => {
 
@@ -305,7 +346,6 @@ const toggleHighContrastMode = () => {
   };
 
 
-  const openModal = () => setShowModal(true);
   const openInviteModal = () => setInviteModal(true);
   const closeInviteModal = () => {
     setInviteModal(false);
@@ -446,7 +486,7 @@ const toggleHighContrastMode = () => {
   
   
   else if (props.layout == 1) {
-    
+    // For the Ganttify homepage.
     return (
       <div id="navBarDiv">
         <div className="navbar">
@@ -456,12 +496,13 @@ const toggleHighContrastMode = () => {
             <li><Link to="/"><button id="button"> Home</button></Link></li>
             <li><Link to="/about-us"><button id="button">About Us</button></Link></li>
             <li><Link to="/register"><button id="button">Create Account</button></Link></li>
-            <li><Link to="/login"><button id="button">Login</button></Link></li>
+            <li><button id="button" onClick={checkSavedSession}>Login</button></li>
           </ul>
         </div>
       </div>
     );
   } else if (props.layout == 2) {
+    // For the Ganttify user dashboard.
     return (
       <div id="navBarDiv" style={dashboardNav}>
         <div class="container-fluid navbarDash">
@@ -473,12 +514,13 @@ const toggleHighContrastMode = () => {
             <li><Link to="https://ucf.qualtrics.com/jfe/form/SV_8fcwggJ2eZxlMea" target="_blank"><button id="button">Give Feedback</button></Link></li>
           </ul>
           <ul className="navbarOptionsDash">
-            <li><Link to="/"><button id="button">Sign Out</button></Link></li>
+            <li><button id="button" onClick={Logout}>Sign Out</button></li>
           </ul>
         </div>
       </div>
     );
   } else if (props.layout == 3) {
+    // For the Ganttify project.
     return (
       <div className="layout-3">
         <div id="navBarDiv" style={dashboardNav} role="navigation">
@@ -503,7 +545,7 @@ const toggleHighContrastMode = () => {
                 </li>
               )}
               <li><Link to="/dashboard"><button id="button" className="dashBoardButtons">Dashboard</button></Link></li>
-              <li><Link to="/"><button id="button" className="dashBoardButtons">Sign Out</button></Link></li>
+              <li><button id="button" className="dashBoardButtons" onClick={Logout}>Sign Out</button></li>
             </ul>
           </div>
         </div>
@@ -551,7 +593,7 @@ const toggleHighContrastMode = () => {
                     <label htmlFor="pattern" className="form-label">Pattern</label>
                     <input type="text" className="form-control" id="pattern" name="pattern" value={taskData.pattern} onChange={handleInputChange} />
                   </div>
-                  <button type="submit" className="btn btn-primary">Add Task</button>
+                  <button type="submit" className="btn btn-primary px-0 mx-0 mt-3 w-100">Add Task</button>
                 </form>
               </div>
               <div className="modal-footer">
@@ -602,7 +644,7 @@ const toggleHighContrastMode = () => {
                   {selectedMember && selectedMember._id !== founderId && (
                     <>
                       <button type="button" className="btn btn-secondary" onClick={handleDeleteMember}>Remove Member</button>
-                      <button type="button" className="btn btn-primary" onClick={handleEditMemberSubmit}>Update Role</button>
+                      <button type="button" className="btn btn-primary px-0 mx-0 mt-3 w-100" onClick={handleEditMemberSubmit}>Update Role</button>
                     </>
                   )}
                 </div>

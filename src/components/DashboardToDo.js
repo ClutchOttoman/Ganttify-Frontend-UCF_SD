@@ -1,4 +1,5 @@
 import React, { useLayoutEffect, useState } from 'react';
+import AnnouncementModal from './AnnouncementModal';
 import './DashboardToDo.css';
 import {buildPath} from './buildPath';
 
@@ -315,12 +316,14 @@ function DashboardToDo() {
     useLayoutEffect(() => { getTasks() }, []);
     return (
         <div class="container px-0 mt-5 mx-0">
+            {/*Announcements for new features */}
+            <AnnouncementModal />
                 <h1 class="title">To Do List</h1>
-                <form>
+                <form onSubmit={(e) => e.preventDefault()}>
                     <input type="search" class="form-control searchForm" placeholder='Search tasks by name, category or project...' id="search projects" onChange={doTaskSearch} ref={(c) => search = c} />
                 </form>
                 <div class="table-responsive-xxl">
-                    <table class="table table-bordereless" id="taskTableHeader">
+                    <table class="table" id="taskTableHeader">
                         <thead>
                             <tr>
                                 <th width="15%" scope='col' class="todoTableBody">Due Date</th>
@@ -338,7 +341,7 @@ function DashboardToDo() {
                         </tbody>
                     </table>
                 </div>
-                <div class="modal fade" tabindex="-1" id="taskModal" data-bs-backdrop="static" data-bs-keyboard="false">
+                <div class="modal fade" tabindex="-1" id="taskModal" data-bs-backdrop="false" data-bs-keyboard="false">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
