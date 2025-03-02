@@ -3,6 +3,8 @@ import AnnouncementModal from './AnnouncementModal';
 import './DashboardToDo.css';
 import {buildPath} from './buildPath';
 
+var i, task,tasks = [];
+
 function toDate(timestanp) {
     var i = 0;
     var date = "";
@@ -27,8 +29,6 @@ function toDisplayDate(date) {
     if(day-thisDay == 0){return "Today";}
     return date;
 }
-
-var i, task,tasks = [];
 
 function DashboardToDo() {
     var search = ""
