@@ -3,7 +3,7 @@ import AnnouncementModal from './AnnouncementModal';
 import './DashboardToDo.css';
 import {buildPath} from './buildPath';
 
-var i, task,tasks = [];
+var i, j, task,tasks = [];
 
 function toDate(timestanp) {
     var i = 0;
@@ -38,14 +38,16 @@ function DashboardToDo() {
     var displayedTasks = [];
 
     const [taskList, setTaskList] = useState([])
+    const [prerequisites, setPrerequisites] = useState([]);
     const [expandedRow, setExpandedRow] = useState(null);
 
     useEffect(() => { 
         const fetchTasks = async () => {
             getTasks();
-        };
 
+        };
         fetchTasks();
+
     }, []);
 
     const getTasks = async event => {
@@ -96,6 +98,7 @@ function DashboardToDo() {
                     currProjectName = currProject[0].nameProject;
                     currProjectOwnerId = currProject[0].founderId;
                 }
+
                 task = {
                     _id: currTaskId,
                     taskTitle: currTaskTitle,
@@ -108,7 +111,7 @@ function DashboardToDo() {
                     progress: currTaskProgress,
                     projectOwnerId: currProjectOwnerId,
                     taskCategory: currTaskCategory,
-                    taskCategoryId: currTaskCategoryId,
+                    taskCategoryId: currTaskCategoryId
                 };
                 tasks.push(task);
             };
@@ -120,9 +123,29 @@ function DashboardToDo() {
         }
     }
 
+    const getPrerequisites = async (taskId) =>{
+        console.log(taskId);
+        let obj = { id: taskId };
+        let js = JSON.stringify(obj);
+        try {
+            //get list of tasks user is assigned to 
+            const response = await fetch(buildPath('api/readallprerequisites'),
+                { method: 'POST', body: js, headers: { 'Content-Type': 'application/json' } });
+
+            let txt = await response.text();
+            let prequisites = JSON.parse(txt);
+
+            setPrerequisites(prequisites.allPrerequisitesOfTask || []);
+
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
     function actionButtonClick(task){
         return function (){
             setExpandedRow(expandedRow === task ? null : task);
+            getPrerequisites(task)
         }
     }
    
@@ -189,6 +212,7 @@ function DashboardToDo() {
         <div class="container px-0 mt-5 mx-0">
             {/*Announcements for new features */}
             <AnnouncementModal />
+
                 <h1 class="title">To Do List</h1>
                 <form onSubmit={(e) => e.preventDefault()}>
                     <input type="search" class="form-control searchForm" placeholder='Search tasks by name, category or project...' id="search projects" onChange={doTaskSearch} ref={(c) => search = c} />
@@ -226,6 +250,14 @@ function DashboardToDo() {
                                                     <div>
                                                         <h5><strong>Description:</strong></h5>
                                                         <p dangerouslySetInnerHTML={{ __html: task.description }}></p>
+                                                        <h5><strong>Prerequisite Tasks:</strong></h5>
+                                                        <ul className="prerequsisite-list">
+                                                            {prerequisites.map((prereq, index) => (
+                                                                <li key={index}>
+                                                                    {prereq.taskTitle} - {prereq.progress}
+                                                                </li>
+                                                            ))}
+                                                        </ul>
                                                         <p>
                                                             <span>
                                                                 {task.dueDatePretty === 'PAST DUE' ?
