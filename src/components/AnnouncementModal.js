@@ -21,22 +21,21 @@ function AnnouncementModal() {
             {showAnnouncementModal && (
                 <div className="modal fade show" style={{ display: 'block' }} tabIndex="-1" id="announcementModal" aria-labelledby="announcementModalLabel" aria-hidden="true">
                     <div className="modal-dialog">
-                        <div className="modal-content">
+                        <div className="modal-content" style={{maxHeight: '1000px'}}>
                             <div className="modal-header">
-                                <h5 className="modal-title" id="announcementModalLabel">What's New</h5>
+                                <h3 className="modal-title" id="announcementModalLabel">What's New</h3>
                             </div>
                             <div className="modal-body">
                                 {/* Write new features or updates here */}
                                 <h3>New Features</h3>
-                                <p>- Added search bar in chart page</p>
-                                <p>- Added persistent login</p>
+                                <p>- New and Improved todo list.</p>
+                                <p>- Updated About Us Section to feature this semester's Ganttify team!</p>
                                 <h3>Bug Fixes</h3>
-                                <p>- Fixed Team Invite Link</p>
-                                <p>- Fixed task details from randomly closing when viewing it from task name</p>          
-                                <p>- Fixed various visual bugs</p>
+                                <p>- Fixing timeline rendering when updating task start/end dates and categories.</p>         
+                                <p>- Fixed various visual bugs.</p>
                                 <h3>Next Update</h3>
-                                <p>- Fixing real-time rendering when updating task start/end dates + categories</p>   
-                                <p>Thank you for the feedback! Continue to let us know about more bugs and any potential features you would like to see!</p>                                   
+                                <p>- More customization options for UI and other new features.</p>
+                                <p>Thank you for the feedback. Continue to let us know about any bugs and potential features you would like to see in the future!</p>                                   
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={handleCloseModal}>Close</button>
