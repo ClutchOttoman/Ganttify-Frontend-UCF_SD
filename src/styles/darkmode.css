@@ -191,13 +191,13 @@ html.dark {
   
     /* To Do/todo List Page */
     /* Table background*/
-    th.todoTableBody{ 
+    th.todoTableBody  { 
         background-color: #1E1E1E;
         border-color:#1E1E1E;
         color:rgb(255, 255, 255);
         visibility: visible;
     }
-    td.todoTableBody{
+    table tbody, td{
       background-color: #292929;
       color: white;
       border-color: #292929;
