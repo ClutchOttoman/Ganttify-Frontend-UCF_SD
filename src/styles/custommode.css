@@ -1,8 +1,11 @@
 html.custom {
-    background-color: #121212;
-    color: #fff;
+    background-color: white;
+    color: black;
     visibility: visible;
     scrollbar-color: #1e1e1e #797979 !important; 
+
+    --sidebar: #DC6B2C;
+    --navbar: #FDDC87;
 
     /* General CSS */
     /* Background/Wallpaper Colors  */
@@ -18,14 +21,13 @@ html.custom {
     /* Text */
     h1, h2, h3, h4, h4, h5, h6, p, a, li, text, span,
     span.detailValue, label.detailLabel{
-        color: var(--text);  /* High-contrast white for headers */
+        color: var(--text) !important;  /* High-contrast white for headers */
         visibility: visible;
     }
 
     /* Input styles */
     input, textarea {
-        background-color:  #383737 ; /* Darker background for input fields */
-        color: #fff !important; /* White text */
+        color: var(--text) !important; /* White text */
         border: 1px solid #464646; /* Light border for inputs */
         visibility: visible;
         &:focus{
@@ -41,7 +43,7 @@ html.custom {
     /* Dropdown Selector */
     select, option {
         background-color: #424242 ; /* Darker background for input fields */
-        color: #fff; /* White text */
+        color: var(--text);
         border: 1px solid #464646; /* Light border for inputs */
         visibility: visible; 
         &:hover{
@@ -61,7 +63,7 @@ html.custom {
     
     button, .btn.btn-primary, .btn, .cta-button{
         background-color: #424242  !important;  /* Dark background for buttons */
-        color: #fff;  /* Light text */
+        color: var(--text);  /* Light text */
         transition: ease-in 0.1s;
         visibility: visible;
         &:hover{
@@ -74,8 +76,8 @@ html.custom {
     div.task-details-footer, div.task-details-header, div.task-details-body,
     div#textbox, .align-items-start, button.delete-button, button.edit-button, div.icon-button-container, #task-title.task-title,
     div.task-title-container{
-      color: white;
-      background-color: #2b2b2b !important;
+      color: var(--text);
+      background-color:  var(--contentarea) !important;
       visibility: visible;
     }
     
@@ -83,14 +85,14 @@ html.custom {
     /* Navbar */  
     /*Top navbar text buttons */
     .navbar, .navbarDash {
-      background-color: #282828;
+      background-color: var(--navbar);
       visibility: visible;
     }
     
 
     #button {
         background-color: transparent !important;  /* WORK (Sign out) Dark background */
-        color: #fff !important;  /* Light text */
+        color: var(--text) !important;  /* Light text */
         visibility: visible;
         &:hover{
             color: #a8a8a8 !important;  /* WORK (Sign out) Slightly lighter on hover */
@@ -110,7 +112,7 @@ html.custom {
     /* Dashboard sidebar + topbar */
     /* Background Ribbon colors */
     div.d-none.d-md-table-cell.container-lg.navBarBody, div.d-md-none.navBarBodySmall.mb-5{
-      background-color: #2f2f2f !important;  /*  (NAV BAR ON SIDE) Dark background */
+      background-color: var(--sidebar) !important;  /*  (NAV BAR ON SIDE) Dark background */
       visibility: visible;
     }
 
@@ -132,8 +134,8 @@ html.custom {
     
     /* Background */
     .landing-page-container{
-        background-color: #121212;  /* WORK (footer) members background */
-        color: #fff !important;  /* Light text */
+        background-color: var(--background-color);  /* WORK (footer) members background */
+        color: var(--text) !important;  /* Light text */
         visibility: visible;
     }
     
@@ -142,7 +144,7 @@ html.custom {
     /* Form Containers */
     div.loginForm.text-center, div.card-header.loginFormHeader, div.forgot-password-card, .registerForm.text-center.mt-1,
     .card-header.registerFormHeader, h1.verify-email-title, div.verify-email-card{
-        background-color: #313131;
+        background-color: var(--contentarea);
         visibility: visible;
         color: #FFFFFF;
     }
@@ -243,7 +245,7 @@ html.custom {
 
     /*Project Card */
     .card{
-        background-color: #545252 !important; /* WORK (chart cards) Dark background */
+        background-color: var(--cardcolor) !important; /* WORK (chart cards) Dark background */
         border: 6px solid #2d2c2c; /* Wider colored border */
         visibility: visible;
     }
@@ -251,7 +253,7 @@ html.custom {
     /* Account Details Page*/
     
     .dashboardAccountContainer {
-    background-color: #313131 !important; /* WORK (Account square) Dark background */
+    background-color: var(--contentarea) !important; /* WORK (Account square) Dark background */
     visibility: visible;
     }
     .mainContainer, .container.position-relative.d-inline-flex.flex-column {
@@ -279,18 +281,18 @@ html.custom {
       }
 
     .ui-settings-container, .ui-preview-container, .font-container {
-      background-color: #313131 !important; 
+      background-color: var(--contentarea)  !important; 
       visibility: visible;
     }
     /* Gantt Chart/Project Page */
     /* Time table */
     /*Time table container outer color*/
     .main-container {
-      background-color: #1F1E1E;
+      background-color: var(--timetable);
     }
     /*Time table container inner color*/
     #gantt-container, #gantt-grid-container{
-      background-color: #2B2A2A !important; 
+      background-color: var(--timetableinner) !important; 
     }
     /*Task bar border */
     .task-duration { 
