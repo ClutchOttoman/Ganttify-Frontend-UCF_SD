@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import './App.css';
-import { DarkModeProvider } from "./components/DarkModeContext"; // Ensure correct path
-import { HighContrastModeProvider } from "./components/HighContrastModeContext"; // Ensure correct path
+import { DarkModeProvider } from "./components/DarkModeContext";
+import { HighContrastModeProvider } from "./components/HighContrastModeContext"; 
 import { CVDProvider } from "./components/CVDFilterContext";
+import {CustomProvider} from "./components/CustomModeContext"
 import NavBar from "./components/NavBar";
 import './index.css';
 
@@ -61,9 +62,23 @@ function App() {
     }
   }, [isHighContrastMode]); // This will run once on mount
 
+  const [isCustomMode, setIsCustomMode] = useState(() => {
+    const savedMode = localStorage.getItem('isCustomMode');
+    return savedMode ? JSON.parse(savedMode) : {boolean: false};
+  });
+
+  useEffect(() => {
+    if (isCustomMode.boolean) {
+      document.body.classList.add('custom');
+    } else {
+      document.body.classList.remove('custom');
+    }
+  }, [isCustomMode]);
+
 
 
   return (
+    <CustomProvider>
     <CVDProvider>
     <HighContrastModeProvider>
     <DarkModeProvider>
@@ -95,6 +110,8 @@ function App() {
     </DarkModeProvider>
     </HighContrastModeProvider>
     </CVDProvider>
+    </CustomProvider>
+
   );
 }
 

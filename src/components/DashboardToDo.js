@@ -152,6 +152,7 @@ function DashboardToDo() {
     function doTaskSearch() {
         let value = search.value.toLowerCase();
         let rows = document.getElementById("taskTableBody").getElementsByTagName("tr");
+        setExpandedRow(null)
 
         for (var i = 0; i < rows.length; i++) {
             let taskCol = rows[i].getElementsByTagName("td")[1].textContent.toLowerCase();
@@ -167,6 +168,7 @@ function DashboardToDo() {
 
     }
 
+    //Removes tasks from the todo list that are completed AND are past due date (Doesn't show old tasks)
     const filterTasks = () => {
         return taskList.filter(task => !(task.dueDatePretty === "PAST DUE" && task.progress === "Completed"));
     };

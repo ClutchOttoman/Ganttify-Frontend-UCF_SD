@@ -1,4 +1,4 @@
-html.dark {
+html.custom {
     background-color: #121212;
     color: #fff;
     visibility: visible;
@@ -7,7 +7,7 @@ html.dark {
     /* General CSS */
     /* Background/Wallpaper Colors  */
     body{
-      background-color: #121212 !important;
+      background-color: var(--background-color) !important;
     } 
     /* Need to make these transparent */
     div.loginContainer.mt-5, div.forgot-password-container, .registerContainer, .verify-email-container{ 
@@ -18,7 +18,7 @@ html.dark {
     /* Text */
     h1, h2, h3, h4, h4, h5, h6, p, a, li, text, span,
     span.detailValue, label.detailLabel{
-        color: #fff !important;  /* High-contrast white for headers */
+        color: var(--text);  /* High-contrast white for headers */
         visibility: visible;
     }
 
@@ -273,7 +273,7 @@ html.dark {
     }
 
     /* Toggle Button Slider Animation */
-    button.dark-mode-toggle.dark .thumb{
+    button.custom-mode-toggle.custom .thumb{
         left: calc(50px - 25px);
         visibility: visible;
       }

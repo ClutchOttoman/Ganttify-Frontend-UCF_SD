@@ -3,12 +3,15 @@
     color: black;
 }
 
-
 .settings-container {
-    width: 90vw;
-    margin: 0 auto; 
+  width: 90%;
+  margin-top: -50px;
 }
 
+.settings-container h1, h3{
+    margin: 40px 0px 40px 0px;
+    
+}
 /* Resizing options */
 @media (max-width: 1200px) {
     .settings-container{
@@ -27,9 +30,9 @@
     }
 }
 
-.color-preset-container, .ui-preview-container, .font-container{
-    width: 80%;
+.ui-preview-container{
     height: auto;
+    width: 80%;
     padding: 20px;
     background: #fff;
     border-radius: 8px;
@@ -39,21 +42,9 @@
 }
 
 .default-colorbar, .cvd-toolbar{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
-.default-colorbar span, .cvd-toolbar span{
-    position: relative;
-    padding-right: 25px;
-    top: -10px;
-    flex-wrap: wrap;
-}
-.settings-container h1, h2{
-    margin-bottom: 40px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns for button + span */
+    gap: 20px;
 }
 
 .normal-text {
@@ -75,7 +66,6 @@
     flex-wrap: wrap;
     gap: 100px;
     justify-content: center;
-    margin: 20px auto;
     height: auto;
   }
   
@@ -85,16 +75,49 @@
     max-height: auto; 
 }
 
+.custom-settings-container{
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 6 columns for button + span */
+    height: 0; 
+    overflow: hidden; 
+    opacity: 0; /* First three to hide container when not active */
+    transition: height 0.3s ease, opacity 0.3s ease;
+}
+
+.custom-settings-container.visible {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 6 columns for button + span */
+    height: 250px;
+    opacity: 1;
+}
+
+.custom-settings-btn {
+    display: flex;
+    width: 125px;
+    height: 45px;
+    border: 2px solid black;
+    align-items: center;
+}
+
+.custom-color-selector {
+    width: 42.5px;
+    height: 40px;
+    background-color: transparent;
+    border: none;
+}
+
 .font-container{
-    gap: 100px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 }
 .font-selector{
-    width: 300px;
+    width: 200px;
     height: 50px;
-    gap: 100px;
+    margin-left: 10px;
     font-size: 24px;
-    align-items: center;
-    justify-content: center;
     text-align: left;
     transition: background-color 0.3s ease;
 }
@@ -110,7 +133,7 @@
 }
 
 /* Toggle Buttons */
-button.dark-mode-toggle, button.high-contrast-mode-toggle, .protan-toggle, .deuteran-toggle, .tritan-toggle  {
+button.dark-mode-toggle, button.high-contrast-mode-toggle, button.custom-mode-toggle, .protan-toggle, .deuteran-toggle, .tritan-toggle  {
     background-color: #DC6B2C ;  /* Darker background for toggle button */
     color: #fff !important;  /* Light text for button */
     border: 1px solid #000000 !important;

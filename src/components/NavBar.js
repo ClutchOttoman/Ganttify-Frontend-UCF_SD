@@ -7,6 +7,7 @@ import './NavBar.css';
 import ProjectInviteLink from './ProjectInviteLink.js';
 import useDarkMode from './useDarkMode';
 import useHighContrastMode from './useHighContrastMode';
+import useCustomMode from './useCustomMode.js';
 
 const baseStyle = {
   backgroundColor: "#FDDC87",
@@ -121,11 +122,13 @@ function NavBar(props) {
 
   const [isDarkMode, setIsDarkMode] = useDarkMode();
   const [isHighContrastMode, setIsHightContrastMode] = useHighContrastMode();
+  const [isCustomMode, setIsCustomMode] = useCustomMode();
 
 const toggleDarkMode = () => {
   setIsDarkMode((prevMode) => {
     if (!prevMode) {
       setIsHightContrastMode(false); // Turn off High Contrast Mode if it's on
+      setIsCustomMode({boolean: false});
     }
     return !prevMode;
   });
@@ -135,10 +138,26 @@ const toggleHighContrastMode = () => {
   setIsHightContrastMode((prevMode) => {
     if (!prevMode) {
       setIsDarkMode(false); // Turn off Dark Mode if it's on
+      setIsCustomMode({boolean: false});
     }
     return !prevMode;
   });
 };
+
+const toggleCustomMode = () => {
+  setIsCustomMode((prevMode) => {
+    if (!prevMode) {
+      setIsDarkMode(false); // Turn off Dark Mode if it's on
+      setIsHightContrastMode(false);
+    }
+    return {
+      ...prevMode,
+      boolean: !prevMode.boolean,
+    }
+  });
+
+};
+  
   
 
 

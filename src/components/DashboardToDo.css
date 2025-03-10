@@ -159,6 +159,7 @@ td li {
     display: block;
     color: black;
     pointer-events: none;
+    pointer-events: none;
     &:hover{
         color: black;
     }
