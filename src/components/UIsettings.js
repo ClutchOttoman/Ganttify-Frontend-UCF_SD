@@ -7,6 +7,8 @@ import './UIsettings.css'
 import DashboardPreview  from '../Images/assets/setting_previews/dashboard_preview.svg?react';
 import TimetablePreview  from '../Images/assets/setting_previews/timetable_preview.svg?react';
 
+import ContrastChecker from "./ContrastChecker";
+
 const debounce = (func, delay) => {
   const timeoutRef = useRef(null);  // This will persist across renders
 
@@ -278,6 +280,9 @@ const UISettings = () => {
                       '--add-task-btn-color': addTaskButtonColor,
                   }} />
               </div>
+    
+                  <ContrastChecker /> 
+                
               <h2>CVD Filters</h2>
               <div className="cvd-toolbar">
                 <button 
