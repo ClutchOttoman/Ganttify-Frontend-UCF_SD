@@ -30,58 +30,8 @@ import VerifyEmailTokenPage from './pages/VerifyEmailTokenPage';
 import ViewChartPage from './pages/ViewChartPage';
 
 function App() {
-  //Dark Mode
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    const savedMode = localStorage.getItem('isDarkMode');
-    return savedMode ? JSON.parse(savedMode) : false; // default to light mode if no saved value
-  });
-
-  useEffect(() => {
-    // Apply dark mode class immediately when the app loads
-    if (isDarkMode) {
-      document.body.classList.add('dark');
-    } else {
-      document.body.classList.remove('dark');
-    }
-  }, [isDarkMode]); // This will run once on mount
-
-
-
-//High Contrast
-  const [isHighContrastMode, setIsHighContrastMode] = useState(() => {
-    const savedMode = localStorage.getItem('isHighContrastMode');
-    return savedMode ? JSON.parse(savedMode) : false; // default to light mode if no saved value
-  });
-
-  useEffect(() => {
-    // Apply dark mode class immediately when the app loads
-    if (isHighContrastMode) {
-      document.body.classList.add('high-contrast');
-    } else {
-      document.body.classList.remove('high-contrast');
-    }
-  }, [isHighContrastMode]); // This will run once on mount
-
-  const [isCustomMode, setIsCustomMode] = useState(() => {
-    const savedMode = localStorage.getItem('isCustomMode');
-    return savedMode ? JSON.parse(savedMode) : {boolean: false};
-  });
-
-  useEffect(() => {
-    if (isCustomMode.boolean) {
-      document.body.classList.add('custom');
-    } else {
-      document.body.classList.remove('custom');
-    }
-  }, [isCustomMode]);
-
-
 
   return (
-    <CustomProvider>
-    <CVDProvider>
-    <HighContrastModeProvider>
-    <DarkModeProvider>
       <BrowserRouter>
         <NavBar />
         <Routes>
@@ -107,11 +57,6 @@ function App() {
           <Route path="/ui-settings" element={<UISettingsPage />} />
         </Routes>
     </BrowserRouter>
-    </DarkModeProvider>
-    </HighContrastModeProvider>
-    </CVDProvider>
-    </CustomProvider>
-
   );
 }
 

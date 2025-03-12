@@ -14,7 +14,7 @@ const applyThemeSettings = () => {
   const isHighContrast = savedContrastMode ? JSON.parse(savedContrastMode) : window.matchMedia('(prefers-contrast: more)').matches;
   const isCustomMode = savedCustomMode ? json.parse(savedContrastMode) : false;
 
-  if (isDarkMode) document.body.classList.add('dark');  // Keep using body.dark
+  if (isDarkMode) document.body.classList.add('dark');
   if (isHighContrast) document.body.classList.add('high-contrast');
   if (isCustomMode.boolean) document.body.classList.add('custom');
 

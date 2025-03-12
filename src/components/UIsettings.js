@@ -61,16 +61,16 @@ const UISettings = () => {
     let navbarColor = isDarkMode ? "#333" : isHighContrastMode ? "#6B2B00" : isCustomMode.boolean ? customColors.styles.navbar : "#FDDC87";
     //Dashboard related svgs
     let sideBarColor = isDarkMode ? "#2f2f2f" : isHighContrastMode ? "#f3b35b" : isCustomMode.boolean ? customColors.styles.sidebar : "#DC6B2C";
-    let sideBarButtonColor = isDarkMode ? "#424242" : isHighContrastMode ? "#402C12" : isCustomMode?.styles?.buttons ?? "#FFF";
-    let viewButtonColor = isDarkMode ? "#2f2f2f"  : isHighContrastMode ? "#002238 " : isCustomMode?.styles?.buttons ?? "#135C91";
-    let projectCardColor = isDarkMode ? "#424242" : isHighContrastMode ? "#f3b35b" : isCustomMode.boolean ? customColors.styles.cardcolor : "#FDDC87";
+    let sideBarButtonColor = isDarkMode ? "#424242" : isHighContrastMode ? "#402C12" : isCustomMode.boolean ? customColors.styles?.buttons || "#FFFFFF" : "#FFFFFF";
+    let viewButtonColor = isDarkMode ? "#2f2f2f"  : isHighContrastMode ? "#002238 " : isCustomMode.boolean ? customColors.styles?.buttons || "#135C91" : "#135C91";
+    let projectCardColor = isDarkMode ? "#424242" : isHighContrastMode ? "#f3b35b" : isCustomMode.boolean ? customColors.styles.cardcolor : "#fddc87";
     let projectCardBorderColor =  isDarkMode ? "#2f2f2f" : isHighContrastMode ? "#402C12" : isCustomMode.boolean ? customColors.styles.cardbordercolor : "#DC6B2C";
     //Timetable related svgs
     let timetableColor = isDarkMode ? "#222" : isHighContrastMode ? "white" : isCustomMode.boolean ? customColors.styles.timetable : "white";
     let timetableInnerColor = isDarkMode ? "#333" : isHighContrastMode ?  "#FFF" : isCustomMode.boolean ? customColors.styles.timetable : "#FFF";
     let timetableBorderColor = isDarkMode ? "#FFF" : isHighContrastMode ? "#000000 " : isCustomMode.boolean ? customColors.styles.timetableborder : "#000000 ";
     let gridColor = isDarkMode? "white" : isHighContrastMode ? "black" : "black"
-    let addTaskButtonColor = isDarkMode ? "#333" : isHighContrastMode ? "#002238" : isCustomMode?.styles?.buttons ?? "#DC6B2C";
+    let addTaskButtonColor = isDarkMode ? "#333" : isHighContrastMode ? "#002238" : isCustomMode.boolean ? customColors.styles?.buttons || "#DC6B2C" : "#DC6B2C";
 
 
     const toggleDarkMode = async () => {
@@ -144,7 +144,7 @@ const UISettings = () => {
           setIsHightContrastMode(false);
         return {
           boolean: !prevMode.boolean,
-          background: customColors.styles.background,
+          ...customColors,
         }
       });
     }
@@ -269,7 +269,6 @@ const UISettings = () => {
         ...(id === "cardcolor" && { cardbordercolor: darkenColor(value, 15) }), // Generate a darker border for cards
         ...(id === "timetable" && { timetableborder: darkenColor(value, 15) }), // Generate a darker border for timetable
       },
-
     }))
   }
 
@@ -319,6 +318,7 @@ const UISettings = () => {
     document.documentElement.style.setProperty("--timetableborder", customColors.styles.timetableborder);
     document.documentElement.style.setProperty("--navbar", customColors.styles.navbar);
     document.documentElement.style.setProperty("--sidebar", customColors.styles.sidebar);
+    document.documentElement.style.setProperty("--buttons", customColors.styles.buttons);
     console.log(customColors.styles)
   }
       
@@ -483,7 +483,7 @@ const UISettings = () => {
                     value={customColors.styles.buttons}
                     onChange={handleCustomColorChange}
                     ></input>
-                    <span>Buttons {"N/A"}</span>
+                    <span>Buttons</span>
                   </div>
 
                   <div className ="custom-settings-btn">
