@@ -243,8 +243,7 @@ function Register() {
     <div>
       <div>
         {formVisible ? (
-          
-          <div class = "registerContainer">
+          <div class = "registerContainer background-tile-repeat">
                 <div class ="registerForm mt-1">
                     <div class ="card-header registerFormHeader text-center">
                       <h1 class = "registerTitle">Create an Account</h1>

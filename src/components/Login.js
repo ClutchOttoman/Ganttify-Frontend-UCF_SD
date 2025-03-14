@@ -66,10 +66,8 @@ function Login() {
   };
 
   return (
-
-    
-    <div className = "loginContainer mt-5">
-      <div className ="loginForm">
+    <div className = "loginContainer background-tile-repeat">
+      <div className ="loginForm mt-1">
           <div className ="card-header loginFormHeader text-center">
             <h1 className = "loginTitle">Login</h1>
           </div>
