@@ -329,7 +329,7 @@ function Register() {
                             <div class = "row text center mb-2"><button type="submit" className="btn submitButton" disabled={disable}>{disable ? 'Submitting...' : 'Create Account'}</button></div>
                             <div class = "row text center mb-3">
                               <p>By registering, you consent to having notifications regarding your account sent to your registered email.</p>
-                              <p>Please do not use Ganttify to store NDA-protected, sensitive, or confidential information.</p>
+                              <p>Please do not use GanttUCF to store NDA-protected, sensitive, or confidential information.</p>
                             </div>
                         </form>
                     </div> 
