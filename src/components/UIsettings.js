@@ -51,7 +51,6 @@ const UISettings = () => {
         navbar: "#FDDC87",
         sidebar:"#DC6B2C",
         buttons: "",
-        
       }
     })
 

@@ -263,13 +263,13 @@ html.custom {
   
     /* UI Settings Page */
     /* Toggle Buttons */
-    button.dark-mode-toggle, button.high-contrast-mode-toggle, .protan-toggle, .deuteran-toggle, .tritan-toggle { 
+    button.dark-mode-toggle, button.high-contrast-mode-toggle, .protan-toggle, .deuteran-toggle, .tritan-toggle, button.custom-mode-toggle{ 
       background-color:  var(--buttons, #dc6b2c) !important;  /* Darker background for toggle button */
       visibility: visible;
     }
 
     /* Toggle Buttons Hover */
-    button.dark-mode-toggle:hover, button.high-contrast-mode-toggle:hover, button.protan-toggle:hover, button.deuteran-toggle:hover, button.tritan-toggle:hover{ 
+    button.dark-mode-toggle:hover, button.high-contrast-mode-toggle:hover, button.protan-toggle:hover, button.deuteran-toggle:hover, button.tritan-toggle:hover,  button.custom-mode-toggle:hover{ 
       background-color:  var(--buttons, #b3704c) !important; 
       visibility: visible;
     }
