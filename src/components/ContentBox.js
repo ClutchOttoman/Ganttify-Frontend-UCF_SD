@@ -53,7 +53,7 @@ function ContentBox() {
           <img src={Plan} alt="View a chart and plan on it." />
           <div className="card-contentbox">
             <h2 className="card-title">Plan Efficiently</h2>
-            <p className="card-subtext">GanttUCF offers a single plan that's free, easy to use, and open to everyone! Divide and conquer by assigning team members to tasks within a chart. Use a color picker and pattern overlays for maximum visual contrast for task colors. If you do not want other users to see or team members to join your chart, simply make it private.</p>
+            <p className="card-subtext">GanttUCF offers a single plan that's free, easy to use, and open to everyone! Divide and conquer by assigning team members to tasks within a chart. Use a color picker and pattern overlays for maximum visual contrast for task colors.</p>
           </div>
         </div>
         <br></br>
@@ -75,7 +75,6 @@ function ContentBox() {
 
       <footer className="footer">
         <ul className="footer-links">
-          <li><a href="https://github.com/45DegreeAngl/not_so_small_project-COP4331" target="_blank" rel="noopener noreferrer" className="footer-link">GitHub</a></li>
           <li><a href="/about-us" className="footer-link">About Us</a></li>
         </ul>
       </footer>
