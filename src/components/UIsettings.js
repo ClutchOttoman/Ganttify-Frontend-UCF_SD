@@ -247,8 +247,13 @@ const UISettings = () => {
     setPendingColors((prevColors) => ({
       ...prevColors,
       [id]: value, 
+      ...(id === "buttons" && { buttonshover: brightenColor(value, 15) }),
+      ...(id === "dropdowns" && { dropdownshover: brightenColor(value, 15) }),
       ...(id === "cardcolor" && { cardbordercolor: darkenColor(value, 15) }), // Generate a darker border for cards
       ...(id === "timetable" && { timetableborder: darkenColor(value, 15), timetableinner: brightenColor(value, 15) }), // Generate a darker border for timetable
+      ...(id === "texteditor" && { texteditorinner: brightenColor(value, 15) }),
+      ...(id === "todolist" && { todolistinner: brightenColor(value, 15) }),
+      ...(id === "scrollbar" && { scrollbarinner: brightenColor(value, 15) })
       
     }))
   }
@@ -291,6 +296,56 @@ const UISettings = () => {
   //Will apply custom colors to the entire website, for now only the UI settings page.
   const applyCustomColorChange = () =>{
     let userData = JSON.parse(localStorage.getItem("user_data"))
+    userData.uiOptions.custom = { ...pendingColors };
+    localStorage.setItem("user_data", JSON.stringify(userData))
+    setCustomColors(pendingColors)
+    
+    const savedUserInfo = localStorage.getItem('user_data');
+    const savedUserId = JSON.parse(savedUserInfo)._id; 
+
+    const response = fetch(buildPath(`api/update-custom/${savedUserId}`), {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        custom: pendingColors, 
+      }),
+    });
+
+    response.then(async (res) => {
+      if (!res.ok) {
+        setMessage("Unable to toggle to custom mode");
+      } else {
+        const message = await res.json();
+        setMessage(message);
+      }
+    });
+
+  }
+
+  const applyReset = () =>{
+    let userData = JSON.parse(localStorage.getItem("user_data"))
+    setPendingColors({
+      background: "#ffffff",
+      text: "#000000",
+      contentarea: "#ffffff",
+      cardcolor: "#FDDC87",
+      cardbordercolor: "#DC6B2C",
+      timetable: "#ffffff",
+      timetableinner: "#FFF",
+      timetableborder: "#000000",
+      navbar: "#FDDC87",
+      sidebar: "#DC6B2C",
+      buttons: "",
+      buttonshover:"",
+      texteditor:"#f0f0f0",
+      texteditorinner:"#fff",
+      dropdowns:"#ffffff",
+      dropdownshover:"#ffffff",
+      todolist:"#dc6b2c",
+      todolistinner:"#ffffff",
+      scrollbar:"#888",
+      scrollbarinner:"#FDDC87",
+    })
     userData.uiOptions.custom = { ...pendingColors };
     localStorage.setItem("user_data", JSON.stringify(userData))
     setCustomColors(pendingColors)
@@ -446,9 +501,10 @@ const UISettings = () => {
                   <input type="color" 
                     className="custom-color-selector"
                     id ="texteditor"
+                    value={customColors.texteditor}
                     onChange={handleCustomColorChange}
                     ></input>
-                    <span>Text Editor {"N/A"}</span>
+                    <span>Text Editor</span>
                   </div>
 
                   <div className ="custom-settings-btn">
@@ -484,26 +540,36 @@ const UISettings = () => {
                   <div className ="custom-settings-btn">
                   <input type="color" 
                     className="custom-color-selector"
-                    id ="content-area"
-                    value={customColors.contentarea}
+                    id ="dropdowns"
+                    value={customColors.dropdowns}
                     onChange={handleCustomColorChange}
                     ></input>
-                    <span>Dropdowns {"N/A"}</span>
+                    <span>Dropdown Menu</span>
                   </div>
 
                   <div className ="custom-settings-btn">
-                    <input type="color" className="custom-color-selector"></input>
+                    <input type="color" 
+                    className="custom-color-selector"
+                    id ="todolist"
+                    value={customColors.todolist}
+                    onChange={handleCustomColorChange}>
+                    </input>
                     <span>To-Do List</span>
                   </div>
 
                   <div className ="custom-settings-btn">
-                    <input type="color" className="custom-color-selector"></input>
+                  <input type="color" 
+                    className="custom-color-selector"
+                    id ="scrollbar"
+                    value={customColors.scrollbar}
+                    onChange={handleCustomColorChange}>
+                    </input>
                     <span>Scrollbar</span>
                   </div>
 
-                  <div>
+                  <div class="d-flex gap-2">
                     <button type="button" className="btn btn-primary" onClick={applyCustomColorChange}>Apply</button>
-              
+                    <button type="button" className="btn btn-primary" onClick={applyReset}>Reset</button>        
                   </div>
 
                 </div>
@@ -545,7 +611,6 @@ const UISettings = () => {
                   className="font-selector" 
                   onChange={handleFontChange}
                   value={fontStyle}
-
               >
                 <option value="Inter"> Default </option>
                 <option value="Merriweather">Merriweather </option>

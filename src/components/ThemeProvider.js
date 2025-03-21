@@ -31,6 +31,15 @@ const ThemeProvider = ({children}) =>{
             navbar: "#FDDC87",
             sidebar: "#DC6B2C",
             buttons: "",
+            buttonshover:"",
+            texteditor:"#f0f0f0",
+            texteditorinner:"#fff",
+            dropdowns:"#ffffff",
+            dropdownshover:"#ffffff",
+            todolist:"#dc6b2c",
+            todolistinner:"#ffffff",
+            scrollbar:"#888",
+            scrollbarinner:"#FDDC87",
         },
         ...storedUserData.uiOptions.custom, // Keep existing values if they exist
   };
@@ -57,12 +66,20 @@ const ThemeProvider = ({children}) =>{
       document.documentElement.style.setProperty("--contentarea", customColors.contentarea);
       document.documentElement.style.setProperty("--cardcolor", customColors.cardcolor);
       document.documentElement.style.setProperty("--cardbordercolor", customColors.cardbordercolor);
+      document.documentElement.style.setProperty("--todolist", customColors.todolist);
+      document.documentElement.style.setProperty("--todolistinner", customColors.todolistinner);
       document.documentElement.style.setProperty("--timetable", customColors.timetable);
       document.documentElement.style.setProperty("--timetableinner", customColors.timetableinner);
       document.documentElement.style.setProperty("--timetableborder", customColors.timetableborder);
+      document.documentElement.style.setProperty("--texteditor", customColors.texteditor);
+      document.documentElement.style.setProperty("--texteditorinner", customColors.texteditorinner);
       document.documentElement.style.setProperty("--navbar", customColors.navbar);
       document.documentElement.style.setProperty("--sidebar", customColors.sidebar);
       document.documentElement.style.setProperty("--buttons", customColors.buttons);
+      document.documentElement.style.setProperty("--dropdowns", customColors.dropdowns);
+      document.documentElement.style.setProperty("--dropdownshover", customColors.dropdownshover);
+      document.documentElement.style.setProperty("--scrollbar", customColors.scrollbar);
+      document.documentElement.style.setProperty("--scrollbarinner", customColors.scrollbarinner);
       console.log(customColors)
     }
 

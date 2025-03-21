@@ -34,11 +34,15 @@ html.custom {
     }
 
     /* Dropdown Selector */
-    select, option {
-        background-color: white; /* Darker background for input fields */
+    select, option, select.font-selector {
+        background-color: var(--dropdowns, white); /* Darker background for input fields */
         color: var(--text, #000000);
         border: 1px solid #464646; /* Light border for inputs */
         visibility: visible; 
+
+        &:hover{
+          background-color: var(--dropdownshover, #d6d6d6);
+        }
     }
     
     /* General Buttons */
@@ -65,10 +69,11 @@ html.custom {
     .modal-body, .modal-header, .modal-footer, div.modal-content, 
     div.task-details-footer, div.task-details-header, div.task-details-body,
     div#textbox, .align-items-start, button.delete-button, button.edit-button, div.icon-button-container, #task-title.task-title,
-    div.task-title-container{
+    div.task-title-container, input#myColor{
       color: var(--text, #000000);
       background-color:  var(--contentarea, #ffffff) !important;
       visibility: visible;
+      scrollbar-color: var(--scrollbar, #888) var(--scrollbarinner, #FDDC87) !important;
     }
     
 
@@ -92,7 +97,7 @@ html.custom {
 
     /* Team Dropdown */
     a#navbarDropdown.nav-link.dropdown-toggle{ /* Team */
-      color: #ffffff;
+      color: var(--text, #ffffff);
       visibility: visible;
       &:hover{
         color:#dc6b2c !important; 
@@ -118,7 +123,7 @@ html.custom {
     /* Content Boxes */
     .card-contentbox {
         background-color: (--contentarea, #ffffff) !important; /* Dark background */
-        color: #fff !important; /* Light text */
+        color: var(--text, #fff) !important; /* Light text */
         border-radius: 0 0 9.5px 9.5px; /* Rounded bottom corners */
         padding: 15px; /* Optional: Adds spacing inside */
         visibility: visible;
@@ -126,7 +131,7 @@ html.custom {
     
     .footer{
         background-color: var(--navbar, #FDDC87) !important;  /* WORK (footer) members background */
-        color: #ffffff !important;  /* Light text */
+        color: var(--text, #ffffff) !important;  /* Light text */
         visibility: visible;
     }
     
@@ -144,7 +149,7 @@ html.custom {
     .card-header.registerFormHeader, h1.verify-email-title, div.verify-email-card{
         background-color: var(--contentarea, #ffffff);
         visibility: visible;
-        color: #FFFFFF;
+        color: var(--text, #FFFFFF);
     }
     
 
@@ -152,7 +157,7 @@ html.custom {
     /* Verify Email Specific CSS */
     a.btn-2.btn-link.mt-2{
         background-color: #313131;
-        color: #ffa371;
+        color: var(--text,#ffa371);
         visibility: visible;
         &:hover{
             background-color: #313131;
@@ -167,7 +172,7 @@ html.custom {
       }
       
       span.email-style{
-        color: #FE8F52;
+        color: var(--text, #FE8F52);
         visibility: visible;
       }
 
@@ -192,18 +197,20 @@ html.custom {
     /* To Do/todo List Page */
     /* Table background*/
     th.todoTableBody  { 
-        background-color: #dc6b2c;
-        border-color:#dc6b2c;
-        color:rgb(255, 255, 255);
+        background-color: var(--todolist, #dc6b2c);
+        border-color:var(--todolist, #dc6b2c);
+        color:var(--text, rgb(255, 255, 255));
         visibility: visible;
+        
     }
     table tbody, td{
-      background-color: #ffffff;
-      color: black;
+      background-color: var(--todolistinner, #ffffff);
+      color: var(--text, black);
     }
 
     /*Table scrollbar */
     div.table-responsive-xxl{ 
+      scrollbar-color: var(--scrollbar, #888) var(--scrollbarinner, #FDDC87) !important;
     }
     
     /* Button inside the table */
@@ -293,11 +300,12 @@ html.custom {
     }
     #gantt-container, #gantt-grid-container{
       background-color: var(--timetable, #ffffff) !important; 
+      
     }
     /* WORK (TimeTable Inside) Default dark mode for all task divs */
     [data-task] {
       background-color: var(--timetableinner, #ffffff) !important; /* Dark background */
-      color: #000 !important; /* Light text */
+      color: var(--text, black) !important; /* Light text */
       outline: 0.5px solid #666 !important; /* Darker outline */
       visibility: visible;
     }
@@ -309,6 +317,7 @@ html.custom {
     }
     /* Timetable scrollbar */
     #gantt-grid-container__time {
+      scrollbar-color: var(--scrollbar, #888) var(--scrollbarinner, #FDDC87) !important;
       visibility: visible;
     }
 
@@ -327,14 +336,10 @@ html.custom {
       visibility: visible;
     }
 
-    /*Add Task Scrollbar */
-    div.modal-content{
-    }
-
     /*Needed to properly align  task description title */
     div#description-title{
-      background-color: var(--background-color);
-      color:rgb(255, 255, 255);
+      background-color: var(--contentarea);
+      color:var(--text, rgb(255, 255, 255)) !important;
       margin-left: 0px;
       margin-right: 0px;
       padding-left: 10px;
@@ -344,24 +349,24 @@ html.custom {
     /*Task Dropdowns */
     /* Dropdown buttons */
     #assignedUsers.dropdownBtnAdd.dropdown-toggle, #prerequisiteTasks, button#pattern.dropdownBtnAdd.dropdown-toggle, .taskPatternDropdown, #todoDropdown.nav-link.dropdown-toggle{
-      background-color: white !important;
-      color:black !important;
+      background-color: var(--dropdowns, white) !important;
+      color:var(--text, black) !important;
       visibility: visible;
       &:hover{
-        background-color:#f8f9fa  !important;
+        background-color: var(--dropdownshover,#f8f9fa)  !important;
       }
     }
   
     /* Dropdown items w/hover*/
     .dropdown-menu.show,.dropdown-item, .prerequisiteTaskDropdownItem, .assignedUserDropdownItem, .patternDropdownItem{ 
       visibility: visible;
-      background-color: white !important;
+      background-color:  var(--dropdowns, white) !important;
       border-color: black;
-      color: black  !important;
+      color: var(--text, black)  !important;
       
     }
     .dropdown-item:hover {  
-      background-color:#f8f9fa  !important;
+      background-color:var(--dropdownshover,#f8f9fa)   !important;
     }
     label.form-check-label.prerequisiteTaskDropdownItem, label.form-check-label.assignedUserDropdownItem{
       background-color: transparent !important;
@@ -369,30 +374,32 @@ html.custom {
   
     /*Checkbox for assigning users dropdown */
     .form-check-input:checked{
-      background-color: #0d6efd;
-      border-color: #0d6efd;
+      background-color: var(--dropdownshover,#0d6efd);
+      border-color: var(--dropdownshover,#0d6efd);
       visibility: visible;
     }
 
     /*Rich Text Editor */
     button.toolbar-btn{
+      color: var(--text, black) !important;
       background-color: transparent;
       visibility: visible;
     }
     /*Color Selector */
     .highlight-picker-sidebar, .color-picker-sidebar{
-      background-color: #f0f0f0 !important;
-      color: white;
+      background-color: var(--contentarea, #f0f0f0) !important;
+      color: var(--text, black);
       visibility: visible;
       
     }
     /*Text editor */
     div.tiptap.ProseMirror{
-      background-color: white;
+      background-color: var(--texteditorinner, white);
       visibility: visible;
     }
     div#editor-toolbar{
-      background-color: #f0f0f0;
+      color: var(--text, black) !important;
+      background-color: var(--texteditor, #f0f0f0);
       button.toolbar-btn{
         background-color: transparent !important;
         visibility: visible;
@@ -401,21 +408,24 @@ html.custom {
         }
       }
       .dropdown-toggle{
-        background-color: #f0f0f0 !important;
-        color: black !important;
+        background-color: var(--dropdowns, #f0f0f0);
+        border-color:var(--dropdowns, #f0f0f0);
+        color: var(--text, black) !important;
         visibility: visible;
         &:hover{
-          background-color: #d3d3d3 !important;
+          background-color: var(--dropdownshover,#d3d3d3) !important;
         }
       }
       .dropdown-menu, .dropdown-menu .header-item{
-        background-color:#fff !important;
-        color: black !important;
+        background-color:var(--dropdowns,#fff) !important;
+        color: var(--text, black) !important;
         visibility: visible;
         
       }
       .header-item:hover{
-        background-color:#f0f0f0   !important;
+        &:hover{
+          background-color: var(--dropdownshover,#f0f0f0) !important;
+        }
       }
   }
 }
