@@ -1,9 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
-import {useParams, useNavigate} from 'react-router-dom';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import {buildPath} from './buildPath';
-import useDarkMode from './useDarkMode';
-import useHighContrastMode from './useHighContrastMode';
-import useCustomMode from './useCustomMode'
+import { ThemeContext } from './ThemeProvider'; 
 import './UIsettings.css'
 import DashboardPreview  from '../Images/assets/setting_previews/dashboard_preview.svg?react';
 import TimetablePreview  from '../Images/assets/setting_previews/timetable_preview.svg?react';
@@ -24,127 +21,110 @@ const debounce = (func, delay) => {
   return debouncedFunction;
 };
 const UISettings = () => {
-  
-    const [isDarkMode, setIsDarkMode] = useDarkMode();
-    const [isHighContrastMode, setIsHightContrastMode] = useHighContrastMode();
-    const [isCustomMode, setIsCustomMode] = useCustomMode();
-    const [fontStyle, setFontStyle] = useState(() => {
-        return localStorage.getItem("fontStyle") || "Inter";
-    });
-    const [activeCVD, setActiveCVD] = useState(() => {
-      return localStorage.getItem("CVDFilter") || "normal";
-  });
+  const { theme, setTheme, customColors, setCustomColors, fontStyle, setFontStyle, activeCVD, setActiveCVD } = useContext(ThemeContext);
+  const [pendingColors, setPendingColors] = useState(customColors);
 
     const [message, setMessage] = useState('');
 
-    //UseState for Custom mode
-    const [customColors, setCustomColors] = useState({
-      styles: {
-        background: "#ffffff",
-        text: "#000000",
-        contentarea: "#ffffff",
-        cardcolor: "#FDDC87",
-        cardbordercolor: "#DC6B2C",
-        timetable: "#ffffff",
-        timetableinner: "#FFF",
-        timetableborder:"000000",
-        navbar: "#FDDC87",
-        sidebar:"#DC6B2C",
-        buttons: "",
-      }
-    })
+    // Assuming theme values are 'dark', 'custom', or 'high-contrast'
+    let backgroundColor = theme === 'dark' ? "#121212" : theme === 'high-contrast' ? "white" : theme === 'custom' ? customColors.background : "white";
+    let borderColor = theme === 'dark' ? "#FFF" : theme === 'high-contrast' ? "#000000" : "#000000";
+    let navbarColor = theme === 'dark' ? "#333" : theme === 'high-contrast' ? "#6B2B00" : theme === 'custom' ? customColors.navbar : "#FDDC87";
 
-    //Dynamically changes the image preview svgs
-    let backgroundColor = isDarkMode ? "#121212" : isHighContrastMode ? "white" : isCustomMode.boolean ? customColors.styles.background : "white";
-    let borderColor = isDarkMode ? "#FFF" : isHighContrastMode ? "#000000 " : "#000000 ";
-    let navbarColor = isDarkMode ? "#333" : isHighContrastMode ? "#6B2B00" : isCustomMode.boolean ? customColors.styles.navbar : "#FDDC87";
-    //Dashboard related svgs
-    let sideBarColor = isDarkMode ? "#2f2f2f" : isHighContrastMode ? "#f3b35b" : isCustomMode.boolean ? customColors.styles.sidebar : "#DC6B2C";
-    let sideBarButtonColor = isDarkMode ? "#424242" : isHighContrastMode ? "#402C12" : isCustomMode.boolean ? customColors.styles?.buttons || "#FFFFFF" : "#FFFFFF";
-    let viewButtonColor = isDarkMode ? "#2f2f2f"  : isHighContrastMode ? "#002238 " : isCustomMode.boolean ? customColors.styles?.buttons || "#135C91" : "#135C91";
-    let projectCardColor = isDarkMode ? "#424242" : isHighContrastMode ? "#f3b35b" : isCustomMode.boolean ? customColors.styles.cardcolor : "#fddc87";
-    let projectCardBorderColor =  isDarkMode ? "#2f2f2f" : isHighContrastMode ? "#402C12" : isCustomMode.boolean ? customColors.styles.cardbordercolor : "#DC6B2C";
-    //Timetable related svgs
-    let timetableColor = isDarkMode ? "#222" : isHighContrastMode ? "white" : isCustomMode.boolean ? customColors.styles.timetable : "white";
-    let timetableInnerColor = isDarkMode ? "#333" : isHighContrastMode ?  "#FFF" : isCustomMode.boolean ? customColors.styles.timetable : "#FFF";
-    let timetableBorderColor = isDarkMode ? "#FFF" : isHighContrastMode ? "#000000 " : isCustomMode.boolean ? customColors.styles.timetableborder : "#000000 ";
-    let gridColor = isDarkMode? "white" : isHighContrastMode ? "black" : "black"
-    let addTaskButtonColor = isDarkMode ? "#333" : isHighContrastMode ? "#002238" : isCustomMode.boolean ? customColors.styles?.buttons || "#DC6B2C" : "#DC6B2C";
+    // Dashboard related svgs
+    let sideBarColor = theme === 'dark' ? "#2f2f2f" : theme === 'high-contrast' ? "#f3b35b" : theme === 'custom' ? customColors.sidebar : "#DC6B2C";
+    let sideBarButtonColor = theme === 'dark' ? "#424242" : theme === 'high-contrast' ? "#402C12" : theme === 'custom' ? customColors?.buttons || "#FFFFFF" : "#FFFFFF";
+    let viewButtonColor = theme === 'dark' ? "#2f2f2f" : theme === 'high-contrast' ? "#002238" : theme === 'custom' ? customColors?.buttons || "#135C91" : "#135C91";
+    let projectCardColor = theme === 'dark' ? "#424242" : theme === 'high-contrast' ? "#f3b35b" : theme === 'custom' ? customColors.cardcolor : "#fddc87";
+    let projectCardBorderColor = theme === 'dark' ? "#2f2f2f" : theme === 'high-contrast' ? "#402C12" : theme === 'custom' ? customColors.cardbordercolor : "#DC6B2C";
 
+    // Timetable related svgs
+    let timetableColor = theme === 'dark' ? "#222" : theme === 'high-contrast' ? "white" : theme === 'custom' ? customColors.timetable : "white";
+    let timetableInnerColor = theme === 'dark' ? "#333" : theme === 'high-contrast' ? "#FFF" : theme === 'custom' ? customColors.timetableinner : "#FFF";
+    let timetableBorderColor = theme === 'dark' ? "#FFF" : theme === 'high-contrast' ? "#000000" : theme === 'custom' ? customColors.timetableborder : "#000000";
+    let gridColor = theme === 'dark' ? "white" : theme === 'high-contrast' ? "black" : "black";
+    let addTaskButtonColor = theme === 'dark' ? "#333" : theme === 'high-contrast' ? "#002238" : theme === 'custom' ? customColors?.buttons || "#DC6B2C" : "#DC6B2C";
 
     const toggleDarkMode = async () => {
+      setTheme((prevTheme) => {
+        const newTheme = prevTheme === 'dark' ? 'default' : 'dark';
 
-      // Handles localStorage.
-      setIsDarkMode((prevMode) => {
-        if (!prevMode) {
-          setIsHightContrastMode(false); // Turn off Dark Mode if it's on
-          setIsCustomMode((prevState) => ({
-            ...prevState,
-            boolean: false 
-          })); 
-        }
-        return !prevMode;
-      });
+        const savedUserInfo = localStorage.getItem('user_data');
+        const savedUserId = JSON.parse(savedUserInfo)._id; 
 
-      const savedUserInfo = localStorage.getItem('user_data');
-      const savedUserId = JSON.parse(savedUserInfo)._id; // use user id to query database.
-      console.log("Toggling dark mode, savedUserId = " + savedUserId);
+        const response = fetch(buildPath(`api/toggle-theme/${savedUserId}`), {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            mode: newTheme, 
+          }),
+        });
     
-      const response = await fetch(buildPath(`api/toggle-default-dark-mode/${savedUserId}`), {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        response.then(async (res) => {
+          if (!res.ok) {
+            setMessage("Unable to toggle to dark mode");
+          } else {
+            const message = await res.json();
+            setMessage(message);
+          }
+        });
+    
+        return newTheme;
       });
-
-      if (!response.ok){
-        // Set error message here.
-        setMessage("Unable to toggle to dark mode");
-      } else {
-        const message = await response.json();
-        setMessage(message);
-      }
     };
   
     const toggleHighContrastMode = async () => {
+      setTheme((prevTheme) => {
+        const newTheme = prevTheme === 'high-contrast' ? 'default' : 'high-contrast';
 
-      // Handles localStorage.
-      setIsHightContrastMode((prevMode) => {
-        if (!prevMode) {
-          setIsDarkMode(false); // Turn off Dark Mode if it's on
-          setIsCustomMode((prevState) => ({
-            ...prevState,
-            boolean: false 
-          })); 
-        }
-        return !prevMode;
+        const savedUserInfo = localStorage.getItem('user_data');
+        const savedUserId = JSON.parse(savedUserInfo)._id; 
+    
+        const response = fetch(buildPath(`api/toggle-theme/${savedUserId}`), {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            mode: newTheme, 
+          }),
+        });
+    
+        response.then(async (res) => {
+          if (!res.ok) {
+            setMessage("Unable to toggle to contrast mode");
+          } else {
+            const message = await res.json();
+            setMessage(message);
+          }
+        });
+    
+        return newTheme; 
       });
-
-      const savedUserInfo = localStorage.getItem('user_data');
-      const savedUserId = JSON.parse(savedUserInfo)._id; // use user id to query database.
-      console.log("Toggling high contrast mode, savedUserId = " + savedUserId);
-
-      const response = await fetch(buildPath(`api/toggle-default-high-contrast-mode/${savedUserId}`), {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-      });
-
-      if (!response.ok){
-        // Set error message here.
-        setMessage("Unable to toggle to high contrast mode");
-      } else {
-        const message = await response.json();
-        setMessage(message);
-      }
-
     };
 
     const toggleCustomMode = () => {
-      setIsCustomMode((prevMode) => {
-          setIsDarkMode(false);
-          setIsHightContrastMode(false);
-        return {
-          boolean: !prevMode.boolean,
-          ...customColors,
-        }
+      setTheme((prevTheme) => {
+        const newTheme = prevTheme === 'custom' ? 'default' : 'custom';
+        const savedUserInfo = localStorage.getItem('user_data');
+        const savedUserId = JSON.parse(savedUserInfo)._id; 
+    
+        const response = fetch(buildPath(`api/toggle-theme/${savedUserId}`), {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            mode: newTheme, 
+          }),
+        });
+    
+        response.then(async (res) => {
+          if (!res.ok) {
+            setMessage("Unable to toggle to custom mode");
+          } else {
+            const message = await res.json();
+            setMessage(message);
+          }
+        });
+    
+        return newTheme; 
       });
     }
 
@@ -156,7 +136,7 @@ const UISettings = () => {
       const selectedFont = event.target.value;
       document.body.style.fontFamily = selectedFont;
 
-      const savedUserInfo = localStorage.getItem('user_data');
+      let savedUserInfo = localStorage.getItem('user_data');
       const savedUserId = JSON.parse(savedUserInfo)._id; // use user id to query database.
       console.log("Changing font style, savedUserId = " + savedUserId);
 
@@ -173,7 +153,9 @@ const UISettings = () => {
         setMessage(message);
       }
 
-      localStorage.setItem("fontStyle", selectedFont);
+      savedUserInfo = JSON.parse(localStorage.getItem('user_data'));
+      savedUserInfo.uiOptions.fontStyle = selectedFont
+      localStorage.setItem("user_data", JSON.stringify(savedUserInfo))
 
     };
 
@@ -236,7 +218,7 @@ const UISettings = () => {
     }
 
     const CVDFilterHandler = debounce(async(filter) => {
-      const savedUserInfo = localStorage.getItem('user_data');
+      let savedUserInfo = localStorage.getItem('user_data');
       const savedUserId = JSON.parse(savedUserInfo)._id; // use user id to query database.
       console.log("Changing CVD filter, savedUserId = " + savedUserId);
 
@@ -253,21 +235,21 @@ const UISettings = () => {
         setMessage(message);
     }
 
-    localStorage.setItem("CVDFilter", filter);
+    savedUserInfo = JSON.parse(localStorage.getItem('user_data'));
+    savedUserInfo.uiOptions.CVDFilter = filter;
+    localStorage.setItem("user_data", JSON.stringify(savedUserInfo))
   }, 500);
 
   //Handler for custom colors
   const handleCustomColorChange = (event) =>{
     const {id, value} = event.target;
     console.log(value)
-    setCustomColors((prevColors) => ({
+    setPendingColors((prevColors) => ({
       ...prevColors,
-      styles: {
-        ...prevColors.styles,
-        [id]: value, 
-        ...(id === "cardcolor" && { cardbordercolor: darkenColor(value, 15) }), // Generate a darker border for cards
-        ...(id === "timetable" && { timetableborder: darkenColor(value, 15) }), // Generate a darker border for timetable
-      },
+      [id]: value, 
+      ...(id === "cardcolor" && { cardbordercolor: darkenColor(value, 15) }), // Generate a darker border for cards
+      ...(id === "timetable" && { timetableborder: darkenColor(value, 15), timetableinner: brightenColor(value, 15) }), // Generate a darker border for timetable
+      
     }))
   }
 
@@ -308,17 +290,31 @@ const UISettings = () => {
 
   //Will apply custom colors to the entire website, for now only the UI settings page.
   const applyCustomColorChange = () =>{
-    document.documentElement.style.setProperty("--background-color", customColors.styles.background);
-    document.documentElement.style.setProperty("--text", customColors.styles.text);
-    document.documentElement.style.setProperty("--contentarea", customColors.styles.contentarea);
-    document.documentElement.style.setProperty("--cardcolor", customColors.styles.cardcolor);
-    document.documentElement.style.setProperty("--timetable", customColors.styles.timetable);
-    document.documentElement.style.setProperty("--timetableinner", customColors.styles.timetableinner);
-    document.documentElement.style.setProperty("--timetableborder", customColors.styles.timetableborder);
-    document.documentElement.style.setProperty("--navbar", customColors.styles.navbar);
-    document.documentElement.style.setProperty("--sidebar", customColors.styles.sidebar);
-    document.documentElement.style.setProperty("--buttons", customColors.styles.buttons);
-    console.log(customColors.styles)
+    let userData = JSON.parse(localStorage.getItem("user_data"))
+    userData.uiOptions.custom = { ...pendingColors };
+    localStorage.setItem("user_data", JSON.stringify(userData))
+    setCustomColors(pendingColors)
+    
+    const savedUserInfo = localStorage.getItem('user_data');
+    const savedUserId = JSON.parse(savedUserInfo)._id; 
+
+    const response = fetch(buildPath(`api/update-custom/${savedUserId}`), {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        custom: pendingColors, 
+      }),
+    });
+
+    response.then(async (res) => {
+      if (!res.ok) {
+        setMessage("Unable to toggle to custom mode");
+      } else {
+        const message = await res.json();
+        setMessage(message);
+      }
+    });
+
   }
       
     return(
@@ -366,7 +362,7 @@ const UISettings = () => {
                   <div>
                         <button
                             onClick={toggleDarkMode}
-                            className={`dark-mode-toggle ${isDarkMode ? "dark" : ""}`}
+                            className={`dark-mode-toggle ${theme === 'dark' ? "dark" : ""}`}
                             aria-label="Toggle dark mode"
                         >
                             <div className="thumb"></div>
@@ -376,7 +372,7 @@ const UISettings = () => {
                   <div>
                         <button
                             onClick={toggleHighContrastMode}
-                            className={`high-contrast-mode-toggle ${isHighContrastMode ? "high-contrast" : ""}`}
+                            className={`high-contrast-mode-toggle ${theme === 'high-contrast' ? "high-contrast" : ""}`}
                             aria-label="Toggle high-contrast mode"
                         >
                             <div className="thumb"></div> 
@@ -386,7 +382,7 @@ const UISettings = () => {
                   <div>
                         <button
                             onClick={toggleCustomMode}
-                            className={`custom-mode-toggle ${isCustomMode ? "custom" : ""}`}
+                            className={`custom-mode-toggle ${theme === 'custom' ? "custom" : ""}`}
                             aria-label="Toggle high-contrast mode"
                         >
                             <div className="thumb"></div> 
@@ -395,12 +391,12 @@ const UISettings = () => {
                   </div>
                 </div>
                 {/* Custom Mode */}
-                <div className ={`custom-settings-container ${isCustomMode.boolean ? "visible": ""}`}>
+                <div className ={`custom-settings-container ${theme === 'custom' ? "visible": ""}`}>
                   <div className ="custom-settings-btn">
                     <input type="color" 
                     className="custom-color-selector"
                     id ="background"
-                    value={customColors.styles.background}
+                    value={customColors.background}
                     onChange={handleCustomColorChange}
                     ></input>
                     <span>Background Color</span>
@@ -410,17 +406,17 @@ const UISettings = () => {
                   <input type="color" 
                     className="custom-color-selector"
                     id ="text"
-                    value={customColors.styles.text}
+                    value={customColors.text}
                     onChange={handleCustomColorChange}
                     ></input>
-                    <span>text</span>
+                    <span>Text Color</span>
                   </div>
 
                   <div className ="custom-settings-btn">
                   <input type="color" 
                     className="custom-color-selector"
                     id ="contentarea"
-                    value={customColors.styles.contentarea}
+                    value={customColors.contentarea}
                     onChange={handleCustomColorChange}
                     ></input>
                     <span>Content Area</span>
@@ -430,7 +426,7 @@ const UISettings = () => {
                   <input type="color" 
                     className="custom-color-selector"
                     id ="cardcolor"
-                    value={customColors.styles.cardcolor}
+                    value={customColors.cardcolor}
                     onChange={handleCustomColorChange}
                     ></input>
                     <span>Chart</span>
@@ -440,7 +436,7 @@ const UISettings = () => {
                   <input type="color" 
                     className="custom-color-selector"
                     id ="timetable"
-                    value={customColors.styles.timetable}
+                    value={customColors.timetable}
                     onChange={handleCustomColorChange}
                     ></input>
                     <span>TimeTable</span>
@@ -459,7 +455,7 @@ const UISettings = () => {
                   <input type="color" 
                     className="custom-color-selector"
                     id ="navbar"
-                    value={customColors.styles.navbar}
+                    value={customColors.navbar}
                     onChange={handleCustomColorChange}
                     ></input>
                     <span>Navigation Bar</span>
@@ -469,7 +465,7 @@ const UISettings = () => {
                   <input type="color" 
                     className="custom-color-selector"
                     id ="sidebar"
-                    value={customColors.styles.sidebar}
+                    value={customColors.sidebar}
                     onChange={handleCustomColorChange}
                     ></input>
                     <span>Dashboard Bar</span>
@@ -479,7 +475,7 @@ const UISettings = () => {
                   <input type="color" 
                     className="custom-color-selector"
                     id ="buttons"
-                    value={customColors.styles.buttons}
+                    value={customColors.buttons}
                     onChange={handleCustomColorChange}
                     ></input>
                     <span>Buttons</span>
@@ -489,7 +485,7 @@ const UISettings = () => {
                   <input type="color" 
                     className="custom-color-selector"
                     id ="content-area"
-                    value={customColors.styles.contentarea}
+                    value={customColors.contentarea}
                     onChange={handleCustomColorChange}
                     ></input>
                     <span>Dropdowns {"N/A"}</span>
@@ -497,12 +493,12 @@ const UISettings = () => {
 
                   <div className ="custom-settings-btn">
                     <input type="color" className="custom-color-selector"></input>
-                    <span>test</span>
+                    <span>To-Do List</span>
                   </div>
 
                   <div className ="custom-settings-btn">
                     <input type="color" className="custom-color-selector"></input>
-                    <span>test</span>
+                    <span>Scrollbar</span>
                   </div>
 
                   <div>

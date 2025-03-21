@@ -5,9 +5,6 @@ import { buildPath } from './buildPath';
 import ProjectTitle from './GanttChart/ProjectTitle';
 import './NavBar.css';
 import ProjectInviteLink from './ProjectInviteLink.js';
-import useDarkMode from './useDarkMode';
-import useHighContrastMode from './useHighContrastMode';
-import useCustomMode from './useCustomMode.js';
 
 const baseStyle = {
   backgroundColor: "#FDDC87",
@@ -103,8 +100,6 @@ async function createTask(newTask) {
   }
 }
 
-
-
 function NavBar(props) {
 
   const [showAnnouncementModal, setAnnouncmentModal] = useState(false);
@@ -117,51 +112,6 @@ function NavBar(props) {
   const [selectedMember, setSelectedMember] = useState(null);
   const [selectedRole, setSelectedRole] = useState("");
 
-
-
-
-  const [isDarkMode, setIsDarkMode] = useDarkMode();
-  const [isHighContrastMode, setIsHightContrastMode] = useHighContrastMode();
-  const [isCustomMode, setIsCustomMode] = useCustomMode();
-
-const toggleDarkMode = () => {
-  setIsDarkMode((prevMode) => {
-    if (!prevMode) {
-      setIsHightContrastMode(false); // Turn off High Contrast Mode if it's on
-      setIsCustomMode({boolean: false});
-    }
-    return !prevMode;
-  });
-};
-
-const toggleHighContrastMode = () => {
-  setIsHightContrastMode((prevMode) => {
-    if (!prevMode) {
-      setIsDarkMode(false); // Turn off Dark Mode if it's on
-      setIsCustomMode({boolean: false});
-    }
-    return !prevMode;
-  });
-};
-
-const toggleCustomMode = () => {
-  setIsCustomMode((prevMode) => {
-    if (!prevMode) {
-      setIsDarkMode(false); // Turn off Dark Mode if it's on
-      setIsHightContrastMode(false);
-    }
-    return {
-      ...prevMode,
-      boolean: !prevMode.boolean,
-    }
-  });
-
-};
-  
-  
-
-
-
   const [taskData, setTaskData] = useState({
     taskTitle: "",
     description: "",
@@ -172,16 +122,10 @@ const toggleCustomMode = () => {
     pattern: "default-pattern"
   });
 
-
-
-
   const [isEditor, setIsEditor] = useState(false);
   const [founderId, setFounderId] = useState(null);
   const [team, setTeam] = useState(null);
 
-
-
- 
   var _ud;
   var ud;
   var userId;

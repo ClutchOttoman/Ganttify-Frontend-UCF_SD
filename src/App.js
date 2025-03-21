@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import './App.css';
-import { DarkModeProvider } from "./components/DarkModeContext";
-import { HighContrastModeProvider } from "./components/HighContrastModeContext"; 
-import { CVDProvider } from "./components/CVDFilterContext";
-import {CustomProvider} from "./components/CustomModeContext"
 import NavBar from "./components/NavBar";
 import './index.css';
 
@@ -32,7 +28,7 @@ import ViewChartPage from './pages/ViewChartPage';
 function App() {
 
   return (
-      <BrowserRouter>
+    <BrowserRouter>
         <NavBar />
         <Routes>
           <Route path="/" element={<HomePage />} />

@@ -246,6 +246,7 @@ html.custom {
     /*Project Card */
     .card{
         background-color: var(--cardcolor, #FDDC87) !important; /* WORK (chart cards) Dark background */
+        border-color: var(--cardbordercolor, #dc6b2c) !important;
         border: 6px solid #dc6b2c; /* Wider colored border */
         visibility: visible;
     }
@@ -290,10 +291,17 @@ html.custom {
     .main-container {
       background-color: var(--timetable, #ffffff);
     }
-    /*Time table container inner color*/
     #gantt-container, #gantt-grid-container{
-      background-color: var(--timetableinner, #ffffff) !important; 
+      background-color: var(--timetable, #ffffff) !important; 
     }
+    /* WORK (TimeTable Inside) Default dark mode for all task divs */
+    [data-task] {
+      background-color: var(--timetableinner, #ffffff) !important; /* Dark background */
+      color: #000 !important; /* Light text */
+      outline: 0.5px solid #666 !important; /* Darker outline */
+      visibility: visible;
+    }
+    
     /*Task bar border */
     .task-duration { 
       border: 1.2px solid rgb(203, 203, 203) !important; 
@@ -304,14 +312,7 @@ html.custom {
       visibility: visible;
     }
 
-    /* WORK (TimeTable Inside) Default dark mode for all task divs */
-    [data-task] {
-      background-color: #ffffff !important; /* Dark background */
-      color: #000 !important; /* Light text */
-      outline: 0.5px solid #666 !important; /* Darker outline */
-      visibility: visible;
-    }
-    
+
     /* Category */
     .gantt-task-row .task-category {
       background: linear-gradient(135deg,#828d92,#8f969f);
