@@ -1,128 +1,26 @@
 // SVG converted to JSX using SVGR Playground.
 import * as React from "react"
-const Hollow_Single_Circle_Density_1 = (props) => (
+const Hollow_Single_Circle_Density_1 = ({stroke,patternwidth}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"
-    width={100}
-    height={100}
-    {...props}
+    width={patternwidth}
+    height={30}
   >
     <defs>
-      <clipPath id="c">
-        <path fill="#ff0" d="M0 0h100v100H0z" color="#000" />
-      </clipPath>
+      <pattern id="Hollow_Single_Circle_Density_1" patternUnits="objectBoundingBox" width={patternwidth/10} height={30} fill="none">
+        <rect height={"100%"} width={"100%"} fill="none"/>
+        <circle
+            cx={49.791/100 * (patternwidth/10)}
+            cy={48.408/100 * 30}
+            r={5}
+            fill="none"
+            stroke={stroke}
+        />
+      </pattern>
     </defs>
-    <use xlinkHref="#a" width="100%" height="100%" opacity={0.3} />
-    <use xlinkHref="#b" width="100%" height="100%" opacity={0.3} />
-    <g clipPath="url(#c)">
-      <circle
-        id="b"
-        cx={49.791}
-        cy={48.408}
-        r={17.98}
-        fill="none"
-        stroke="#000"
-      />
-      <use
-        xlinkHref="#a"
-        width="100%"
-        height="100%"
-        transform="translate(-100 -100)"
-      />
-      <use
-        xlinkHref="#a"
-        width="100%"
-        height="100%"
-        transform="translate(0 -100)"
-      />
-      <use
-        xlinkHref="#a"
-        width="100%"
-        height="100%"
-        transform="translate(100 -100)"
-      />
-      <use
-        xlinkHref="#a"
-        width="100%"
-        height="100%"
-        transform="translate(-100)"
-      />
-      <use xlinkHref="#a" width="100%" height="100%" />
-      <use
-        xlinkHref="#a"
-        width="100%"
-        height="100%"
-        transform="translate(100)"
-      />
-      <use
-        xlinkHref="#a"
-        width="100%"
-        height="100%"
-        transform="translate(-100 100)"
-      />
-      <use
-        xlinkHref="#a"
-        width="100%"
-        height="100%"
-        transform="translate(0 100)"
-      />
-      <use
-        xlinkHref="#a"
-        width="100%"
-        height="100%"
-        transform="translate(100 100)"
-      />
-      <use
-        xlinkHref="#b"
-        width="100%"
-        height="100%"
-        transform="translate(-100 -100)"
-      />
-      <use
-        xlinkHref="#b"
-        width="100%"
-        height="100%"
-        transform="translate(0 -100)"
-      />
-      <use
-        xlinkHref="#b"
-        width="100%"
-        height="100%"
-        transform="translate(100 -100)"
-      />
-      <use
-        xlinkHref="#b"
-        width="100%"
-        height="100%"
-        transform="translate(-100)"
-      />
-      <use xlinkHref="#b" width="100%" height="100%" />
-      <use
-        xlinkHref="#b"
-        width="100%"
-        height="100%"
-        transform="translate(100)"
-      />
-      <use
-        xlinkHref="#b"
-        width="100%"
-        height="100%"
-        transform="translate(-100 100)"
-      />
-      <use
-        xlinkHref="#b"
-        width="100%"
-        height="100%"
-        transform="translate(0 100)"
-      />
-      <use
-        xlinkHref="#b"
-        width="100%"
-        height="100%"
-        transform="translate(100 100)"
-      />
-    </g>
+    <rect height={30} width={patternwidth} fill="url(#Hollow_Single_Circle_Density_1)"></rect>
+    
   </svg>
 )
 export default Hollow_Single_Circle_Density_1

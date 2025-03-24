@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import './TaskDetails.css';
 import './RichTextEditor.js';
 import DeleteTaskButton from '../../Images/assets/action_buttons/Delete_Task_or_Chart.svg';
@@ -24,6 +24,9 @@ import Solid_Single_Star_Density_1 from '../../Images/assets/accessible_patterns
 import Solid_Single_Triangle_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Triangle_Density_1.jsx';
 import './TimeTable.css';
 import './Patterns.css';
+import getPattern from './getPattern.js'
+import { findParentNode } from '@tiptap/core';
+import * as ReactDOMServer from "react-dom/server";
 
 // Colors to choose from
 const colorOptions = [
@@ -63,6 +66,7 @@ const patterns = {
     'Hollow_Single_Triangle_Density_1.jsx':Hollow_Single_Triangle_Density_1
   }
 
+
 // Initializes variables
 const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) => {
   const [status, setStatus] = useState('');
@@ -70,7 +74,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [color, setColor] = useState('white'); // Default color
   const [patternColor, setPatternColor] = useState('black'); // Default color
-  const [patternPreview, setPatternPreview] = useState('');
+  const [patternPreview, setPatternPreview] = useState(null);
   const [pattern,setPattern] = useState('No Pattern');
   const [patternToDisplay,setPatternToDisplay] = useState('No Pattern');
   const [taskCreatorName, setTaskCreatorName] = useState('');
@@ -106,7 +110,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
     };
   };
 
-  
+
   useEffect(() => {
     if (task && show) {
       setProgressEditPermission(false);
@@ -124,10 +128,10 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
       setDueDate(task.dueDateTime);
       setPattern(task.pattern);
       setPatternToDisplay(patternDisplayNames[task.pattern]);
-      setPatternPreview("url(" + `${patterns[task.pattern]})`)
       setDependentTasks(task.dependentTasks);
       setPrerequisiteTasks(task.prerequisiteTasks);
       setAllPrerequisitesDone(task.allPrerequisitesDone);
+      setPatternPreview(getPattern(task.pattern,task.patternColor ? task.patternColor:null,200))
 
       setOriginalTask({
         progress: task.progress,
@@ -182,7 +186,6 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
     setColor(fetchedTask.color);
     setPatternColor(fetchedTask.patternColor ? fetchedTask.patternColor : 'black')
     setPattern(fetchedTask.pattern);
-    setPatternPreview("url(" + `${patterns[fetchedTask.pattern]})`);
     setTaskCategory(fetchedTask.taskCategory || 'No category'); //added
     fetchTaskCreator(fetchedTask.taskCreatorId);
     fetchAssignedUsers(fetchedTask.assignedTasksUsers);
@@ -196,6 +199,8 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
     setDependentTasks(fetchedTask.dependentTasks);
     setPrerequisiteTasks(fetchedTask.prerequisiteTasks);
     setAllPrerequisitesDone(fetchedTask.allPrerequisitesDone);
+    setPatternPreview(getPattern(fetchedTask.pattern,fetchedTask.patternColor ? fetchedTask.patternColor:null,200))
+
 
     setOriginalTask({
       progress: fetchedTask.progress,
@@ -238,6 +243,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
       setDependentTasks(originalTask.dependentTasks);
       setPrerequisiteTasks(originalTask.prerequisiteTasks);
       setAllPrerequisitesDone(originalTask.allPrerequisitesDone);
+      setPatternPreview(getPattern(originalTask.pattern,originalTask.patternColor ? originalTask.patternColor:null,200))
     }
   };
 
@@ -284,7 +290,6 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
   
       fetchCategories();
     }, []);
-
 
   const getProjectData = async (projectId) => {
     try {
@@ -479,6 +484,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
 
   const handlePatternColorChange = (newColor) => {
     setPatternColor(newColor);
+    setPatternPreview(getPattern(pattern,patternColor ? patternColor:null,200))
     //change color of task bar
   }
 
@@ -486,7 +492,6 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
   const handlePatternChange = async (newPattern,newPatternToDisplay) => {
     console.log(newPattern);
     setPatternToDisplay(newPatternToDisplay)
-    setPatternPreview("url(" + `${patterns[newPattern]})`);
     setPattern(newPattern);
   }
   
@@ -675,8 +680,31 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
     }
   };
 
+
+  const getPatternSVG = async (patternFileName,newPatternColor) => {
+        let res = 'url(data:image/svg+xml;utf8,'
+        if(!patternFileName || !patternFileName.localeCompare('None') || !patternFileName.localeCompare('No Pattern')){
+            console.log("invalid pattern: " + patternFileName)
+            return;
+        }
+        if(!newPatternColor || !newPatternColor.localeCompare('None')){
+            console.log("pattern color is default, black")
+            newPatternColor = "#000000"
+        }
+        console.log("Attempting to get pattern: " + patternFileName + " with color: " + newPatternColor)
+        let patternString = await getPattern(patternFileName,newPatternColor);
+        patternString = patternString.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
+        let patternUrl = `url(data:image/svg+xml,${encodeURIComponent(
+            ReactDOMServer.renderToStaticMarkup(patternString)
+        )})`
+        //setPatternPreview(patternUrl);
+        console.log("New Pattern URL: " + patternUrl)
+        return;
+  }
+
+
   if (!show || !task || !fetchedTask) return null;
- 
+  
 
   return (
 
@@ -756,7 +784,9 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
                 </div>
                 <div class="row mt-4 justify-content-center">
                     <div class="col-12 d-flex align-items-center">
-                        <div class="task-appearance-preview" draggable="false" style={{backgroundColor:`${color}`,backgroundSize: 'contain', backgroundImage:`${patternPreview}`}}></div>
+                        <div id="task-appearance-preview" class="task-appearance-preview" draggable="false" style={{backgroundColor:`${color}`}}>
+                            {patternPreview}
+                        </div>
                     </div>
                 </div>
             </form>

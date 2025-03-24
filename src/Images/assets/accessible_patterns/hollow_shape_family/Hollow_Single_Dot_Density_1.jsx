@@ -1,6 +1,6 @@
 // SVG converted to JSX using SVGR Playground.
 import * as React from "react"
-const Hollow_Single_Dot_Density_1 = (props) => (
+const Hollow_Single_Dot_Density_1 = ({props,patternColor}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -21,7 +21,7 @@ const Hollow_Single_Dot_Density_1 = (props) => (
         cx={-51.321}
         cy={50}
         fill="none"
-        stroke="#000"
+        stroke={patternColor}
         strokeWidth={0.096}
         rx={1.274}
         ry={1.296}

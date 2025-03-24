@@ -9,7 +9,7 @@ import {
   getNextDateFromStr,
   monthDiff,
 } from '../../helpers/dateFunctions';
-import Hollow_Single_Circle_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Circle_Density_1.svg';
+import Hollow_Single_Circle_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Circle_Density_1.jsx?react';
 import Hollow_Single_Dot_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Dot_Density_1.svg';
 import Hollow_Single_Rhombus_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Rhombus_Density_1.svg';
 import Hollow_Single_Square_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Square_Density_1.svg';
@@ -30,6 +30,7 @@ import TaskDetails from './TaskDetails';
 import './TimeTable.css';
 
 import { buildPath } from '../buildPath';
+import getPattern from './getPattern';
 
 const debounce = (func, delay) => {
   let timeout;
@@ -74,7 +75,7 @@ export default function TimeTable({
     'Single_Vertical_Line_Density_1.svg':Single_Vertical_Line_Density_1,'Solid_Single_Circle_Density_1.svg':Solid_Single_Circle_Density_1,
     'Solid_Single_Dot_Density_1.svg':Solid_Single_Dot_Density_1,'Solid_Single_Rhombus_Density_1.svg':Solid_Single_Rhombus_Density_1,
     'Solid_Single_Square_Density_1.svg':Solid_Single_Square_Density_1,'Solid_Single_Star_Density_1.svg':Solid_Single_Star_Density_1,
-    'Solid_Single_Triangle_Density_1.svg':Solid_Single_Triangle_Density_1,'Hollow_Single_Circle_Density_1.svg':Hollow_Single_Circle_Density_1,
+    'Solid_Single_Triangle_Density_1.svg':Solid_Single_Triangle_Density_1,'Hollow_Single_Circle_Density_1.jsx':Hollow_Single_Circle_Density_1,
     'Hollow_Single_Dot_Density_1.svg':Hollow_Single_Dot_Density_1,'Hollow_Single_Rhombus_Density_1.svg':Hollow_Single_Rhombus_Density_1,
     'Hollow_Single_Square_Density_1.svg':Hollow_Single_Square_Density_1,'Hollow_Single_Star_Density_1.svg':Hollow_Single_Star_Density_1,
     'Hollow_Single_Triangle_Density_1.svg':Hollow_Single_Triangle_Density_1
@@ -105,6 +106,7 @@ export default function TimeTable({
   const [selectedRange, setSelectedRange] = useState("Days");
 
   const rangeSelector = document.getElementById('timeRangeDropdown');
+
 
   if (rangeSelector) {
     rangeSelector.addEventListener('change', (event) => {
@@ -992,6 +994,8 @@ export default function TimeTable({
                           onKeyDown={isEditable ? (e) => deleteTaskDuration(e, el?.task) : null}
                           onClick={() => { setSelectedTask(task); setShowDetails(true); }}
                         >
+                           <Hollow_Single_Circle_Density_1 style={{width:'100%',height:'100%'}}stroke={"FFF000"} patternwidth={dayDiff(el?.start, el?.end) * 100% - 1}/>
+
     
                           {isEditable && (
                             <>
@@ -1016,7 +1020,7 @@ export default function TimeTable({
                               {`${el.start.split('T')[0].replace(/-/g, '/')}  -  ${el.end.split('T')[0].replace(/-/g, '/')}`}
                             </div>
                           )}
-
+                        
                         </div>
                       );
                     }
