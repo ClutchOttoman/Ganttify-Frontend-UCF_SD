@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './DashboardAccount.css';
 import { buildPath } from './buildPath';
+import AnnouncementModal from './AnnouncementModal';
 
 function DashboardAccount() {
   const [user, setUser] = useState(null);
@@ -11,6 +12,8 @@ function DashboardAccount() {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [editAnnouncement, setEditAnnouncement] = useState(false);
+  const [showAnnouncementModal, setShowAnnouncementModal] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -37,6 +40,9 @@ function DashboardAccount() {
         } else {
           setError(result.error || 'Failed to fetch user details.');
         }
+
+        setEditAnnouncement(result.devMode ?? false);
+
       } catch (err) {
         console.error('Error fetching user data:', err);
         setError('An error occurred while fetching user details.');
@@ -129,47 +135,22 @@ function DashboardAccount() {
     }
   };
 
-  // const handleDeleteAccount = async () => {
-  //   if (!window.confirm('Are you sure you want to delete your account? You will receive a confirmation email to proceed.')) {
-  //     return;
-  //   }
-
-  //   const password = prompt('Please re-enter your password for confirmation:');
-  //   if (!password) {
-  //     alert('Password is required to delete your account.');
-  //     return;
-  //   }
-  
-  //   try {
-  //       const response = await fetch(buildPath(`api/user/request-delete/${user._id}`), {
-  //         method: 'POST',
-  //         headers: { 'Content-Type': 'application/json' },
-  //         body: JSON.stringify({ password }),
-  //       });
-  
-  //       if (response.ok) {
-  //         alert('A confirmation email has been sent to your email address. Please follow the instructions to confirm account deletion.');
-  //         window.location.href = '/';
-  //       } else {
-  //         const result = await response.json();
-  //         alert(result.error || 'Failed to initiate account deletion.');
-  //       }
-  //   } catch (err) {
-  //       console.error('Error sending account deletion email:', err);
-  //       alert('An error occurred while initiating account deletion.');
-  //   }
-  // };  
-
   const handleResetPassword = () => {
     if (window.confirm('Are you sure you want to reset your password?')) {
       window.location.href = `/reset-password/${user._id}/:token`; 
     }
   };
 
+  const handleEditAnnoucnement = () => {
+    setShowAnnouncementModal(true)
+    const modalShown = localStorage.getItem('modalShown');
+    localStorage.setItem('modalShown', 'false');
+  }
+
   return (
     <div>
       <h1 class="title"></h1>
-    <div class= "container position-relative d-inline-flex flex-column ">
+    <div class= "container position-relative d-inline-flex flex-row ">
     <div className="dashboardAccountContainer">
       <h1 className="dashboardTitle">Account Information</h1>
       {user ? (
@@ -273,6 +254,13 @@ function DashboardAccount() {
                 Delete Account
               </button>
             )}
+           {editAnnouncement ? (
+              <button className="btn deleteBtn" onClick={handleEditAnnoucnement}>
+                Edit Announcement
+              </button>
+            ) : (
+              <></>
+            )}
           </div>
         </>
       ) : (
@@ -294,7 +282,16 @@ function DashboardAccount() {
           </div>
         </div>
       )}
+      { showAnnouncementModal && (
+        <AnnouncementModal showAnnouncementModal={showAnnouncementModal}
+                          setShowAnnouncementModal={setShowAnnouncementModal}
+                          editable={editAnnouncement}
+        />
+
+      )
+      }
     </div>
+
     </div>
   </div>
   );
