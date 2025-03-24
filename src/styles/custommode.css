@@ -14,7 +14,7 @@ html.custom {
 
     /* Text */
     h1, h2, h3, h4, h4, h5, h6, p, a, li, text, span,
-    span.detailValue, label.detailLabel{
+    span.detailValue, label.detailLabel, label{
         color: var(--text, #000000) !important;  /* High-contrast white for headers */
         visibility: visible;
     }
@@ -240,7 +240,7 @@ html.custom {
     
     /* View Chart Button */
     .btn.viewChartBtn{
-        background-color:  var(--buttons, #135c91) !important; /* WORK (View Chart) Dark background */
+        background-color:  var(--buttons, #DC6B2C) !important; /* WORK (View Chart) Dark background */
         color: var(--text,#ffffff) !important;
         visibility: visible;
         &:hover{

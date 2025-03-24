@@ -5,6 +5,8 @@ import './UIsettings.css'
 import DashboardPreview  from '../Images/assets/setting_previews/dashboard_preview.svg?react';
 import TimetablePreview  from '../Images/assets/setting_previews/timetable_preview.svg?react';
 
+import * as wcagContrast from 'wcag-contrast';
+
 
 const debounce = (func, delay) => {
   const timeoutRef = useRef(null);  // This will persist across renders
@@ -24,7 +26,62 @@ const UISettings = () => {
   const { theme, setTheme, customColors, setCustomColors, fontStyle, setFontStyle, activeCVD, setActiveCVD } = useContext(ThemeContext);
   const [pendingColors, setPendingColors] = useState(customColors);
 
+  const [contrastWarnings, setContrastWarnings] = useState({}); //added
+
     const [message, setMessage] = useState('');
+
+
+// Function to calculate contrast ratio
+const getContrastRatio = (color1, color2) => {
+  return wcagContrast.hex(color1, color2);
+};
+
+// Function to validate contrast and show warnings
+const validateContrast = (id, newColor) => {
+  let newWarnings = { ...contrastWarnings };
+
+  // Define key UI elements to check contrast against
+  const elementsToCheck = {
+    cardcolor: ["text", "buttons"],
+    text: ["background", "contentarea", "cardcolor", "timetable", "texteditor", "navbar", "buttons", "dropdown", "todolist"],
+    background: ["text", "buttons", "scrollbar"],
+    contentarea: ["text", "buttons", "scrollbar"],
+    timetable: ["text", "buttons", "scrollbar"],
+    texteditor: ["text", "scrollbar"],
+    navbar: ["text"],
+    buttons: ["background", "text", "contentarea", "cardcolor", "timetable", "todolist"],
+    dropdown: ["text"],
+    todolist: ["text", "buttons", "scrollbar"],
+    scrollbar: ["background", "contentarea", "timetable", "texteditor"],
+  };
+
+  const contrastRequirements = {
+    default: 4.5,
+    highContrast: 7.0,
+  };
+
+  if (elementsToCheck[id]) {
+    elementsToCheck[id].forEach((element) => {
+      const color1 = newColor;
+      const color2 = customColors[element];
+
+      if (!color2) return;
+
+      const ratio = getContrastRatio(color1, color2);
+
+      if (ratio < contrastRequirements.default) {
+        newWarnings[element] = `⚠️ Minimum contrast of 4.5:1 is required for ${element}. You have ${ratio.toFixed(1)}:1.`;
+      } else if (ratio < contrastRequirements.highContrast) {
+        newWarnings[element] = `✅ ${element} meets the default contrast (4.5:1). If you want high contrast, you have ${ratio.toFixed(1)}:1, and you need 7:1.`;
+      } else {
+        newWarnings[element] = `✅ ${element} meets the high contrast requirement (7:1).`;
+      }
+    });
+  }
+
+  setContrastWarnings(newWarnings);
+};
+
 
     // Assuming theme values are 'dark', 'custom', or 'high-contrast'
     let backgroundColor = theme === 'dark' ? "#121212" : theme === 'high-contrast' ? "white" : theme === 'custom' ? customColors.background : "white";
@@ -34,7 +91,7 @@ const UISettings = () => {
     // Dashboard related svgs
     let sideBarColor = theme === 'dark' ? "#2f2f2f" : theme === 'high-contrast' ? "#f3b35b" : theme === 'custom' ? customColors.sidebar : "#DC6B2C";
     let sideBarButtonColor = theme === 'dark' ? "#424242" : theme === 'high-contrast' ? "#402C12" : theme === 'custom' ? customColors?.buttons || "#FFFFFF" : "#FFFFFF";
-    let viewButtonColor = theme === 'dark' ? "#2f2f2f" : theme === 'high-contrast' ? "#002238" : theme === 'custom' ? customColors?.buttons || "#135C91" : "#135C91";
+    let viewButtonColor = theme === 'dark' ? "#2f2f2f" : theme === 'high-contrast' ? "#002238" : theme === 'custom' ? customColors?.buttons || "#DC6B2C" : "#DC6B2C"; //changed color
     let projectCardColor = theme === 'dark' ? "#424242" : theme === 'high-contrast' ? "#f3b35b" : theme === 'custom' ? customColors.cardcolor : "#fddc87";
     let projectCardBorderColor = theme === 'dark' ? "#2f2f2f" : theme === 'high-contrast' ? "#402C12" : theme === 'custom' ? customColors.cardbordercolor : "#DC6B2C";
 
@@ -43,7 +100,7 @@ const UISettings = () => {
     let timetableInnerColor = theme === 'dark' ? "#333" : theme === 'high-contrast' ? "#FFF" : theme === 'custom' ? customColors.timetableinner : "#FFF";
     let timetableBorderColor = theme === 'dark' ? "#FFF" : theme === 'high-contrast' ? "#000000" : theme === 'custom' ? customColors.timetableborder : "#000000";
     let gridColor = theme === 'dark' ? "white" : theme === 'high-contrast' ? "black" : "black";
-    let addTaskButtonColor = theme === 'dark' ? "#333" : theme === 'high-contrast' ? "#002238" : theme === 'custom' ? customColors?.buttons || "#DC6B2C" : "#DC6B2C";
+    let addTaskButtonColor = theme === 'dark' ? "#333" : theme === 'high-contrast' ? "#002238" : theme === 'custom' ? customColors?.buttons || "#DC6B2C" : "#DC6B2C"; 
 
     const toggleDarkMode = async () => {
       setTheme((prevTheme) => {
@@ -248,15 +305,17 @@ const UISettings = () => {
       ...prevColors,
       [id]: value, 
       ...(id === "buttons" && { buttonshover: brightenColor(value, 15) }),
-      ...(id === "dropdowns" && { dropdownshover: brightenColor(value, 15) }),
+      ...(id === "dropdown" && { dropdownhover: brightenColor(value, 15) }),
       ...(id === "cardcolor" && { cardbordercolor: darkenColor(value, 15) }), // Generate a darker border for cards
       ...(id === "timetable" && { timetableborder: darkenColor(value, 15), timetableinner: brightenColor(value, 15) }), // Generate a darker border for timetable
       ...(id === "texteditor" && { texteditorinner: brightenColor(value, 15) }),
       ...(id === "todolist" && { todolistinner: brightenColor(value, 15) }),
       ...(id === "scrollbar" && { scrollbarinner: brightenColor(value, 15) })
       
-    }))
-  }
+    }));
+
+    validateContrast(id, value);
+  };
 
   const brightenColor = (hex, percent) => {
     if(hex === undefined) 
@@ -322,9 +381,11 @@ const UISettings = () => {
 
   }
 
-  const applyReset = () =>{
-    let userData = JSON.parse(localStorage.getItem("user_data"))
-    setPendingColors({
+  const applyReset = () => {
+    let userData = JSON.parse(localStorage.getItem("user_data"));
+
+    // Default color values
+    const defaultColors = {
       background: "#ffffff",
       text: "#000000",
       contentarea: "#ffffff",
@@ -339,17 +400,21 @@ const UISettings = () => {
       buttonshover:"",
       texteditor:"#f0f0f0",
       texteditorinner:"#fff",
-      dropdowns:"#ffffff",
-      dropdownshover:"#ffffff",
+      dropdown:"#ffffff",
+      dropdownhover:"#ffffff",
       todolist:"#dc6b2c",
       todolistinner:"#ffffff",
       scrollbar:"#888",
       scrollbarinner:"#FDDC87",
-    })
-    userData.uiOptions.custom = { ...pendingColors };
-    localStorage.setItem("user_data", JSON.stringify(userData))
-    setCustomColors(pendingColors)
-    
+    };
+
+    setPendingColors(defaultColors);
+    setCustomColors(defaultColors);
+    setContrastWarnings({}); // Clear all contrast warnings
+
+    userData.uiOptions.custom = { ...defaultColors };
+    localStorage.setItem("user_data", JSON.stringify(userData));
+
     const savedUserInfo = localStorage.getItem('user_data');
     const savedUserId = JSON.parse(savedUserInfo)._id; 
 
@@ -357,7 +422,7 @@ const UISettings = () => {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        custom: pendingColors, 
+        custom: defaultColors, 
       }),
     });
 
@@ -369,8 +434,8 @@ const UISettings = () => {
         setMessage(message);
       }
     });
+};
 
-  }
       
     return(
       <div>
@@ -445,126 +510,91 @@ const UISettings = () => {
                         <span>Custom</span>
                   </div>
                 </div>
+
                 {/* Custom Mode */}
                 <div className ={`custom-settings-container ${theme === 'custom' ? "visible": ""}`}>
                   <div className ="custom-settings-btn">
-                    <input type="color" 
-                    className="custom-color-selector"
-                    id ="background"
-                    value={customColors.background}
-                    onChange={handleCustomColorChange}
-                    ></input>
-                    <span>Background Color</span>
+                  <input type="color" className="custom-color-selector" id="background" 
+                    value={customColors.background} onChange={handleCustomColorChange} />
+                      <span>Background</span>
+                    {contrastWarnings.background && <p style={{ color: "red" }}>{contrastWarnings.background}</p>}
                   </div>
 
                   <div className ="custom-settings-btn">
-                  <input type="color" 
-                    className="custom-color-selector"
-                    id ="text"
-                    value={customColors.text}
-                    onChange={handleCustomColorChange}
-                    ></input>
-                    <span>Text Color</span>
+                  <input type="color" className="custom-color-selector" id="text" 
+                    value={customColors.text} onChange={handleCustomColorChange} />
+                      <span>Text</span>
+                    {contrastWarnings.text && <p style={{ color: "red" }}>{contrastWarnings.text}</p>}
                   </div>
 
                   <div className ="custom-settings-btn">
-                  <input type="color" 
-                    className="custom-color-selector"
-                    id ="contentarea"
-                    value={customColors.contentarea}
-                    onChange={handleCustomColorChange}
-                    ></input>
-                    <span>Content Area</span>
+                  <input type="color" className="custom-color-selector" id="contentarea" 
+                    value={customColors.contentarea} onChange={handleCustomColorChange} />
+                      <span>Content Area</span>
+                    {contrastWarnings.contentarea && <p style={{ color: "red" }}>{contrastWarnings.contentarea}</p>}
                   </div>
 
                   <div className ="custom-settings-btn">
-                  <input type="color" 
-                    className="custom-color-selector"
-                    id ="cardcolor"
-                    value={customColors.cardcolor}
-                    onChange={handleCustomColorChange}
-                    ></input>
-                    <span>Chart</span>
+                  <input type="color" className="custom-color-selector" id="cardcolor" 
+                    value={customColors.cardcolor} onChange={handleCustomColorChange} />
+                      <span>Chart Cards</span>
+                    {contrastWarnings.cardcolor && <p style={{ color: "red" }}>{contrastWarnings.cardcolor}</p>}
                   </div>
 
                   <div className ="custom-settings-btn">
-                  <input type="color" 
-                    className="custom-color-selector"
-                    id ="timetable"
-                    value={customColors.timetable}
-                    onChange={handleCustomColorChange}
-                    ></input>
-                    <span>TimeTable</span>
+                  <input type="color" className="custom-color-selector" id="timetable" 
+                    value={customColors.timetable} onChange={handleCustomColorChange} />
+                      <span>Time Table</span>
+                    {contrastWarnings.timetable && <p style={{ color: "red" }}>{contrastWarnings.timetable}</p>}
                   </div>
 
                   <div className ="custom-settings-btn">
-                  <input type="color" 
-                    className="custom-color-selector"
-                    id ="texteditor"
-                    value={customColors.texteditor}
-                    onChange={handleCustomColorChange}
-                    ></input>
-                    <span>Text Editor</span>
+                  <input type="color" className="custom-color-selector" id="texteditor" 
+                    value={customColors.texteditor} onChange={handleCustomColorChange} />
+                      <span>Text Editor</span>
+                    {contrastWarnings.texteditor && <p style={{ color: "red" }}>{contrastWarnings.texteditor}</p>}
                   </div>
 
                   <div className ="custom-settings-btn">
-                  <input type="color" 
-                    className="custom-color-selector"
-                    id ="navbar"
-                    value={customColors.navbar}
-                    onChange={handleCustomColorChange}
-                    ></input>
-                    <span>Navigation Bar</span>
+                  <input type="color" className="custom-color-selector" id="navbar" 
+                    value={pendingColors.navbar} onChange={handleCustomColorChange} />
+                      <span>Navigation Bar</span>
+                    {contrastWarnings.navbar && <p style={{ color: "red" }}>{contrastWarnings.navbar}</p>}  
                   </div>
 
                   <div className ="custom-settings-btn">
-                  <input type="color" 
-                    className="custom-color-selector"
-                    id ="sidebar"
-                    value={customColors.sidebar}
-                    onChange={handleCustomColorChange}
-                    ></input>
-                    <span>Dashboard Bar</span>
+                  <input type="color" className="custom-color-selector" id="sidebar" 
+                    value={pendingColors.sidebar} onChange={handleCustomColorChange} />
+                      <span>Side Bar</span>
+                    {contrastWarnings.sidebar && <p style={{ color: "red" }}>{contrastWarnings.sidebar}</p>}
                   </div>
 
                   <div className ="custom-settings-btn">
-                  <input type="color" 
-                    className="custom-color-selector"
-                    id ="buttons"
-                    value={customColors.buttons}
-                    onChange={handleCustomColorChange}
-                    ></input>
-                    <span>Buttons</span>
+                  <input type="color" className="custom-color-selector" id="buttons" 
+                    value={customColors.buttons} onChange={handleCustomColorChange} />
+                      <span>Buttons</span>
+                    {contrastWarnings.buttons && <p style={{ color: "red" }}>{contrastWarnings.buttons}</p>}
                   </div>
 
                   <div className ="custom-settings-btn">
-                  <input type="color" 
-                    className="custom-color-selector"
-                    id ="dropdowns"
-                    value={customColors.dropdowns}
-                    onChange={handleCustomColorChange}
-                    ></input>
-                    <span>Dropdown Menu</span>
+                  <input type="color" className="custom-color-selector" id="dropdown" 
+                    value={customColors.dropdown} onChange={handleCustomColorChange} />
+                      <span>Dropdown Menu</span>
+                    {contrastWarnings.dropdown && <p style={{ color: "red" }}>{contrastWarnings.dropdown}</p>}
                   </div>
 
                   <div className ="custom-settings-btn">
-                    <input type="color" 
-                    className="custom-color-selector"
-                    id ="todolist"
-                    value={customColors.todolist}
-                    onChange={handleCustomColorChange}>
-                    </input>
-                    <span>To-Do List</span>
+                  <input type="color" className="custom-color-selector" id="todolist" 
+                    value={customColors.todolist} onChange={handleCustomColorChange} />
+                      <span>To-Do List</span>
+                    {contrastWarnings.todolist && <p style={{ color: "red" }}>{contrastWarnings.todolist}</p>}
                   </div>
 
                   <div className ="custom-settings-btn">
-                  <input type="color" 
-                    className="custom-color-selector"
-                    id ="scrollbar"
-                    value={customColors.scrollbar}
-                    onChange={handleCustomColorChange}>
-                    </input>
-                    <span>Scrollbar</span>
+                  <input type="color" className="custom-color-selector" id="scrollbar" 
+                    value={customColors.scrollbar} onChange={handleCustomColorChange} />
+                      <span>Scrollbar</span>
+                    {contrastWarnings.scrollbar && <p style={{ color: "red" }}>{contrastWarnings.scrollbar}</p>}
                   </div>
 
                   <div class="d-flex gap-2">
@@ -630,3 +660,4 @@ const UISettings = () => {
 }
 
 export default UISettings;
+
