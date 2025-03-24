@@ -278,8 +278,6 @@ const contrastResults = contrastPairs.map(([key1, key2]) => {
           <button type="button" className="btn btn-primary" onClick={applyReset}>Reset</button>        
         </div> 
 
-        
-
     </div>
     
   );
