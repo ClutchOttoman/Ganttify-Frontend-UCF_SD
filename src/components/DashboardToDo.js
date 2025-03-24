@@ -183,14 +183,14 @@ function DashboardToDo() {
                     draggable: false, closeButton: false, autoClose: 2000, ariaLabel: jsonResult.error,
                 });
             }
-            window.location.assign(window.location.pathname);
+            //window.location.assign(window.location.pathname);
         } catch (e) {
             error = "Failed to update task visibility";
             toast.error(ToastError, {data: {title: error},
                 draggable: false, closeButton: false, autoClose: 2000, ariaLabel: error,
             });
         } finally {
-            window.location.assign(window.location.pathname);
+            //window.location.assign(window.location.pathname);
         }
     }
 
