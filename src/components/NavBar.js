@@ -449,12 +449,12 @@ function NavBar(props) {
   
   
   else if (props.layout == 1) {
-    // For the Ganttify homepage.
+    // For the GanttUCF homepage.
     return (
       <div id="navBarDiv">
         <div className="navbar">
             <img src={Logo} alt="GanttifyHomePage" className="logo" />
-          <h1 className="navbarHeader"> Ganttify </h1>
+          <h1 className="navbarHeader"> GanttUCF </h1>
           <ul className="navbarOptions">
             <li><Link to="/"><button id="button"> Home</button></Link></li>
             <li><Link to="/about-us"><button id="button">About Us</button></Link></li>
@@ -465,7 +465,7 @@ function NavBar(props) {
       </div>
     );
   } else if (props.layout == 2) {
-    // For the Ganttify user dashboard.
+    // For the GanttUCF user dashboard.
     return (
       <div id="navBarDiv" style={dashboardNav}>
         <div class="container-fluid navbarDash">
@@ -624,7 +624,7 @@ function NavBar(props) {
           <a href="/dashboard" aria-label="Go back to home page">
             <img src={Logo} alt="GanttifyHomePage" className="logo" />
           </a>
-          <h1 className="navbarHeader" > Ganttify </h1>
+          <h1 className="navbarHeader" > GanttUCF </h1>
           <ul className="navbarOptions">
           </ul>
         </div>
