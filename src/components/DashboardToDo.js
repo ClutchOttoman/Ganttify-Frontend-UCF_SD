@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import AnnouncementModal from './AnnouncementModal';
 import './DashboardToDo.css';
 import {buildPath} from './buildPath';
+import {toast} from 'react-toastify';
+import ToastSuccess from './ToastSuccess';
+import ToastError from './ToastError';
 
 var i, task,tasks = [];
 
@@ -172,14 +175,20 @@ function DashboardToDo() {
     
             var jsonResult = await response.json();
             if (response.ok) {
-                alert(jsonResult.message);
+                toast.success(ToastSuccess, {data: {title: jsonResult.message},
+                    draggable: false, autoClose: 2000, ariaLabel: jsonResult.message,
+                });
             } else {
-                alert(jsonResult.error);
+                toast.error(ToastError, {data: {title: jsonResult.error},
+                    draggable: false, closeButton: false, autoClose: 2000, ariaLabel: jsonResult.error,
+                });
             }
             window.location.assign(window.location.pathname);
         } catch (e) {
             error = "Failed to update task visibility";
-            alert(error);
+            toast.error(ToastError, {data: {title: error},
+                draggable: false, closeButton: false, autoClose: 2000, ariaLabel: error,
+            });
         } finally {
             window.location.assign(window.location.pathname);
         }

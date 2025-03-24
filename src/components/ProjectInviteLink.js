@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { buildPath } from './buildPath.js';
 import './ProjectInviteLink.css';
+import {toast} from 'react-toastify';
+import ToastSuccess from './ToastSuccess';
 
 const ProjectInviteLink = ({ projectId }) => {
   const [inviteLink, setInviteLink] = useState("");
@@ -33,7 +35,9 @@ const ProjectInviteLink = ({ projectId }) => {
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(inviteLink);
-    alert("Invite link copied to clipboard!");
+    toast.success(ToastSuccess, {data: {title: "Invite link copied to the clipboard!"},
+      draggable: false, autoClose: 2000
+    });
   };
 
   const copyButton = (
