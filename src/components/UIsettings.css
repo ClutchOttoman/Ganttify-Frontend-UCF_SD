@@ -77,8 +77,6 @@
 
 .custom-settings-container{
     margin-top: 20px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 6 columns for button + span */
     height: 0; 
     overflow: hidden; 
     opacity: 0; /* First three to hide container when not active */
@@ -87,25 +85,9 @@
 
 .custom-settings-container.visible {
     margin-top: 20px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 6 columns for button + span */
-    height: 250px;
+    height: 950px;
     opacity: 1;
-}
-
-.custom-settings-btn {
-    display: flex;
-    width: 180px;
-    height: 45px;
-    border: 2px solid black;
-    align-items: center;
-}
-
-.custom-color-selector {
-    width: 43px;
-    height: 43px;
-    background-color: transparent;
-    border: none;
+    margin-bottom: 15px;
 }
 
 .font-container{

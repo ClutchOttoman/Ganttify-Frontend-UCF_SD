@@ -4,7 +4,8 @@ import { ThemeContext } from './ThemeProvider';
 import './UIsettings.css'
 import DashboardPreview  from '../Images/assets/setting_previews/dashboard_preview.svg?react';
 import TimetablePreview  from '../Images/assets/setting_previews/timetable_preview.svg?react';
-
+import tinycolor from "tinycolor2"; 
+import ContrastChecker from './ContrastChecker';
 
 const debounce = (func, delay) => {
   const timeoutRef = useRef(null);  // This will persist across renders
@@ -23,8 +24,8 @@ const debounce = (func, delay) => {
 const UISettings = () => {
   const { theme, setTheme, customColors, setCustomColors, fontStyle, setFontStyle, activeCVD, setActiveCVD } = useContext(ThemeContext);
   const [pendingColors, setPendingColors] = useState(customColors);
-
-    const [message, setMessage] = useState('');
+  const [contrastWarnings, setContrastWarnings] = useState([]);
+  const [message, setMessage] = useState('');
 
     // Assuming theme values are 'dark', 'custom', or 'high-contrast'
     let backgroundColor = theme === 'dark' ? "#121212" : theme === 'high-contrast' ? "white" : theme === 'custom' ? customColors.background : "white";
@@ -371,6 +372,34 @@ const UISettings = () => {
     });
 
   }
+
+   // Function to check contrast ratios and set warnings
+   useEffect(() => {
+    let userData = JSON.parse(localStorage.getItem("user_data"))
+    const minContrast = 4.5; // WCAG standard for normal text
+    const minLargeTextContrast = 3.0; // For large text (bold 14pt+, normal 18pt+)
+
+    const contrastChecks = [
+      { label: "Text vs. Content Area", color1:customColors.background, color2: customColors.contentarea },
+
+    ];
+
+    console.log(contrastChecks)
+    const newWarnings = contrastChecks
+      .map(({ label, color1, color2 }) => {
+        const contrastRatio = tinycolor.readability(color1, color2).toFixed(2);
+        if (contrastRatio < minContrast) {
+          return `⚠️ ${label} has low contrast: ${contrastRatio}:1 (Needs at least ${minContrast}:1)`;
+        } else if (contrastRatio < minLargeTextContrast) {
+          return `⚠️ ${label} is only suitable for large text: ${contrastRatio}:1`;
+        }
+        return null;
+      })
+      .filter(Boolean);
+
+    setContrastWarnings(newWarnings);
+    console.log(newWarnings)
+  }, [customColors.background, customColors.contentarea]);
       
     return(
       <div>
@@ -447,131 +476,7 @@ const UISettings = () => {
                 </div>
                 {/* Custom Mode */}
                 <div className ={`custom-settings-container ${theme === 'custom' ? "visible": ""}`}>
-                  <div className ="custom-settings-btn">
-                    <input type="color" 
-                    className="custom-color-selector"
-                    id ="background"
-                    value={customColors.background}
-                    onChange={handleCustomColorChange}
-                    ></input>
-                    <span>Background Color</span>
-                  </div>
-
-                  <div className ="custom-settings-btn">
-                  <input type="color" 
-                    className="custom-color-selector"
-                    id ="text"
-                    value={customColors.text}
-                    onChange={handleCustomColorChange}
-                    ></input>
-                    <span>Text Color</span>
-                  </div>
-
-                  <div className ="custom-settings-btn">
-                  <input type="color" 
-                    className="custom-color-selector"
-                    id ="contentarea"
-                    value={customColors.contentarea}
-                    onChange={handleCustomColorChange}
-                    ></input>
-                    <span>Content Area</span>
-                  </div>
-
-                  <div className ="custom-settings-btn">
-                  <input type="color" 
-                    className="custom-color-selector"
-                    id ="cardcolor"
-                    value={customColors.cardcolor}
-                    onChange={handleCustomColorChange}
-                    ></input>
-                    <span>Chart</span>
-                  </div>
-
-                  <div className ="custom-settings-btn">
-                  <input type="color" 
-                    className="custom-color-selector"
-                    id ="timetable"
-                    value={customColors.timetable}
-                    onChange={handleCustomColorChange}
-                    ></input>
-                    <span>TimeTable</span>
-                  </div>
-
-                  <div className ="custom-settings-btn">
-                  <input type="color" 
-                    className="custom-color-selector"
-                    id ="texteditor"
-                    value={customColors.texteditor}
-                    onChange={handleCustomColorChange}
-                    ></input>
-                    <span>Text Editor</span>
-                  </div>
-
-                  <div className ="custom-settings-btn">
-                  <input type="color" 
-                    className="custom-color-selector"
-                    id ="navbar"
-                    value={customColors.navbar}
-                    onChange={handleCustomColorChange}
-                    ></input>
-                    <span>Navigation Bar</span>
-                  </div>
-
-                  <div className ="custom-settings-btn">
-                  <input type="color" 
-                    className="custom-color-selector"
-                    id ="sidebar"
-                    value={customColors.sidebar}
-                    onChange={handleCustomColorChange}
-                    ></input>
-                    <span>Dashboard Bar</span>
-                  </div>
-
-                  <div className ="custom-settings-btn">
-                  <input type="color" 
-                    className="custom-color-selector"
-                    id ="buttons"
-                    value={customColors.buttons}
-                    onChange={handleCustomColorChange}
-                    ></input>
-                    <span>Buttons</span>
-                  </div>
-
-                  <div className ="custom-settings-btn">
-                  <input type="color" 
-                    className="custom-color-selector"
-                    id ="dropdowns"
-                    value={customColors.dropdowns}
-                    onChange={handleCustomColorChange}
-                    ></input>
-                    <span>Dropdown Menu</span>
-                  </div>
-
-                  <div className ="custom-settings-btn">
-                    <input type="color" 
-                    className="custom-color-selector"
-                    id ="todolist"
-                    value={customColors.todolist}
-                    onChange={handleCustomColorChange}>
-                    </input>
-                    <span>To-Do List</span>
-                  </div>
-
-                  <div className ="custom-settings-btn">
-                  <input type="color" 
-                    className="custom-color-selector"
-                    id ="scrollbar"
-                    value={customColors.scrollbar}
-                    onChange={handleCustomColorChange}>
-                    </input>
-                    <span>Scrollbar</span>
-                  </div>
-
-                  <div class="d-flex gap-2">
-                    <button type="button" className="btn btn-primary" onClick={applyCustomColorChange}>Apply</button>
-                    <button type="button" className="btn btn-primary" onClick={applyReset}>Reset</button>        
-                  </div>
-
+                  <ContrastChecker/>
                 </div>
 
               <h3>CVD Filters</h3>
