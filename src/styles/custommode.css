@@ -113,11 +113,11 @@ html.custom {
 
     /* Sidebar buttons */
     a#ToDo\ List, a#Charts, a#Recently\ Deleted, button#Create\ Project, a#Account, a#UI\ Settings{
-      background-color: var(--buttons, #ffffff) !important;
-      &:hover{
-        background-color: #f0f0f0 !important;
-      }
+      background-color: var(--sidebar-btn-color, #ffffff) !important;
+      visibility: visible;
     }
+
+    
 
     /* Home Page/Landing Page */
     /* Content Boxes */
@@ -324,7 +324,7 @@ html.custom {
 
     /* Category */
     .gantt-task-row .task-category {
-      background: linear-gradient(135deg,#828d92,#8f969f);
+      background: linear-gradient(135deg,#b2b8ba,#b5bcbf);
       visibility: visible;
     }
 
