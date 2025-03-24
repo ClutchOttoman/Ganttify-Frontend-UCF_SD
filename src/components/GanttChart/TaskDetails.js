@@ -24,6 +24,9 @@ import Solid_Single_Star_Density_1 from '../../Images/assets/accessible_patterns
 import Solid_Single_Triangle_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Triangle_Density_1.svg';
 import './TimeTable.css';
 import './Patterns.css';
+import {toast} from 'react-toastify';
+import ToastConfirm from '../ToastConfirm';
+import ToastError from '../ToastError';
 
 // Colors to choose from
 const colorOptions = [
@@ -443,9 +446,16 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
   const handleStatusChange = async (newStatus) => {
     console.log("fetched task: " + fetchedTask.allPrerequisitesDone + "| task: " + task.allPrerequisitesDone);
     if(newStatus == "Completed" && (fetchedTask.prerequisiteTasks.length != 0 && !fetchedTask.allPrerequisitesDone)){
-        // List the tasks that need to be completed Here
+        // List the tasks that need to be completed here.
         let prequisiteTaskAlert = generatePrereqAlert();
-        window.alert(prequisiteTaskAlert);
+        const ariaLabelString = "Cannot mark task as complete. " + prequisiteTaskAlert;
+        toast.error(ToastError, {
+          data: {
+            title: "Cannot mark task as complete", 
+            body: prequisiteTaskAlert
+          },  
+          draggable: false, closeButton: false, autoClose: 3000, ariaLabel: "Error: Cannot mark task as complete"
+        });
         return;
     }
     setStatus(newStatus);
@@ -670,14 +680,28 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
   }
 
   const handleDeleteClick = () => {
-    if (window.confirm('Are you sure you want to delete?')) {
-      handleDelete(task._id, task.tiedProjectId);
-    }
+    toast.warn(ToastConfirm, {
+      data: {
+        title: "Are you sure you want to delete this task?", 
+      },  
+      draggable: false, closeButton: false, position: "top-center", autoClose: 3000, ariaLabel: "Are you sure you want to delete this task?",
+      onClose(reason){
+        switch (reason){
+            case "confirm":
+              //const status = await handleDelete(task._id, task.tiedProjectId);
+              handleDelete(task._id, task.tiedProjectId);
+              // toast.promise(handleDelete(task._id, task.tiedProjectId), {
+              //   pending: "Deleting task...",
+              //   success: "Chart was sucessfully updated.",
+              //   error: "Task failed deleted."
+              // });
+        }
+      }
+    });
   };
 
   if (!show || !task || !fetchedTask) return null;
  
-
   return (
 
     <div id="task-details-sidebar" className="task-details-sidebar">
