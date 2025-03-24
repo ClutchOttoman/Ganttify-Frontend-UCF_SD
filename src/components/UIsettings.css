@@ -17,6 +17,7 @@
     .settings-container{
         transform: translateX(-10%);
         width: 83vw; 
+        
     }
 }
 
@@ -76,10 +77,6 @@
 }
 
 
-
-
-
-
 .custom-settings-container {
     margin-top: 20px;
     display: grid;
@@ -114,7 +111,7 @@
 }
 
 .custom-settings-container::-webkit-scrollbar-track {
-    background-color: #f1f1f1;
+    background-color: #f0f0f0;
 }
 
 /* Keep alert text black at all times */
@@ -162,11 +159,6 @@
     margin-top: 20px;
     text-align: center;
 }
-
-
-
-
-
 
 
 
