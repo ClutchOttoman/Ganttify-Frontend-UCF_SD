@@ -43,16 +43,17 @@ const validateContrast = (id, newColor) => {
   // Define key UI elements to check contrast against
   const elementsToCheck = {
     cardcolor: ["text", "buttons"],
-    text: ["background", "contentarea", "cardcolor", "timetable", "texteditor", "navbar", "buttons", "dropdown", "todolist"],
-    background: ["text", "buttons", "scrollbar"],
-    contentarea: ["text", "buttons", "scrollbar"],
-    timetable: ["text", "buttons", "scrollbar"],
-    texteditor: ["text", "scrollbar"],
+    text: ["background", "sidebarbtn", "contentarea", "cardcolor", "timetable", "texteditor", "navbar", "buttons", "dropdown", "todolist"],
+    background: ["text", "buttons"],
+    contentarea: ["text", "buttons"],
+    timetable: ["text", "buttons"],
+    texteditor: ["text"],
     navbar: ["text"],
     buttons: ["background", "text", "contentarea", "cardcolor", "timetable", "todolist"],
     dropdown: ["text"],
-    todolist: ["text", "buttons", "scrollbar"],
-    scrollbar: ["background", "contentarea", "timetable", "texteditor"],
+    todolist: ["text", "buttons"],
+    sidebarbtn: ["text", "sidebar"],
+    sidebar: ["text", "sidebarbtn"],
   };
 
   const contrastRequirements = {
@@ -70,7 +71,7 @@ const validateContrast = (id, newColor) => {
       const ratio = getContrastRatio(color1, color2);
 
       if (ratio < contrastRequirements.default) {
-        newWarnings[element] = `⚠️ Minimum contrast of 4.5:1 is required for ${element}. You have ${ratio.toFixed(1)}:1.`;
+        newWarnings[element] = `⚠️ Minimum contrast of 4.5:1 is recommended for ${element}. You have ${ratio.toFixed(1)}:1.`;
       } else if (ratio < contrastRequirements.highContrast) {
         newWarnings[element] = `✅ ${element} meets the default contrast (4.5:1). If you want high contrast, you have ${ratio.toFixed(1)}:1, and you need 7:1.`;
       } else {
@@ -90,7 +91,7 @@ const validateContrast = (id, newColor) => {
 
     // Dashboard related svgs
     let sideBarColor = theme === 'dark' ? "#2f2f2f" : theme === 'high-contrast' ? "#f3b35b" : theme === 'custom' ? customColors.sidebar : "#DC6B2C";
-    let sideBarButtonColor = theme === 'dark' ? "#424242" : theme === 'high-contrast' ? "#402C12" : theme === 'custom' ? customColors?.buttons || "#FFFFFF" : "#FFFFFF";
+    let sideBarButtonColor = theme === 'dark' ? "#424242" : theme === 'high-contrast' ? "#402C12" : theme === 'custom' ? customColors?.sidebarbtn || "#FFFFFF" : "#FFFFFF";
     let viewButtonColor = theme === 'dark' ? "#2f2f2f" : theme === 'high-contrast' ? "#002238" : theme === 'custom' ? customColors?.buttons || "#DC6B2C" : "#DC6B2C"; //changed color
     let projectCardColor = theme === 'dark' ? "#424242" : theme === 'high-contrast' ? "#f3b35b" : theme === 'custom' ? customColors.cardcolor : "#fddc87";
     let projectCardBorderColor = theme === 'dark' ? "#2f2f2f" : theme === 'high-contrast' ? "#402C12" : theme === 'custom' ? customColors.cardbordercolor : "#DC6B2C";
@@ -100,7 +101,7 @@ const validateContrast = (id, newColor) => {
     let timetableInnerColor = theme === 'dark' ? "#333" : theme === 'high-contrast' ? "#FFF" : theme === 'custom' ? customColors.timetableinner : "#FFF";
     let timetableBorderColor = theme === 'dark' ? "#FFF" : theme === 'high-contrast' ? "#000000" : theme === 'custom' ? customColors.timetableborder : "#000000";
     let gridColor = theme === 'dark' ? "white" : theme === 'high-contrast' ? "black" : "black";
-    let addTaskButtonColor = theme === 'dark' ? "#333" : theme === 'high-contrast' ? "#002238" : theme === 'custom' ? customColors?.buttons || "#DC6B2C" : "#DC6B2C"; 
+    let addTaskButtonColor = theme === 'dark' ? "#333" : theme === 'high-contrast' ? "#002238" : theme === 'custom' ? customColors?.buttons || "#DC6B2C" : "#DC6B2C";
 
     const toggleDarkMode = async () => {
       setTheme((prevTheme) => {
@@ -310,7 +311,6 @@ const validateContrast = (id, newColor) => {
       ...(id === "timetable" && { timetableborder: darkenColor(value, 15), timetableinner: brightenColor(value, 15) }), // Generate a darker border for timetable
       ...(id === "texteditor" && { texteditorinner: brightenColor(value, 15) }),
       ...(id === "todolist" && { todolistinner: brightenColor(value, 15) }),
-      ...(id === "scrollbar" && { scrollbarinner: brightenColor(value, 15) })
       
     }));
 
@@ -396,7 +396,7 @@ const validateContrast = (id, newColor) => {
       timetableborder: "#000000",
       navbar: "#FDDC87",
       sidebar: "#DC6B2C",
-      buttons: "",
+      buttons: "#DC6B2C",
       buttonshover:"",
       texteditor:"#f0f0f0",
       texteditorinner:"#fff",
@@ -404,8 +404,7 @@ const validateContrast = (id, newColor) => {
       dropdownhover:"#ffffff",
       todolist:"#dc6b2c",
       todolistinner:"#ffffff",
-      scrollbar:"#888",
-      scrollbarinner:"#FDDC87",
+      sidebarbtn:"#ffffff",
     };
 
     setPendingColors(defaultColors);
@@ -465,6 +464,7 @@ const validateContrast = (id, newColor) => {
                       '--view-btn-color': viewButtonColor,
                       '--project-color': projectCardColor,
                       '--project-border-color': projectCardBorderColor,
+                      
                   }} />
                   <TimetablePreview className="timetable-preview" style={{
                       '--background-color': backgroundColor,
@@ -570,6 +570,13 @@ const validateContrast = (id, newColor) => {
                   </div>
 
                   <div className ="custom-settings-btn">
+                  <input type="color" className="custom-color-selector" id="sidebarbtn" 
+                    value={customColors.sidebarbtn} onChange={handleCustomColorChange} />
+                      <span>Side Bar Button</span>
+                    {contrastWarnings.sidebarbtn && <p style={{ color: "red" }}>{contrastWarnings.sidebarbtn}</p>}
+                  </div>
+
+                  <div className ="custom-settings-btn">
                   <input type="color" className="custom-color-selector" id="buttons" 
                     value={customColors.buttons} onChange={handleCustomColorChange} />
                       <span>Buttons</span>
@@ -590,12 +597,7 @@ const validateContrast = (id, newColor) => {
                     {contrastWarnings.todolist && <p style={{ color: "red" }}>{contrastWarnings.todolist}</p>}
                   </div>
 
-                  <div className ="custom-settings-btn">
-                  <input type="color" className="custom-color-selector" id="scrollbar" 
-                    value={customColors.scrollbar} onChange={handleCustomColorChange} />
-                      <span>Scrollbar</span>
-                    {contrastWarnings.scrollbar && <p style={{ color: "red" }}>{contrastWarnings.scrollbar}</p>}
-                  </div>
+                  
 
                   <div class="d-flex gap-2">
                     <button type="button" className="btn btn-primary" onClick={applyCustomColorChange}>Apply</button>
@@ -660,4 +662,3 @@ const validateContrast = (id, newColor) => {
 }
 
 export default UISettings;
-
