@@ -115,7 +115,7 @@ function DashboardAccount() {
         title: "Are you sure you want to delete your account?", 
         body: "You will receive a confirmation email to proceed."
       },  
-      draggable: false, closeButton: false, position: "top-center", autoClose: 3000, 
+      draggable: false, closeButton: false, position: "top-center", 
       ariaLabel: "Are you sure you want to delete your account? You will receive a confirmation email to proceed.",
       onClose(reason){
         switch (reason){
@@ -191,7 +191,7 @@ function DashboardAccount() {
       data: {
         title: "Are you sure you want to reset your password?", 
       },  
-      draggable: false, closeButton: false, position: "top-center", autoClose: 3000, ariaLabel: "Are you sure you want to delete this task?",
+      draggable: false, closeButton: false, position: "top-center", ariaLabel: "Are you sure you want to delete this task?",
       onClose(reason){
         switch (reason){
           case "confirm":
