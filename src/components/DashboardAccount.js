@@ -101,7 +101,6 @@ function DashboardAccount() {
         });
       }
     } catch (err) {
-      //console.error('Error updating account details:', err);
       const errString = "Error updating account details: " + err;
       toast.error(ToastError, {data: {title: errString},
         draggable: false, closeButton: false, autoClose: 2000, ariaLabel: errString,
@@ -115,7 +114,7 @@ function DashboardAccount() {
         title: "Are you sure you want to delete your account?", 
         body: "You will receive a confirmation email to proceed."
       },  
-      draggable: false, closeButton: false, position: "top-center", 
+      draggable: false, closeButton: false, position: "top-center", autoClose: false,
       ariaLabel: "Are you sure you want to delete your account? You will receive a confirmation email to proceed.",
       onClose(reason){
         switch (reason){
@@ -155,43 +154,12 @@ function DashboardAccount() {
     }
   };
 
-  // const handleDeleteAccount = async () => {
-  //   if (!window.confirm('Are you sure you want to delete your account? You will receive a confirmation email to proceed.')) {
-  //     return;
-  //   }
-
-  //   const password = prompt('Please re-enter your password for confirmation:');
-  //   if (!password) {
-  //     alert('Password is required to delete your account.');
-  //     return;
-  //   }
-  
-  //   try {
-  //       const response = await fetch(buildPath(`api/user/request-delete/${user._id}`), {
-  //         method: 'POST',
-  //         headers: { 'Content-Type': 'application/json' },
-  //         body: JSON.stringify({ password }),
-  //       });
-  
-  //       if (response.ok) {
-  //         alert('A confirmation email has been sent to your email address. Please follow the instructions to confirm account deletion.');
-  //         window.location.href = '/';
-  //       } else {
-  //         const result = await response.json();
-  //         alert(result.error || 'Failed to initiate account deletion.');
-  //       }
-  //   } catch (err) {
-  //       console.error('Error sending account deletion email:', err);
-  //       alert('An error occurred while initiating account deletion.');
-  //   }
-  // };  
-
   const handleResetPassword = () => {
     toast.warn(ToastConfirm, {
       data: {
         title: "Are you sure you want to reset your password?", 
       },  
-      draggable: false, closeButton: false, position: "top-center", ariaLabel: "Are you sure you want to delete this task?",
+      draggable: false, closeButton: false, position: "top-center", ariaLabel: "Are you sure you want to reset your password?", autoClose: false,
       onClose(reason){
         switch (reason){
           case "confirm":
