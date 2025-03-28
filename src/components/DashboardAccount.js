@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './DashboardAccount.css';
 import { buildPath } from './buildPath';
+import {toast} from 'react-toastify';
+import ToastNotify from './ToastNotify';
+import ToastConfirm from './ToastConfirm';
+import ToastSuccess from './ToastSuccess';
+import ToastError from './ToastError';
 
 function DashboardAccount() {
   const [user, setUser] = useState(null);
@@ -85,22 +90,40 @@ function DashboardAccount() {
         const result = await response.json();
         setUser(result);
         setIsEditing(false);
-        alert('Account details updated successfully.');
+        toast.success(ToastSuccess, {data: {title: "Account details updated successfully."},
+          draggable: false, autoClose: 2000, ariaLabel: "Account details updated successfully.",
+        });
+
       } else {
         const result = await response.json();
-        alert(result.error || 'Failed to update account details.');
+        toast.error(ToastError, {data: {title: result.error || 'Failed to update account details.'},
+          draggable: false, closeButton: false, autoClose: 2000, ariaLabel: result.error || 'Failed to update account details.',
+        });
       }
     } catch (err) {
-      console.error('Error updating account details:', err);
-      alert('An error occurred while updating your account.');
+      const errString = "Error updating account details: " + err;
+      toast.error(ToastError, {data: {title: errString},
+        draggable: false, closeButton: false, autoClose: 2000, ariaLabel: errString,
+      });
     }
   };
 
   const handleDeleteAccount = () => {
-    if (!window.confirm('Are you sure you want to delete your account? You will receive a confirmation email to proceed.')) {
-      return;
-    }
-    setShowPasswordModal(true);
+    toast.warn(ToastConfirm, {
+      data: {
+        title: "Are you sure you want to delete your account?", 
+        body: "You will receive a confirmation email to proceed."
+      },  
+      draggable: false, closeButton: false, position: "top-center", autoClose: false,
+      ariaLabel: "Are you sure you want to delete your account? You will receive a confirmation email to proceed.",
+      onClose(reason){
+        switch (reason){
+          case "confirm":
+            setShowPasswordModal(true);
+        }
+      }
+    });
+
   };
 
   const handlePasswordSubmit = async () => {
@@ -117,7 +140,9 @@ function DashboardAccount() {
       });
 
       if (response.ok) {
-        alert('A confirmation email has been sent to your email address. Please follow the instructions to confirm account deletion.');
+        toast.info(ToastNotify, {data: {title: "A confirmation email has been sent to your email address. Please follow the instructions to confirm account deletion."},
+          draggable: false, closeButton: false, position: "top-center", ariaLabel: "A confirmation email has been sent to your email address. Please follow the instructions to confirm account deletion.",
+        });
         window.location.href = '/';
       } else {
         const result = await response.json();
@@ -129,41 +154,19 @@ function DashboardAccount() {
     }
   };
 
-  // const handleDeleteAccount = async () => {
-  //   if (!window.confirm('Are you sure you want to delete your account? You will receive a confirmation email to proceed.')) {
-  //     return;
-  //   }
-
-  //   const password = prompt('Please re-enter your password for confirmation:');
-  //   if (!password) {
-  //     alert('Password is required to delete your account.');
-  //     return;
-  //   }
-  
-  //   try {
-  //       const response = await fetch(buildPath(`api/user/request-delete/${user._id}`), {
-  //         method: 'POST',
-  //         headers: { 'Content-Type': 'application/json' },
-  //         body: JSON.stringify({ password }),
-  //       });
-  
-  //       if (response.ok) {
-  //         alert('A confirmation email has been sent to your email address. Please follow the instructions to confirm account deletion.');
-  //         window.location.href = '/';
-  //       } else {
-  //         const result = await response.json();
-  //         alert(result.error || 'Failed to initiate account deletion.');
-  //       }
-  //   } catch (err) {
-  //       console.error('Error sending account deletion email:', err);
-  //       alert('An error occurred while initiating account deletion.');
-  //   }
-  // };  
-
   const handleResetPassword = () => {
-    if (window.confirm('Are you sure you want to reset your password?')) {
-      window.location.href = `/reset-password/${user._id}/:token`; 
-    }
+    toast.warn(ToastConfirm, {
+      data: {
+        title: "Are you sure you want to reset your password?", 
+      },  
+      draggable: false, closeButton: false, position: "top-center", ariaLabel: "Are you sure you want to reset your password?", autoClose: false,
+      onClose(reason){
+        switch (reason){
+          case "confirm":
+            window.location.href = `/reset-password/${user._id}/:token`; 
+        }
+      }
+    });
   };
 
   return (
