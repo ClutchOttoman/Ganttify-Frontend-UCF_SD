@@ -6,6 +6,8 @@ function AnnouncementModal({showAnnouncementModal, setShowAnnouncementModal, edi
     const [show, setShow] = useState(showAnnouncementModal ?? false);
     const [editMode, setEditMode] = useState(false);
     const[text, setText] = useState('')
+    const[title, setTitle] = useState('')
+
     useEffect(() => {
         const fetchAnnouncement = async () => {
             try {
@@ -15,6 +17,7 @@ function AnnouncementModal({showAnnouncementModal, setShowAnnouncementModal, edi
                   });
                 const data = await response.json();
                 setText(data.text || 'Add a description here...');
+                setTitle(data.title || 'Announcements')
             } catch (error) {
                 console.error("Error fetching announcement:", error);
             }
@@ -48,7 +51,7 @@ function AnnouncementModal({showAnnouncementModal, setShowAnnouncementModal, edi
             const response = await fetch(buildPath(`api/dashboard/account`), {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ text: text }),
+                body: JSON.stringify({ text: text, title: title }),
               });
               if (response.ok) {
 
@@ -70,7 +73,9 @@ function AnnouncementModal({showAnnouncementModal, setShowAnnouncementModal, edi
                     <div className="modal-dialog">
                         <div className="modal-content" style={{maxHeight: '1000px'}}>
                             <div className="modal-header">
-                                <h3 className="modal-title" id="announcementModalLabel">What's New</h3>
+                            <h3 className="modal-title" id="announcementModalLabel">
+                                {editMode ? <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} /> : title}
+                            </h3>
                             </div>
                             <div className="modal-body">
                             {editMode ?
