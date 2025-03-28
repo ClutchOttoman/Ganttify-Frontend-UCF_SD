@@ -30,7 +30,7 @@ const ThemeProvider = ({children}) =>{
             timetableborder: "#000000",
             navbar: "#FDDC87",
             sidebar: "#DC6B2C",
-            buttons: "",
+            buttons: "#dc6b2c",
             buttonshover:"#f08b4f",
             texteditor:"#f0f0f0",
             texteditorinner:"#fff",
