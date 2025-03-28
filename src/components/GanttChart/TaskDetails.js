@@ -684,17 +684,11 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
       data: {
         title: "Are you sure you want to delete this task?", 
       },  
-      draggable: false, closeButton: false, position: "top-center", ariaLabel: "Are you sure you want to delete this task?",
+      draggable: false, closeButton: false, position: "top-center", ariaLabel: "Are you sure you want to delete this task?", autoClose: false,
       onClose(reason){
         switch (reason){
             case "confirm":
-              //const status = await handleDelete(task._id, task.tiedProjectId);
               handleDelete(task._id, task.tiedProjectId);
-              // toast.promise(handleDelete(task._id, task.tiedProjectId), {
-              //   pending: "Deleting task...",
-              //   success: "Chart was sucessfully updated.",
-              //   error: "Task failed deleted."
-              // });
         }
       }
     });

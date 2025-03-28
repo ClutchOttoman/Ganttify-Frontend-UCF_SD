@@ -1072,7 +1072,6 @@ export default function TimeTable({
       setSelectedTask(null);
       setCurrentDayMarkerHeight(currentDayMarkerHeight - 1);
       console.log(currentDayMarkerHeight);
-      //console.log(projectId.tasks.length)
       return true;
     } catch (error) {
       console.error('Error deleting task:', error);
@@ -1086,17 +1085,11 @@ export default function TimeTable({
            data: {
              title: "Are you sure you want to delete this task?", 
            },  
-           draggable: false, closeButton: false, position: "top-center", ariaLabel: "Are you sure you want to delete this task?",
+           draggable: false, closeButton: false, position: "top-center", ariaLabel: "Are you sure you want to delete this task?", autoClose: false,
            onClose(reason){
             switch (reason){
               case "confirm":
-                //const status = await handleDelete(task._id, task.tiedProjectId);
                 handleDelete(id, projectId);
-                // toast.promise(handleDelete(task._id, task.tiedProjectId), {
-                //   pending: "Deleting task...",
-                //   success: "Chart was sucessfully updated.",
-                //   error: "Task failed deleted."
-                // });
             }
            }
       });
