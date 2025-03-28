@@ -1,6 +1,10 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import AnnouncementModal from './AnnouncementModal';
+import { buildPath } from './buildPath';
+import DashboardCalendar from './DashboardCalendar.js';
 import './DashboardToDo.css';
-import {buildPath} from './buildPath';
+
+var i, task,tasks = [];
 
 function toDate(timestanp) {
     var i = 0;
@@ -8,7 +12,8 @@ function toDate(timestanp) {
     date += timestanp.slice(5, 7) + "/" + timestanp.slice(8, 10) + "/" + timestanp.slice(0, 4);
     return date;
 }
-// MM/DD/YYYY
+
+// Function used to show task date as MM/DD/YYYY
 function toDisplayDate(date) {
     const today = new Date();
     const year = parseInt(date.slice(6, 10));
@@ -26,45 +31,29 @@ function toDisplayDate(date) {
     if(day-thisDay == 0){return "Today";}
     return date;
 }
-function toPhonePretty(phoneNum){
-    const first = phoneNum.slice(0,3);
-    const second = phoneNum.slice(3,6);
-    const third = phoneNum.slice(6, 10);
-    return "("+first+")"+" "+second+"-"+third;
-}
-var i, task,tasks = [];
+
 function DashboardToDo() {
     var search = ""
     var _ud = localStorage.getItem('user_data');
     var ud = JSON.parse(_ud);
     var userId = ud._id;
     var displayedTasks = [];
-    const [taskList, setTaskList] = useState([]);
-    const [taskToDisplay, setTaskToDisplay] = useState(null);
 
-    function actionButtonClick(task){
-        return function (){
-            setTaskToDisplay(task);
-            var turnOnDiv = 0;
-            task.users.forEach(u =>{
-                //console.log(u);
-                if(u.localeCompare(userId) === 0){return;}
-                const info = document.getElementById(u);
-                if(!info){return;}
-                info.style.display = "";
-                if(turnOnDiv === 0){
-                    turnOnDiv = 1;
-                }
-            })
-            const contactInfoDiv = document.getElementById("taskContactsDiv");
-            if(turnOnDiv === 1){
-                contactInfoDiv.style.display = "";
-            }
-            else{
-                contactInfoDiv.style.display = "none";
-            }
-        }
-    }
+    const [taskList, setTaskList] = useState([])
+    const [expandedRow, setExpandedRow] = useState(null);
+    const [displayCalendar, setDisplayCalendar] = useState(false);
+    const [calendar, setCalendar] = useState(<div></div>);
+    const [buttonText, setButtonText] = useState("Calendar View");
+
+    useEffect(() => { 
+        const fetchTasks = async () => {
+            getTasks();
+        };
+
+        fetchTasks();
+    }, []);
+
+    // Function to get all the tasks assigned to the user
     const getTasks = async event => {
         var obj = { userId: userId };
         var js = JSON.stringify(obj);
@@ -81,15 +70,16 @@ function DashboardToDo() {
             var allProjects = JSON.parse(txt2);
 
             var usersToSearch = [];
-            //create table for tasks
-            //console.log(usersTasks);
-
+            
+            //For loop goes through each task pulled from the fetch and adds it to tasks
             for (i = 0; i < usersTasks.length; i++) {
-                if (displayedTasks.includes(usersTasks[i]._id) || taskList.includes(usersTasks[i]._id)) {
+
+                if (displayedTasks.includes(usersTasks[i]._id)) {
                     return;
                 }
-                displayedTasks.push(usersTasks[i]._id);
-                //get all info relevant info  for respecitve task
+                displayedTasks.push(usersTasks[i]._id); // Flag used to prevent readding the same task(?)
+
+                //get all info relevant info for respecitve task
                 let currTaskId = usersTasks[i]._id;
                 let currTaskTitle = usersTasks[i].taskTitle;
                 let currTaskDescription = usersTasks[i].description;
@@ -128,100 +118,22 @@ function DashboardToDo() {
                 };
                 tasks.push(task);
             };
-            //get info on all users in projects that the user has a task in
-            var userInfoRaw;
-            if(usersToSearch && usersToSearch.length){
-                var obj3 = {ids:usersToSearch};
-                var js3 = JSON.stringify(obj3);
-                const response3 = await fetch(buildPath('api/search/taskworkers'),{ method: 'POST', body: js3, headers: { 'Content-Type': 'application/json' } });
-                var txt3 = await response3.text();
-                userInfoRaw = JSON.parse(txt3);
-                //console.log(userInfoRaw);
-
-            }
-            const taskContactsDiv = document.getElementById("taskContactsDiv");
-            taskContactsDiv.setAttribute("class","contactInfoDiv mt-1")
-            const taskContactsHeader = document.createElement("h5");
-            taskContactsHeader.textContent = "Teammate Information:"
-            taskContactsDiv.appendChild(taskContactsHeader);
-            if(userInfoRaw){
-                userInfoRaw.forEach(userRaw =>{
-                    //console.log(userRaw);
-                    const userInfoDiv = document.createElement("div");
-                    userInfoDiv.setAttribute("class","contactName");
-                    if(userRaw._id.localeCompare(userId) === 0){
-                        return;
-                    }
-                    //console.log(userRaw);
-                    let email = "Email: " + userRaw.email;
-                    const emailText = document.createElement("p");
-                    emailText.innerText=email;
-                    emailText.setAttribute("class","contactBody");
-                    let phone = "Phone: " + toPhonePretty(userRaw.phone);
-                    const phoneText = document.createElement("p");
-                    phoneText.innerText = phone;
-                    phoneText.setAttribute("class","contactBody");
-                    let name = userRaw.name;
-                    const nameText = document.createElement("p");
-                    nameText.innerText = name;
-                    nameText.setAttribute("class","contactName");
-                    userInfoDiv.appendChild(nameText);
-                    userInfoDiv.appendChild(emailText);
-                    userInfoDiv.appendChild(phoneText);
-                    userInfoDiv.id = userRaw._id
-                    userInfoDiv.style.display = "none";
-                    taskContactsDiv.appendChild(userInfoDiv);
-                });
-            }
-            for (i = 0; i < tasks.length; i++) {
-                const tableBody = document.getElementById('taskTableBody');
-                const newRow = document.createElement('tr');
-
-                const dueDateCol = document.createElement('td');
-                dueDateCol.innerText =  tasks[i]['dueDatePretty'];
-
-                const taskNameCol = document.createElement('td');
-                taskNameCol.innerText = tasks[i]['taskTitle'];
-
-                const taskCategoryCol = document.createElement('td');
-                taskCategoryCol.innerText = tasks[i]['taskCategory'];
-
-                const projectNameCol = document.createElement('td');
-                projectNameCol.innerText = tasks[i]['projectName'];
-
-                const taskProgressCol = document.createElement('td');
-                taskProgressCol.innerText = tasks[i]['progress'];
-
-                const actionCol = document.createElement('td');
-
-                const actionButton = document.createElement('button');
-                actionButton.id = 'task-action-button' + i
-                actionButton.setAttribute('data-bs-toggle','modal');
-                actionButton.setAttribute('data-bs-target','#taskModal');
-                actionButton.addEventListener("click",actionButtonClick(tasks[i]));
-                actionButton.setAttribute("Class","taskBtn");
-                actionButton.textContent = "..."
-
-                newRow.appendChild(dueDateCol);
-                newRow.appendChild(taskNameCol);
-                newRow.appendChild(taskCategoryCol);
-                newRow.appendChild(projectNameCol);
-                newRow.appendChild(taskProgressCol);   
-                actionCol.appendChild(actionButton); 
-                newRow.appendChild(actionCol);
-                tableBody.appendChild(newRow);
-                if(tasks[i]['progress'].localeCompare("Completed") === 0 && tasks[i]['dueDatePretty'].localeCompare("PAST DUE") === 0){
-                    newRow.style.display = "None";
-                }
-            }
-            setTaskList(tasks);
-
+            
+            setTaskList(tasks)
         }
         catch (e) {
             console.log(e);
         }
     }
+
+    // Function to expand row when a task on the to-do list is clicked
+    function actionButtonClick(task){
+        return function (){
+            setExpandedRow(expandedRow === task ? null : task);
+        }
+    }
    
+    // Function for task searching on to-do list
     function doTaskSearch() {
         let value = search.value.toLowerCase();
         let rows = document.getElementById("taskTableBody").getElementsByTagName("tr");
@@ -239,106 +151,140 @@ function DashboardToDo() {
         }
 
     }
-    const doMarkTaskComplete = async event => {
-        var error = "";
-        var obj = {progress:"Completed"};
-        var js = JSON.stringify(obj);
 
-        try{
-            const response = await fetch(buildPath('api/tasks/'+taskToDisplay['_id']),{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
-            var txt = await response.text();
-            var res = JSON.parse(txt);
-            if(res.acknowledged){
-                window.location.assign(window.location.pathname);
-            }
-            else{
-                error = "Failed to update project visibility"
-                alert(error);
-            }
-        }
-        catch(e){
-            alert(error);
-        }
-    }
-    const doMarkTaskInProgress = async event => {
-        var error = "";
-        var obj = {progress:"In-Progress"};
-        var js = JSON.stringify(obj);
+    const filterTasks = () => {
+        return taskList.filter(task => !(task.dueDatePretty === "PAST DUE" && task.progress === "Completed"));
+    };
 
-        try{
-            const response = await fetch(buildPath('api/tasks/'+taskToDisplay['_id']),{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
-            var txt = await response.text();
-            var res = JSON.parse(txt);
-            if(res.acknowledged){
-                window.location.assign(window.location.pathname);
-            }
-            else{
-                error = "Failed to update project visibility"
-                alert(error);
-            }
+    // Function to change the progress of a task within the to-do list
+    const doMarkTaskStatus = async (task) => { 
+        var error = "";
+        var obj;
+
+        // Only switch between in-progress and completed
+        if(task.progress == "In-Progress"){
+            var obj = { progress: "Completed" };
         }
-        catch(e){
+        else{
+            var obj = { progress: "In-Progress" };
+        }
+
+        var js = JSON.stringify(obj);
+    
+        // Change the progress of the task in the DB
+        try {
+            console.log("Editing task in to-do list; " + task._id);
+            const response = await fetch(buildPath(`api/to-do-tasks/${task._id}`),
+            { 
+                method: 'PUT', 
+                body: js, 
+                headers: { 'Content-Type': 'application/json' } 
+            });
+    
+            var jsonResult = await response.json();
+            if (response.ok) {
+                alert(jsonResult.message);
+            } else {
+                alert(jsonResult.error);
+            }
+            window.location.assign(window.location.pathname);
+        } catch (e) {
+            error = "Failed to update task visibility";
             alert(error);
+        } finally {
+            window.location.assign(window.location.pathname);
         }
     }
-    function doTaskModalClose(){
-        const contactInfoDiv = document.getElementById("taskContactsDiv");
-        taskToDisplay.users.forEach(u =>{
-            //console.log(u);
-            if(u.localeCompare(userId) === 0){return;}
-            const info = document.getElementById(u);
-            if(!info){return;}
-            info.style.display = "none";
-        })
-        contactInfoDiv.style.display = "none";
-    }
-    useLayoutEffect(() => { getTasks() }, []);
+
+    // Function to help swithcing to the calendar view
+    const switchViews = () => {
+        setDisplayCalendar(!displayCalendar);
+        
+        // Change the button text based on the current view
+        if (buttonText === "Calendar View") {
+            setButtonText("List View");
+        } else {
+            setButtonText("Calendar View");
+        }
+    };
+
     return (
-        <div class="wrapper mt-3">
-            <div class="container-sm px-0 mt-5 mx-0 mainContainer">
-                <h1 class="title">To Do List</h1>
-                <form>
+        // Display the calendar or the to-do list
+        displayCalendar ? (
+            <div class="container px-0 mt-5 mx-0">
+                <h1 class="title">Calendar</h1>
+                <form class="search-bar-calendar-btn" onSubmit={(e) => e.preventDefault()}>
                     <input type="search" class="form-control searchForm" placeholder='Search tasks by name, category or project...' id="search projects" onChange={doTaskSearch} ref={(c) => search = c} />
+                    <button id="calendar-btn" class="calendar-btn" onClick={switchViews} >{buttonText}</button>
                 </form>
-                <div class="table-responsive-lg">
-                    <table class="table table-bordereless" id="taskTableHeader">
-                        <thead>
-                            <tr>
-                                <th width="15%" scope='col'>Due Date</th>
-                                <th width="25%" scope='col'>Task Name</th>
-                                <th width="15%" scope='col'>Category</th>
-                                <th width="25%" scope='col'>Project</th>
-                                <th width="20%" scope='col'>Progress</th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-group-divider" id="taskTableBody">
-                            <script>
-
-                            </script>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal fade" tabindex="-1" id="taskModal" data-bs-backdrop="static" data-bs-keyboard="false">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                            {taskToDisplay ? <h3 class="modal-title">{taskToDisplay['taskTitle']}<h5 class="modal-title">{taskToDisplay['projectName']}</h5></h3> : null}
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={doTaskModalClose}></button>
-                            </div>
-                            <div class="modal-body">
-                             {taskToDisplay ? 
-                                <div><p>{taskToDisplay['description']}</p>{taskToDisplay['progress'].localeCompare("Completed") === 0 ? null:<p>{taskToDisplay['dueDatePretty'].localeCompare("PAST DUE") === 0 ? "THIS TASK WAS DUE: "+ taskToDisplay['dueDateActual']: "Due: "+ taskToDisplay['dueDatePretty']}</p>}{taskToDisplay['userInfoText']}</div> : null}<div id = "taskContactsDiv"></div></div>
-                            {taskToDisplay? 
-                            <div class="modal-footer">
-                                {(taskToDisplay['progress'].localeCompare("Completed") === 0) ?  <button type="button" class="btn btn-primary" onClick={()=>doMarkTaskInProgress()}>Mark Task In Progress</button>:
-                                <button type="button" class="btn btn-primary" onClick={()=>doMarkTaskComplete()}>Mark Task Complete</button>}
-                            </div>:null}
-                        </div>
-                    </div>
+                <div>
+                    {/* Render the calendar using the already fetched task list */}
+                    <DashboardCalendar taskList={taskList} />
                 </div>
             </div>
+        ) : (
+        <div class="container px-0 mt-5 mx-0">
+            {/*Announcements for new features */}
+            <AnnouncementModal />
+                <h1 class="title">To Do List</h1>
+                <form class="search-bar-calendar-btn" onSubmit={(e) => e.preventDefault()}>
+                    <input type="search" class="form-control searchForm" placeholder='Search tasks by name, category or project...' id="search projects" onChange={doTaskSearch} ref={(c) => search = c} />
+                    <button class="calendar-btn" onClick={switchViews} >{buttonText}</button>
+                </form>
+                    <table class="table" id="taskTableHeader">
+                        <thead>
+                            <tr>
+                                <th scope='col' class="todoTableBody">Due Date</th>
+                                <th scope='col' class="todoTableBody">Task Name</th>
+                                <th scope='col' class="todoTableBody">Category</th>
+                                <th scope='col' class="todoTableBody" >Project</th>
+                                <th scope='col' class="todoTableBody" >Progress</th>
+                                <th scope='col' class="todoTableBody" >Details</th>
+                            </tr>
+                        </thead>
+                            <tbody className="table-group-divider" id="taskTableBody">
+                                {filterTasks().map(task => (
+                                    <React.Fragment key={task._id}>
+                                        {/* Originally visible task details */}
+                                        <tr
+                                            key={task._id}
+                                            className={`task-row ${expandedRow === task._id ? 'show' : ''}`}
+                                        >
+                                            <td>{task.dueDatePretty}</td>
+                                            <td>{task.taskTitle}</td>
+                                            <td>{task.taskCategory}</td>
+                                            <td>{task.projectName}</td>
+                                            <td>{task.progress}</td>
+                                            <td><button className="taskBtn" onClick={actionButtonClick(task._id)}>...</button></td>
+                                        </tr>
+
+                                        {/* Expands row to show task description when clicking action button */}
+                                        {expandedRow === task._id && (
+                                            <tr>
+                                                <td colSpan="6" className="details-row">
+                                                    <div>
+                                                        <h5><strong>Description:</strong></h5>
+                                                        <p dangerouslySetInnerHTML={{ __html: task.description }}></p>
+                                                        <p>
+                                                            <span>
+                                                                {task.dueDatePretty === 'PAST DUE' ?
+                                                                `THIS TASK WAS DUE: ${task.dueDateActual}`
+                                                                : ''}
+                                                            </span>
+                                                        </p>
+                                                        <button className="btn btn-primary progress-btn" onClick={() => doMarkTaskStatus(task)}>
+                                                            Mark As {task.progress === "In-Progress" ? "Completed" : 'In-Progress'}
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </React.Fragment>
+                                ))}
+                            </tbody>
+                    </table>
         </div>
-    );
+        ));
 };
 
 export default DashboardToDo;
