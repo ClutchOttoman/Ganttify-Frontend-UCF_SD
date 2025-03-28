@@ -52,7 +52,6 @@ function Login() {
             error: res.error
         };
         console.log(JSON.stringify(user));
-        localStorage.setItem('theme', user.uiOptions.theme);
         localStorage.setItem('user_data', JSON.stringify(user));
         setMessage('');
         window.location.href = '/dashboard';
