@@ -112,7 +112,7 @@ html.custom {
     }
 
     /* Sidebar buttons */
-    a#ToDo\ List, a#Charts, a#Recently\ Deleted, button#Create\ Project, a#Account, a#UI\ Settings{
+    a#ToDo\ List, a#Charts, a#Recently\ Deleted, button#Create\ Project, a#Account, a#UI\ Settings, a#Create\ Project, a#Settings{
       background-color: var(--sidebar-btn-color, #ffffff) !important;
       visibility: visible;
       &:hover{

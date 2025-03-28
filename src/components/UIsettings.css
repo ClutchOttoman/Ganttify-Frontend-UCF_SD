@@ -67,13 +67,15 @@
     flex-wrap: wrap;
     gap: 100px;
     justify-content: center;
-    height: auto;
+    height: 100%;
+    width: 100%;
   }
   
 .dashboard-preview,
 .timetable-preview {
     max-width: 100%;
-    max-height: auto; 
+    max-height: 100%; 
+    
 }
 
 
