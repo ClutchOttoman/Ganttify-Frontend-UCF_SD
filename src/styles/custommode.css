@@ -13,7 +13,7 @@ html.custom {
     }
 
     /* Text */
-    h1, h2, h3, h4, h4, h5, h6, p, a, li, text, span,
+    h1, h2, h3, h4, h4, h5, h6, p, a, li, text, span, em, strong, .fa-redo, .fa-undo, u, i.fas.fa-eye-dropper, s, i.fas.fa-list-ul, i.fas.fa-list-ol,
     span.detailValue, label.detailLabel, label{
         color: var(--text, #000000) !important;  /* High-contrast white for headers */
         visibility: visible;
@@ -388,6 +388,11 @@ html.custom {
       background-color: transparent;
       visibility: visible;
     }
+    #editor-wrapper #editor-toolbar {
+      .toolbar-btn:active {
+      background-color: #d3d3d3 !important;
+    }
+  }
     /*Color Selector */
     .highlight-picker-sidebar, .color-picker-sidebar{
       background-color: var(--contentarea, #f0f0f0) !important;
@@ -407,11 +412,17 @@ html.custom {
         background-color: transparent !important;
         visibility: visible;
         &:hover{
-          background-color:#d3d3d3 !important;
+          background-color:var(--texteditorinner,#d3d3d3) !important;
+          &.active{
+            background-color: var(--texteditorinner, #d3d3d3)  !important;
+          }
+        }
+        &.active{
+          background-color: var(--texteditorinner, #d3d3d3)  !important;
         }
       }
       .dropdown-toggle{
-        background-color: var(--dropdowns, #f0f0f0);
+        background-color: var(--dropdowns, #f0f0f0) !important;
         border-color:var(--dropdowns, #f0f0f0);
         color: var(--text, black) !important;
         visibility: visible;

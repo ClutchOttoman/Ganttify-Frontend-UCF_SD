@@ -16,7 +16,7 @@ html.dark {
     }
 
     /* Text */
-    h1, h2, h3, h4, h4, h5, h6, p, a, li, text, span,
+    h1, h2, h3, h4, h4, h5, h6, p, a, li, text, span, em, strong, .fa-redo, .fa-undo, u, i.fas.fa-eye-dropper, s, i.fas.fa-list-ul, i.fas.fa-list-ol,
     span.detailValue, label.detailLabel{
         color: #fff !important;  /* High-contrast white for headers */
         visibility: visible;
@@ -370,12 +370,7 @@ html.dark {
       background-color: #555 !important ;
       visibility: visible;
     }
-
-    /*Rich Text Editor */
-    button.toolbar-btn{
-      background-color: #4a4a4a;
-      visibility: visible;
-    }
+  
     /*Color Selector */
     .highlight-picker-sidebar, .color-picker-sidebar{
       background-color: #313131 !important;
@@ -395,8 +390,13 @@ html.dark {
         visibility: visible;
         &:hover{
           background-color:#555  !important;
+          
+        }
+        &.active{
+          background-color: #555  !important;
         }
       }
+
       .dropdown-toggle{
         background-color: #2b2b2b !important;
         color: white !important;
