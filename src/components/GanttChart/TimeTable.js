@@ -1086,7 +1086,7 @@ export default function TimeTable({
            data: {
              title: "Are you sure you want to delete this task?", 
            },  
-           draggable: false, closeButton: false, position: "top-center", autoClose: 3000, ariaLabel: "Are you sure you want to delete this task?",
+           draggable: false, closeButton: false, position: "top-center", ariaLabel: "Are you sure you want to delete this task?",
            onClose(reason){
             switch (reason){
               case "confirm":
