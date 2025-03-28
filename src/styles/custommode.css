@@ -61,7 +61,7 @@ html.custom {
         transition: ease-in 0.1s;
         visibility: visible;
         &:hover{
-          background-color: #f08b4f;
+          background-color: var(--buttons-hover, #f08b4f) !important;
         }
       }
 
@@ -90,7 +90,7 @@ html.custom {
         color: var(--text) !important;  /* Light text */
         visibility: visible;
         &:hover{
-            color: #dc6b2c !important;  /* WORK (Sign out) Slightly lighter on hover */
+            color: var(--text-hover, #dc6b2c) !important;  /* WORK (Sign out) Slightly lighter on hover */
             visibility: visible;
         }
     }
@@ -115,6 +115,9 @@ html.custom {
     a#ToDo\ List, a#Charts, a#Recently\ Deleted, button#Create\ Project, a#Account, a#UI\ Settings{
       background-color: var(--sidebar-btn-color, #ffffff) !important;
       visibility: visible;
+      &:hover{
+        background-color: var(--sidebar-btn-hover, #f08b4f) !important;
+      }
     }
 
     

@@ -31,7 +31,7 @@ const ThemeProvider = ({children}) =>{
             navbar: "#FDDC87",
             sidebar: "#DC6B2C",
             buttons: "",
-            buttonshover:"",
+            buttonshover:"#f08b4f",
             texteditor:"#f0f0f0",
             texteditorinner:"#fff",
             dropdowns:"#ffffff",
@@ -39,7 +39,8 @@ const ThemeProvider = ({children}) =>{
             todolist:"#dc6b2c",
             todolistinner:"#ffffff",
             sidebarbtn:"#ffffff",
-            
+            texthover:"#dc6b2c",
+            sidebarbtnhover: "#F0F0F0",
         },
         ...storedUserData.uiOptions.custom, // Keep existing values if they exist
   };
@@ -76,10 +77,12 @@ const ThemeProvider = ({children}) =>{
       document.documentElement.style.setProperty("--navbar", customColors.navbar);
       document.documentElement.style.setProperty("--sidebar", customColors.sidebar);
       document.documentElement.style.setProperty("--buttons", customColors.buttons);
+      document.documentElement.style.setProperty("--buttons-hover", customColors.buttonshover);
       document.documentElement.style.setProperty("--dropdowns", customColors.dropdowns);
       document.documentElement.style.setProperty("--dropdownshover", customColors.dropdownshover);
       document.documentElement.style.setProperty("--sidebar-btn-color", customColors.sidebarbtn);
-      console.log(customColors)
+      document.documentElement.style.setProperty("--text-hover", customColors.texthover);
+      document.documentElement.style.setProperty("--sidebar-btn-hover", customColors.sidebarbtnhover);
     }
 
   }, [theme, customColors]);

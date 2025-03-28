@@ -39,6 +39,7 @@ const getContrastRatio = (color1, color2) => {
 // Function to validate contrast and show warnings
 const validateContrast = (id, newColor) => {
   let newWarnings = { ...contrastWarnings };
+  console.log(newColor)
 
   // Define key UI elements to check contrast against
   const elementsToCheck = {
@@ -56,26 +57,44 @@ const validateContrast = (id, newColor) => {
     sidebar: ["text", "sidebarbtn"],
   };
 
+  const customLabels = {
+    background: "Background Color",
+    text: "Text Color",
+    contentarea: "Content Area",
+    cardcolor: "Chart",
+    timetable: "Time Table",
+    texteditor: "Text Editor",
+    navbar: "Navigation Bar",
+    sidebar: "Dashboard Bar",
+    buttons: "Buttons",
+    dropdowns: "Dropdown Menu",
+    todolist: "To-Do List",
+    scrollbar: "Scrollbar",
+    sidebarbtn: "Sidebar Buttons",
+  };
+
   const contrastRequirements = {
     default: 4.5,
     highContrast: 7.0,
   };
+  
 
   if (elementsToCheck[id]) {
     elementsToCheck[id].forEach((element) => {
       const color1 = newColor;
       const color2 = customColors[element];
 
+
       if (!color2) return;
 
       const ratio = getContrastRatio(color1, color2);
 
       if (ratio < contrastRequirements.default) {
-        newWarnings[element] = `⚠️ Minimum contrast of 4.5:1 is recommended for ${element}. You have ${ratio.toFixed(1)}:1.`;
+        newWarnings[element] = `⚠️ Minimum contrast of 4.5:1 is recommended for ${customLabels[id]}. You have ${ratio.toFixed(1)}:1.`;
       } else if (ratio < contrastRequirements.highContrast) {
-        newWarnings[element] = `✅ ${element} meets the default contrast (4.5:1). If you want high contrast, you have ${ratio.toFixed(1)}:1, and you need 7:1.`;
+        newWarnings[element] = `✅ ${customLabels[id]} meets the default contrast (4.5:1). If you want high contrast, you have ${ratio.toFixed(1)}:1, and you need 7:1.`;
       } else {
-        newWarnings[element] = `✅ ${element} meets the high contrast requirement (7:1).`;
+        newWarnings[element] = `✅ ${customLabels[id]} meets the high contrast requirement (7:1).`;
       }
     });
   }
@@ -190,9 +209,9 @@ const validateContrast = (id, newColor) => {
     const handleFontChange = async (event) => {
 
       // Handle localStorage.
-      setFontStyle(event.target.value)
       const selectedFont = event.target.value;
       document.body.style.fontFamily = selectedFont;
+      setFontStyle(selectedFont)
 
       let savedUserInfo = localStorage.getItem('user_data');
       const savedUserId = JSON.parse(savedUserInfo)._id; // use user id to query database.
@@ -306,6 +325,8 @@ const validateContrast = (id, newColor) => {
       ...prevColors,
       [id]: value, 
       ...(id === "buttons" && { buttonshover: brightenColor(value, 15) }),
+      ...(id === "sidebarbtn" && { sidebarbtnhover: brightenColor(value, 15) }),
+      ...(id === "text" && { texthover: brightenColor(value, 15) }),
       ...(id === "dropdown" && { dropdownhover: brightenColor(value, 15) }),
       ...(id === "cardcolor" && { cardbordercolor: darkenColor(value, 15) }), // Generate a darker border for cards
       ...(id === "timetable" && { timetableborder: darkenColor(value, 15), timetableinner: brightenColor(value, 15) }), // Generate a darker border for timetable
@@ -352,7 +373,7 @@ const validateContrast = (id, newColor) => {
   };
   
 
-  //Will apply custom colors to the entire website, for now only the UI settings page.
+  //Will apply custom colors to the entire website
   const applyCustomColorChange = () =>{
     let userData = JSON.parse(localStorage.getItem("user_data"))
     userData.uiOptions.custom = { ...pendingColors };
@@ -376,6 +397,7 @@ const validateContrast = (id, newColor) => {
       } else {
         const message = await res.json();
         setMessage(message);
+        
       }
     });
 
@@ -396,15 +418,17 @@ const validateContrast = (id, newColor) => {
       timetableborder: "#000000",
       navbar: "#FDDC87",
       sidebar: "#DC6B2C",
-      buttons: "#DC6B2C",
-      buttonshover:"",
+      buttons: "",
+      buttonshover:"#f08b4f",
       texteditor:"#f0f0f0",
       texteditorinner:"#fff",
-      dropdown:"#ffffff",
-      dropdownhover:"#ffffff",
+      dropdowns:"#ffffff",
+      dropdownshover:"#ffffff",
       todolist:"#dc6b2c",
       todolistinner:"#ffffff",
       sidebarbtn:"#ffffff",
+      texthover:"#dc6b2c",
+      sidebarbtnhover: "#F0F0F0"
     };
 
     setPendingColors(defaultColors);
@@ -431,6 +455,7 @@ const validateContrast = (id, newColor) => {
       } else {
         const message = await res.json();
         setMessage(message);
+
       }
     });
 };
@@ -565,14 +590,14 @@ const validateContrast = (id, newColor) => {
                   <div className ="custom-settings-btn">
                   <input type="color" className="custom-color-selector" id="sidebar" 
                     value={pendingColors.sidebar} onChange={handleCustomColorChange} />
-                      <span>Side Bar</span>
+                      <span>Sidebar</span>
                     {contrastWarnings.sidebar && <p style={{ color: "red" }}>{contrastWarnings.sidebar}</p>}
                   </div>
 
                   <div className ="custom-settings-btn">
                   <input type="color" className="custom-color-selector" id="sidebarbtn" 
                     value={customColors.sidebarbtn} onChange={handleCustomColorChange} />
-                      <span>Side Bar Button</span>
+                      <span>Sidebar Buttons</span>
                     {contrastWarnings.sidebarbtn && <p style={{ color: "red" }}>{contrastWarnings.sidebarbtn}</p>}
                   </div>
 
