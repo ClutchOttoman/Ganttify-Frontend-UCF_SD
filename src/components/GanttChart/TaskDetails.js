@@ -6,25 +6,26 @@ import EditTaskButton from '../../Images/assets/action_buttons/Edit_Task.svg';
 import {buildPath} from '../buildPath';
 import RichTextEditor from './RichTextEditor.js';
 import Hollow_Single_Circle_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Circle_Density_1.jsx?react';
-import Hollow_Single_Dot_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Dot_Density_1.jsx';
-import Hollow_Single_Rhombus_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Rhombus_Density_1.jsx';
-import Hollow_Single_Square_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Square_Density_1.jsx';
-import Hollow_Single_Star_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Star_Density_1.jsx';
-import Hollow_Single_Triangle_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Triangle_Density_1.jsx';
-import Diagonal_Left_Single_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Diagonal_Left_Single_Line_Density_1.jsx';
-import Diagonal_Right_Single_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Diagonal_Right_Single_Line_Density_1.jsx';
-import Diagonal_Woven_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Diagonal_Woven_Line_Density_1.jsx';
-import Single_Horizontal_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Single_Horizontal_Line_Density_1.jsx';
-import Single_Vertical_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Single_Vertical_Line_Density_1.jsx';
-import Solid_Single_Circle_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Circle_Density_1.jsx';
-import Solid_Single_Dot_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Dot_Density_1.jsx';
-import Solid_Single_Rhombus_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Rhombus_Density_1.jsx';
-import Solid_Single_Square_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Square_Density_1.jsx';
-import Solid_Single_Star_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Star_Density_1.jsx';
-import Solid_Single_Triangle_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Triangle_Density_1.jsx';
+import Hollow_Single_Dot_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Dot_Density_1.jsx?react';
+import Hollow_Single_Rhombus_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Rhombus_Density_1.jsx?react';
+import Hollow_Single_Square_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Square_Density_1.jsx?react';
+import Hollow_Single_Star_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Star_Density_1.jsx?react';
+import Hollow_Single_Triangle_Density_1 from '../../Images/assets/accessible_patterns/hollow_shape_family/Hollow_Single_Triangle_Density_1.jsx?react';
+import Diagonal_Left_Single_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Diagonal_Left_Single_Line_Density_1.jsx?react';
+import Diagonal_Right_Single_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Diagonal_Right_Single_Line_Density_1.jsx?react';
+import Diagonal_Woven_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Diagonal_Woven_Line_Density_1.jsx?react';
+import Single_Horizontal_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Single_Horizontal_Line_Density_1.jsx?react';
+import Single_Vertical_Line_Density_1 from '../../Images/assets/accessible_patterns/line_family/Single_Vertical_Line_Density_1.jsx?react';
+import Solid_Single_Circle_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Circle_Density_1.jsx?react';
+import Solid_Single_Dot_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Dot_Density_1.jsx?react';
+import Solid_Single_Rhombus_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Rhombus_Density_1.jsx?react';
+import Solid_Single_Square_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Square_Density_1.jsx?react';
+import Solid_Single_Star_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Star_Density_1.jsx?react';
+import Solid_Single_Triangle_Density_1 from '../../Images/assets/accessible_patterns/solid_shape_family/Solid_Single_Triangle_Density_1.jsx?react';
 import './TimeTable.css';
 import './Patterns.css';
 import getPattern from './getPattern.js'
+import forcePatternColorChange from './forcePatternColorChange.js'
 import { findParentNode } from '@tiptap/core';
 import * as ReactDOMServer from "react-dom/server";
 
@@ -72,8 +73,8 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
   const [status, setStatus] = useState('');
   const [newCategory, setNewCategory] = useState(''); // Added  
   const [showColorPicker, setShowColorPicker] = useState(false);
-  const [color, setColor] = useState('white'); // Default color
-  const [patternColor, setPatternColor] = useState('black'); // Default color
+  const [color, setColor] = useState('#FFFFFF'); // Default color
+  const [patternColor, setPatternColor] = useState('#000000'); // Default color
   const [patternPreview, setPatternPreview] = useState(null);
   const [pattern,setPattern] = useState('No Pattern');
   const [patternToDisplay,setPatternToDisplay] = useState('No Pattern');
@@ -116,7 +117,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
       setProgressEditPermission(false);
       setStatus(task.progress);
       setColor(task.color);
-      setPatternColor(task.patternColor ? task.patternColor : 'black')
+      setPatternColor(task.patternColor ? task.patternColor : '#000000')
       setTaskCategory(task.taskCategory || 'No category'); //added
       fetchTaskCreator(task.taskCreatorId);
       fetchAssignedUsers(task.assignedTasksUsers);
@@ -131,7 +132,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
       setDependentTasks(task.dependentTasks);
       setPrerequisiteTasks(task.prerequisiteTasks);
       setAllPrerequisitesDone(task.allPrerequisitesDone);
-      setPatternPreview(getPattern(task.pattern,task.patternColor ? task.patternColor:null,200))
+      setPatternPreview(getPattern(task.pattern,task.patternColor ? task.patternColor:"#000000",200,"taskDetailsPreview"))
 
       setOriginalTask({
         progress: task.progress,
@@ -184,7 +185,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
     setProgressEditPermission(false);
     setStatus(fetchedTask.progress);
     setColor(fetchedTask.color);
-    setPatternColor(fetchedTask.patternColor ? fetchedTask.patternColor : 'black')
+    setPatternColor(fetchedTask.patternColor ? fetchedTask.patternColor : '#000000')
     setPattern(fetchedTask.pattern);
     setTaskCategory(fetchedTask.taskCategory || 'No category'); //added
     fetchTaskCreator(fetchedTask.taskCreatorId);
@@ -199,7 +200,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
     setDependentTasks(fetchedTask.dependentTasks);
     setPrerequisiteTasks(fetchedTask.prerequisiteTasks);
     setAllPrerequisitesDone(fetchedTask.allPrerequisitesDone);
-    setPatternPreview(getPattern(fetchedTask.pattern,fetchedTask.patternColor ? fetchedTask.patternColor:null,200))
+    setPatternPreview(getPattern(fetchedTask.pattern,fetchedTask.patternColor ? fetchedTask.patternColor:null,200,"taskDetailsPreview"))
 
 
     setOriginalTask({
@@ -233,7 +234,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
     if (originalTask) {
       setStatus(originalTask.progress);
       setColor(originalTask.color);
-      setPatternColor(originalTask.patternColor ? originalTask.patternColor : 'black')
+      setPatternColor(originalTask.patternColor ? originalTask.patternColor : '#000000')
       setTaskTitle(originalTask.taskTitle);
       setTaskDescription(originalTask.description);
       setCreatedDate(originalTask.taskCreated);
@@ -243,7 +244,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
       setDependentTasks(originalTask.dependentTasks);
       setPrerequisiteTasks(originalTask.prerequisiteTasks);
       setAllPrerequisitesDone(originalTask.allPrerequisitesDone);
-      setPatternPreview(getPattern(originalTask.pattern,originalTask.patternColor ? originalTask.patternColor:null,200))
+      setPatternPreview(getPattern(originalTask.pattern,originalTask.patternColor ? originalTask.patternColor:"#000000",200,"taskDetailsPreview"))
     }
   };
 
@@ -483,8 +484,9 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
   };
 
   const handlePatternColorChange = (newColor) => {
-    setPatternColor(newColor);
-    setPatternPreview(getPattern(pattern,patternColor ? patternColor:null,200))
+    setPatternColor(newColor? newColor : '#000000');
+    var patternId = "taskDetailsPreview";
+    forcePatternColorChange(newColor,pattern,patternId);
     //change color of task bar
   }
 
@@ -493,6 +495,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
     console.log(newPattern);
     setPatternToDisplay(newPatternToDisplay)
     setPattern(newPattern);
+    setPatternPreview(getPattern(newPattern,patternColor ? patternColor:"#000000",200,"taskDetailsPreview"));
   }
   
   
@@ -585,6 +588,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
           startDateTime: startDate,
           dueDateTime: dueDate,
           pattern: pattern,
+          patternColor: patternColor,
           prerequisiteTasks: prerequisiteTasks,
           dependentTasks: dependentTasks,
           allPrerequisitesDone : allPrerequisitesDone,
@@ -680,27 +684,6 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
     }
   };
 
-
-  const getPatternSVG = async (patternFileName,newPatternColor) => {
-        let res = 'url(data:image/svg+xml;utf8,'
-        if(!patternFileName || !patternFileName.localeCompare('None') || !patternFileName.localeCompare('No Pattern')){
-            console.log("invalid pattern: " + patternFileName)
-            return;
-        }
-        if(!newPatternColor || !newPatternColor.localeCompare('None')){
-            console.log("pattern color is default, black")
-            newPatternColor = "#000000"
-        }
-        console.log("Attempting to get pattern: " + patternFileName + " with color: " + newPatternColor)
-        let patternString = await getPattern(patternFileName,newPatternColor);
-        patternString = patternString.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
-        let patternUrl = `url(data:image/svg+xml,${encodeURIComponent(
-            ReactDOMServer.renderToStaticMarkup(patternString)
-        )})`
-        //setPatternPreview(patternUrl);
-        console.log("New Pattern URL: " + patternUrl)
-        return;
-  }
 
 
   if (!show || !task || !fetchedTask) return null;
