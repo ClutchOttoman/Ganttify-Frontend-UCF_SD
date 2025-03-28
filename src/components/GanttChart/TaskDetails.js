@@ -878,6 +878,7 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
                         <ul class="dropdown-menu" id = "prerequisiteTaskDropdownMenu">
                             {projectTasks.map(preReqTask =>( (preReqTask._id == task._id || preReqTask.prerequisiteTasks.includes(task._id)) ? null : 
                                     <a href={"#" + `${task._id}`} key={preReqTask._id} class ="dropdown-item">
+                                        <p>Testing</p>
                                         <div class="form-check">
                                             <input type ="checkbox" id={preReqTask._id} class ="form-check-input" value={preReqTask._id} onChange={(e) => handlePrerequisiteChange(e.target.value)} checked={prerequisiteTasks.includes(preReqTask._id) ? true : false}/>
                                             <label htmlFor = {preReqTask._id} class = "form-check-label prerequisiteTaskDropdownItem">{preReqTask.taskTitle}</label>
