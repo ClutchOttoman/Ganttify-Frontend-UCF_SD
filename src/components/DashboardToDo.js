@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import AnnouncementModal from './AnnouncementModal';
+import { buildPath } from './buildPath';
+import DashboardCalendar from './DashboardCalendar.js';
 import './DashboardToDo.css';
-import {buildPath} from './buildPath';
 
 var i, task,tasks = [];
 
@@ -11,6 +12,7 @@ function toDate(timestanp) {
     date += timestanp.slice(5, 7) + "/" + timestanp.slice(8, 10) + "/" + timestanp.slice(0, 4);
     return date;
 }
+
 // Function used to show task date as MM/DD/YYYY
 function toDisplayDate(date) {
     const today = new Date();
@@ -39,6 +41,9 @@ function DashboardToDo() {
 
     const [taskList, setTaskList] = useState([])
     const [expandedRow, setExpandedRow] = useState(null);
+    const [displayCalendar, setDisplayCalendar] = useState(false);
+    const [calendar, setCalendar] = useState(<div></div>);
+    const [buttonText, setButtonText] = useState("Calendar View");
 
     useEffect(() => { 
         const fetchTasks = async () => {
@@ -48,6 +53,7 @@ function DashboardToDo() {
         fetchTasks();
     }, []);
 
+    // Function to get all the tasks assigned to the user
     const getTasks = async event => {
         var obj = { userId: userId };
         var js = JSON.stringify(obj);
@@ -120,12 +126,14 @@ function DashboardToDo() {
         }
     }
 
+    // Function to expand row when a task on the to-do list is clicked
     function actionButtonClick(task){
         return function (){
             setExpandedRow(expandedRow === task ? null : task);
         }
     }
    
+    // Function for task searching on to-do list
     function doTaskSearch() {
         let value = search.value.toLowerCase();
         let rows = document.getElementById("taskTableBody").getElementsByTagName("tr");
@@ -148,10 +156,12 @@ function DashboardToDo() {
         return taskList.filter(task => !(task.dueDatePretty === "PAST DUE" && task.progress === "Completed"));
     };
 
+    // Function to change the progress of a task within the to-do list
     const doMarkTaskStatus = async (task) => { 
         var error = "";
         var obj;
 
+        // Only switch between in-progress and completed
         if(task.progress == "In-Progress"){
             var obj = { progress: "Completed" };
         }
@@ -161,6 +171,7 @@ function DashboardToDo() {
 
         var js = JSON.stringify(obj);
     
+        // Change the progress of the task in the DB
         try {
             console.log("Editing task in to-do list; " + task._id);
             const response = await fetch(buildPath(`api/to-do-tasks/${task._id}`),
@@ -185,13 +196,40 @@ function DashboardToDo() {
         }
     }
 
+    // Function to help swithcing to the calendar view
+    const switchViews = () => {
+        setDisplayCalendar(!displayCalendar);
+        
+        // Change the button text based on the current view
+        if (buttonText === "Calendar View") {
+            setButtonText("List View");
+        } else {
+            setButtonText("Calendar View");
+        }
+    };
+
     return (
+        // Display the calendar or the to-do list
+        displayCalendar ? (
+            <div class="container px-0 mt-5 mx-0">
+                <h1 class="title">Calendar</h1>
+                <form class="search-bar-calendar-btn" onSubmit={(e) => e.preventDefault()}>
+                    <input type="search" class="form-control searchForm" placeholder='Search tasks by name, category or project...' id="search projects" onChange={doTaskSearch} ref={(c) => search = c} />
+                    <button id="calendar-btn" class="calendar-btn" onClick={switchViews} >{buttonText}</button>
+                </form>
+                <div>
+                    {/* Render the calendar using the already fetched task list */}
+                    <DashboardCalendar taskList={taskList} />
+                </div>
+            </div>
+        ) : (
         <div class="container px-0 mt-5 mx-0">
             {/*Announcements for new features */}
             <AnnouncementModal />
                 <h1 class="title">To Do List</h1>
-                <form onSubmit={(e) => e.preventDefault()}>
+                <form class="search-bar-calendar-btn" onSubmit={(e) => e.preventDefault()}>
                     <input type="search" class="form-control searchForm" placeholder='Search tasks by name, category or project...' id="search projects" onChange={doTaskSearch} ref={(c) => search = c} />
+                    <button class="calendar-btn" onClick={switchViews} >{buttonText}</button>
                 </form>
                     <table class="table" id="taskTableHeader">
                         <thead>
@@ -207,6 +245,7 @@ function DashboardToDo() {
                             <tbody className="table-group-divider" id="taskTableBody">
                                 {filterTasks().map(task => (
                                     <React.Fragment key={task._id}>
+                                        {/* Originally visible task details */}
                                         <tr
                                             key={task._id}
                                             className={`task-row ${expandedRow === task._id ? 'show' : ''}`}
@@ -245,7 +284,7 @@ function DashboardToDo() {
                             </tbody>
                     </table>
         </div>
-    );
+        ));
 };
 
 export default DashboardToDo;
