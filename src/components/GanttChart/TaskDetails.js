@@ -446,15 +446,12 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
   const handleStatusChange = async (newStatus) => {
     console.log("fetched task: " + fetchedTask.allPrerequisitesDone + "| task: " + task.allPrerequisitesDone);
     if(newStatus == "Completed" && (fetchedTask.prerequisiteTasks.length != 0 && !fetchedTask.allPrerequisitesDone)){
-        // List the tasks that need to be completed here.
-        let prequisiteTaskAlert = generatePrereqAlert();
-        const ariaLabelString = "Cannot mark task as complete. " + prequisiteTaskAlert;
         toast.error(ToastError, {
           data: {
-            title: "Cannot mark task as complete", 
-            body: prequisiteTaskAlert
+            title: "",
+            body: "You cannot finish this task while its prerequisite tasks are incomplete.", 
           },  
-          draggable: false, closeButton: false, autoClose: 3000, ariaLabel: "Error: Cannot mark task as complete"
+          draggable: false, autoClose: 3000, ariaLabel: "Error: Cannot mark task as complete. "
         });
         return;
     }
@@ -786,9 +783,9 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
         <div className="col-4  dropdownDetails">
             <a className="nav-link dropdown-toggle" id="todoDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >{status}</a>
             <div className="dropdown-menu" aria-labelledby="todoDropdown">
-            <a className="dropdown-item" onClick={() => handleStatusChange('Not Started')}>Not Started</a>
-            <a className="dropdown-item" onClick={() => handleStatusChange('In-Progress')}>In-Progress</a>
-            <a className="dropdown-item" onClick={() => handleStatusChange('Completed')}>Completed</a>:
+              <a className="dropdown-item" onClick={() => handleStatusChange('Not Started')}>Not Started</a>
+              <a className="dropdown-item" onClick={() => handleStatusChange('In-Progress')}>In-Progress</a>
+              <a className="dropdown-item" onClick={() => handleStatusChange('Completed')}>Completed</a>
             </div>
         </div> :
         <div className="col-4 dropdownDetails">
