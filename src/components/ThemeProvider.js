@@ -38,8 +38,8 @@ const ThemeProvider = ({children}) =>{
             dropdownshover:"#ffffff",
             todolist:"#dc6b2c",
             todolistinner:"#ffffff",
-            scrollbar:"#888",
-            scrollbarinner:"#FDDC87",
+            sidebarbtn:"#ffffff",
+            
         },
         ...storedUserData.uiOptions.custom, // Keep existing values if they exist
   };
@@ -78,8 +78,7 @@ const ThemeProvider = ({children}) =>{
       document.documentElement.style.setProperty("--buttons", customColors.buttons);
       document.documentElement.style.setProperty("--dropdowns", customColors.dropdowns);
       document.documentElement.style.setProperty("--dropdownshover", customColors.dropdownshover);
-      document.documentElement.style.setProperty("--scrollbar", customColors.scrollbar);
-      document.documentElement.style.setProperty("--scrollbarinner", customColors.scrollbarinner);
+      document.documentElement.style.setProperty("--sidebar-btn-color", customColors.sidebarbtn);
       console.log(customColors)
     }
 
