@@ -9,9 +9,11 @@ type AlertProps = ToastContentProps<{
 
 function ToastSuccess({closeToast, data, toastProps}: AlertProps){
     return(<div>
+        <div style={{fontWeight: "bold"}}>
+            {data.title}
+        </div>
         <div>
-            <h4 style={{fontWeight: "bold"}}>{data.title}</h4>
-            <p>{data.body}</p>
+            {data.body}
         </div>
     </div>);
 }

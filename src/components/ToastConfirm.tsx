@@ -10,8 +10,10 @@ type NotifyProps = ToastContentProps<{
 function ToastConfirm({closeToast, data, toastProps}: NotifyProps){
     return(<div>
         <div>
-            <h4>{data.title}</h4>
-            <p>{data.body}</p>
+            {data.title}
+        </div>
+        <div>
+            {data.body}
         </div>
         <div>
             <button className="confirm-button" onClick={() => {
