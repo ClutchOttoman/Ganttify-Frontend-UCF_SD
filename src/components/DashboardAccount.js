@@ -151,6 +151,14 @@ function DashboardAccount() {
     <div>
       <h1 class="title"></h1>
     <div class= "container position-relative d-inline-flex flex-row ">
+    { showAnnouncementModal && (
+        <AnnouncementModal showAnnouncementModal={showAnnouncementModal}
+                          setShowAnnouncementModal={setShowAnnouncementModal}
+                          editable={editAnnouncement}
+        />
+
+      )
+      }
     <div className="dashboardAccountContainer">
       <h1 className="dashboardTitle">Account Information</h1>
       {user ? (
@@ -282,14 +290,6 @@ function DashboardAccount() {
           </div>
         </div>
       )}
-      { showAnnouncementModal && (
-        <AnnouncementModal showAnnouncementModal={showAnnouncementModal}
-                          setShowAnnouncementModal={setShowAnnouncementModal}
-                          editable={editAnnouncement}
-        />
-
-      )
-      }
     </div>
 
     </div>
