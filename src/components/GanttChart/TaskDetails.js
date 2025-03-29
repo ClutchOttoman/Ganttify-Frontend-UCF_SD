@@ -872,19 +872,18 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
                   <label htmlFor="noCategoryCheckbox">No category</label>
                 </div>
               </div>
+              {/* For selecting/deselecting prequsites */}
                     <div className="mb-4 dropup dropup-center d-grid gap-2">
                         <label htmlFor='prerequisiteTaskSelection' className="form-label text-align-start">Prerequisite Tasks</label>
                         <button class="dropdownBtnAdd dropdown-toggle" type="button" id="prerequisiteTasks" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" disabled = {isPrerequisiteDropdownDisabled()}>Select Prerequisite Tasks</button>
                         <ul class="dropdown-menu" id = "prerequisiteTaskDropdownMenu">
                             {projectTasks.map(preReqTask =>( (preReqTask._id == task._id || preReqTask.prerequisiteTasks.includes(task._id)) ? null : 
-                                    <a href={"#" + `${task._id}`} key={preReqTask._id} class ="dropdown-item">
-                                        <p>Testing</p>
-                                        <div class="form-check">
-                                            <input type ="checkbox" id={preReqTask._id} class ="form-check-input" value={preReqTask._id} onChange={(e) => handlePrerequisiteChange(e.target.value)} checked={prerequisiteTasks.includes(preReqTask._id) ? true : false}/>
-                                            <label htmlFor = {preReqTask._id} class = "form-check-label prerequisiteTaskDropdownItem">{preReqTask.taskTitle}</label>
-                                        </div>
-                                    </a>
-                               
+                                <a href={"#" + `${task._id}`} key={preReqTask._id} class ="dropdown-item">
+                                    <div class="form-check">
+                                        <input type ="checkbox" id={preReqTask._id} class ="form-check-input" value={preReqTask._id} onChange={(e) => handlePrerequisiteChange(e.target.value)} checked={prerequisiteTasks.includes(preReqTask._id) ? true : false}/>
+                                        <label htmlFor = {preReqTask._id} class = "form-check-label prerequisiteTaskDropdownItem">{preReqTask.taskTitle}</label>
+                                    </div>
+                                </a>
                             ))}
                            <>
                            </>
@@ -912,9 +911,11 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
                         <button class="dropdownBtnAdd dropdown-toggle" type="button" id="prerequisiteTasks" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" disabled = {task.prerequisiteTasks[0] ? false : true}>Show Prerequisite Tasks</button>
                         <ul class="dropdown-menu" id = "prerequisiteTaskDropdownMenu">
                             {projectTasks.map(preReqTask =>( prerequisiteTasks.includes(preReqTask._id) ?
-                                        <div key={preReqTask._id} class ="dropdown-item">
-                                            <label htmlFor = {preReqTask._id} class = "prerequisiteTaskDropdownItem">{preReqTask.taskTitle}</label>
-                                        </div> : null
+                                <div key={preReqTask._id} class ="dropdown-item">
+                                    {/*Indicates if the task was done or not. */}
+                                    <i className={`${preReqTask.progress === "Completed" ? 'fa-solid fa-check' : 'fa-regular fa-circle-xmark'}`}></i>
+                                    <label htmlFor = {preReqTask._id} class = "prerequisiteTaskDropdownItem">{preReqTask.taskTitle}</label>
+                                </div> : null
                             ))}
                         </ul>
                     </div>
