@@ -125,88 +125,30 @@ const validateContrast = (id, newColor) => {
     let gridColor = theme === 'dark' ? "white" : theme === 'high-contrast' ? "black" : "black";
     let addTaskButtonColor = theme === 'dark' ? "#333" : theme === 'high-contrast' ? "#002238" : theme === 'custom' ? pendingColors?.buttons || "#DC6B2C" : "#DC6B2C";
 
-    const toggleDarkMode = async () => {
-      setTheme((prevTheme) => {
-        const newTheme = prevTheme === 'dark' ? 'default' : 'dark';
+    const toggleTheme = async (newTheme) => {
+      const savedUserInfo = localStorage.getItem('user_data');
+      const savedUserId = JSON.parse(savedUserInfo)._id;
 
-        const savedUserInfo = localStorage.getItem('user_data');
-        const savedUserId = JSON.parse(savedUserInfo)._id; 
+      const updatedTheme = (theme === newTheme ? 'default' : newTheme); //Need to have const variable to use newTheme result immediately.
+      setTheme(updatedTheme)
 
-        const response = fetch(buildPath(`api/toggle-theme/${savedUserId}`), {
+      try {
+        const response = await fetch(buildPath(`api/toggle-theme/${savedUserId}/${updatedTheme}`), {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            mode: newTheme, 
-          }),
         });
     
-        response.then(async (res) => {
-          if (!res.ok) {
-            setMessage("Unable to toggle to dark mode");
-          } else {
-            const message = await res.json();
-            setMessage(message);
-          }
-        });
-    
-        return newTheme;
-      });
+        if (!response.ok) {
+          setMessage("Unable to toggle to dark mode");
+        } else {
+          const message = await response.json();
+          setMessage(message);
+        }
+      } catch (error) {
+        console.error("Fetch error:", error);
+        setMessage("An error occurred while toggling");
+      }
     };
-  
-    const toggleHighContrastMode = async () => {
-      setTheme((prevTheme) => {
-        const newTheme = prevTheme === 'high-contrast' ? 'default' : 'high-contrast';
-
-        const savedUserInfo = localStorage.getItem('user_data');
-        const savedUserId = JSON.parse(savedUserInfo)._id; 
-    
-        const response = fetch(buildPath(`api/toggle-theme/${savedUserId}`), {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            mode: newTheme, 
-          }),
-        });
-    
-        response.then(async (res) => {
-          if (!res.ok) {
-            setMessage("Unable to toggle to contrast mode");
-          } else {
-            const message = await res.json();
-            setMessage(message);
-          }
-        });
-    
-        return newTheme; 
-      });
-    };
-
-    const toggleCustomMode = () => {
-      setTheme((prevTheme) => {
-        const newTheme = prevTheme === 'custom' ? 'default' : 'custom';
-        const savedUserInfo = localStorage.getItem('user_data');
-        const savedUserId = JSON.parse(savedUserInfo)._id; 
-    
-        const response = fetch(buildPath(`api/toggle-theme/${savedUserId}`), {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            mode: newTheme, 
-          }),
-        });
-    
-        response.then(async (res) => {
-          if (!res.ok) {
-            setMessage("Unable to toggle to custom mode");
-          } else {
-            const message = await res.json();
-            setMessage(message);
-          }
-        });
-    
-        return newTheme; 
-      });
-    }
 
     // Handles Font Changes
     const handleFontChange = async (event) => {
@@ -508,7 +450,7 @@ const validateContrast = (id, newColor) => {
                 <div class="default-colorbar">
                   <div>
                         <button
-                            onClick={toggleDarkMode}
+                            onClick={() => toggleTheme("dark")}
                             className={`dark-mode-toggle ${theme === 'dark' ? "dark" : ""}`}
                             aria-label="Toggle dark mode"
                         >
@@ -518,7 +460,7 @@ const validateContrast = (id, newColor) => {
                   </div>
                   <div>
                         <button
-                            onClick={toggleHighContrastMode}
+                            onClick={() => toggleTheme("high-contrast")}
                             className={`high-contrast-mode-toggle ${theme === 'high-contrast' ? "high-contrast" : ""}`}
                             aria-label="Toggle high-contrast mode"
                         >
@@ -528,7 +470,7 @@ const validateContrast = (id, newColor) => {
                   </div>
                   <div>
                         <button
-                            onClick={toggleCustomMode}
+                            onClick={() => toggleTheme("custom")}
                             className={`custom-mode-toggle ${theme === 'custom' ? "custom" : ""}`}
                             aria-label="Toggle high-contrast mode"
                         >

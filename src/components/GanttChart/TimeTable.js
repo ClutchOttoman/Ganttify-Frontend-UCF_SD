@@ -974,7 +974,6 @@ export default function TimeTable({
                           onDragEnd={isEditable && !isResizing ? () => handleDragEnd(el?._id) : null}
                           onMouseMove={(e) => handleMouseMove(e)}
     
-    
                           onMouseUp={handleResizeEnd}
     
                           style={{
