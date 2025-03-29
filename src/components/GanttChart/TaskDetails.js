@@ -913,8 +913,8 @@ const TaskDetails = ({ show, onHide, task, handleDelete, userId, projectTasks}) 
                             {projectTasks.map(preReqTask =>( prerequisiteTasks.includes(preReqTask._id) ?
                                 <div key={preReqTask._id} class ="dropdown-item">
                                     {/*Indicates if the task was done or not. */}
-                                    <i className={`${preReqTask.progress === "Completed" ? 'fa-solid fa-check' : 'fa-regular fa-circle-xmark'}`}></i>
-                                    <label htmlFor = {preReqTask._id} class = "prerequisiteTaskDropdownItem">{preReqTask.taskTitle}</label>
+                                    <i className={`${preReqTask.progress === "Completed" ? 'fa-solid fa-check' : 'fa-regular fa-circle-xmark'}`} aria-describedby={`${preReqTask.progress === "Completed" ? 'Completed' : 'Incomplete'}`}></i>
+                                    <label htmlFor = {preReqTask._id} class = "prerequisiteTaskDropdownItem">{preReqTask.taskTitle} - <span style={{fontSize: "0.75em", fontStyle: "italic"}}>{preReqTask.progress === "Completed" ? 'Complete' : 'Incomplete'}</span></label>
                                 </div> : null
                             ))}
                         </ul>
